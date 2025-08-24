@@ -1,0 +1,816 @@
+openapi: 3.1.0
+info:
+  title: TDDAI Cursor Agent API
+  version: 1.0.0
+  description: |
+    Production-ready OpenAPI specification for the TDDAI Cursor Agent implementing
+    the OpenAPI for AI Agents standard. Features multi-protocol support (MCP, A2A),
+    token optimization, schema evolution, and enterprise governance.
+
+    Key capabilities:
+    - Multi-agent orchestration with 20+ specialized agents
+    - Protocol bridging (MCP, A2A, custom)
+    - Token management with Tiktoken integration
+    - Schema evolution with backward compatibility
+    - ISO 42001 and NIST AI RMF compliance
+    - Real-time monitoring and observability
+
+    Agent configuration: ./agent.yml
+    Compliance status: Silver certified
+
+  contact:
+    name: TDDAI Agent Team
+    url: https://www.npmjs.com/package/@bluefly/tddai
+    email: support@bluefly.io
+
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+  x-agent-metadata:
+    class: orchestrator
+    certification_level: silver
+    protocols:
+      - openapi
+      - mcp
+      - a2a
+    compliance:
+      - ISO_42001_2023
+      - NIST_AI_RMF_1_0
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+    x-environment: development
+  - url: https://staging.api.llm.bluefly.io
+    description: Staging server
+    x-environment: staging
+  - url: https://api.llm.bluefly.io
+    description: Production API server
+    x-environment: production
+
+x-token-management:
+  provider: tiktoken
+  encoding: cl100k_base
+  optimization: aggressive
+  monitoring:
+    enabled: true
+    alert_threshold: 10000
+  budgets:
+    per_request: 4096
+    per_minute: 100000
+    daily: 10000000
+
+x-protocol-bridges:
+  mcp:
+    enabled: true
+    version: "1.0"
+    transport: ["stdio", "http", "sse"]
+  a2a:
+    enabled: true
+    version: "1.0"
+    agent_card: published
+
+x-security:
+  authentication:
+    type: oauth2
+    flows:
+      authorizationCode:
+        authorizationUrl: https://auth.bluefly.io/oauth/authorize
+        tokenUrl: https://auth.bluefly.io/oauth/token
+        scopes:
+          read: Read access to agent capabilities
+          write: Execute agent tools
+          admin: Full administrative access
+
+paths:
+  /agent/orchestrate:
+    post:
+      operationId: agentOrchestrate
+      summary: Orchestrate multiple agents for complex tasks
+      description: |
+        Deploy and coordinate multiple specialized agents using various orchestration
+        patterns (sequential, concurrent, hierarchical, adaptive). Supports token
+        optimization and cross-protocol communication.
+      tags:
+        - Agent Orchestration
+      x-token-estimate: 2000
+      x-orchestration-pattern: adaptive
+      x-compliance:
+        - ISO_42001_risk_assessed
+        - NIST_AI_RMF_measured
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./schemas/agent.orchestrate.input.schema.json
+            examples:
+              simple_task:
+                summary: Simple single-agent task
+                value:
+                  task_type: bug_fix
+                  complexity: low
+                  agents:
+                    - type: specialist
+                      capability: debugging
+                  max_tokens: 2000
+                  timeout: 30
+
+              complex_workflow:
+                summary: Complex multi-agent workflow
+                value:
+                  task_type: feature_development
+                  complexity: high
+                  agents:
+                    - type: architect
+                      capability: system_design
+                    - type: developer
+                      capability: implementation
+                    - type: tester
+                      capability: validation
+                  orchestration_pattern: hierarchical
+                  max_tokens: 10000
+                  timeout: 300
+                  rollback_on_failure: true
+
+      responses:
+        "200":
+          description: Orchestration completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: ./schemas/agent.orchestrate.output.schema.json
+              examples:
+                success:
+                  value:
+                    success: true
+                    result:
+                      agents_used: 3
+                      total_tokens: 8500
+                      estimated_cost: 0.85
+                      duration_ms: 45000
+                    metadata:
+                      orchestration_id: "orch_123456"
+                      pattern_used: "hierarchical"
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /tools/{toolName}/execute:
+    post:
+      operationId: executeTool
+      summary: Execute a specific agent tool
+      description: |
+        Execute a registered tool with automatic protocol translation,
+        token tracking, and result caching.
+      tags:
+        - Tool Execution
+      x-token-estimate: 500
+      x-cache-ttl: 3600
+
+      parameters:
+        - name: toolName
+          in: path
+          required: true
+          description: Name of the tool to execute
+          schema:
+            type: string
+            pattern: "^[a-z]+\\.[a-z]+$"
+            examples:
+              - analyze.code
+              - generate.documentation
+              - validate.security
+
+        - name: X-Protocol-Preference
+          in: header
+          required: false
+          description: Preferred protocol for execution
+          schema:
+            type: string
+            enum: [openapi, mcp, a2a]
+            default: openapi
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [input]
+              properties:
+                input:
+                  type: object
+                  description: Tool-specific input parameters
+                options:
+                  type: object
+                  properties:
+                    timeout:
+                      type: integer
+                      description: Execution timeout in seconds
+                      default: 30
+                    priority:
+                      type: string
+                      enum: [low, normal, high, critical]
+                      default: normal
+                    cache:
+                      type: boolean
+                      description: Use cached results if available
+                      default: true
+
+      responses:
+        "200":
+          description: Tool executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [success, result, metadata]
+                properties:
+                  success:
+                    type: boolean
+                  result:
+                    type: object
+                    description: Tool-specific output
+                  metadata:
+                    $ref: "#/components/schemas/ExecutionMetadata"
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /protocols/{protocol}/bridge:
+    post:
+      operationId: bridgeProtocol
+      summary: Bridge communication between protocols
+      description: |
+        Translate and forward requests between different agent protocols
+        (MCP, A2A, custom) with automatic format conversion.
+      tags:
+        - Protocol Bridging
+      x-internal: false
+
+      parameters:
+        - name: protocol
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [mcp, a2a, custom]
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [source_protocol, target_protocol, message]
+              properties:
+                source_protocol:
+                  type: string
+                  enum: [openapi, mcp, a2a, custom]
+                target_protocol:
+                  type: string
+                  enum: [openapi, mcp, a2a, custom]
+                message:
+                  type: object
+                  description: Protocol-specific message
+                translation_hints:
+                  type: object
+                  description: Optional hints for translation
+
+      responses:
+        "200":
+          description: Message successfully bridged
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  translated_message:
+                    type: object
+                  protocol_metadata:
+                    type: object
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /tokens/estimate:
+    post:
+      operationId: estimateTokens
+      summary: Estimate token usage and cost
+      description: |
+        Pre-execution token estimation using Tiktoken for cost prediction
+        and budget management.
+      tags:
+        - Token Management
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [text, model]
+              properties:
+                text:
+                  type: string
+                  description: Text to analyze
+                  maxLength: 100000
+                model:
+                  type: string
+                  enum: [gpt-4, gpt-4-turbo, claude-3, custom]
+                encoding:
+                  type: string
+                  enum: [cl100k_base, o200k_base, p50k_base]
+                  default: cl100k_base
+                include_optimization:
+                  type: boolean
+                  description: Include optimization suggestions
+                  default: true
+
+      responses:
+        "200":
+          description: Token estimation completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenEstimate"
+
+  /health:
+    get:
+      operationId: getHealth
+      summary: Agent system health check
+      description: |
+        Comprehensive health check including agent status, protocol bridges,
+        token usage, and compliance status.
+      tags:
+        - System Health
+      security: [] # No auth required for health check
+
+      responses:
+        "200":
+          description: System healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+        "503":
+          description: System degraded or unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /agents:
+    get:
+      operationId: listAgents
+      summary: List available agents
+      description: |
+        Get a list of all registered agents with their capabilities,
+        current status, and performance metrics.
+      tags:
+        - Agent Management
+
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [all, active, idle, disabled]
+            default: all
+        - name: capability
+          in: query
+          required: false
+          schema:
+            type: string
+            description: Filter by capability
+
+      responses:
+        "200":
+          description: Agent list retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agents:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AgentInfo"
+                  total:
+                    type: integer
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /compliance/report:
+    get:
+      operationId: getComplianceReport
+      summary: Generate compliance report
+      description: |
+        Generate a comprehensive compliance report for ISO 42001,
+        NIST AI RMF, and other frameworks.
+      tags:
+        - Governance
+
+      parameters:
+        - name: framework
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [iso_42001, nist_ai_rmf, eu_ai_act, all]
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [json, pdf, html]
+            default: json
+
+      responses:
+        "200":
+          description: Compliance report generated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComplianceReport"
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+
+components:
+  schemas:
+    ExecutionMetadata:
+      type: object
+      required: [timestamp, duration_ms, token_usage]
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        duration_ms:
+          type: integer
+          minimum: 0
+        token_usage:
+          type: object
+          required:
+            [prompt_tokens, completion_tokens, total_tokens, estimated_cost]
+          properties:
+            prompt_tokens:
+              type: integer
+            completion_tokens:
+              type: integer
+            total_tokens:
+              type: integer
+            estimated_cost:
+              type: number
+              format: float
+        model_used:
+          type: string
+        protocol_used:
+          type: string
+          enum: [openapi, mcp, a2a]
+        cache_hit:
+          type: boolean
+        request_id:
+          type: string
+          format: uuid
+
+    TokenEstimate:
+      type: object
+      required: [tokens, cost, optimization]
+      properties:
+        tokens:
+          type: object
+          properties:
+            original:
+              type: integer
+            optimized:
+              type: integer
+            savings:
+              type: integer
+        cost:
+          type: object
+          properties:
+            original:
+              type: number
+            optimized:
+              type: number
+            savings:
+              type: number
+        optimization:
+          type: object
+          properties:
+            suggestions:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  description:
+                    type: string
+                  impact:
+                    type: string
+                    enum: [low, medium, high]
+
+    HealthStatus:
+      type: object
+      required: [status, uptime, components]
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        uptime:
+          type: integer
+          description: Uptime in seconds
+        components:
+          type: object
+          properties:
+            agents:
+              type: object
+              properties:
+                total:
+                  type: integer
+                active:
+                  type: integer
+                healthy:
+                  type: integer
+            protocols:
+              type: object
+              properties:
+                mcp:
+                  type: string
+                  enum: [connected, disconnected, error]
+                a2a:
+                  type: string
+                  enum: [connected, disconnected, error]
+            token_usage:
+              type: object
+              properties:
+                daily_used:
+                  type: integer
+                daily_limit:
+                  type: integer
+                percentage:
+                  type: number
+            compliance:
+              type: object
+              properties:
+                certification_level:
+                  type: string
+                  enum: [bronze, silver, gold, none]
+                last_audit:
+                  type: string
+                  format: date-time
+                issues:
+                  type: integer
+
+    AgentInfo:
+      type: object
+      required: [id, name, type, status, capabilities]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+          enum: [orchestrator, specialist, utility]
+        status:
+          type: string
+          enum: [active, idle, disabled, error]
+        capabilities:
+          type: array
+          items:
+            type: string
+        performance:
+          type: object
+          properties:
+            requests_handled:
+              type: integer
+            average_latency_ms:
+              type: number
+            success_rate:
+              type: number
+            tokens_consumed:
+              type: integer
+        current_task:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: string
+            started_at:
+              type: string
+              format: date-time
+            estimated_completion:
+              type: string
+              format: date-time
+
+    ComplianceReport:
+      type: object
+      required: [framework, status, timestamp]
+      properties:
+        framework:
+          type: string
+        status:
+          type: string
+          enum: [compliant, partial, non_compliant]
+        certification_level:
+          type: string
+          enum: [bronze, silver, gold, none]
+        timestamp:
+          type: string
+          format: date-time
+        requirements:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              description:
+                type: string
+              status:
+                type: string
+                enum: [met, partial, not_met]
+              evidence:
+                type: string
+        recommendations:
+          type: array
+          items:
+            type: string
+        next_audit:
+          type: string
+          format: date
+
+    Error:
+      type: object
+      required: [code, message, timestamp]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
+        request_id:
+          type: string
+          format: uuid
+        help_url:
+          type: string
+          format: uri
+
+  responses:
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: "INVALID_REQUEST"
+            message: "The request parameters are invalid"
+            timestamp: "2025-01-27T10:00:00Z"
+            request_id: "req_123456"
+
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: "UNAUTHORIZED"
+            message: "Valid authentication credentials are required"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: "NOT_FOUND"
+            message: "The requested resource was not found"
+
+    RateLimited:
+      description: Rate limit exceeded
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: "RATE_LIMITED"
+            message: "Rate limit exceeded. Please retry after reset time."
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: "INTERNAL_ERROR"
+            message: "An unexpected error occurred"
+
+    NotImplemented:
+      description: Feature not implemented
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: "NOT_IMPLEMENTED"
+            message: "This feature is not yet implemented"
+
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication
+
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.bluefly.io/oauth/authorize
+          tokenUrl: https://auth.bluefly.io/oauth/token
+          scopes:
+            read: Read access to agent capabilities
+            write: Execute agent tools
+            admin: Full administrative access
+
+    BearerToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - ApiKey: []
+  - OAuth2: [read, write]
+  - BearerToken: []
+
+tags:
+  - name: Agent Orchestration
+    description: Multi-agent coordination and orchestration
+    x-displayName: Orchestration
+
+  - name: Tool Execution
+    description: Individual tool execution and management
+    x-displayName: Tools
+
+  - name: Protocol Bridging
+    description: Cross-protocol communication and translation
+    x-displayName: Protocols
+
+  - name: Token Management
+    description: Token usage tracking and optimization
+    x-displayName: Tokens
+
+  - name: Agent Management
+    description: Agent registration and lifecycle management
+    x-displayName: Agents
+
+  - name: System Health
+    description: Health checks and monitoring
+    x-displayName: Health
+
+  - name: Governance
+    description: Compliance and audit reporting
+    x-displayName: Compliance
