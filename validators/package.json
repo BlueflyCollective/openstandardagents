@@ -7,11 +7,19 @@
     "validate": "node openapi-validator.js",
     "validate:agent": "node agent-config-validator.js",
     "validate:compliance": "node compliance-validator.js",
-    "test": "jest"
+    "validate:protocol": "node protocol-validator.js",
+    "estimate:tokens": "node token-estimator.js",
+    "validate:all": "npm run validate && npm run validate:agent && npm run validate:compliance && npm run validate:protocol",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "bin": {
     "openapi-agent-validate": "./openapi-validator.js",
-    "agent-config-validate": "./agent-config-validator.js"
+    "agent-config-validate": "./agent-config-validator.js",
+    "compliance-validate": "./compliance-validator.js",
+    "protocol-validate": "./protocol-validator.js",
+    "token-estimate": "./token-estimator.js"
   },
   "dependencies": {
     "ajv": "^8.12.0",
