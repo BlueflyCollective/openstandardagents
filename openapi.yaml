@@ -31,11 +31,11 @@ info:
     url: https://opensource.org/licenses/MIT
 
 servers:
-  - url: https://api.agents.example.com/v2
+  - url: https://api.openapi-ai-agents.org/v1
     description: Production API server with full enterprise features
-  - url: https://staging-api.agents.example.com/v2
+  - url: https://api-staging.openapi-ai-agents.org/v1
     description: Staging environment for testing
-  - url: http://localhost:4000/api/v2
+  - url: http://localhost:3000/api/v1
     description: Local development server
 
 # Enhanced security schemes

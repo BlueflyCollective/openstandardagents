@@ -186,7 +186,27 @@ pages:
     - echo "📖 Generating API documentation..."
     - mkdir public
     - cp api/openapi.json public/
-    - echo '<!DOCTYPE html><html><head><title>OpenAPI AI Agents Validation API</title><link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3.25.0/swagger-ui.css" /></head><body><div id="swagger-ui"></div><script src="https://unpkg.com/swagger-ui-dist@3.25.0/swagger-ui-bundle.js"></script><script>SwaggerUIBundle({url: "./openapi.json", dom_id: "#swagger-ui", presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.presets.standalone]})</script></body></html>' > public/index.html
+    - |
+      cat > public/index.html << 'EOF'
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>OpenAPI AI Agents Validation API</title>
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3.25.0/swagger-ui.css" />
+      </head>
+      <body>
+        <div id="swagger-ui"></div>
+        <script src="https://unpkg.com/swagger-ui-dist@3.25.0/swagger-ui-bundle.js"></script>
+        <script>
+          SwaggerUIBundle({
+            url: "./openapi.json",
+            dom_id: "#swagger-ui",
+            presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.presets.standalone]
+          });
+        </script>
+      </body>
+      </html>
+      EOF
     - echo "✅ Documentation generated"
   artifacts:
     paths:
