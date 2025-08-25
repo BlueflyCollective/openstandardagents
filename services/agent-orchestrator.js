@@ -286,9 +286,10 @@ And throughput should exceed 100 req/s
     console.log(`🧪 Running TDDAI for ${agent.name}...`);
     
     const agentPath = join(__dirname, '..', agent.path);
+    const localTDDAI = '/Users/flux423/Sites/LLM/common_npm/tddai/bin/tddai';
     
     return new Promise((resolve, reject) => {
-      const tddaiProcess = spawn('npx', ['tddai', 'implement-feature', '--all'], {
+      const tddaiProcess = spawn('node', [localTDDAI, 'workflow', 'tdd', 'cycle', '--path', agentPath], {
         cwd: agentPath,
         env: { ...process.env, TDDAI_AUTO_MODE: 'true' }
       });
