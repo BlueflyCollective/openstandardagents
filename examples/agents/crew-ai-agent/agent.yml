@@ -1,7 +1,7 @@
 # OpenAPI AI Agents Standard v0.1.0 Compliant Configuration
 # Generated for: CrewAI Agent Integration
 
-apiVersion: "ai.agents/v2"
+apiVersion: "openapi-ai-agents/v0.1.0"
 kind: "Agent"
 metadata:
   name: "crew-ai-agent"
@@ -15,7 +15,7 @@ metadata:
     source_module: "ai_agent_crewai"
 
 spec:
-  openapi_spec: "crew-ai-agent-openapi.yaml"
+  openapi_spec: "./openapi.yaml"
   capabilities:
     - "collaborative_planning"
     - "role_based_execution"

@@ -1,7 +1,7 @@
 # OpenAPI AI Agents Standard v0.1.0 Compliant Configuration
 # Generated for: AgentOrchestrator
 
-apiVersion: "ai.agents/v2"
+apiVersion: "openapi-ai-agents/v0.1.0"
 kind: "Agent"
 metadata:
   name: "AgentOrchestrator"
@@ -15,7 +15,7 @@ metadata:
     source_module: "tddai_cursor_agent"
 
 spec:
-  openapi_spec: "AgentOrchestrator-openapi.yaml"
+  openapi_spec: "./openapi.yaml"
   capabilities:
     - "multi_agent_orchestration"
     - "workflow_coordination"

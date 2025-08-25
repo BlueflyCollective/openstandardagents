@@ -1,7 +1,7 @@
 # OpenAPI AI Agents Standard v0.1.0 Compliant Configuration
 # Generated for: AgentRegistry
 
-apiVersion: "ai.agents/v2"
+apiVersion: "openapi-ai-agents/v0.1.0"
 kind: "Agent"
 metadata:
   name: "AgentRegistry"
@@ -15,7 +15,7 @@ metadata:
     source_module: "tddai_cursor_agent"
 
 spec:
-  openapi_spec: "AgentRegistry-openapi.yaml"
+  openapi_spec: "./openapi.yaml"
   capabilities:
     - "agent_registration"
     - "agent_discovery"

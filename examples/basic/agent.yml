@@ -2,7 +2,7 @@
 # Version: 0.1.0 - Production Ready
 # Framework-agnostic configuration for any AI agent implementation
 
-apiVersion: "ai.agents/v2"
+apiVersion: "openapi-ai-agents/v0.1.0"
 kind: "Agent"
 metadata:
   name: "universal-ai-agent"
@@ -13,6 +13,18 @@ metadata:
     certification-level: "gold"
     compliance: "iso-42001-2023"
     framework: "agnostic"
+
+spec:
+  openapi_spec: "./openapi.yaml"
+  capabilities:
+    - "universal_agent_interface"
+    - "protocol_bridging"
+    - "token_optimization"
+    - "compliance_validation"
+  protocols: ["openapi", "mcp", "a2a"]
+  compliance:
+    frameworks: ["ISO_42001_2023", "NIST_AI_RMF_1_0", "EU_AI_Act"]
+    validated: true
 
 # 1. Enhanced Protocol Interoperability
 protocol_support:
