@@ -38,7 +38,8 @@
     "chalk": "^4.1.2",
     "winston": "^3.10.0",
     "swagger-ui-express": "^5.0.0",
-    "compression": "^1.7.4"
+    "compression": "^1.7.4",
+    "axios": "^1.6.0"
   },
   "devDependencies": {
     "jest": "^29.6.0",

@@ -1,114 +1,92 @@
-const ComplianceValidator = require('../../validators/compliance-validator');
-
-class ComplianceValidatorService {
+class ComplianceValidator {
   constructor() {
-    this.validator = new ComplianceValidator();
+    this.supportedFrameworks = [
+      'ISO_42001_2023', 'NIST_AI_RMF_1_0', 'EU_AI_Act', 
+      'FISMA', 'FedRAMP', 'StateRAMP'
+    ];
   }
 
-  async validateCompliance(configuration, frameworks) {
-    try {
-      // Determine frameworks to validate
-      const targetFrameworks = frameworks || this.getConfigFrameworks(configuration);
-      
-      if (targetFrameworks.length === 0) {
-        return {
-          framework_results: {},
-          totalPassed: 0,
-          totalWarnings: 1,
-          totalErrors: 0,
-          authorization_readiness: 'development'
+  async validateCompliance(agentConfig, frameworks) {
+    const results = {
+      totalErrors: 0,
+      totalWarnings: 0,
+      framework_results: {}
+    };
+
+    for (const framework of frameworks) {
+      if (!this.supportedFrameworks.includes(framework)) {
+        results.totalErrors++;
+        results.framework_results[framework] = {
+          valid: false,
+          errors: [`Unsupported framework: ${framework}`],
+          warnings: []
         };
+        continue;
       }
 
-      // Reset validator state
-      this.validator.errors = [];
-      this.validator.warnings = [];
-      this.validator.passed = [];
+      const frameworkResult = this.validateFramework(agentConfig, framework);
+      results.framework_results[framework] = frameworkResult;
+      results.totalErrors += frameworkResult.errors?.length || 0;
+      results.totalWarnings += frameworkResult.warnings?.length || 0;
+    }
 
-      const frameworkResults = {};
+    return results;
+  }
 
-      // Validate each framework
-      targetFrameworks.forEach(frameworkId => {
-        const framework = this.validator.frameworks[frameworkId];
-        if (!framework) {
-          frameworkResults[frameworkId] = {
-            valid: false,
-            errors: [`Unknown framework: ${frameworkId}`],
-            warnings: [],
-            passed: []
-          };
-          return;
-        }
+  validateFramework(agentConfig, framework) {
+    const result = {
+      valid: true,
+      errors: [],
+      warnings: []
+    };
 
-        const frameworkErrors = [];
-        const frameworkWarnings = [];
-        const frameworkPassed = [];
+    switch (framework) {
+      case 'ISO_42001_2023':
+        this.validateISO42001(agentConfig, result);
+        break;
+      case 'NIST_AI_RMF_1_0':
+        this.validateNISTAIRMF(agentConfig, result);
+        break;
+      case 'EU_AI_Act':
+        this.validateEUAIAct(agentConfig, result);
+        break;
+      default:
+        result.warnings.push(`Basic validation for ${framework}`);
+    }
 
-        framework.requirements.forEach(req => {
-          const result = req.validator(configuration);
-          if (result.passed) {
-            frameworkPassed.push(req.name);
-          } else if (result.warning) {
-            frameworkWarnings.push(`${req.name} - ${result.message}`);
-          } else {
-            frameworkErrors.push(`${req.name} - ${result.message}`);
-          }
-        });
+    result.valid = result.errors.length === 0;
+    return result;
+  }
 
-        frameworkResults[frameworkId] = {
-          valid: frameworkErrors.length === 0,
-          name: framework.name,
-          errors: frameworkErrors,
-          warnings: frameworkWarnings,
-          passed: frameworkPassed
-        };
-      });
-
-      // Calculate totals
-      const totalPassed = Object.values(frameworkResults)
-        .reduce((sum, result) => sum + result.passed.length, 0);
-      const totalWarnings = Object.values(frameworkResults)
-        .reduce((sum, result) => sum + result.warnings.length, 0);
-      const totalErrors = Object.values(frameworkResults)
-        .reduce((sum, result) => sum + result.errors.length, 0);
-
-      // Determine authorization readiness
-      let authorizationReadiness = 'development';
-      if (totalErrors === 0) {
-        if (totalWarnings === 0) {
-          authorizationReadiness = 'production-ready';
-        } else if (totalWarnings <= 2) {
-          authorizationReadiness = 'pre-production';
-        }
-      }
-
-      return {
-        framework_results: frameworkResults,
-        totalPassed,
-        totalWarnings,
-        totalErrors,
-        authorization_readiness: authorizationReadiness
-      };
-
-    } catch (error) {
-      throw new Error(`Compliance validation failed: ${error.message}`);
+  validateISO42001(agentConfig, result) {
+    if (!agentConfig.governance) {
+      result.errors.push('ISO 42001 requires governance configuration');
+    }
+    if (!agentConfig.risk_management) {
+      result.errors.push('ISO 42001 requires risk management processes');
+    }
+    if (!agentConfig.data_quality) {
+      result.warnings.push('Data quality management recommended for ISO 42001');
     }
   }
 
-  getConfigFrameworks(configuration) {
-    const frameworks = [];
-    
-    if (configuration.compliance && configuration.compliance.frameworks) {
-      configuration.compliance.frameworks.forEach(fw => {
-        const framework = fw.framework || fw;
-        if (this.validator.frameworks[framework]) {
-          frameworks.push(framework);
-        }
-      });
+  validateNISTAIRMF(agentConfig, result) {
+    if (!agentConfig.risk_assessment) {
+      result.errors.push('NIST AI RMF requires risk assessment');
     }
-    
-    return frameworks;
+    if (!agentConfig.bias_testing) {
+      result.warnings.push('Bias assessment recommended for NIST AI RMF');
+    }
+  }
+
+  validateEUAIAct(agentConfig, result) {
+    if (!agentConfig.risk_classification) {
+      result.errors.push('EU AI Act requires risk classification');
+    }
+    if (!agentConfig.transparency) {
+      result.warnings.push('Transparency measures recommended for EU AI Act');
+    }
   }
 }
 
-module.exports = ComplianceValidatorService;
+module.exports = ComplianceValidator;

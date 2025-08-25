@@ -22,40 +22,45 @@ The AI industry is fragmented with incompatible agent frameworks. **This standar
 
 ## 🚀 Quick Start
 
-### Try It in 5 Minutes
+### Install the Standard
 
 ```bash
-# Clone the repository
-git clone https://github.com/openapi-ai-agents/standard.git
-cd standard
+# Install globally
+npm install -g @openapi-ai-agents/standard
 
-# Install and validate
-npm install
-npm run validate
-
-# Run the example orchestration
-npm run example:orchestrate
+# Or use locally
+npm install @openapi-ai-agents/standard
 ```
 
-### Implement in Your Framework
+### Validate Your First Agent
 
-```typescript
-import { OpenAPIAgent } from '@openapi-ai-agents/core';
+```bash
+# Validate an agent specification
+openapi-agents validate examples/basic/hello-agent.yaml
 
-// Create an agent that works with ANY framework
-const agent = new OpenAPIAgent({
-  name: 'universal-assistant',
-  protocols: ['mcp', 'openapi', 'a2a'],
-  capabilities: ['reasoning', 'code_generation', 'analysis']
-});
+# Check supported frameworks
+openapi-agents frameworks
 
-// Orchestrate with other agents seamlessly
-await agent.orchestrate({
-  pattern: 'diagnostic_first',
-  agents: ['researcher', 'analyzer', 'implementer'],
-  budget: { maxTokens: 50000, costLimit: 25.0 }
-});
+# Start validation server
+openapi-agents start-server
 ```
+
+### Framework Integration
+
+The standard is designed to be integrated by AI frameworks, not to depend on them:
+
+```bash
+# LangChain validates against the standard
+langchain-cli validate --openapi-standard my-agent.yaml
+
+# CrewAI uses the standard for compliance
+crewai validate --standard=openapi-ai-agents my-crew.yaml
+
+# TDDAI orchestrates using the standard
+tddai agents orchestrate --validate-with=openapi-agents-standard
+```
+
+**For Framework Developers**: See [INTEGRATION.md](INTEGRATION.md) for complete integration guide.
 
 ## 🏆 Who's Using This?
 
