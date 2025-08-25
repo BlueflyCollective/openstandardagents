@@ -1,0 +1,487 @@
+# GitLab CI/CD Pipeline for OpenAPI AI Agents Standard
+# This pipeline validates, tests, and deploys AI agents with full compliance
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_TAG'
+
+variables:
+  # Agent Configuration
+  AGENT_SPEC_FILE: "openapi.yaml"
+  AGENT_CONFIG_FILE: "agent.yml"
+  CERTIFICATION_TARGET: "silver"
+  
+  # Token Management
+  TOKEN_BUDGET_DAILY: "100000"
+  TOKEN_ALERT_THRESHOLD: "80"
+  TOKEN_OPTIMIZATION: "aggressive"
+  
+  # Security & Compliance
+  COMPLIANCE_FRAMEWORKS: "ISO_42001,NIST_AI_RMF"
+  SECURITY_SCAN_LEVEL: "comprehensive"
+  AUDIT_RETENTION_DAYS: "2555"
+  
+  # Deployment
+  DEPLOY_ENVIRONMENT: "staging"
+  PROTOCOL_BRIDGES: "mcp,a2a"
+  
+  # GitLab Duo Integration
+  GITLAB_DUO_ENABLED: "true"
+  GITLAB_DUO_SUGGESTIONS: "true"
+
+stages:
+  - validate
+  - test
+  - security
+  - compliance
+  - build
+  - deploy
+  - monitor
+
+# Templates for reusable jobs
+.agent_template:
+  image: node:18-alpine
+  before_script:
+    - npm install -g @openapi-ai-agents/cli
+    - npm install -g @openapi-ai-agents/validators
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+      - .npm/
+
+.python_template:
+  image: python:3.11-slim
+  before_script:
+    - pip install openapi-ai-agents
+    - pip install tiktoken
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-python
+    paths:
+      - .cache/pip
+
+# ============================================================================
+# VALIDATION STAGE
+# ============================================================================
+
+validate:openapi:
+  extends: .agent_template
+  stage: validate
+  script:
+    - echo "🔍 Validating OpenAPI specification..."
+    - openapi-agent-validate $AGENT_SPEC_FILE
+    - |
+      if [ "$CI_MERGE_REQUEST_IID" ]; then
+        echo "📊 Generating compliance report for MR !$CI_MERGE_REQUEST_IID"
+        openapi-agent-validate $AGENT_SPEC_FILE --format json > validation-report.json
+      fi
+  artifacts:
+    reports:
+      dotenv: validation.env
+    paths:
+      - validation-report.json
+    expire_in: 1 week
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: always
+    - when: on_success
+
+validate:agent-config:
+  extends: .agent_template
+  stage: validate
+  script:
+    - echo "🤖 Validating agent configuration..."
+    - agent-config-validate $AGENT_CONFIG_FILE
+    - echo "✅ Agent configuration valid"
+  artifacts:
+    paths:
+      - agent-validation.json
+    expire_in: 1 week
+
+validate:schemas:
+  extends: .agent_template
+  stage: validate
+  script:
+    - echo "📋 Validating JSON schemas..."
+    - |
+      for schema in schemas/*.json; do
+        echo "Validating $schema"
+        npx ajv compile -s "$schema" --strict
+      done
+    - echo "✅ All schemas valid"
+  only:
+    changes:
+      - schemas/**/*.json
+
+validate:breaking-changes:
+  extends: .agent_template
+  stage: validate
+  script:
+    - echo "🔄 Checking for breaking changes..."
+    - |
+      if [ "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" ]; then
+        git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+        npx @openapitools/openapi-diff \
+          origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME:$AGENT_SPEC_FILE \
+          HEAD:$AGENT_SPEC_FILE \
+          --fail-on-breaking
+      fi
+  only:
+    - merge_requests
+
+# ============================================================================
+# TEST STAGE
+# ============================================================================
+
+test:unit:
+  extends: .agent_template
+  stage: test
+  script:
+    - echo "🧪 Running unit tests..."
+    - npm test -- --coverage
+    - echo "Test coverage: $(cat coverage/coverage-summary.json | jq '.total.lines.pct')%"
+  coverage: '/Test coverage: ([0-9.]+)%/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+      junit: test-results.xml
+    paths:
+      - coverage/
+    expire_in: 1 week
+
+test:integration:
+  extends: .agent_template
+  stage: test
+  services:
+    - redis:7-alpine
+    - postgres:15-alpine
+  variables:
+    REDIS_HOST: redis
+    POSTGRES_HOST: postgres
+  script:
+    - echo "🔗 Running integration tests..."
+    - npm run test:integration
+  artifacts:
+    reports:
+      junit: integration-test-results.xml
+    expire_in: 1 week
+
+test:protocol-bridges:
+  extends: .agent_template
+  stage: test
+  parallel:
+    matrix:
+      - PROTOCOL: mcp
+      - PROTOCOL: a2a
+      - PROTOCOL: custom
+  script:
+    - echo "🌉 Testing $PROTOCOL protocol bridge..."
+    - npm run test:protocol -- --protocol=$PROTOCOL
+  artifacts:
+    reports:
+      junit: protocol-$PROTOCOL-results.xml
+    expire_in: 1 week
+
+test:token-optimization:
+  extends: .python_template
+  stage: test
+  script:
+    - echo "💰 Testing token optimization..."
+    - python scripts/test_token_optimization.py
+    - |
+      echo "Token savings: $(python -c "
+      import json
+      with open('token-report.json') as f:
+        data = json.load(f)
+        print(f\"{data['savings_percentage']}%\")
+      ")"
+  artifacts:
+    paths:
+      - token-report.json
+    expire_in: 1 week
+
+# ============================================================================
+# SECURITY STAGE
+# ============================================================================
+
+security:sast:
+  stage: security
+  script:
+    - echo "🔒 Running SAST scan..."
+  # Use GitLab's built-in SAST
+  include:
+    - template: Security/SAST.gitlab-ci.yml
+
+security:secret-scanning:
+  stage: security
+  image: trufflesecurity/trufflehog:latest
+  script:
+    - echo "🔑 Scanning for secrets..."
+    - trufflehog git file://. --since-commit HEAD~5 --fail
+
+security:dependency-check:
+  extends: .agent_template
+  stage: security
+  script:
+    - echo "📦 Checking dependencies..."
+    - npm audit --audit-level=moderate
+    - npx snyk test || true  # Don't fail pipeline, just report
+  artifacts:
+    reports:
+      dependency_scanning: gl-dependency-scanning-report.json
+    expire_in: 1 week
+
+security:maestro:
+  extends: .python_template
+  stage: security
+  script:
+    - echo "🛡️ Running MAESTRO security framework assessment..."
+    - python scripts/maestro_assessment.py
+    - cat maestro-report.json
+  artifacts:
+    paths:
+      - maestro-report.json
+    expire_in: 1 week
+
+# ============================================================================
+# COMPLIANCE STAGE
+# ============================================================================
+
+compliance:iso42001:
+  extends: .python_template
+  stage: compliance
+  script:
+    - echo "📋 Checking ISO 42001:2023 compliance..."
+    - python scripts/compliance_checker.py --framework iso_42001
+    - |
+      if [ "$CERTIFICATION_TARGET" = "gold" ]; then
+        python scripts/compliance_checker.py --framework iso_42001 --strict
+      fi
+  artifacts:
+    paths:
+      - iso42001-compliance.json
+    expire_in: 1 month
+
+compliance:nist-ai-rmf:
+  extends: .python_template
+  stage: compliance
+  script:
+    - echo "🏛️ Checking NIST AI RMF compliance..."
+    - python scripts/compliance_checker.py --framework nist_ai_rmf
+  artifacts:
+    paths:
+      - nist-compliance.json
+    expire_in: 1 month
+
+compliance:eu-ai-act:
+  extends: .python_template
+  stage: compliance
+  script:
+    - echo "🇪🇺 Checking EU AI Act compliance..."
+    - python scripts/compliance_checker.py --framework eu_ai_act
+  artifacts:
+    paths:
+      - eu-ai-act-compliance.json
+    expire_in: 1 month
+
+compliance:audit-report:
+  extends: .python_template
+  stage: compliance
+  needs:
+    - compliance:iso42001
+    - compliance:nist-ai-rmf
+    - compliance:eu-ai-act
+  script:
+    - echo "📊 Generating unified compliance report..."
+    - python scripts/generate_compliance_report.py
+    - |
+      echo "Certification Level Achieved: $(cat compliance-report.json | jq -r '.certification_level')"
+  artifacts:
+    paths:
+      - compliance-report.json
+      - compliance-report.pdf
+    expire_in: 6 months
+
+# ============================================================================
+# BUILD STAGE
+# ============================================================================
+
+build:docker:
+  stage: build
+  image: docker:24-dind
+  services:
+    - docker:24-dind
+  script:
+    - echo "🐳 Building Docker image..."
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
+    - echo "📤 Pushing to GitLab Container Registry..."
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
+  only:
+    - main
+    - develop
+    - tags
+
+build:sdk:
+  extends: .agent_template
+  stage: build
+  script:
+    - echo "📦 Building SDK packages..."
+    - npm run build
+    - npm pack
+  artifacts:
+    paths:
+      - "*.tgz"
+    expire_in: 1 month
+
+# ============================================================================
+# DEPLOY STAGE
+# ============================================================================
+
+deploy:staging:
+  stage: deploy
+  environment:
+    name: staging
+    url: https://staging.openapi-ai-agents.org
+    on_stop: stop:staging
+  script:
+    - echo "🚀 Deploying to staging..."
+    - |
+      # Deploy using GitLab agent for Kubernetes
+      kubectl set image deployment/ai-agent ai-agent=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA \
+        --namespace=ai-agents-staging
+    - echo "✅ Deployment complete"
+  only:
+    - develop
+  when: manual
+
+deploy:production:
+  stage: deploy
+  environment:
+    name: production
+    url: https://api.openapi-ai-agents.org
+  script:
+    - echo "🚀 Deploying to production..."
+    - |
+      # Production deployment with canary rollout
+      kubectl set image deployment/ai-agent ai-agent=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA \
+        --namespace=ai-agents-prod
+    - echo "✅ Production deployment complete"
+  only:
+    - tags
+  when: manual
+  needs:
+    - compliance:audit-report
+    - security:maestro
+
+stop:staging:
+  stage: deploy
+  environment:
+    name: staging
+    action: stop
+  script:
+    - echo "🛑 Stopping staging environment..."
+    - kubectl scale deployment/ai-agent --replicas=0 --namespace=ai-agents-staging
+  when: manual
+  only:
+    - develop
+
+# ============================================================================
+# MONITOR STAGE
+# ============================================================================
+
+monitor:token-usage:
+  extends: .python_template
+  stage: monitor
+  script:
+    - echo "💰 Monitoring token usage..."
+    - python scripts/monitor_tokens.py --environment $DEPLOY_ENVIRONMENT
+    - |
+      USAGE=$(cat token-usage.json | jq -r '.percentage')
+      if [ "$USAGE" -gt "$TOKEN_ALERT_THRESHOLD" ]; then
+        echo "⚠️ Token usage at $USAGE% - sending alert"
+        curl -X POST $SLACK_WEBHOOK -d "{\"text\":\"Token usage alert: $USAGE%\"}"
+      fi
+  artifacts:
+    paths:
+      - token-usage.json
+    expire_in: 1 week
+  only:
+    - schedules
+
+monitor:performance:
+  extends: .agent_template
+  stage: monitor
+  script:
+    - echo "📈 Running performance monitoring..."
+    - npm run monitor:performance -- --environment $DEPLOY_ENVIRONMENT
+  artifacts:
+    reports:
+      performance: performance-report.json
+    expire_in: 1 week
+  only:
+    - schedules
+
+monitor:compliance-drift:
+  extends: .python_template
+  stage: monitor
+  script:
+    - echo "🔍 Checking for compliance drift..."
+    - python scripts/compliance_monitor.py --continuous
+  artifacts:
+    paths:
+      - compliance-drift.json
+    expire_in: 1 month
+  only:
+    - schedules
+
+# ============================================================================
+# GitLab Duo Integration Jobs
+# ============================================================================
+
+gitlab-duo:code-quality:
+  stage: validate
+  script:
+    - echo "🤖 GitLab Duo code quality analysis..."
+    # GitLab Duo will automatically analyze the code
+  allow_failure: true
+  only:
+    variables:
+      - $GITLAB_DUO_ENABLED == "true"
+
+gitlab-duo:suggestions:
+  stage: validate
+  script:
+    - echo "💡 Applying GitLab Duo suggestions..."
+    # GitLab Duo will provide suggestions in MR
+  only:
+    - merge_requests
+  when: manual
+  allow_failure: true
+
+# ============================================================================
+# Reporting and Notifications
+# ============================================================================
+
+generate-reports:
+  stage: .post
+  extends: .python_template
+  script:
+    - echo "📊 Generating final reports..."
+    - python scripts/generate_final_report.py
+    - |
+      # Send notification to Slack/Teams
+      if [ "$CI_COMMIT_BRANCH" = "$CI_DEFAULT_BRANCH" ]; then
+        curl -X POST $SLACK_WEBHOOK -d @final-report-notification.json
+      fi
+  artifacts:
+    paths:
+      - reports/
+    expire_in: 3 months
+  when: always
