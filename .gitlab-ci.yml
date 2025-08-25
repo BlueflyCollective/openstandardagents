@@ -1,5 +1,6 @@
 # GitLab CI/CD Pipeline for OpenAPI AI Agents Standard
 # Simplified pipeline focusing on working validation tests
+# Updated: 2025-08-25 - Fixed NPM package installation issues
 
 stages:
   - validate
