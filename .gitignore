@@ -62,4 +62,4 @@ docker-compose.override.yml
 # Temporary files
 *.tmp
 *.temp
-.cache/
+.cache/node_modules/
