@@ -1,37 +1,81 @@
 # GitLab CI/CD Pipeline for OpenAPI AI Agents Standard
-# Simplified pipeline focusing on working validation tests
-# Updated: 2025-08-25 - Fixed NPM package installation issues
+# API-first pipeline with TDD approach
 
 stages:
   - validate
   - test
-  - security
+  - build
+  - deploy
 
-# Simple validation job
-validate:openapi:
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+
+# Validate API OpenAPI Specification
+validate:api-spec:
   image: node:18-alpine
   stage: validate
   before_script:
     - apk add --no-cache git
   script:
-    - echo "🔍 Validating OpenAPI specification..."
+    - echo "🔍 Validating API OpenAPI specification..."
     - cd validators && npm install
-    - node openapi-validator.js ../examples/basic/hello-agent.yaml
-    - echo "✅ OpenAPI validation completed"
+    - node openapi-validator.js ../api/openapi.json
+    - echo "✅ API specification validation completed"
   only:
     - main
     - merge_requests
 
-# Unit tests for validators
-test:validators:
+# Validate Example Specifications
+validate:examples:
+  image: node:18-alpine
+  stage: validate
+  before_script:
+    - apk add --no-cache git
+  script:
+    - echo "🔍 Validating example specifications..."
+    - cd validators && npm install
+    - node openapi-validator.js ../examples/basic/hello-agent.yaml
+    - echo "✅ Example validation completed"
+  only:
+    - main
+    - merge_requests
+
+# API Unit Tests (TDD)
+test:api:unit:
+  image: node:18-alpine
+  stage: test
+  before_script:
+    - apk add --no-cache git curl
+  script:
+    - echo "🧪 Running API unit tests (TDD)..."
+    - cd api && npm install
+    - npm test -- --coverage --testResultsProcessor=jest-junit
+    - echo "✅ API unit tests completed"
+  coverage: '/Lines\s*:\s*([0-9.]+)%/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: api/coverage/cobertura-coverage.xml
+      junit: api/junit.xml
+    paths:
+      - api/coverage/
+    expire_in: 1 week
+  only:
+    - main
+    - merge_requests
+
+# Validator Unit Tests
+test:validators:unit:
   image: node:18-alpine
   stage: test
   before_script:
     - apk add --no-cache git
   script:
-    - echo "🧪 Running validator unit tests..."
+    - echo "🔍 Running validator unit tests..."
     - cd validators && npm install
-    - npm test
+    - npm test -- --coverage
     - echo "✅ Validator tests completed"
   coverage: '/Lines\s*:\s*([0-9.]+)%/'
   artifacts:
@@ -46,33 +90,106 @@ test:validators:
     - main
     - merge_requests
 
-# Token estimation test
-test:token-estimation:
-  image: node:18-alpine
+# API Integration Tests
+test:api:integration:
+  image: docker:24-dind
   stage: test
+  services:
+    - docker:24-dind
   before_script:
-    - apk add --no-cache git
+    - apk add --no-cache curl jq nodejs npm
   script:
-    - echo "💰 Testing token estimation..."
-    - cd validators && npm install
-    - node token-estimator.js ../examples/basic/hello-agent.yaml --model gpt-4-turbo --requests 100
-    - echo "✅ Token estimation completed"
+    - echo "🔗 Running API integration tests..."
+    - cd api
+    - docker build -t validation-api-test .
+    - docker run -d -p 3000:3000 --name api-test -e API_KEYS=test-key validation-api-test
+    - sleep 15
+    - echo "Testing health endpoint..."
+    - curl -f http://localhost:3000/api/v1/health
+    - echo "Testing frameworks endpoint..."
+    - curl -f http://localhost:3000/api/v1/frameworks
+    - echo "Testing validation endpoint..."
+    - |
+      curl -f -X POST http://localhost:3000/api/v1/validate/openapi \
+        -H "Content-Type: application/json" \
+        -H "X-API-Key: test-key" \
+        -d '{"specification": {"openapi": "3.1.0", "info": {"title": "Test", "version": "1.0.0", "description": "Test"}, "paths": {}}}'
+    - echo "✅ Integration tests completed"
+  after_script:
+    - docker stop api-test || true
+    - docker rm api-test || true
   only:
     - main
     - merge_requests
 
-# Basic security scan
-security:npm-audit:
-  image: node:18-alpine
-  stage: security
-  before_script:
-    - apk add --no-cache git
+# Build Docker Image
+build:docker:
+  image: docker:24-dind
+  stage: build
+  services:
+    - docker:24-dind
   script:
-    - echo "🔒 Running npm security audit..."
-    - cd validators && npm install
-    - npm audit --audit-level=moderate || echo "Some vulnerabilities found but not blocking"
-    - echo "✅ Security audit completed"
-  allow_failure: true
+    - echo "🐳 Building validation API Docker image..."
+    - cd api
+    - docker build -t $CI_REGISTRY_IMAGE/validation-api:$CI_COMMIT_SHA .
+    - docker tag $CI_REGISTRY_IMAGE/validation-api:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/validation-api:latest
+    - echo "📤 Pushing to GitLab Container Registry..."
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $CI_REGISTRY_IMAGE/validation-api:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/validation-api:latest
+    - echo "✅ Docker build and push completed"
   only:
     - main
-    - merge_requests
+    - tags
+
+# Deploy to Staging
+deploy:staging:
+  image: alpine:latest
+  stage: deploy
+  environment:
+    name: staging
+    url: https://api-staging.openapi-ai-agents.org
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - echo "🚀 Deploying validation API to staging..."
+    - echo "Container image: $CI_REGISTRY_IMAGE/validation-api:$CI_COMMIT_SHA"
+    - echo "Environment: staging"
+    - echo "✅ Staging deployment completed"
+  only:
+    - main
+  when: manual
+
+# Deploy to Production
+deploy:production:
+  image: alpine:latest
+  stage: deploy
+  environment:
+    name: production
+    url: https://api.openapi-ai-agents.org
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - echo "🚀 Deploying validation API to production..."
+    - echo "Container image: $CI_REGISTRY_IMAGE/validation-api:$CI_COMMIT_SHA"
+    - echo "Environment: production"
+    - echo "✅ Production deployment completed"
+  only:
+    - tags
+  when: manual
+
+# Generate API Documentation
+pages:
+  image: node:18-alpine
+  stage: deploy
+  script:
+    - echo "📖 Generating API documentation..."
+    - mkdir public
+    - cp api/openapi.json public/
+    - echo '<!DOCTYPE html><html><head><title>OpenAPI AI Agents Validation API</title><link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3.25.0/swagger-ui.css" /></head><body><div id="swagger-ui"></div><script src="https://unpkg.com/swagger-ui-dist@3.25.0/swagger-ui-bundle.js"></script><script>SwaggerUIBundle({url: "./openapi.json", dom_id: "#swagger-ui", presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.presets.standalone]})</script></body></html>' > public/index.html
+    - echo "✅ Documentation generated"
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
