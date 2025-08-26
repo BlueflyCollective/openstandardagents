@@ -7,61 +7,56 @@
 # Next Level: When you need API specs or production features, see 02-agent-integration
 # ==============================================================================
 
-# REQUIRED: Agent identifier - must be unique within your workspace
-# Format: lowercase letters, numbers, and hyphens only (no spaces or underscores)
-# Example: "code-analyzer", "test-generator", "doc-writer"
-name: example-basic
+# REQUIRED: OpenAPI AI Agents Standard specification
+apiVersion: openapi-ai-agents/v0.1.1
+kind: Agent
 
-# REQUIRED: Semantic version (major.minor.patch)
-# Start with 0.1.0 for new agents, 1.0.0 for production
-version: "1.0.0"
+# REQUIRED: Agent metadata - identity and version information
+metadata:
+  # Agent identifier - must be unique within your workspace
+  # Format: lowercase letters, numbers, and hyphens only (no spaces or underscores)
+  name: example-basic
+  
+  # Semantic version (major.minor.patch)
+  # Start with 0.1.0 for new agents, 1.0.0 for production  
+  version: "1.0.0"
+  
+  # Optional but recommended: Detailed description
+  description: |
+    A simple agent showing the minimum viable configuration for a useful
+    OAAS agent with framework compatibility and clear capabilities.
 
-# REQUIRED: One-line description of what this agent specializes in
-# This is used by discovery engines to understand agent expertise
-expertise: "Basic agent demonstrating core OAAS features"
+# REQUIRED: Agent specification - capabilities and behavior
+spec:
+  # Agent expertise - one-line description of what this agent specializes in
+  # This is used by discovery engines to understand agent expertise
+  agent:
+    name: example-basic
+    expertise: "Basic agent demonstrating core OAAS features"
 
-# OPTIONAL but RECOMMENDED: Detailed description
-# Helps other developers and AI systems understand your agent's purpose
-description: |
-  A simple agent showing the minimum viable configuration for a useful
-  OAAS agent with framework compatibility and clear capabilities.
+  # REQUIRED: List of things this agent can do
+  # Format: name + description for each capability
+  # Best Practice: Use verb_noun format (analyze_code, generate_tests, validate_data)
+  capabilities:
+    - name: analyze_code
+      description: "Analyzes code quality and structure"
+    - name: generate_docs  
+      description: "Creates documentation from code"
+    - name: validate_syntax
+      description: "Checks syntax errors and formatting"
+    - name: suggest_improvements
+      description: "Recommends code improvements"
 
-# REQUIRED: List of things this agent can do
-# Format: capability_name: "Human-readable description"
-# Best Practice: Use verb_noun format (analyze_code, generate_tests, validate_data)
-# These capabilities are discovered and matched when routing requests
-capabilities:
-  - analyze_code: "Analyzes code quality and structure"
-  - generate_docs: "Creates documentation from code"
-  - validate_syntax: "Checks syntax errors and formatting"
-  - suggest_improvements: "Recommends code improvements"
-
-# RECOMMENDED: Paths the agent can access for context
-# These paths are relative to where the agent is deployed
-# The discovery engine uses these to understand what resources the agent needs
-context_paths:
-  - path: ./src
-    description: "Source code directory"
-  - path: ./docs
-    description: "Documentation files"
-  - path: ./tests
-    description: "Test files"
-
-# RECOMMENDED: Framework compatibility declarations
-# Only enable frameworks you actually plan to integrate with
-# Setting enabled: true makes this agent discoverable by that framework
-frameworks:
-  mcp: enabled        # Works with Claude Desktop via MCP
-  langchain: enabled  # Can be used as a LangChain tool
-  crewai: enabled    # Can participate in CrewAI workflows
-
-# OPTIONAL: API endpoints this agent exposes
-# If specified, the agent should implement these endpoints
-# For Level 2+, these would be defined in an OpenAPI spec
-api_endpoints:
-  - /analyze
-  - /generate
-  - /validate
+  # RECOMMENDED: Framework compatibility declarations
+  # Only enable frameworks you actually plan to integrate with
+  # Setting enabled: true makes this agent discoverable by that framework
+  frameworks:
+    mcp:
+      enabled: true    # Works with Claude Desktop via MCP
+    langchain:
+      enabled: true    # Can be used as a LangChain tool
+    crewai:
+      enabled: true    # Can participate in CrewAI workflows
 
 # ==============================================================================
 # What You've Learned:
