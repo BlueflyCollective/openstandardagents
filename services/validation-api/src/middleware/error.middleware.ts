@@ -22,7 +22,7 @@ export const errorHandler = (
     error: ApiError,
     req: Request,
     res: Response,
-    next: NextFunction
+    _next: NextFunction
 ): void => {
     const { statusCode = 500, message } = error;
 
@@ -47,7 +47,7 @@ export const errorHandler = (
     });
 };
 
-export const notFoundHandler = (req: Request, res: Response): void => {
+export const notFoundHandler = (req: Request, res: Response, _next: NextFunction): void => {
     res.status(404).json({
         success: false,
         error: {

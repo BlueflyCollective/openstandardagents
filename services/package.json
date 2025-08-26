@@ -1,0 +1,49 @@
+{
+  "name": "@openapi-ai-agents/services",
+  "version": "0.1.0",
+  "description": "OpenAPI AI Agents Standard - Core Services",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "validate": "node scripts/workspace-discovery.js"
+  },
+  "workspaces": [
+    "validation-api",
+    "compliance-checker",
+    "discovery-engine",
+    "agents/*",
+    "agent-orchestrator",
+    "agent-registry",
+    "universal-agent-toolkit",
+    "validation-cli"
+  ],
+  "keywords": [
+    "openapi",
+    "ai-agents",
+    "standard",
+    "interoperability",
+    "compliance"
+  ],
+  "author": "OpenAPI AI Agents Standard Contributors",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openapi-ai-agents/standard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/openapi-ai-agents/standard/issues"
+  },
+  "homepage": "https://openapi-ai-agents.org",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  }
+}

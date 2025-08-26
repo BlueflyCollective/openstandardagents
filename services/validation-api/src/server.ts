@@ -2,9 +2,9 @@ import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
-import { ValidationController } from './controllers/validation.controller';
-import { asyncHandler, errorHandler, notFoundHandler } from './middleware/error.middleware';
-import { errorLogger, logger, requestLogger } from './middleware/logger.middleware';
+import { ValidationController } from './controllers/validation.controller.js';
+import { asyncHandler, errorHandler, notFoundHandler } from './middleware/error.middleware.js';
+import { errorLogger, logger, requestLogger } from './middleware/logger.middleware.js';
 
 class ValidationAPIServer {
     private app: express.Application;
@@ -14,7 +14,7 @@ class ValidationAPIServer {
     constructor() {
         this.app = express();
         this.controller = new ValidationController();
-        this.port = parseInt(process.env.PORT || '3000', 10);
+        this.port = parseInt(process.env['PORT'] || '3000', 10);
 
         this.initializeMiddleware();
         this.initializeRoutes();
@@ -36,7 +36,7 @@ class ValidationAPIServer {
 
         // CORS configuration
         this.app.use(cors({
-            origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000', 'http://localhost:3001'],
+            origin: process.env['ALLOWED_ORIGINS']?.split(',') || ['http://localhost:3000', 'http://localhost:3001'],
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
             credentials: true
@@ -55,20 +55,21 @@ class ValidationAPIServer {
 
     private initializeRoutes(): void {
         // Health check endpoint
-        this.app.get('/health', asyncHandler((req, res) => this.controller.health(req, res)));
+        this.app.get('/health', asyncHandler((req: any, res: any) => this.controller.health(req, res)));
+        this.app.get('/api/v1/health', asyncHandler((req: any, res: any) => this.controller.health(req, res)));
 
         // API routes
-        this.app.post('/api/v1/validate/openapi', asyncHandler((req, res) => this.controller.validateOpenAPI(req, res)));
-        this.app.post('/api/v1/validate/compliance', asyncHandler((req, res) => this.controller.validateCompliance(req, res)));
-        this.app.post('/api/v1/estimate/tokens', asyncHandler((req, res) => this.controller.estimateTokens(req, res)));
+        this.app.post('/api/v1/validate/openapi', asyncHandler((req: any, res: any) => this.controller.validateOpenAPI(req, res)));
+        this.app.post('/api/v1/validate/compliance', asyncHandler((req: any, res: any) => this.controller.validateCompliance(req, res)));
+        this.app.post('/api/v1/estimate/tokens', asyncHandler((req: any, res: any) => this.controller.estimateTokens(req, res)));
 
         // Legacy endpoints for TDDAI compatibility
-        this.app.post('/validate/openapi', asyncHandler((req, res) => this.controller.validateOpenAPI(req, res)));
-        this.app.post('/validate/compliance', asyncHandler((req, res) => this.controller.validateCompliance(req, res)));
-        this.app.post('/estimate/tokens', asyncHandler((req, res) => this.controller.estimateTokens(req, res)));
+        this.app.post('/validate/openapi', asyncHandler((req: any, res: any) => this.controller.validateOpenAPI(req, res)));
+        this.app.post('/validate/compliance', asyncHandler((req: any, res: any) => this.controller.validateCompliance(req, res)));
+        this.app.post('/estimate/tokens', asyncHandler((req: any, res: any) => this.controller.estimateTokens(req, res)));
 
         // API documentation endpoint
-        this.app.get('/api/v1/docs', (req, res) => {
+        this.app.get('/api/v1/docs', (_req, res) => {
             res.json({
                 name: 'OAAS Validation API',
                 version: '1.0.0',
@@ -114,7 +115,7 @@ class ValidationAPIServer {
         });
 
         // Root endpoint
-        this.app.get('/', (req, res) => {
+        this.app.get('/', (_req, res) => {
             res.json({
                 message: 'OAAS Validation API Server',
                 version: '1.0.0',
@@ -146,7 +147,7 @@ class ValidationAPIServer {
         const server = this.app.listen(this.port, () => {
             logger.info(`OAAS Validation API Server started`, {
                 port: this.port,
-                environment: process.env.NODE_ENV || 'development',
+                environment: process.env['NODE_ENV'] || 'development',
                 timestamp: new Date().toISOString()
             });
 
@@ -182,7 +183,7 @@ class ValidationAPIServer {
 }
 
 // Start server if this file is run directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
     const server = new ValidationAPIServer();
     server.start();
 }

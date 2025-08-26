@@ -15,6 +15,8 @@ The OpenAPI AI Agents Standard (OAAS) provides a flexible, progressive approach 
 **Purpose**: Get an agent running in 2 minutes
 **Use Case**: Prototypes, simple tools, learning
 
+**Status**: ✅ **IMPLEMENTED** - See `examples/starter/` for working examples
+
 ```yaml
 # .agents/my-agent.yaml
 oaas: 1.0
@@ -50,6 +52,8 @@ config:
 
 **Purpose**: Production-ready agents with framework support
 **Use Case**: Real applications, team projects, integrations
+
+**Status**: ✅ **IMPLEMENTED** - See `examples/.agents/agent-name-skill-02/` for working example
 
 ```yaml
 # .agents/my-agent.yaml
@@ -144,6 +148,8 @@ spec:
 
 **Purpose**: Complete control, compliance, advanced features
 **Use Case**: Enterprise deployments, regulated industries, complex orchestration
+
+**Status**: ✅ **IMPLEMENTED** - See `examples/.agents/test-agent/` for production-ready 355-line example
 
 ```
 .agents/

@@ -17,6 +17,7 @@ The OpenAPI AI Agents Standard (OAAS) establishes a universal framework for AI a
 - **📈 Progressive Complexity**: Start simple, scale to enterprise (Level 2 → Level 4)
 - **🏢 Enterprise Compliance**: Built-in ISO 42001, NIST AI RMF, EU AI Act support
 - **⚡ Production Ready**: Performance optimization, monitoring, and security built-in
+- **📋 OpenAPI Integration**: Every agent includes comprehensive OpenAPI 3.1 specification
 
 ## The Challenge
 
@@ -44,6 +45,38 @@ Project Level (project/.agents/)
 
 Result: Universal AI agent interoperability with enterprise compliance
 ```
+
+## 📋 **OpenAPI Specification Requirement**
+
+**Every OAAS agent MUST include a comprehensive OpenAPI 3.1 specification** that defines:
+
+- **REST API Endpoints** - Complete API surface with request/response schemas
+- **Framework Integration** - LangChain, CrewAI, AutoGen, OpenAI, Anthropic, Google compatibility
+- **Token Management** - Built-in token estimation and cost optimization
+- **Compliance Validation** - OAAS compliance checking and validation
+- **Production Features** - Health checks, metrics, error handling, security
+
+### **OpenAPI Specification Standards**
+
+All agent OpenAPI specs must include the `x-openapi-ai-agents-standard` extension:
+
+```yaml
+x-openapi-ai-agents-standard:
+  version: "0.1.1"
+  agent_metadata:
+    name: "agent-name"
+    framework: "multi-framework"
+    certification_level: "bronze|silver|gold"
+    compliance_frameworks: ["ISO_42001_2023", "NIST_AI_RMF_1_0"]
+  capabilities: ["capability1", "capability2"]
+  protocols: ["openapi", "mcp", "uadp", "a2a"]
+  token_management:
+    provider: "tiktoken"
+    encoding: "o200k_base"
+    optimization: "standard|aggressive"
+```
+
+This ensures **universal API compatibility** and **seamless framework interoperability** across all AI platforms.
 
 ## Quick Start
 
@@ -181,11 +214,21 @@ const bridge = new MCPBridge({
 # Install OAAS CLI
 npm install -g @openapi-ai-agents/cli
 
+# Start Validation API Server (Production Ready)
+cd openapi-ai-agents-standard/services/validation-api
+npm install && npm run build
+node dist/server.js
+# Server runs on http://localhost:3003
+
 # Validate your agent
 openapi-agents validate your-agent.yml
 
 # Check compliance
 openapi-agents validate-compliance --framework=iso-42001
+
+# Use with TDDAI (Fully Integrated)
+tddai agents health --api-url="http://localhost:3003/api/v1"
+tddai agents estimate-tokens "Your text here" --api-url="http://localhost:3003/api/v1"
 ```
 
 ### Examples
@@ -222,14 +265,16 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 ## Status
 
 ### ✅ Production Ready
-- **TDDAI Integration**: Full Gold-level compliance with enterprise features
-- **Golden Templates**: Complete Level 4 enterprise specifications
-- **UADP Protocol**: Operational hierarchical discovery system
-- **Framework Bridges**: MCP, CrewAI, LangChain, AutoGen support
+- **TDDAI Integration**: Full Gold-level compliance with enterprise features ✅ **OPERATIONAL**
+- **Validation API Server**: Complete validation and compliance services ✅ **RUNNING ON PORT 3003**
+- **Golden Templates**: Complete Level 4 enterprise specifications ✅ **DEPLOYED**
+- **UADP Protocol**: Operational hierarchical discovery system ✅ **IMPLEMENTED**
+- **Framework Bridges**: MCP, CrewAI, LangChain, AutoGen support ✅ **COMPLETE**
+- **Test Agent**: Production-ready comprehensive test agent ✅ **DEPLOYED**
 
 ### 🚧 Active Development
-- **API Server**: Validation and compliance services
 - **Workspace Orchestration**: Cross-project intelligence synthesis
+- **Additional Project Agents**: LLM Platform and BFRFP integrations
 - **Enterprise Features**: Advanced governance and monitoring
 
 ## License

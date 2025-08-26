@@ -1,86 +1,66 @@
-/**
- * OpenAPI AI Agents Standard (OAAS) Type Definitions
- * Based on OAAS v0.1.0 specification
- */
-
 export interface AgentSpecification {
     apiVersion: string;
-    kind: 'Agent';
-    metadata: AgentMetadata;
-    spec: AgentSpec;
-}
-
-export interface AgentMetadata {
-    name: string;
-    version: string;
-    description: string;
-    labels?: Record<string, string>;
-    annotations?: Record<string, string>;
-}
-
-export interface AgentSpec {
-    capabilities: Capability[];
-    api?: APISpecification;
-    security?: SecurityConfiguration;
-    performance?: PerformanceConfiguration;
-    compliance?: ComplianceConfiguration;
-    frameworks?: FrameworkConfiguration;
+    kind: string;
+    metadata: {
+        name: string;
+        version: string;
+        description: string;
+    };
+    spec: {
+        capabilities: Capability[];
+        context_paths?: ContextPath[];
+        frameworks?: FrameworkConfig;
+        api_endpoints?: string[];
+        api?: any; // OpenAPI specification
+        security?: SecurityConfig;
+        performance?: PerformanceConfig;
+        compliance?: ComplianceConfig;
+    };
 }
 
 export interface Capability {
     id: string;
     name: string;
     description: string;
-    frameworks?: string[];
     input_schema?: string;
     output_schema?: string;
     compliance?: string[];
     sla?: string;
+    frameworks?: string[];
 }
 
-export interface APISpecification {
-    openapi: string;
-    info: {
-        title: string;
-        version: string;
-        description: string;
-    };
-    servers?: Array<{
-        url: string;
-        description?: string;
-    }>;
-    paths: Record<string, any>;
-    components?: Record<string, any>;
+export interface ContextPath {
+    path: string;
+    description: string;
 }
 
-export interface SecurityConfiguration {
+export interface FrameworkConfig {
+    mcp?: 'enabled' | 'disabled';
+    langchain?: 'enabled' | 'disabled';
+    crewai?: 'enabled' | 'disabled';
+    autogen?: 'enabled' | 'disabled';
+    openai?: 'enabled' | 'disabled';
+    google_vertex_ai?: 'enabled' | 'disabled';
+}
+
+export interface SecurityConfig {
     authentication?: 'required' | 'optional' | 'none';
-    authorization?: 'rbac' | 'abac' | 'none';
+    authorization?: 'rbac' | 'none';
     audit?: 'enabled' | 'disabled';
-    encryption?: 'required' | 'optional' | 'none';
+    data_protection?: 'enabled' | 'disabled';
 }
 
-export interface PerformanceConfiguration {
+export interface PerformanceConfig {
     cache_ttl?: number;
     timeout?: string;
     rate_limit?: string;
-    max_concurrent_requests?: number;
+    token_optimization?: 'enabled' | 'disabled';
 }
 
-export interface ComplianceConfiguration {
+export interface ComplianceConfig {
     frameworks?: string[];
-    audit_level?: 'basic' | 'comprehensive';
-    data_governance?: 'standard' | 'strict';
-}
-
-export interface FrameworkConfiguration {
-    mcp?: boolean;
-    langchain?: boolean;
-    crewai?: boolean;
-    autogen?: boolean;
-    openai?: boolean;
-    anthropic?: boolean;
-    google?: boolean;
+    audit_level?: 'comprehensive' | 'basic';
+    data_governance?: 'strict' | 'moderate';
 }
 
 export interface ValidationResult {
@@ -95,14 +75,15 @@ export interface ValidationResult {
 export interface ValidationError {
     path: string;
     message: string;
-    code: string;
-    severity: 'error' | 'warning';
+    code?: string;
+    severity?: 'low' | 'medium' | 'high';
 }
 
 export interface ValidationWarning {
     path: string;
     message: string;
-    code: string;
+    severity: 'low' | 'medium' | 'high';
+    code?: string;
 }
 
 export interface ValidationSuggestion {
@@ -113,17 +94,13 @@ export interface ValidationSuggestion {
 }
 
 export interface ComplianceResult {
-    iso_42001?: ComplianceStatus;
-    nist_ai_rmf?: ComplianceStatus;
-    eu_ai_act?: ComplianceStatus;
-    overall: ComplianceStatus;
-}
-
-export interface ComplianceStatus {
-    compliant: boolean;
-    score: number;
-    issues: string[];
-    recommendations: string[];
+    overall: {
+        compliant: boolean;
+        score: number;
+        issues: string[];
+        recommendations: string[];
+    };
+    [framework: string]: any;
 }
 
 export interface TokenEstimation {

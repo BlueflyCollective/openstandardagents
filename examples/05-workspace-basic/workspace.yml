@@ -1,0 +1,36 @@
+# OAAS Workspace Basic Configuration
+# Minimal workspace setup for multi-agent discovery and orchestration
+
+version: "1.0.0"
+
+workspace:
+  name: basic-workspace
+  description: "Simple workspace configuration for agent discovery"
+  
+  discovery:
+    enabled: true
+    scan_paths:
+      - .agents
+      - agents
+      - services/agents
+    auto_register: true
+    refresh_interval: 300  # 5 minutes
+    
+  orchestration:
+    strategy: adaptive  # adaptive, sequential, parallel, hierarchical
+    max_concurrent: 3
+    timeout: 30000  # 30 seconds
+    
+  context:
+    environment: development
+    variables:
+      API_BASE_URL: "http://localhost:3000"
+      LOG_LEVEL: "info"
+      
+  bridges:
+    - protocol: mcp
+      enabled: true
+    - protocol: langchain
+      enabled: true
+    - protocol: crewai
+      enabled: false

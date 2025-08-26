@@ -1,238 +1,332 @@
-# OAAS Examples - Professional Standards at Every Level
+# 📚 OAAS Examples - Learn by Building
 
-## Choose Your Complexity Level
+> **OpenAPI AI Agents Standard - Educational Examples**
+> 
+> These examples are designed to teach you OAAS from zero to enterprise level.
+> Each example builds on the previous one, introducing new concepts progressively.
 
-OAAS provides progressive complexity without dumbing down the technology. Every level demonstrates real competitive advantages.
+## 🎯 Quick Start Guide
 
-### 🎯 **Starter** (150-200 lines) - Professional Foundation
-**Path**: `starter/`  
-**Time**: 5-10 minutes  
-**Perfect For**: Production deployments, team projects, real applications
+**New to OAAS?** Start here:
 
-**What You Get**:
-- Multi-framework support (LangChain, CrewAI, AutoGen, OpenAI)
-- UADP automatic discovery (our killer feature)
-- Production monitoring and security
-- Real performance benchmarks
-- Comprehensive API specifications
+1. **Read** `01-agent-basic/` (5 minutes)
+2. **Copy** the example to your project
+3. **Modify** for your use case
+4. **Validate** with `oaas validate agent.yml`
+5. **Deploy** and test discovery
 
-**Not Toy Examples**: These are professional-grade agents with substance, just without enterprise complexity.
+## 📊 Complexity Levels - Choose Your Path
 
-## 📁 Directory Structure
+### 🤔 Which Level Do I Need?
 
-```
-examples/
-├── application-development/    # Developer-focused examples
-│   ├── basic-agent/           # Simple hello world agent
-│   ├── multi-framework/       # Connect LangChain + CrewAI
-│   ├── gitlab-integration/    # GitLab CI/CD pipeline
-│   └── sdk-usage/            # TypeScript/Python SDK examples
-│
-├── ai-innovation/             # AI platform examples
-│   ├── token-optimization/    # Token cost reduction
-│   ├── agent-orchestration/   # Multi-agent patterns
-│   ├── protocol-bridges/      # MCP, A2A bridges
-│   └── dynamic-routing/       # Smart agent selection
-│
-└── government-security/       # Security-focused examples
-    ├── federated-auth/       # OAuth2 PKCE + CAC/PIV
-    ├── audit-logging/        # Immutable audit trails
-    ├── compliance-checks/     # NIST AI RMF validation
-    └── air-gap-deployment/   # Disconnected environment
+```mermaid
+graph TD
+    Start[New Agent] --> Q1{Do you need<br/>API endpoints?}
+    Q1 -->|No| L1[Level 1: Basic<br/>30 lines]
+    Q1 -->|Yes| Q2{Production<br/>deployment?}
+    Q2 -->|No| L2[Level 2: Integration<br/>50 lines]
+    Q2 -->|Yes| Q3{Enterprise<br/>compliance?}
+    Q3 -->|No| L3[Level 3: Production<br/>200 lines]
+    Q3 -->|Yes| L4[Level 4: Enterprise<br/>400+ lines]
 ```
 
-## 🚀 Quick Start Examples
+### 📁 Example Structure
 
-### 1. Basic Agent (Application Development)
+| Level | Directory | Lines | Purpose | Key Features | When to Use |
+|-------|-----------|-------|---------|--------------|-------------|
+| **0** | `agent-minimal/` | 7 | Testing only | Bare minimum | Never in production |
+| **1** | `01-agent-basic/` | 30 | **Start Here** | Core features | Learning, prototypes |
+| **2** | `02-agent-integration/` | 50 | Framework ready | OpenAPI, auth | Multi-framework apps |
+| **3** | `03-agent-production/` | 200 | Production | Security, monitoring | Real deployments |
+| **4** | `04-agent-enterprise/` | 400+ | Enterprise | Full compliance | Regulated industries |
+| **W1** | `05-workspace-basic/` | 25 | Multi-agent | Discovery, routing | Team projects |
+| **W2** | `06-workspace-enterprise/` | 250 | Enterprise workspace | Compliance, DR | Large organizations |
 
+## 🚀 Learning Path
+
+### Week 1: Fundamentals
+```bash
+# Day 1-2: Learn basics
+cd 01-agent-basic
+cat agent.yml  # Read all comments carefully
+oaas validate agent.yml
+
+# Day 3-4: Add frameworks
+cd ../02-agent-integration
+# Study framework configurations
+# Test with MCP/LangChain
+
+# Day 5: Understand workspaces
+cd ../05-workspace-basic
+# Learn multi-agent orchestration
+```
+
+### Week 2: Production Skills
+```bash
+# Day 1-3: Production features
+cd 03-agent-production
+# Study security, monitoring, deployment
+
+# Day 4-5: Enterprise features
+cd ../04-agent-enterprise
+# Understand compliance, governance
+```
+
+### Week 3: Real Implementation
+```bash
+# Apply to your project
+cd ~/your-project
+oaas agent create my-agent --level=2
+# Customize and deploy
+```
+
+## 📖 Detailed Example Descriptions
+
+### 01-agent-basic: Your First Agent (5-minute quickstart)
+- **Purpose**: Learn OAAS fundamentals quickly
+- **Concepts**: name, version, capabilities, frameworks
+- **Files**: Just `agent.yml` with extensive comments
+- **Try This**: 
+  ```bash
+  cd 01-agent-basic
+  # Read every comment in agent.yml
+  # Modify the capabilities for your use case
+  # Test with: oaas validate agent.yml
+  ```
+
+### 02-agent-integration: Framework Integration
+- **Purpose**: Connect with MCP, LangChain, CrewAI
+- **Concepts**: OpenAPI spec, framework configs, authentication
+- **Files**: `agent.yml`, `openapi.yaml`
+- **Try This**:
+  ```bash
+  cd 02-agent-integration
+  # Generate MCP server: oaas export --format=mcp
+  # Test with LangChain: python test_langchain.py
+  ```
+
+### 03-agent-production: Production Deployment
+- **Purpose**: Deploy agents to production safely
+- **Concepts**: Security, monitoring, scaling, compliance
+- **Files**: `agent.yml`, `openapi.yaml`, `data/examples.json`
+- **Key Features**:
+  - JWT authentication
+  - Prometheus metrics
+  - Health checks
+  - Rate limiting
+  - Audit logging
+
+### 04-agent-enterprise: Enterprise Compliance
+- **Purpose**: Meet regulatory requirements
+- **Concepts**: ISO 42001, NIST AI RMF, EU AI Act, SOX
+- **Files**: Complete structure with data folder
+- **Key Features**:
+  - Full audit trails
+  - Data governance
+  - Multi-region support
+  - Forensic logging
+
+### 05-workspace-basic: Multi-Agent Orchestration
+- **Purpose**: Coordinate multiple agents
+- **Concepts**: Discovery, routing, orchestration
+- **Try This**:
+  ```bash
+  cd 05-workspace-basic
+  # Place in project root
+  oaas workspace scan  # Discovers all agents
+  oaas workspace ask "How do I add authentication?"
+  ```
+
+### 06-workspace-enterprise: Enterprise Workspace
+- **Purpose**: Enterprise-scale agent management
+- **Features**: Multi-region, disaster recovery, compliance frameworks
+
+## 🛠️ Common Patterns
+
+### Pattern 1: Capability Naming
 ```yaml
-# examples/application-development/basic-agent/openapi.yaml
-openapi: 3.1.0
-info:
-  title: Developer Assistant Agent
-  version: 1.0.0
-  x-agent-metadata:
-    class: specialist
-    certification_level: bronze
-    protocols: [openapi]
-
-paths:
-  /agent/analyze-code:
-    post:
-      operationId: analyzeCode
-      summary: Analyze code for improvements
-      x-token-estimate: 500
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                code:
-                  type: string
-                language:
-                  type: string
-                  enum: [python, typescript, go]
+# ✅ GOOD - Clear verb_noun format
+capabilities:
+  - analyze_code: "Analyzes code quality"
+  - generate_tests: "Creates test cases"
+  
+# ❌ BAD - Unclear or abbreviated
+capabilities:
+  - anlz: "Analysis"  # Too abbreviated
+  - code: "Code stuff" # Not specific
 ```
 
-### 2. Token Optimization (AI Innovation)
+### Pattern 2: Framework Selection
+```yaml
+# ✅ GOOD - Only enable what you use
+frameworks:
+  langchain: enabled  # Actually using LangChain
+  
+# ❌ BAD - Enabling everything
+frameworks:
+  mcp: enabled       # Not using
+  langchain: enabled # Not using
+  crewai: enabled    # Not using
+  autogen: enabled   # Not using
+```
 
+### Pattern 3: Version Management
+```yaml
+# Development
+version: "0.1.0"  # Pre-production
+
+# Production
+version: "1.0.0"  # First stable release
+version: "1.0.1"  # Patch fix
+version: "1.1.0"  # New features
+version: "2.0.0"  # Breaking changes
+```
+
+## ❓ Troubleshooting Guide
+
+### Problem: "Agent not discovered"
+**Solution**: Check these in order:
+1. File named exactly `agent.yml` (not `agent.yaml`)
+2. Located in `.agents/` directory
+3. Has required fields: name, version, capabilities
+4. Run `oaas workspace scan` to verify
+
+### Problem: "Framework bridge not working"
+**Solution**: 
+1. Framework must be enabled in agent.yml
+2. For Level 2+, need OpenAPI spec
+3. Check framework-specific config section
+4. Test with: `oaas export --format=<framework>`
+
+### Problem: "Validation fails"
+**Solution**:
+1. Check line count matches level expectations
+2. Verify required fields for your level
+3. Use proper naming format (lowercase-with-hyphens)
+4. Run: `oaas validate agent.yml --verbose`
+
+### Problem: "Don't know which level to choose"
+**Solution**: Start with Level 1, then upgrade when you need:
+- API endpoints → Level 2
+- Production deployment → Level 3
+- Compliance requirements → Level 4
+
+## 🔄 Migration Guide
+
+### From LangChain Tools
 ```python
-# examples/ai-innovation/token-optimization/optimizer.py
-from openapi_agents import TokenOptimizer
-import tiktoken
+# Old LangChain tool
+tool = Tool(name="analyzer", func=analyze)
 
-class SmartTokenManager:
-    def __init__(self):
-        self.optimizer = TokenOptimizer(encoding="cl100k_base")
-        self.budget = 10000  # Daily token budget
-        
-    def optimize_prompt(self, prompt: str) -> dict:
-        """Optimize prompt for minimal token usage"""
-        # Semantic compression
-        compressed = self.optimizer.compress(prompt)
-        
-        # Token counting
-        original_tokens = self.optimizer.count_tokens(prompt)
-        optimized_tokens = self.optimizer.count_tokens(compressed)
-        
-        return {
-            "original": prompt,
-            "optimized": compressed,
-            "savings": f"{(1 - optimized_tokens/original_tokens)*100:.1f}%",
-            "cost_reduction": f"${(original_tokens - optimized_tokens) * 0.0001:.2f}"
-        }
+# New OAAS agent (Level 2)
+# 1. Create agent.yml with langchain enabled
+# 2. Define capabilities matching tool functions
+# 3. Bridge automatically generates tool
 ```
 
-### 3. Government Security (FedRAMP Ready)
+### From CrewAI Agents
+```python
+# Old CrewAI agent
+agent = Agent(role="analyst", goal="analyze code")
 
+# New OAAS agent (Level 2)
+# 1. Set crewai.role in agent.yml
+# 2. Map goal to capabilities
+# 3. CrewAI discovers via OAAS
+```
+
+### From MCP Servers
+```javascript
+// Old MCP server
+const server = new MCPServer({...})
+
+// New OAAS agent (Level 2)
+// 1. Enable mcp in frameworks
+// 2. OAAS generates MCP config
+// 3. Auto-registers with Claude Desktop
+```
+
+## 📋 Quick Reference Card
+
+### Minimal Agent (Copy & Modify)
 ```yaml
-# examples/government-security/compliance-checks/agent.yml
-name: secure-gov-agent
-version: 1.0.0
-class: orchestrator
-
-security:
-  authentication:
-    required: true
-    methods:
-      - type: oauth2_pkce
-        provider: login.gov
-      - type: piv_card
-        validation: strict
-      - type: mutual_tls
-        ca_cert: /etc/pki/dod-ca.pem
-  
-  authorization:
-    model: abac
-    policy_engine: opa
-    clearance_levels: [public, cui, secret]
-  
-  audit:
-    enabled: true
-    retention_years: 7
-    immutable: true
-    blockchain_anchor: true
-
-compliance:
-  frameworks:
-    - framework: NIST_AI_RMF_1_0
-      status: implemented
-    - framework: FISMA
-      status: compliant
-    - framework: FedRAMP
-      authorization_level: moderate
+name: my-agent
+version: "0.1.0"
+expertise: "What I do"
+capabilities:
+  - do_something: "Description"
+frameworks:
+  langchain: enabled
 ```
 
-## 🎯 Focus Area Examples
-
-### Application Development Focus
-
-**What we cover:**
-- Multi-framework integration (LangChain + CrewAI + AutoGen)
-- GitLab CI/CD pipelines with automated testing
-- SDK usage in TypeScript, Python, Go
-- IDE plugin development
-
-**What we DON'T cover:**
-- Healthcare-specific agents
-- Financial trading systems
-- Manufacturing protocols
-
-### AI Innovation Focus
-
-**What we cover:**
-- Token optimization strategies
-- Multi-agent orchestration patterns
-- Protocol bridge implementations
-- Dynamic agent routing
-
-**What we DON'T cover:**
-- Medical diagnosis models
-- Financial prediction algorithms
-- Industrial IoT analytics
-
-### Government Security Focus
-
-**What we cover:**
-- FedRAMP authorization patterns
-- NIST AI RMF implementation
-- CAC/PIV authentication
-- Air-gap deployments
-
-**What we DON'T cover:**
-- HIPAA compliance
-- PCI-DSS requirements
-- Industry-specific regulations
-
-## 🔧 Running the Examples
-
-### Prerequisites
-
+### Command Cheatsheet
 ```bash
-# Install the OpenAPI AI Agents CLI
-npm install -g @openapi-ai-agents/cli
+# Discovery
+oaas scan                        # Find all agents
+oaas workspace scan              # Deep scan
 
-# Install Python SDK
-pip install openapi-ai-agents
+# Validation  
+oaas validate agent.yml          # Check syntax
+oaas doctor                      # Health check
 
-# Clone examples
-git clone https://github.com/openapi-ai-agents/standard
-cd standard/examples
+# Creation
+oaas create my-agent --level=2  # From template
+oaas migrate .                   # Convert existing
+
+# Bridges
+oaas export --format=mcp        # For Claude
+oaas export --format=langchain  # For LangChain
 ```
 
-### Running Examples
-
-```bash
-# Validate an agent specification
-openapi-agent-validate application-development/basic-agent/openapi.yaml
-
-# Run token optimization example
-cd ai-innovation/token-optimization
-python optimizer.py
-
-# Test government security compliance
-cd government-security/compliance-checks
-openapi-agent-validate agent.yml --compliance NIST_AI_RMF
+### File Structure Template
+```
+.agents/
+├── my-agent/
+│   ├── agent.yml        # Required
+│   ├── openapi.yaml     # Level 2+
+│   ├── data/           # Level 3+
+│   │   ├── examples.json
+│   │   └── config.json
+│   └── README.md       # Recommended
 ```
 
-## 📚 Learn More
+## 🎓 Educational Resources
 
-- **Documentation**: [docs.openapi-ai-agents.org](https://docs.openapi-ai-agents.org)
-- **GitLab Integration**: [GitLab CI/CD Components](../.gitlab/ci-components)
-- **SDK Reference**: [SDK Documentation](../sdk)
-- **Security Guide**: [Security Best Practices](../docs/security.md)
+### Understanding Progressive Complexity
+Each level adds specific features:
+- **Level 1**: Core identity + capabilities
+- **Level 2**: + API specification + framework configs
+- **Level 3**: + Security + monitoring + deployment
+- **Level 4**: + Compliance + governance + audit
+
+### Why This Approach?
+1. **No Over-Engineering**: Start simple, grow as needed
+2. **Clear Progression**: Each level has clear triggers
+3. **Framework Agnostic**: Works with any AI framework
+4. **Production Ready**: Level 3+ includes all production needs
+5. **Standards Compliant**: Level 4 meets enterprise requirements
+
+### Research Foundation
+Based on analysis of:
+- OpenAPI specification patterns
+- MCP (Model Context Protocol) requirements
+- LangChain tool specifications
+- CrewAI agent definitions
+- Enterprise compliance frameworks (ISO 42001, NIST AI RMF)
 
 ## 🤝 Contributing
 
-We welcome example contributions that focus on:
-- Application development patterns
-- AI cost optimization techniques
-- Government security implementations
+We welcome contributions! Please:
+1. Follow the progression pattern
+2. Add extensive comments
+3. Include real-world use cases
+4. Test all examples
+5. Update this README
 
-See [CONTRIBUTING.md](../CONTRIBUTING.md) for guidelines.
+## 📜 License
+
+These examples are part of the OpenAPI AI Agents Standard (OAAS) and are provided under MIT License for educational purposes.
 
 ---
 
-*Examples maintained by the OpenAPI AI Agents Consortium*
+**Remember**: The best agent is not the most complex one, but the one at the right complexity level for its purpose. Start simple, upgrade when needed.

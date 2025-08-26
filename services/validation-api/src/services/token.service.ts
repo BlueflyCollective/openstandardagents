@@ -1,11 +1,11 @@
 import { encoding_for_model } from 'tiktoken';
-import { TokenEstimation } from '../types/oaas';
+import { TokenEstimation } from '../types/oaas.js';
 
 export class TokenService {
     private gpt4Encoder = encoding_for_model('gpt-4');
     private gpt35Encoder = encoding_for_model('gpt-3.5-turbo');
-    private claudeEncoder = encoding_for_model('cl100k_base'); // Claude uses cl100k_base
-    private geminiEncoder = encoding_for_model('cl100k_base'); // Gemini approximation
+    private claudeEncoder = encoding_for_model('gpt-3.5-turbo'); // Claude approximation
+    private geminiEncoder = encoding_for_model('gpt-3.5-turbo'); // Gemini approximation
 
     // Pricing per 1K tokens (as of 2024)
     private readonly PRICING = {

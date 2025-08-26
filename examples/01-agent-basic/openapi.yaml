@@ -1,0 +1,437 @@
+openapi: 3.1.0
+info:
+  title: Basic Agent API
+  description: |
+    OpenAPI specification for a basic OAAS agent demonstrating essential functionality.
+    
+    This agent provides core capabilities for educational purposes and simple integrations.
+    Perfect for learning OAAS concepts and rapid prototyping.
+    
+    ## Features
+    - Text analysis and processing
+    - Content generation
+    - Health monitoring
+    - MCP compatibility
+    
+    ## Usage
+    All endpoints require proper authentication and return structured responses
+    with consistent error handling.
+  version: "1.0.0"
+  contact:
+    name: Agent Developer
+    email: developer@example.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+# OAAS Extension - Required for all OAAS agents
+x-openapi-ai-agents-standard:
+  version: "0.1.1"
+  agent:
+    name: "example-basic"
+    level: 1
+    frameworks:
+      mcp: enabled
+      langchain: enabled
+    capabilities:
+      - analyze_text
+      - generate_content
+    context_paths:
+      - path: "./src"
+        description: "Source code for analysis"
+      - path: "./docs" 
+        description: "Documentation files"
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production server
+  - url: http://localhost:8080/v1
+    description: Development server
+
+paths:
+  /health:
+    get:
+      summary: Health Check
+      description: Check if the agent is healthy and ready to process requests
+      operationId: getHealth
+      responses:
+        '200':
+          description: Agent is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy, degraded, unhealthy]
+                    example: healthy
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2025-01-26T10:30:00Z"
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  uptime:
+                    type: integer
+                    description: Uptime in seconds
+                    example: 86400
+                required:
+                  - status
+                  - timestamp
+                  - version
+              example:
+                status: healthy
+                timestamp: "2025-01-26T10:30:00Z"
+                version: "1.0.0"
+                uptime: 86400
+        '503':
+          description: Agent is unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /analyze:
+    post:
+      summary: Analyze Text
+      description: |
+        Analyze the provided text for various characteristics including:
+        - Language detection
+        - Sentiment analysis
+        - Key topic extraction
+        - Readability metrics
+        
+        This is the primary capability of the basic agent.
+      operationId: analyzeText
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  minLength: 1
+                  maxLength: 10000
+                  description: Text content to analyze
+                  example: "This is a sample text for analysis. It demonstrates the agent's capability to process and understand natural language."
+                options:
+                  type: object
+                  properties:
+                    include_sentiment:
+                      type: boolean
+                      default: true
+                      description: Include sentiment analysis in results
+                    include_topics:
+                      type: boolean
+                      default: true
+                      description: Include topic extraction in results
+                    include_readability:
+                      type: boolean
+                      default: false
+                      description: Include readability metrics
+                  description: Analysis options to customize the output
+              required:
+                - text
+            example:
+              text: "This is a sample text for analysis."
+              options:
+                include_sentiment: true
+                include_topics: true
+                include_readability: false
+      responses:
+        '200':
+          description: Analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  analysis:
+                    type: object
+                    properties:
+                      language:
+                        type: string
+                        description: Detected language code (ISO 639-1)
+                        example: "en"
+                      confidence:
+                        type: number
+                        minimum: 0
+                        maximum: 1
+                        description: Confidence score for the analysis
+                        example: 0.95
+                      sentiment:
+                        type: object
+                        properties:
+                          polarity:
+                            type: string
+                            enum: [positive, negative, neutral]
+                            example: positive
+                          score:
+                            type: number
+                            minimum: -1
+                            maximum: 1
+                            example: 0.3
+                        required:
+                          - polarity
+                          - score
+                      topics:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            topic:
+                              type: string
+                              example: "technology"
+                            relevance:
+                              type: number
+                              minimum: 0
+                              maximum: 1
+                              example: 0.8
+                          required:
+                            - topic
+                            - relevance
+                        description: Extracted topics with relevance scores
+                      readability:
+                        type: object
+                        properties:
+                          flesch_score:
+                            type: number
+                            minimum: 0
+                            maximum: 100
+                            example: 65.5
+                          grade_level:
+                            type: string
+                            example: "8th grade"
+                        description: Readability metrics (optional)
+                    required:
+                      - language
+                      - confidence
+                  metadata:
+                    type: object
+                    properties:
+                      processed_at:
+                        type: string
+                        format: date-time
+                        example: "2025-01-26T10:30:00Z"
+                      processing_time:
+                        type: number
+                        description: Processing time in milliseconds
+                        example: 150
+                    required:
+                      - processed_at
+                      - processing_time
+                required:
+                  - analysis
+                  - metadata
+              example:
+                analysis:
+                  language: "en"
+                  confidence: 0.95
+                  sentiment:
+                    polarity: "positive"
+                    score: 0.3
+                  topics:
+                    - topic: "technology"
+                      relevance: 0.8
+                    - topic: "analysis"
+                      relevance: 0.6
+                metadata:
+                  processed_at: "2025-01-26T10:30:00Z"
+                  processing_time: 150
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '413':
+          description: Text too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Unable to process the provided text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /generate:
+    post:
+      summary: Generate Content
+      description: |
+        Generate content based on the provided prompt and parameters.
+        
+        This endpoint demonstrates the agent's generative capabilities
+        and supports various content types and styles.
+      operationId: generateContent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                  minLength: 1
+                  maxLength: 1000
+                  description: Prompt or instruction for content generation
+                  example: "Write a brief introduction to artificial intelligence"
+                type:
+                  type: string
+                  enum: [text, summary, explanation, creative]
+                  default: text
+                  description: Type of content to generate
+                max_length:
+                  type: integer
+                  minimum: 10
+                  maximum: 2000
+                  default: 500
+                  description: Maximum length of generated content in characters
+                style:
+                  type: string
+                  enum: [formal, casual, technical, creative]
+                  default: formal
+                  description: Writing style for the generated content
+              required:
+                - prompt
+            example:
+              prompt: "Explain the basics of machine learning"
+              type: "explanation"
+              max_length: 300
+              style: "technical"
+      responses:
+        '200':
+          description: Content generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+                    description: Generated content
+                    example: "Machine learning is a subset of artificial intelligence that enables computers to learn and improve from experience without being explicitly programmed. It uses algorithms to identify patterns in data and make predictions or decisions."
+                  metadata:
+                    type: object
+                    properties:
+                      generated_at:
+                        type: string
+                        format: date-time
+                        example: "2025-01-26T10:30:00Z"
+                      processing_time:
+                        type: number
+                        description: Generation time in milliseconds
+                        example: 250
+                      word_count:
+                        type: integer
+                        description: Number of words generated
+                        example: 45
+                      character_count:
+                        type: integer
+                        description: Number of characters generated
+                        example: 287
+                    required:
+                      - generated_at
+                      - processing_time
+                      - word_count
+                      - character_count
+                required:
+                  - content
+                  - metadata
+              example:
+                content: "Machine learning is a subset of artificial intelligence that enables computers to learn and improve from experience without being explicitly programmed."
+                metadata:
+                  generated_at: "2025-01-26T10:30:00Z"
+                  processing_time: 250
+                  word_count: 24
+                  character_count: 145
+        '400':
+          description: Invalid input parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code identifier
+              example: "INVALID_INPUT"
+            message:
+              type: string
+              description: Human-readable error message
+              example: "The provided text is too long. Maximum length is 10,000 characters."
+            details:
+              type: object
+              description: Additional error details
+              additionalProperties: true
+              example:
+                field: "text"
+                provided_length: 15000
+                max_length: 10000
+            timestamp:
+              type: string
+              format: date-time
+              description: Error occurrence timestamp
+              example: "2025-01-26T10:30:00Z"
+          required:
+            - code
+            - message
+            - timestamp
+      required:
+        - error
+      example:
+        error:
+          code: "INVALID_INPUT"
+          message: "The provided text is too long"
+          timestamp: "2025-01-26T10:30:00Z"
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication
+
+security:
+  - ApiKeyAuth: []
+
+tags:
+  - name: Health
+    description: Health check and status endpoints
+  - name: Analysis
+    description: Text analysis capabilities
+  - name: Generation
+    description: Content generation capabilities

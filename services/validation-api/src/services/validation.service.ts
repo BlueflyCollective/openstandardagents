@@ -1,7 +1,7 @@
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import * as yaml from 'js-yaml';
-import { AgentSpecification, ValidationError, ValidationResult, ValidationSuggestion, ValidationWarning } from '../types/oaas';
+import { AgentSpecification, ValidationError, ValidationResult, ValidationSuggestion, ValidationWarning } from '../types/oaas.js';
 
 export class ValidationService {
     private ajv: Ajv;
@@ -152,7 +152,7 @@ export class ValidationService {
                         path: error.instancePath || error.schemaPath,
                         message: error.message || 'Validation error',
                         code: error.keyword || 'validation_error',
-                        severity: 'error'
+                        severity: 'high'
                     });
                 }
             }
@@ -180,7 +180,7 @@ export class ValidationService {
                     path: '',
                     message: `Failed to parse specification: ${error instanceof Error ? error.message : 'Unknown error'}`,
                     code: 'parse_error',
-                    severity: 'error'
+                    severity: 'high'
                 }],
                 warnings: [],
                 suggestions: [],
@@ -253,7 +253,8 @@ export class ValidationService {
                 warnings.push({
                     path: 'spec.security',
                     message: 'Security configuration recommended for production use',
-                    code: 'security_missing'
+                    code: 'security_missing',
+                    severity: 'medium'
                 });
             }
 
@@ -261,7 +262,8 @@ export class ValidationService {
                 warnings.push({
                     path: 'spec.performance',
                     message: 'Performance configuration recommended for production use',
-                    code: 'performance_missing'
+                    code: 'performance_missing',
+                    severity: 'medium'
                 });
             }
         }
@@ -273,7 +275,7 @@ export class ValidationService {
                     path: 'spec.api',
                     message: 'API specification required for Gold level compliance',
                     code: 'api_required',
-                    severity: 'error'
+                    severity: 'high'
                 });
             }
 
@@ -282,7 +284,7 @@ export class ValidationService {
                     path: 'spec.compliance.frameworks',
                     message: 'Compliance frameworks required for Gold level',
                     code: 'compliance_required',
-                    severity: 'error'
+                    severity: 'high'
                 });
             }
         }
@@ -326,7 +328,7 @@ export class ValidationService {
         }
     }
 
-    private async validateCompliance(spec: AgentSpecification, level: 'bronze' | 'silver' | 'gold'): Promise<any> {
+    private async validateCompliance(_spec: AgentSpecification, level: 'bronze' | 'silver' | 'gold'): Promise<any> {
         // Mock compliance validation - in production this would check against actual frameworks
         const compliance = {
             overall: {
@@ -337,8 +339,8 @@ export class ValidationService {
             }
         };
 
-        if (level === 'gold' && spec.spec.compliance?.frameworks) {
-            for (const framework of spec.spec.compliance.frameworks) {
+        if (level === 'gold' && _spec.spec.compliance?.frameworks) {
+            for (const framework of _spec.spec.compliance.frameworks) {
                 compliance[framework as keyof typeof compliance] = {
                     compliant: true,
                     score: 90,

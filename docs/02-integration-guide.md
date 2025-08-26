@@ -97,6 +97,7 @@ The OpenAPI AI Agents Standard supports dual-format validation, allowing you to 
 ### What is Dual-Format Validation?
 
 Dual-format validation ensures that:
+
 - **agent.yml**: Contains agent metadata, capabilities, and configuration
 - **openapi.yaml**: Contains the actual API specification with endpoints and schemas
 - **Relationship consistency**: Both formats reference the same agent capabilities and maintain consistency
@@ -104,8 +105,8 @@ Dual-format validation ensures that:
 ### Basic Usage
 
 ```bash
-# Validate dual-format via API
-curl -X POST http://localhost:3001/api/v1/validate/dual-format \
+# Validate dual-format via API (Production Server)
+curl -X POST http://localhost:3003/api/v1/validate/dual-format \
   -H "Content-Type: application/json" \
   -H "X-API-Key: your-api-key" \
   -d '{
@@ -128,7 +129,7 @@ async function validateDualFormat(agentYmlPath, openApiYamlPath) {
     const openApiSpec = yaml.load(fs.readFileSync(openApiYamlPath, 'utf8'));
     
     // Validate dual-format
-    const response = await axios.post('http://localhost:3001/api/v1/validate/dual-format', {
+    const response = await axios.post('http://localhost:3003/api/v1/validate/dual-format', {
       agent_config: agentConfig,
       openapi_spec: openApiSpec
     }, {
@@ -182,6 +183,7 @@ The dual-format validator performs comprehensive checks:
 ### Best Practices for Dual-Format
 
 1. **Keep Configurations Synchronized**
+
    ```yaml
    # agent.yml
    metadata:
@@ -195,6 +197,7 @@ The dual-format validator performs comprehensive checks:
    ```
 
 2. **Map Capabilities to Endpoints**
+
    ```yaml
    # agent.yml
    spec:
@@ -208,6 +211,7 @@ The dual-format validator performs comprehensive checks:
    ```
 
 3. **Align Security Configurations**
+
    ```yaml
    # Both files should reference compatible security schemes
    # agent.yml references OAuth2 -> openapi.yaml must define OAuth2 scheme
@@ -492,11 +496,13 @@ describe('Performance Compliance', () => {
 ## Best Practices
 
 ### 1. Start Simple
+
 - Begin with Bronze certification requirements
 - Implement basic health and capabilities endpoints
 - Add standard extensions to your OpenAPI spec
 
 ### 2. Use Validation Early
+
 ```bash
 # During development
 openapi-agents validate --watch my-agent.yaml
@@ -506,16 +512,19 @@ openapi-agents validate my-agent.yaml --fail-on-warnings
 ```
 
 ### 3. Implement Protocol Bridges Gradually
+
 - Start with OpenAPI (required)
 - Add MCP bridge for tool interoperability
 - Consider A2A for agent collaboration
 
 ### 4. Plan for Compliance
+
 - Map your use case to relevant frameworks (ISO 42001, NIST AI RMF)
 - Implement audit logging early
 - Design for explainability from the start
 
 ### 5. Community Engagement
+
 - Join the Discord community
 - Contribute examples and improvements
 - Share your integration experiences
@@ -523,11 +532,13 @@ openapi-agents validate my-agent.yaml --fail-on-warnings
 ## Certification Process
 
 ### Bronze Certification
+
 1. Validate spec: `openapi-agents validate my-agent.yaml`
 2. Test endpoints: `openapi-agents test http://localhost:3000`
 3. Submit for review: `openapi-agents certify --level bronze`
 
 ### Silver Certification
+
 1. Achieve Bronze certification
 2. Implement protocol bridges
 3. Pass performance tests
@@ -535,6 +546,7 @@ openapi-agents validate my-agent.yaml --fail-on-warnings
 5. Submit enhanced application
 
 ### Gold Certification
+
 1. Achieve Silver certification
 2. Formal verification
 3. Explainability implementation

@@ -12,17 +12,19 @@ Production-ready API server for validating OpenAPI AI Agents Standard (OAAS) spe
 
 ## Quick Start with OrbStack
 
-### Production Deployment
+### Production Deployment ✅ **RUNNING**
 
 ```bash
 # Build and start the production service
-docker-compose up -d oaas-validation-api
+npm install && npm run build
+node dist/server.js
+# Server runs on http://localhost:3003
 
 # Check health
-curl http://localhost:3000/health
+curl http://localhost:3003/api/v1/health
 
-# View logs
-docker-compose logs -f oaas-validation-api
+# Test with TDDAI (Fully Integrated)
+tddai agents health --api-url="http://localhost:3003/api/v1"
 ```
 
 ### Development Mode
@@ -38,11 +40,13 @@ curl http://localhost:3001/health
 ## API Endpoints
 
 ### Health Check
+
 ```bash
 GET /health
 ```
 
 ### Validate Agent Specification
+
 ```bash
 POST /api/v1/validate/openapi
 Content-Type: application/json
@@ -53,6 +57,7 @@ Content-Type: application/json
 ```
 
 ### Validate Compliance
+
 ```bash
 POST /api/v1/validate/compliance
 Content-Type: application/json
@@ -64,6 +69,7 @@ Content-Type: application/json
 ```
 
 ### Estimate Tokens
+
 ```bash
 POST /api/v1/estimate/tokens
 Content-Type: application/json
@@ -74,17 +80,19 @@ Content-Type: application/json
 }
 ```
 
-## TDDAI Integration
+## TDDAI Integration ✅ **FULLY OPERATIONAL**
 
 This API server is designed to work seamlessly with TDDAI commands:
 
 ```bash
-# These commands will now work with the API server running
-tddai agents health
-tddai agents validate-openapi agent.yml
-tddai agents validate-compliance --framework=iso-42001
-tddai agents estimate-tokens "Generate comprehensive documentation"
+# These commands now work with the production API server
+tddai agents health --api-url="http://localhost:3003/api/v1"
+tddai agents validate-openapi agent.yml --api-url="http://localhost:3003/api/v1"
+tddai agents validate-compliance --framework=iso-42001 --api-url="http://localhost:3003/api/v1"
+tddai agents estimate-tokens "Generate comprehensive documentation" --api-url="http://localhost:3003/api/v1"
 ```
+
+**Status**: ✅ **PRODUCTION READY** - All TDDAI commands fully functional with real API server
 
 ## Environment Variables
 
@@ -106,16 +114,19 @@ This setup is optimized for OrbStack on macOS:
 ## Monitoring
 
 ### Health Check
+
 ```bash
 curl http://localhost:3000/health
 ```
 
 ### Service Status
+
 ```bash
 docker-compose ps
 ```
 
 ### Logs
+
 ```bash
 # Production logs
 docker-compose logs -f oaas-validation-api
@@ -137,18 +148,21 @@ The production service includes:
 ## Development
 
 ### Local Development
+
 ```bash
 npm install
 npm run dev
 ```
 
 ### Build
+
 ```bash
 npm run build
 npm start
 ```
 
 ### Testing
+
 ```bash
 npm test
 ```

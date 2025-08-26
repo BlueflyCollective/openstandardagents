@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { TokenService } from '../services/token.service';
-import { ValidationService } from '../services/validation.service';
-import { HealthStatus } from '../types/oaas';
+import { TokenService } from '../services/token.service.js';
+import { ValidationService } from '../services/validation.service.js';
+import { HealthStatus } from '../types/oaas.js';
 
 export class ValidationController {
     private validationService: ValidationService;
@@ -14,9 +14,9 @@ export class ValidationController {
         this.startTime = Date.now();
     }
 
-    async validateOpenAPI(req: Request, res: Response): Promise<void> {
+    async validateOpenAPI(_req: Request, res: Response): Promise<void> {
         try {
-            const { content } = req.body;
+            const { content } = _req.body;
 
             if (!content) {
                 res.status(400).json({
@@ -132,7 +132,7 @@ export class ValidationController {
         }
     }
 
-    async health(req: Request, res: Response): Promise<void> {
+    async health(_req: Request, res: Response): Promise<void> {
         try {
             const uptime = Date.now() - this.startTime;
 

@@ -1,0 +1,123 @@
+# OAAS Agent Basic Schema v1.1
+# Level 1: Basic functional agent with MCP support
+# Ready for Claude Desktop integration
+
+type: object
+required:
+  - name
+  - version
+  - expertise
+  - capabilities
+  - frameworks
+properties:
+  name:
+    type: string
+    pattern: '^[a-z0-9-]+$'
+    minLength: 3
+    maxLength: 50
+    description: Agent identifier (lowercase, alphanumeric, hyphens)
+    
+  version:
+    type: string
+    pattern: '^[0-9]+\.[0-9]+\.[0-9]+$'
+    description: Agent version (semantic versioning)
+    
+  expertise:
+    type: string
+    maxLength: 500
+    description: Detailed description of agent's domain expertise
+    
+  capabilities:
+    type: array
+    minItems: 1
+    maxItems: 10
+    items:
+      oneOf:
+        - type: string
+          maxLength: 100
+          description: Simple capability description
+        - type: object
+          required:
+            - name
+            - description
+          properties:
+            name:
+              type: string
+              pattern: '^[a-z0-9_]+$'
+              description: Capability identifier
+            description:
+              type: string
+              maxLength: 200
+              description: Capability description
+          additionalProperties: false
+    description: Agent capabilities (can be strings or objects)
+    
+  frameworks:
+    type: object
+    description: Framework compatibility (at least MCP required for Level 1)
+    properties:
+      mcp:
+        type: string
+        enum: ["enabled", "disabled"]
+        default: "enabled"
+        description: MCP (Model Context Protocol) support
+        
+      langchain:
+        type: string
+        enum: ["enabled", "disabled", "bridge"]
+        description: LangChain support
+        
+      crewai:
+        type: string
+        enum: ["enabled", "disabled", "bridge"]
+        description: CrewAI support
+        
+      openai:
+        type: string
+        enum: ["enabled", "disabled", "bridge"]
+        description: OpenAI Assistants support
+        
+    additionalProperties:
+      type: string
+      enum: ["enabled", "disabled", "bridge"]
+      
+  api_endpoints:
+    type: array
+    items:
+      type: string
+      pattern: '^/[a-zA-Z0-9/_-]*$'
+    description: List of API endpoints
+    
+  context_paths:
+    type: array
+    items:
+      type: object
+      required:
+        - path
+        - description
+      properties:
+        path:
+          type: string
+          description: File or directory path
+        description:
+          type: string
+          maxLength: 100
+          description: Description of what this path contains
+      additionalProperties: false
+    description: Paths to relevant context (source code, docs, etc.)
+    
+  openapi:
+    type: string
+    description: Path to OpenAPI specification (optional for basic agents)
+    
+  endpoint:
+    type: string
+    format: uri
+    description: Agent API endpoint (if not using OpenAPI)
+    
+  description:
+    type: string
+    maxLength: 1000
+    description: Optional detailed description
+    
+additionalProperties: false
