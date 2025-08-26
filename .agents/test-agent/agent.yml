@@ -1,0 +1,22 @@
+name: test-agent
+expertise: Test agent for OAAS validation
+capabilities:
+  - name: test
+    description: Provides test functionality
+  - name: validate
+    description: Provides validate functionality
+  - name: analyze
+    description: Provides analyze functionality
+context_paths:
+  - path: ./src
+    description: Source code
+  - path: ./docs
+    description: Documentation
+frameworks:
+  mcp: true
+  langchain: true
+  crewai: true
+api_endpoints:
+  - /analyze
+  - /generate
+version: 0.2.0

@@ -1,87 +1,88 @@
 # Contributing to OpenAPI AI Agents Standard (OAAS)
 
-Thank you for contributing to OAAS - the universal standard for AI agent interoperability with automatic discovery through the Universal Agent Discovery Protocol (UADP).
+Thank you for your interest in contributing to the OpenAPI AI Agents Standard (OAAS) - the universal standard for AI agent interoperability with automatic discovery.
 
-## 🌟 **Our Mission**
+## Our Mission
 
-We're building the definitive agent standard that:
-- **Automatically discovers agents** through UADP (`.agents/` folders)
-- **Bridges all protocols** (MCP, A2A, LangChain, OpenAI)
-- **Provides progressive complexity** (50 lines → enterprise)
-- **Uses industry standards** (OpenAPI 3.1, not proprietary formats)
+OAAS establishes the definitive standard for AI agent interoperability by:
+- **Enabling automatic discovery** through Universal Agent Discovery Protocol (UADP)
+- **Bridging all protocols** (MCP, A2A, LangChain, OpenAI, Anthropic)
+- **Providing progressive complexity** from simple 50-line configs to enterprise-grade compliance
+- **Building on industry standards** (OpenAPI 3.1, not proprietary formats)
 
-## 🌟 Why Contribute?
+## Why Contribute?
 
-You're helping build:
-- **The only standard with automatic discovery** - No manual configuration
-- **Universal interoperability** - Work with ALL AI frameworks
-- **Developer-first tools** - 2-minute agent creation
-- **Production-ready agents** - Not theory, working code
-- **Open ecosystem** - Vendor-neutral, community-driven
+Your contributions help build:
+- **Universal interoperability** across all AI frameworks
+- **Developer-first tools** with minimal setup requirements
+- **Production-ready standards** with enterprise compliance
+- **Open ecosystem** that's vendor-neutral and community-driven
 
-## 🎯 **Current Priorities (from ROADMAP)**
+## Current Priorities
 
-### **Phase 1: Core Agents (Active Now)**
-1. **Configuration Optimizer** - Smart config optimization
-2. **Discovery Engine** - UADP implementation 
-3. **Protocol Bridge System** - MCP/A2A compatibility
-4. **Developer Experience Suite** - CLI, templates, VS Code
-5. **Performance Analytics** - Real metrics and benchmarks
+### ✅ Completed
+- **TDDAI Integration**: Full Gold-level compliance with enterprise features
+- **Golden Templates**: Complete Level 4 enterprise specifications  
+- **UADP Protocol**: Operational hierarchical discovery system
+- **Framework Bridges**: MCP, CrewAI, LangChain, AutoGen support
 
-### **What We Need Help With**
-- **Discovery Engine**: File system monitoring, agent indexing
-- **MCP Bridge**: Working integration with Claude Desktop
-- **A2A Bridge**: Agent card generation and routing
-- **CLI Tools**: `oaas create`, `oaas validate`, `oaas deploy`
-- **VS Code Extension**: IntelliSense, validation, discovery panel
-- **Framework Templates**: LangChain, CrewAI, AutoGen, OpenAI
+### 🚧 Active Development
+- **API Server**: Validation and compliance services
+- **Workspace Orchestration**: Cross-project intelligence synthesis
+- **Enterprise Features**: Advanced governance and monitoring
 
-## 📋 How to Contribute
+### 🎯 Immediate Needs
+- **Validation API Server**: Enable full TDDAI command functionality
+- **Additional Project Agents**: LLM Platform and BFRFP integrations
+- **Workspace Discovery Engine**: Cross-project agent coordination
+- **Documentation**: Examples and integration guides
 
-### 1. Join the Discussion
+## How to Contribute
+
+### 1. Join the Community
 - **GitHub Discussions**: Participate in design discussions and proposals
-- **Working Groups**: Join our technical working groups (see below)
-- **Community Calls**: Attend our bi-weekly community calls (Thursdays, 10am PT)
+- **Discord**: Real-time community communication
+- **Issues**: Report bugs and request features
 
 ### 2. Types of Contributions
 
-#### 🔧 Technical Contributions
+#### Technical Contributions
 
-**Immediate Needs**:
-- **Working examples** using the `.agents/` structure
-- **Framework integrations** that actually work
-- **Performance benchmarks** with real data
-- **Protocol bridges** that pass round-trip tests
-- **Developer tools** that save time
+**High Priority**:
+- **Validation API Server**: Complete the API server for TDDAI integration
+- **Framework Integrations**: Working examples with LangChain, CrewAI, AutoGen
+- **Performance Benchmarks**: Real-world performance data and optimization
+- **Protocol Bridges**: MCP and A2A bridge implementations
+- **Developer Tools**: CLI tools and VS Code extensions
 
 **Code Quality Requirements**:
-- Everything must work (no theoretical implementations)
-- Tests required (80%+ coverage)
-- Documentation required
-- Examples required
-- Performance metrics required
+- Production-ready implementations (no prototypes)
+- Comprehensive test coverage (80%+)
+- Complete documentation and examples
+- Performance metrics and benchmarks
+- Security and compliance validation
 
-#### 📚 Documentation
-- **Tutorials**: Create getting-started guides and tutorials
-- **Examples**: Provide real-world implementation examples
-- **Translations**: Help translate documentation to other languages
-- **Use Cases**: Document enterprise use cases and success stories
+#### Documentation
+- **Tutorials**: Getting-started guides and best practices
+- **Examples**: Real-world implementation examples
+- **API Documentation**: Complete OpenAPI specifications
+- **Use Cases**: Enterprise deployment scenarios
 
-#### 🧪 Testing & Validation
-- **Test Cases**: Contribute test scenarios and edge cases
-- **Performance Benchmarks**: Share benchmarking results
-- **Security Testing**: Help identify and fix security vulnerabilities
-- **Compliance Validation**: Test against ISO 42001, NIST AI RMF
+#### Testing & Validation
+- **Test Cases**: Comprehensive test scenarios and edge cases
+- **Performance Testing**: Load testing and optimization
+- **Security Testing**: Vulnerability assessment and fixes
+- **Compliance Testing**: ISO 42001, NIST AI RMF validation
 
-### 3. How to Start Contributing
+### 3. Getting Started
 
-1. **Read the ROADMAP.md** - Understand our priorities
-2. **Check existing issues** - Find something you can help with
-3. **Join discussions** - Share your ideas and feedback
+1. **Read the Documentation** - Start with [README.md](README.md) and [ROADMAP.md](ROADMAP.md)
+2. **Check Issues** - Find something you can help with in our [GitHub Issues](https://github.com/openapi-ai-agents/standard/issues)
+3. **Join Discussions** - Participate in [GitHub Discussions](https://github.com/openapi-ai-agents/standard/discussions)
 4. **Submit PRs** - Start with small, focused changes
-5. **Test everything** - Make sure it actually works
+5. **Test Everything** - Ensure all implementations work correctly
 
-## 🚀 Getting Started
+## Development Setup
 
 ### Prerequisites
 ```bash
@@ -95,7 +96,7 @@ git --version
 npm install -g typescript
 ```
 
-### Development Setup
+### Local Development
 ```bash
 # Fork and clone the repository
 git clone https://github.com/YOUR_USERNAME/openapi-ai-agents-standard.git
@@ -111,7 +112,7 @@ npm run validate
 npm run compliance:check
 ```
 
-## 📝 Contribution Process
+## Contribution Process
 
 ### 1. Create an Issue
 Before starting work, create an issue describing your proposed contribution:
@@ -153,7 +154,7 @@ refactor(tokens): optimize token counting logic
 - Reference any related issues
 - Wait for review from maintainers
 
-## 🎯 Coding Standards
+## Coding Standards
 
 ### TypeScript/JavaScript
 - Use TypeScript for all new code
@@ -173,7 +174,7 @@ refactor(tokens): optimize token counting logic
 - Keep README files up to date
 - Add JSDoc comments for public APIs
 
-## 🏆 Recognition
+## Recognition
 
 ### Contributors
 All contributors will be recognized in:
@@ -187,7 +188,7 @@ All contributors will be recognized in:
 - **Core Contributor**: 10+ merged PRs
 - **Maintainer**: Ongoing commitment to project
 
-## 🔒 Code of Conduct
+## Code of Conduct
 
 We are committed to providing a welcoming and inclusive environment. Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
 
@@ -197,29 +198,29 @@ Key principles:
 - Focus on constructive criticism
 - Respect differing viewpoints and experiences
 
-## 📅 Release Process
+## Release Process
 
 We follow a regular release cycle:
 - **Major releases**: Annually (breaking changes allowed)
 - **Minor releases**: Quarterly (new features, backward compatible)
 - **Patch releases**: As needed (bug fixes only)
 
-## 🆘 Getting Help
+## Getting Help
 
 Need help with your contribution?
 
 - **Documentation**: [docs.openapi-ai-agents.org](https://docs.openapi-ai-agents.org)
 - **Discord**: [Join our Discord server](https://discord.gg/openapi-agents)
 - **GitHub Discussions**: Ask questions in the Q&A section
-- **Office Hours**: Thursdays 2-3pm PT on Discord
+- **Issues**: Report bugs and request features
 
-## 📜 License
+## License
 
 By contributing, you agree that your contributions will be licensed under the Apache License 2.0, ensuring maximum enterprise adoption.
 
-## 🙏 Thank You!
+## Thank You!
 
-Thank you for contributing to the OpenAPI for AI Agents Standard. Your efforts help create a more interoperable, secure, and efficient AI ecosystem for everyone.
+Thank you for contributing to the OpenAPI AI Agents Standard. Your efforts help create a more interoperable, secure, and efficient AI ecosystem for everyone.
 
 ---
 
