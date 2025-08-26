@@ -7,9 +7,10 @@ node_modules/
 .git/
 .gitignore
 
-# Testing
+# Testing and examples (not for npm package)
 test/
 tests/
+examples/
 *.test.js
 *.test.ts
 jest.config.js
