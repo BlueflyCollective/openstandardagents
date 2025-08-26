@@ -101,6 +101,7 @@ spec:
   # === CORE AGENT SPECIFICATION ===
   agent:
     name: "Universal Agent Template"
+    expertise: "Golden standard agent template demonstrating full OAAS compliance and cross-platform compatibility with all major AI agent frameworks including LangChain, CrewAI, AutoGen, OpenAI Assistants, Anthropic MCP, Google Vertex AI, and Hugging Face. Provides enterprise-grade compliance, 35-45% token optimization, and Universal Agent Discovery Protocol support."
     description: |
       This is the GOLDEN STANDARD agent template for the OpenAPI AI Agents Standard (OAAS).
       It demonstrates complete cross-platform compatibility with ALL major AI agent frameworks:
@@ -129,68 +130,32 @@ spec:
     complexity: "comprehensive"
     
   # === CAPABILITIES MATRIX ===
+  # OAAS-compliant capabilities (flat array format)
   capabilities:
-    # Core Universal Capabilities
-    primary:
-      - name: "cross-platform-compatibility"
-        description: "Native integration with all major AI agent frameworks"
-        frameworks: ["langchain", "crewai", "autogen", "openai", "anthropic", "google", "huggingface"]
-        
-      - name: "protocol-translation"
-        description: "Seamless translation between different agent protocols"
-        protocols: ["rest", "mcp", "a2a", "grpc", "websocket"]
-        
-      - name: "enterprise-compliance"
-        description: "Built-in compliance with enterprise standards"
-        frameworks: ["iso-42001", "nist-ai-rmf", "eu-ai-act", "sox", "hipaa"]
-        
-      - name: "performance-optimization" 
-        description: "Advanced optimization for cost and performance"
-        features: ["token-compression", "semantic-caching", "request-deduplication"]
-        
-    # Framework-Specific Capabilities
-    framework_specific:
-      langchain:
-        - "structured_tool_creation"
-        - "async_execution"
-        - "streaming_responses"
-        - "memory_integration"
-        - "chain_composition"
-        
-      crewai:
-        - "role_based_execution"
-        - "task_delegation"
-        - "crew_collaboration"
-        - "sequential_processing"
-        - "parallel_execution"
-        
-      autogen:
-        - "conversation_participation"
-        - "intelligent_handoffs"
-        - "group_chat_coordination"
-        - "code_execution_support"
-        - "multi_agent_orchestration"
-        
-      openai:
-        - "function_calling"
-        - "file_search_integration"
-        - "code_interpreter_access"
-        - "vision_processing"
-        - "assistant_thread_management"
-        
-      anthropic:
-        - "mcp_server_compatibility"
-        - "tool_federation"
-        - "resource_sharing"
-        - "prompt_template_support"
-        - "streaming_responses"
-        
-      google:
-        - "vertex_ai_integration"
-        - "gemini_native_support"
-        - "multimodal_processing"
-        - "agent_builder_compatibility"
-        - "cloud_function_integration"
+    - name: "cross_platform_compatibility"
+      description: "Native integration with all major AI agent frameworks"
+      frameworks: ["langchain", "crewai", "autogen", "openai", "anthropic", "google", "huggingface"]
+      
+    - name: "protocol_translation"
+      description: "Seamless translation between different agent protocols"
+      frameworks: ["mcp", "langchain", "openai"]
+      
+    - name: "enterprise_compliance"
+      description: "Built-in compliance with enterprise standards"
+      frameworks: ["mcp", "openai", "langchain"]
+      compliance: ["iso-42001", "nist-ai-rmf", "eu-ai-act"]
+      
+    - name: "performance_optimization"
+      description: "Advanced optimization for cost and performance"
+      frameworks: ["mcp", "langchain"]
+      
+    - name: "langchain_integration"
+      description: "Structured tool creation, async execution, streaming responses"
+      frameworks: ["langchain"]
+      
+    - name: "crewai_workflows"
+      description: "Role-based execution, task delegation, crew collaboration"
+      frameworks: ["crewai"]
 
   # === PROTOCOL AND API CONFIGURATION ===
   protocols:
@@ -674,6 +639,9 @@ spec:
             principals: ["role:agent_admin"] 
             actions: ["agent:*"]
             
+    # Data Classification
+    data_classification: "confidential"
+            
     # Data Protection
     data_protection:
       encryption:
@@ -907,6 +875,27 @@ spec:
       repository: "https://github.com/openapi-ai-agents-standard/agent-name-skill"
       issues: "https://github.com/openapi-ai-agents-standard/agent-name-skill/issues"
       community: "https://discord.gg/openapi-ai-agents"
+
+  # Framework configurations
+  frameworks:
+    mcp:
+      enabled: true
+      server_type: "universal_template"
+      tools: ["cross_platform_execute", "protocol_translate", "compliance_validate"]
+      resources: ["capabilities", "compliance"]
+      streaming: true
+
+    openai:
+      enabled: true
+      assistant_type: "universal_template"
+      functions: ["cross_platform_execute", "protocol_translate", "compliance_validate"]
+      model_preferences: ["gpt-4", "gpt-4-turbo"]
+
+    langchain:
+      enabled: true
+      tool_type: "structured"
+      async_support: true
+      chains: ["cross_platform", "compliance"]
 
   # === DATA AND KNOWLEDGE BASE ===
   data:
