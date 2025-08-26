@@ -4,6 +4,7 @@
   "description": "OpenAPI AI Agents Standard - Complete Universal Services Package with Runtime Translation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
