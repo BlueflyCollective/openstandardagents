@@ -1,7 +1,7 @@
 # OpenAPI AI Agents Standard (OAAS) v0.1.1 - Test Agent
 # Production-ready agent configuration for OAAS validation and testing
 
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: open-standards-scalable-agents/v0.1.2
 kind: "Agent"
 metadata:
   name: "test-agent"
@@ -12,10 +12,12 @@ metadata:
 
   # Universal Framework Compatibility Annotations
   annotations:
-    # OAAS Core Compliance
-    oaas/version: "0.1.1"
-    oaas/certification-level: "gold"
-    oaas/compliance-frameworks: "iso-42001,nist-ai-rmf,eu-ai-act"
+    # OSSA Core Compliance
+    ossa.io/conformance-level: "advanced"
+    ossa.io/migration-date: "2025-08-27"
+    ossa.io/source-format: "openapi-ai-agents-v0.1.1"
+    ossa.io/compliance-frameworks: "iso-42001,nist-ai-rmf,eu-ai-act"
+    ossa.io/governance-level: "enterprise"
     oaas/token-optimization: "enabled"
     oaas/protocol-bridges: "mcp,a2a,custom"
 
@@ -85,6 +87,7 @@ metadata:
     enterprise/compliance-monitoring: "automated"
 
   labels:
+    tier: "advanced"
     domain: "testing-validation"
     category: "production-ready"
     complexity: "comprehensive"
@@ -92,7 +95,9 @@ metadata:
     certification: "gold"
 
 spec:
-  description: "Production-ready test agent providing comprehensive testing, validation, and analysis capabilities for OAAS compliance"
+  agent:
+    name: "Enterprise Test Agent"
+    expertise: "Production-ready test agent providing comprehensive testing, validation, and analysis capabilities for OSSA compliance"
 
   # Core capabilities and protocols
   capabilities:
@@ -173,9 +178,16 @@ spec:
 
       uadp:
         enabled: true
-        discovery: "automatic"
+        discovery:
+          auto_discovery: true
+          discovery_interval: 30
+          health_monitoring: true
+          capability_advertising: true
         context_sharing: "enabled"
-        capability_advertising: "enabled"
+        orchestration:
+          hierarchical_coordination: true
+          multi_agent_workflows: true
+          delegation_patterns: ["sequential", "parallel", "conditional"]
 
       a2a:
         enabled: true
@@ -269,6 +281,10 @@ spec:
 
   # Framework configurations
   frameworks:
+    ossa:
+      enabled: true
+      version: "0.1.2"
+      conformance_level: "advanced"
     langchain:
       tool_type: "structured"
       async_support: true
@@ -351,4 +367,12 @@ status:
     replicas: 2
     available_replicas: 2
     ready_replicas: 2
-  last_updated: "2025-01-26T12:00:00Z"
+  last_updated: "2025-08-27T12:00:00Z"
+  
+  discovery:
+    uadp:
+      enabled: true
+      tags: ["testing", "validation", "analysis", "enterprise", "compliance"]
+      priority: "high"
+      health_check_interval: 30
+      capability_refresh_interval: 300
