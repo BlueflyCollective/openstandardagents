@@ -1,5 +1,10 @@
 # Open Standards for Scalable Agents (OSSA) - Strategic Technical Roadmap
 
+> 📋 **PROJECT ROADMAP**
+> This file contains OpenAPI AI Agents Standard specific roadmap items.
+> For complete workspace coordination, see: `/Users/flux423/Sites/LLM/ROADMAP.md`
+> Last synchronized: 2025-08-27
+
 > **Enterprise Mission**: Establish the vendor-neutral, governance-first framework for universal AI agent interoperability with zero-modification integration and enterprise-grade compliance automation
 
 ## 🔄 **OSSA Transformation (v0.1.2)**
