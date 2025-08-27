@@ -1,78 +1,86 @@
-# OpenAPI AI Agents Standard (OAAS)
+# Open Standards for Scalable Agents (OSSA) v0.1.2
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![OAAS Specification](https://img.shields.io/badge/OAAS-v0.1.1-green.svg)](https://github.com/openapi-ai-agents/standard)
+[![OSSA Specification](https://img.shields.io/badge/OSSA-v0.1.2-green.svg)](https://github.com/openapi-ai-agents/standard)
 [![UADP Protocol](https://img.shields.io/badge/UADP-v1.0.0-blue.svg)](https://github.com/openapi-ai-agents/uadp)
 [![Production Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](https://github.com/openapi-ai-agents/standard)
 [![Enterprise Grade](https://img.shields.io/badge/Enterprise-ISO%2042001%20Compliant-blue.svg)](https://github.com/openapi-ai-agents/standard)
 
-> **The OpenAPI 3.1 Standard for AI Agent Interoperability** - Universal runtime translation, enterprise compliance, and automatic discovery
+> **Open Standards for Scalable Agents (OSSA) v0.1.2** - The definitive framework for AI agent definition, discovery, and orchestration with enterprise governance
 
 ## Executive Summary
 
-The **OpenAPI AI Agents Standard (OAAS)** establishes the definitive technical framework for **universal AI agent interoperability** in enterprise environments. Built on OpenAPI 3.1 foundations with comprehensive enterprise compliance (ISO 42001, NIST AI RMF, EU AI Act), OAAS provides production-ready agent discovery, runtime protocol translation, and governance automation.
+**Open Standards for Scalable Agents (OSSA) v0.1.2** establishes the definitive framework for **AI agent definition, discovery, and orchestration** with enterprise-grade governance. Building on OpenAPI 3.1 foundations, OSSA provides a comprehensive specification system with three conformance tiers (Core, Governed, Advanced) and seamless integration across all major AI frameworks.
 
 ### **🎯 Strategic Value Proposition**
 
 **For Enterprise Organizations:**
-- **Eliminate Vendor Lock-in**: Framework-agnostic architecture preserving existing AI investments
-- **Regulatory Compliance**: Built-in automation for ISO 42001, NIST AI RMF, and EU AI Act requirements
-- **Cost Optimization**: 35-45% token cost reduction through intelligent optimization and caching
-- **Risk Mitigation**: Comprehensive security, audit trails, and governance frameworks
+- **Standardized Agent Architecture**: Consistent agent definitions across all AI frameworks and platforms
+- **Progressive Compliance**: Core → Governed → Advanced tiers matching regulatory and business requirements
+- **Risk Management**: Built-in governance with ISO 42001, NIST AI RMF, and EU AI Act compliance automation
+- **Vendor Independence**: Framework-agnostic specifications preventing technology lock-in
 
 **For Development Teams:**
-- **Runtime Integration**: No-modification integration with existing MCP, LangChain, CrewAI, and custom agents
-- **Progressive Adoption**: Bronze → Silver → Gold certification path with incremental complexity
-- **Production Scalability**: Enterprise-grade performance monitoring and optimization
-- **Cross-Framework Compatibility**: Universal protocol bridges enabling seamless tool integration
+- **Universal Compatibility**: Native support for MCP, LangChain, CrewAI, AutoGen, and custom frameworks
+- **Simplified Orchestration**: Declarative workflows with automatic agent discovery and coordination
+- **Production-Ready Templates**: Complete examples with enterprise-grade specifications and configurations
+- **Seamless Migration**: Automated migration tools from legacy OAAS v0.1.1 to OSSA v0.1.2
 
-## **🏗️ Core Technical Architecture**
+## **🏗️ OSSA v0.1.2 Architecture**
 
-### **Universal Agent Discovery Protocol (UADP)**
-- **Hierarchical Discovery**: Distributed agent discovery across enterprise workspaces with capability indexing
-- **Performance**: Sub-100ms discovery for 1000+ agents with intelligent caching and load balancing
-- **Federation**: Multi-workspace coordination with conflict resolution and intelligent routing
-- **Scalability**: Container-orchestrated deployment supporting enterprise-scale agent networks
+### **Three-Tier Conformance System**
+- **Core Tier**: Essential agent definitions with OpenAPI 3.1 specifications and basic capabilities
+- **Governed Tier**: Production-ready agents with enhanced security, monitoring, and compliance features
+- **Advanced Tier**: Enterprise-grade agents with comprehensive governance, orchestration, and risk management
 
-### **Runtime Translation Engine**  
-- **Multi-Protocol Support**: Native translation between MCP ↔ LangChain ↔ CrewAI ↔ OpenAI ↔ Custom protocols
-- **Zero-Modification Integration**: Existing agent implementations require no code changes
-- **Performance Optimization**: Memory-efficient state management with concurrent request handling
-- **Protocol Negotiation**: Automatic protocol selection based on capability requirements
+### **Universal Discovery and Orchestration**
+- **Hierarchical Discovery**: Multi-level agent discovery across workspaces, projects, and organizations
+- **Intelligent Orchestration**: Automated agent coordination with capability-based routing and load balancing
+- **Performance Optimization**: Sub-100ms response times with intelligent caching and request optimization
+- **Scalability**: Container-native architecture supporting thousands of concurrent agent interactions
 
-### **Enterprise Compliance Automation**
-- **Regulatory Frameworks**: Automated compliance validation for ISO 42001:2023, NIST AI RMF 1.0, EU AI Act
-- **Audit Infrastructure**: Tamper-proof audit logging with comprehensive activity tracking
-- **Governance Automation**: Policy enforcement, risk assessment, and regulatory reporting
-- **Security Architecture**: Zero-trust implementation with encrypted inter-agent communication
+### **Framework-Agnostic Integration**
+- **Native Protocol Support**: Direct integration with MCP, LangChain, CrewAI, AutoGen, and OpenAI frameworks
+- **Runtime Translation**: Seamless protocol bridging without modification of existing agent implementations
+- **Configuration Management**: Declarative agent definitions with automatic framework-specific code generation
+- **Migration Tools**: Automated conversion from legacy specifications to OSSA v0.1.2 compliance
 
-### **Production Monitoring and Optimization**
-- **Performance Analytics**: Real-time metrics collection with intelligent anomaly detection  
-- **Cost Optimization**: Token optimization achieving 35-45% cost reduction across LLM providers
-- **Scalability Management**: Automatic scaling with container orchestration and load distribution
-- **Observability Stack**: Distributed tracing, structured logging, and executive dashboards
+### **Enterprise Governance**
+- **Compliance Automation**: Built-in support for ISO 42001, NIST AI RMF, EU AI Act, and custom regulatory frameworks
+- **Risk Management**: Continuous risk assessment with automated mitigation and escalation workflows
+- **Audit Infrastructure**: Comprehensive logging, tracing, and reporting for regulatory compliance
+- **Security Framework**: Zero-trust architecture with role-based access control and end-to-end encryption
 
-## **⚡ Production Deployment Status**
+## **⚡ OSSA v0.1.2 Implementation Status**
 
-### **✅ PRODUCTION-READY SYSTEMS (Fully Operational)**
+### **✅ PRODUCTION-READY COMPONENTS**
 
-| Component | Status | Performance | Features |
-|-----------|--------|-------------|----------|
-| **UADP Discovery Engine** | ✅ **PRODUCTION** | <100ms discovery for 1000+ agents | Hierarchical discovery, capability indexing, intelligent caching |
-| **Validation API Server** | ✅ **RUNNING** (Port 3003) | 99.9% uptime, <50ms response | OpenAPI compliance, security validation, performance metrics |
-| **Workspace Orchestrator** | ✅ **DEPLOYED** (Port 3004) | 1000+ concurrent requests | Multi-agent coordination, conflict resolution, semantic caching |
-| **Runtime Translation** | ✅ **OPERATIONAL** | 15+ protocol bridges | MCP, LangChain, CrewAI, OpenAI, Anthropic, custom protocols |
-| **MCP Server Integration** | ✅ **INTEGRATED** | Claude Desktop compatible | Production MCP servers with comprehensive tooling |
-| **Enterprise Templates** | ✅ **DEPLOYED** | 1000+ line specifications | Complete agent templates with training data and examples |
+| Component | Status | Features | Conformance Level |
+|-----------|--------|----------|------------------|
+| **Core Specification** | ✅ **COMPLETE** | Agent definitions, OpenAPI integration, basic capabilities | **Core Tier** |
+| **Governed Specification** | ✅ **COMPLETE** | Security controls, monitoring, performance optimization | **Governed Tier** |
+| **Advanced Specification** | ✅ **COMPLETE** | Enterprise governance, orchestration, compliance automation | **Advanced Tier** |
+| **JSON Schema Validation** | ✅ **OPERATIONAL** | Complete validation suite with conformance testing | All Tiers |
+| **Migration Tools** | ✅ **DEPLOYED** | Automated OAAS → OSSA migration with backward compatibility | All Tiers |
+| **Example Templates** | ✅ **AVAILABLE** | Production-ready examples for each conformance tier | All Tiers |
 
-### **🔧 ACTIVE DEVELOPMENT (High Priority)**
+### **✅ FRAMEWORK INTEGRATIONS**
 
-| Component | Priority | Target Completion | Technical Focus |
-|-----------|----------|-------------------|-----------------|
-| **Multi-Region Federation** | **CRITICAL** | Q1 2025 | Geographic optimization, disaster recovery, cross-region coordination |
-| **Advanced Security** | **HIGH** | Q1 2025 | Zero-trust architecture, mTLS, advanced threat detection |
-| **Compliance Automation** | **HIGH** | Q2 2025 | Regulatory reporting, automated audit, policy enforcement |
-| **Performance Optimization** | **MEDIUM** | Q2 2025 | Advanced caching, request optimization, scalability improvements |
+| Framework | Status | Features | Integration Method |
+|-----------|--------|----------|-------------------|
+| **MCP (Model Context Protocol)** | ✅ **PRODUCTION** | Native server generation, tool registration | Direct specification mapping |
+| **LangChain** | ✅ **PRODUCTION** | Structured tool integration, async support | Dynamic tool loading |
+| **CrewAI** | ✅ **PRODUCTION** | Agent role mapping, collaborative workflows | OSSA-native configuration |
+| **AutoGen** | ✅ **PRODUCTION** | Conversational agents, multi-agent orchestration | Protocol bridge integration |
+| **OpenAI Functions** | ✅ **PRODUCTION** | Function calling, tool integration | OpenAPI specification mapping |
+
+### **🔧 ACTIVE DEVELOPMENT**
+
+| Component | Priority | Status | Target |
+|-----------|----------|--------|---------|
+| **Orchestration Engine** | **HIGH** | 🚧 Development | Enhanced multi-agent coordination |
+| **Enterprise Dashboard** | **MEDIUM** | 🚧 Development | Management interface for enterprise deployments |
+| **Advanced Compliance** | **HIGH** | 🚧 Planning | Additional regulatory frameworks and automated reporting |
 
 ## **🛡️ Enterprise Security and Compliance**
 
@@ -540,33 +548,36 @@ curl -X POST http://localhost:3003/api/v1/benchmark/performance \
   }'
 ```
 
-## Compliance Levels
+## OSSA v0.1.2 Conformance Tiers
 
-OAAS provides progressive compliance levels to match your needs:
+OSSA provides three progressive conformance tiers for different organizational needs:
 
-### Bronze (Basic)
-- ✅ Valid OAAS structure
-- ✅ Health endpoint
-- ✅ Basic capability declaration
-- **Use Case**: Internal tools, prototypes
+### Core Tier (Essential)
+- ✅ Valid OSSA v0.1.2 agent specification structure
+- ✅ OpenAPI 3.1 integration with required endpoints
+- ✅ Basic capability definitions and metadata
+- ✅ Framework compatibility declarations
+- **Use Case**: Development, prototypes, internal tools
 
-### Silver (Production)
-- ✅ All Bronze requirements
-- ✅ Token optimization
-- ✅ Protocol bridges (MCP/A2A)
-- ✅ Security controls
-- **Use Case**: Production systems
+### Governed Tier (Production)
+- ✅ All Core Tier requirements
+- ✅ Security controls and authentication mechanisms
+- ✅ Performance monitoring and optimization features
+- ✅ Basic compliance framework support
+- ✅ Operational monitoring and health checks
+- **Use Case**: Production systems, business applications
 
-### Gold (Enterprise)
-- ✅ All Silver requirements
-- ✅ Full governance compliance
-- ✅ Explainability features
-- ✅ Audit trails
-- **Use Case**: Regulated industries, government
+### Advanced Tier (Enterprise)
+- ✅ All Governed Tier requirements
+- ✅ Comprehensive enterprise governance and risk management
+- ✅ Full regulatory compliance automation (ISO 42001, NIST AI RMF, EU AI Act)
+- ✅ Advanced orchestration and multi-agent coordination
+- ✅ Comprehensive audit trails and reporting
+- **Use Case**: Regulated industries, government, enterprise-scale deployments
 
 ## Framework Integration
 
-OAAS seamlessly integrates with popular AI frameworks:
+OSSA v0.1.2 seamlessly integrates with all major AI frameworks:
 
 ### LangChain
 ```python
@@ -624,39 +635,40 @@ const bridge = new MCPBridge({
 ### Installation
 
 ```bash
-# Install OAAS CLI
-npm install -g @openapi-ai-agents/cli
+# Clone OSSA v0.1.2 repository
+git clone https://github.com/openapi-ai-agents/standard.git
+cd openapi-ai-agents-standard
 
-# Start Validation API Server (Production Ready)
-cd openapi-ai-agents-standard/services/validation-api
-npm install && npm run build
-node dist/server.js
-# Server runs on http://localhost:3003
+# Install dependencies
+npm install
 
-# Validate your agent
-openapi-agents validate your-agent.yml
+# Validate OSSA agent specifications
+node validate-ossa-v0.1.2.js examples/ossa/v0.1.2/core-agent-example.yml
 
-# Check compliance
-openapi-agents validate-compliance --framework=iso-42001
+# Migrate from OAAS v0.1.1 to OSSA v0.1.2
+node tools/migration/oaas-to-ossa-migrator.js legacy-agent.yml
 
-# Use with TDDAI (Fully Integrated)
-tddai agents health --api-url="http://localhost:3003/api/v1"
-tddai agents estimate-tokens "Your text here" --api-url="http://localhost:3003/api/v1"
+# Run conformance tests
+npm test
+
+# Start validation services (optional)
+cd services && npm install && npm start
 ```
 
 ### Examples
 
 See the [`examples/`](examples/) directory for:
-- [Basic Agent Template](examples/starter/)
-- [Enterprise Agent](examples/.agents/agent-name-skill-01/)
-- [Framework Integration](examples/integrations/)
+- [Core Tier Agent](examples/ossa/v0.1.2/core-agent-example.yml) - Basic agent specification
+- [Governed Tier Agent](examples/ossa/v0.1.2/governed-agent-example.yml) - Production-ready agent
+- [Advanced Tier Agent](examples/04-agent-enterprise/agent.yml) - Enterprise-grade agent
+- [Orchestration Patterns](examples/orchestration-patterns/) - Multi-agent coordination examples
 
 ## Documentation
 
-- [Technical Specification](docs/01-technical-specification.md)
-- [Integration Guide](docs/02-integration-guide.md)
-- [Governance & Compliance](docs/03-governance-compliance.md)
-- [UADP Protocol](docs/07-universal-agent-discovery-protocol.md)
+- [Architecture Overview](docs/overview/architecture.md) - OSSA v0.1.2 system architecture
+- [Orchestration Specification](docs/orchestration-specification.md) - Multi-agent orchestration patterns
+- [Migration Guide](docs/migration-guide.md) - OAAS v0.1.1 to OSSA v0.1.2 migration
+- [Publish Instructions](docs/PUBLISH_INSTRUCTIONS.md) - NPM package publication guide
 
 ## Contributing
 
@@ -664,10 +676,10 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ### Quick Contribution
 
-1. **Try it**: Add `.agents/` to your project
-2. **Feedback**: Share what works and what doesn't
-3. **Build**: Help implement the discovery engine
-4. **Document**: Improve specifications and examples
+1. **Create OSSA Agents**: Define agents using the v0.1.2 specification
+2. **Validate Compliance**: Use the validation tools to ensure conformance
+3. **Share Examples**: Contribute real-world agent implementations
+4. **Improve Tools**: Enhance migration and validation utilities
 
 ## Community
 
@@ -675,20 +687,20 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 - **Discord**: [discord.gg/openapi-agents](https://discord.gg/openapi-agents)
 - **Documentation**: [docs.openapi-ai-agents.org](https://docs.openapi-ai-agents.org)
 
-## Status
+## Implementation Status
 
-### ✅ Production Ready
-- **TDDAI Integration**: Full Gold-level compliance with enterprise features ✅ **OPERATIONAL**
-- **Validation API Server**: Complete validation and compliance services ✅ **RUNNING ON PORT 3003**
-- **Golden Templates**: Complete Level 4 enterprise specifications ✅ **DEPLOYED**
-- **UADP Protocol**: Operational hierarchical discovery system ✅ **IMPLEMENTED**
-- **Framework Bridges**: MCP, CrewAI, LangChain, AutoGen support ✅ **COMPLETE**
-- **Test Agent**: Production-ready comprehensive test agent ✅ **DEPLOYED**
+### ✅ OSSA v0.1.2 Complete
+- **Core Specification**: Complete with JSON schema validation ✅ **READY**
+- **Governed Specification**: Production-ready with security and monitoring ✅ **READY**
+- **Advanced Specification**: Enterprise-grade with full governance ✅ **READY**
+- **Migration Tools**: Automated OAAS → OSSA conversion ✅ **OPERATIONAL**
+- **Framework Integration**: Native support for all major frameworks ✅ **COMPLETE**
+- **Example Templates**: Production-ready examples for each tier ✅ **AVAILABLE**
 
 ### 🚧 Active Development
-- **Workspace Orchestration**: Cross-project intelligence synthesis
-- **Additional Project Agents**: LLM Platform and BFRFP integrations
-- **Enterprise Features**: Advanced governance and monitoring
+- **Advanced Orchestration**: Enhanced multi-agent coordination patterns
+- **Enterprise Dashboard**: Management interface for large-scale deployments
+- **Extended Compliance**: Additional regulatory frameworks and reporting
 
 ## License
 
@@ -696,10 +708,11 @@ Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for detai
 
 ## Acknowledgments
 
-- Built on [OpenAPI 3.1](https://spec.openapis.org/oas/v3.1.0) standards
-- Integrates with [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
-- Compatible with [LangChain](https://langchain.com/), [CrewAI](https://crewai.com/), and [AutoGen](https://microsoft.github.io/autogen/)
+- Built on [OpenAPI 3.1](https://spec.openapis.org/oas/v3.1.0) specification standards
+- Integrates with [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) for Claude Desktop compatibility
+- Compatible with [LangChain](https://langchain.com/), [CrewAI](https://crewai.com/), [AutoGen](https://microsoft.github.io/autogen/), and custom frameworks
+- Supports enterprise compliance frameworks including ISO 42001, NIST AI RMF, and EU AI Act
 
 ---
 
-**The OpenAPI for AI Agents** - Universal standard for agent interoperability with automatic discovery
+**Open Standards for Scalable Agents (OSSA) v0.1.2** - The definitive framework for AI agent definition, discovery, and orchestration
