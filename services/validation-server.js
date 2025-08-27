@@ -48,8 +48,8 @@ function validateOAASAgent(agent) {
     // Check required fields
     if (!agent.apiVersion) {
         errors.push('Missing required field: apiVersion');
-    } else if (agent.apiVersion !== 'openapi-ai-agents/v0.1.1') {
-        errors.push(`Invalid apiVersion: ${agent.apiVersion}. Expected: openapi-ai-agents/v0.1.1`);
+    } else if (agent.apiVersion !== 'open-standards-scalable-agents/v0.1.2') {
+        errors.push(`Invalid apiVersion: ${agent.apiVersion}. Expected: open-standards-scalable-agents/v0.1.2`);
     }
     
     if (!agent.kind) {

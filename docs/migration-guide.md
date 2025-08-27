@@ -72,7 +72,7 @@ const langchainTool = await service.getAgentForFramework(
 ```typescript
 // Create new OAAS-native agents alongside existing ones
 // agents/new-oaas-agent.yaml
-apiVersion: openapi-ai-agents/v0.1.1
+apiVersion: open-standards-scalable-agents/v0.1.2
 kind: Agent
 metadata:
   name: enhanced-agent
@@ -80,7 +80,7 @@ spec:
   # Full OAAS specification
 ```
 
-**Result**: Hybrid environment with both legacy and OAAS-native agents.
+**Result**: Unified environment with OSSA-native agents.
 
 ---
 
@@ -138,7 +138,7 @@ class ContentCreatorPlugin extends AIAgentPluginBase {
 3. **Optional: Create OAAS version** (Keep original):
    ```yaml
    # agents/content-creator-oaas.yaml
-   apiVersion: openapi-ai-agents/v0.1.1
+   apiVersion: open-standards-scalable-agents/v0.1.2
    kind: Agent
    metadata:
      name: content-creator-enhanced

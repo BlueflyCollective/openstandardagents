@@ -5,10 +5,10 @@
  * Open Standards for Scalable Agents validation tool
  */
 
-const fs = require('fs');
-const path = require('path');
-const yaml = require('js-yaml');
-const glob = require('glob');
+import fs from 'fs';
+import path from 'path';
+import yaml from 'js-yaml';
+import { glob } from 'glob';
 
 class OSSAValidator {
     constructor() {
@@ -78,11 +78,7 @@ class OSSAValidator {
         if (!agent.apiVersion) {
             errors.push('Missing required field: apiVersion');
         } else if (agent.apiVersion !== 'open-standards-scalable-agents/v0.1.2') {
-            if (agent.apiVersion.includes('openapi-ai-agents')) {
-                errors.push('Legacy apiVersion detected - needs migration to OSSA v0.1.2');
-            } else {
-                errors.push('Invalid apiVersion - must be: open-standards-scalable-agents/v0.1.2');
-            }
+            errors.push('Invalid apiVersion - must be: open-standards-scalable-agents/v0.1.2');
         }
     }
 
@@ -336,8 +332,9 @@ function main() {
     process.exit(summary.invalid > 0 ? 1 : 0);
 }
 
-if (require.main === module) {
+// Check if this is the main module
+if (import.meta.url === `file://${process.argv[1]}`) {
     main();
 }
 
-module.exports = { OSSAValidator };
+export { OSSAValidator };
