@@ -1,5 +1,5 @@
 /**
- * @bluefly/oaas-services - Universal AI Agent Services
+ * @openapi-ai-agents/oaas - Universal AI Agent Services
  * Runtime translation for any agent format to OAAS without file modification
  */
 
