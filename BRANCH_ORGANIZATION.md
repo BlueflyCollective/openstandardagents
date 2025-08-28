@@ -2,7 +2,7 @@
 
 ## 🎯 **Clean Branch Structure**
 
-This repository has been reorganized with a clear, professional branch structure for version management and development workflow.
+This repository contains the universal OAAS (OpenAPI AI Agents Standard) implementation - the universal standard for AI agents that bridges frameworks like MCP, A2A, LangChain, and CrewAI into a single OpenAPI-based ecosystem with compliance, governance, and enterprise adoption at its core.
 
 ## 🌿 **Main Branches**
 
@@ -45,27 +45,27 @@ This repository has been reorganized with a clear, professional branch structure
 
 - **Base**: Commit `253b4cd` - "Update README to reflect OSSA v0.1.2 transition"
 - **Content**:
-  - Enhanced OSSA v0.1.2 specifications
-  - Improved validation framework
-  - Enhanced schemas and documentation
-  - Professional project structure
-- **Status**: Stable version branch
-- **Use Case**: Enhanced OSSA v0.1.2 implementations
+  - OSSA v0.1.2 specification implementation
+  - Core validation framework (`validate-ossa-v0.1.2.js`)
+  - Schemas and examples directory structure
+  - Project configuration and CI/CD setup
+- **Status**: Production specification branch
+- **Use Case**: OSSA v0.1.2 standard compliance
 
-### **`v1.3`**
+### **`v0.1.3`**
 
-- **Base**: Commit `cca6fb7` - "OAAS v1.3.0 enhanced validator and premium agent examples"
+- **Base**: Commit `cca6fb7` - "OAAS v0.1.3 enhanced validator and premium agent examples"
 - **Content**:
-  - OAAS v1.3.0 enhanced features
-  - Multiple validation tools:
+  - Universal OAAS v0.1.3 standard implementation
+  - Cross-framework validation tools:
     - `validate-oaas-enhanced.js`
     - `validate-oaas-v1.2.0.js`
     - `validate-oaas-v1.3.0.js`
     - `validate-ossa-v0.1.2.js`
-  - Premium agent examples
-  - Enhanced documentation
-- **Status**: Latest stable version branch
-- **Use Case**: Production OAAS v1.3.0 implementations
+  - Enterprise compliance and governance schemas
+  - Production deployment configuration
+- **Status**: Universal standard implementation branch
+- **Use Case**: Cross-framework AI agent ecosystem deployment
 
 ## 🔧 **Feature Branches**
 
@@ -125,17 +125,17 @@ git push origin development
 
 ```bash
 # From specific commit
-git checkout -b v1.x <commit-hash>
+git checkout -b v0.1.x <commit-hash>
 
 # From development
-git checkout -b v1.x development
+git checkout -b v0.1.x development
 ```
 
 ## 📊 **Current Status**
 
 ### **✅ Organized**
 
-- Clean version branches (v1.1, v1.2, v1.3)
+- Clean version branches (v0.1.1, v0.1.2, v0.1.3)
 - Protected main and development branches
 - Feature branches properly categorized
 - Clear progression from OSSA to OAAS
