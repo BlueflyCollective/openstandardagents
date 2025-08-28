@@ -19,6 +19,14 @@ This repository has been reorganized with a clear, professional branch structure
 - **Content**: Latest integrated features and improvements
 - **Status**: Protected branch, requires feature branch merges
 - **Use Case**: Integration testing and staging
+- **Note**: Clean branch with organized structure and branch organization docs
+
+### **`development.backup`**
+
+- **Purpose**: Backup of previous development branch state
+- **Content**: Previous development work and commits
+- **Status**: Local backup branch, not pushed to remote
+- **Use Case**: Recovery if needed, reference for previous work
 
 ## 🏷️ **Version Branches**
 
