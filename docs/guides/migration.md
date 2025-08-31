@@ -24,10 +24,10 @@
 
 ```typescript
 // Step 1: Install OAAS
-npm install @bluefly/oaas-services
+npm install ossa-services
 
 // Step 2: Discover existing agents
-import { OAASService } from '@bluefly/oaas-services';
+import { OSSAService } from 'ossa-services';
 
 const service = new OAASService({
   projectRoot: process.cwd(),
@@ -302,7 +302,7 @@ verbose: true
 
 ```bash
 # Install migration tools
-npm install -g @bluefly/tddai
+npm install -g ossa-cli
 
 # Analyze existing project
 tddai ai agents analyze --format all --output migration-plan.json
@@ -317,7 +317,7 @@ tddai ai agents test-compatibility --dry-run
 ### **Compatibility Checker**
 
 ```typescript
-import { OAASService } from '@bluefly/oaas-services';
+import { OSSAService } from 'ossa-services';
 
 const service = new OAASService({ projectRoot: process.cwd() });
 
@@ -488,7 +488,7 @@ const service = new OAASService({
 });
 
 // Option 2: Uninstall package
-npm uninstall @bluefly/oaas-services
+npm uninstall ossa-services
 
 // Option 3: Use feature flags
 const service = new OAASService({

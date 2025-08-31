@@ -11,10 +11,10 @@
 
 ```bash
 # Install the core OAAS services package
-npm install @bluefly/oaas-services
+npm install ossa-services
 
 # For CLI integration, install enhanced TDDAI
-npm install -g @bluefly/tddai
+npm install -g ossa-cli
 ```
 
 ### **2. Basic Discovery**
@@ -23,7 +23,7 @@ Create a simple discovery script:
 
 ```javascript
 // discover-agents.js
-import { OAASService } from '@bluefly/oaas-services';
+import { OSSAService } from 'ossa-services';
 
 const service = new OAASService({
   projectRoot: process.cwd(),
@@ -176,7 +176,7 @@ spec:
 ### **Test Your Agent**
 
 ```javascript
-import { OAASService } from '@bluefly/oaas-services';
+import { OSSAService } from 'ossa-services';
 
 const service = new OAASService({
   projectRoot: process.cwd(),
