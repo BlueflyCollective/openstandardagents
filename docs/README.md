@@ -25,10 +25,6 @@
 - [`installation.md`](development/installation.md) - Installation instructions
 - [`publishing.md`](development/publishing.md) - Publishing guidelines
 
-### **Reports** (`reports/`)
-- [`ACTA_FRAMEWORK_TDDAI_INTEGRATION_SUMMARY.md`](reports/ACTA_FRAMEWORK_TDDAI_INTEGRATION_SUMMARY.md) - ACTA integration
-- [`ACTA_FRAMEWORK_VALIDATION_REPORT.md`](reports/ACTA_FRAMEWORK_VALIDATION_REPORT.md) - ACTA validation
-- [`BRANCH_ORGANIZATION.md`](reports/BRANCH_ORGANIZATION.md) - Git organization
 
 ## 🚀 Quick Navigation
 
