@@ -118,13 +118,70 @@ export class RuntimeBridge {
   }
 
   private async executeMCPCapability(agent: DiscoveredAgent, capability: AgentCapability, input: any): Promise<any> {
-    // Simulate MCP execution
-    return {
-      message: `Executed MCP tool ${capability.name}`,
-      input: input,
-      agent_format: 'mcp',
-      timestamp: new Date().toISOString()
-    };
+    // Real MCP execution using the new client
+    try {
+      const { MCPClient } = await import('./mcp/client/mcp-client');
+      const { capabilityToMCPTool, buildServerConfig } = await import('./mcp/adapters/to-mcp');
+      const { mcpRegistry } = await import('../registry/index');
+
+      // Convert capability to MCP tool
+      const mcpTool = capabilityToMCPTool({
+        id: capability.name,
+        name: capability.name,
+        description: capability.description,
+        inputSchema: capability.input_schema || { type: 'object' },
+        outputSchema: capability.output_schema
+      });
+
+      // Discover MCP server from registry
+      const candidates = await mcpRegistry.discover({ tag: 'default' });
+      if (candidates.length === 0) {
+        throw new Error('No MCP servers available');
+      }
+
+      const server = buildServerConfig(
+        agent.id,
+        [mcpTool],
+        [],
+        candidates[0].endpoints
+      );
+
+      // Execute via MCP client
+      const client = new MCPClient();
+      await client.connect(server);
+
+      try {
+        const result = await client.callTool(mcpTool.name, input, {
+          timeoutMs: 30000,
+          stream: false
+        });
+
+        if (!result.success) {
+          throw new Error(`MCP tool execution failed: ${result.error}`);
+        }
+
+        return {
+          message: `Executed MCP tool ${capability.name}`,
+          input: input,
+          result: result.result,
+          agent_format: 'mcp',
+          timestamp: new Date().toISOString(),
+          execution_time: result.executionTime
+        };
+      } finally {
+        await client.close();
+      }
+    } catch (error: any) {
+      // Fallback to simulation if MCP execution fails
+      console.warn(`MCP execution failed, falling back to simulation: ${error.message}`);
+      return {
+        message: `Executed MCP tool ${capability.name} (simulated)`,
+        input: input,
+        agent_format: 'mcp',
+        timestamp: new Date().toISOString(),
+        error: error.message
+      };
+    }
   }
 
   private async executeLangChainCapability(agent: DiscoveredAgent, capability: AgentCapability, input: any): Promise<any> {
@@ -188,16 +245,77 @@ export class RuntimeBridge {
     };
   }
 
-  private translateToMCP(agent: DiscoveredAgent): any {
-    return {
-      name: agent.name,
-      version: agent.version || "1.0.0",
-      tools: agent.capabilities?.map(cap => ({
+  private async translateToMCP(agent: DiscoveredAgent): Promise<any> {
+    try {
+      const { capabilityToMCPTool, resourcesToMCPResources, buildServerConfig } = await import('./mcp/adapters/to-mcp');
+      const { mcpRegistry } = await import('../registry/index');
+
+      // Convert capabilities to MCP tools
+      const mcpTools = agent.capabilities?.map(cap => capabilityToMCPTool({
+        id: cap.name,
         name: cap.name,
         description: cap.description,
-        inputSchema: cap.input_schema || { type: 'object' }
-      })) || []
-    };
+        inputSchema: cap.input_schema || { type: 'object' },
+        outputSchema: cap.output_schema
+      })) || [];
+
+      // Convert resources to MCP resources
+      const mcpResources = resourcesToMCPResources(
+        agent.resources?.map(resource => ({
+          id: resource.name,
+          kind: 'document' as const,
+          uri: resource.uri,
+          schema: resource.schema
+        })) || []
+      );
+
+      // Discover MCP server from registry
+      const candidates = await mcpRegistry.discover({ tag: 'default' });
+      if (candidates.length === 0) {
+        throw new Error('No MCP servers available for translation');
+      }
+
+      // Build server configuration
+      const serverConfig = buildServerConfig(
+        agent.id,
+        mcpTools,
+        mcpResources,
+        candidates[0].endpoints
+      );
+
+      // Register with registry
+      await mcpRegistry.register({
+        id: serverConfig.id,
+        name: serverConfig.name,
+        tags: ['ossa', agent.id],
+        endpoints: serverConfig.transport,
+        tools: mcpTools,
+        resources: mcpResources,
+        lastSeen: new Date().toISOString()
+      });
+
+      return {
+        name: agent.name,
+        version: agent.version || "1.0.0",
+        tools: mcpTools,
+        resources: mcpResources,
+        server_config: serverConfig,
+        registry_id: serverConfig.id
+      };
+    } catch (error: any) {
+      // Fallback to basic translation if registry fails
+      console.warn(`MCP registry translation failed, using basic translation: ${error.message}`);
+      return {
+        name: agent.name,
+        version: agent.version || "1.0.0",
+        tools: agent.capabilities?.map(cap => ({
+          name: cap.name,
+          description: cap.description,
+          inputSchema: cap.input_schema || { type: 'object' }
+        })) || [],
+        error: error.message
+      };
+    }
   }
 
   private translateToOpenAI(agent: DiscoveredAgent): any {

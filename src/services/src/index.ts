@@ -34,6 +34,11 @@ export interface DiscoveredAgent {
   format: 'drupal' | 'mcp' | 'langchain' | 'crewai' | 'openai' | 'anthropic' | 'unknown';
   source_path: string;
   capabilities: AgentCapability[];
+  resources?: Array<{
+    name: string;
+    uri?: string;
+    schema?: any;
+  }>;
   metadata?: any;
   confidence: number;
   oaas_spec?: any;
