@@ -1,16 +1,16 @@
-# Open Standards for Scalable Agents (OSSA) v0.1.3
+# Open Standards for Scalable Agents (OSSA) 0.1.3
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![OSSA Specification](https://img.shields.io/badge/OSSA-v0.1.3-green.svg)](https://gitlab.com/bluefly-ai/ossa-standard)
-[![UADP Protocol](https://img.shields.io/badge/UADP-v1.0.0-blue.svg)](https://github.com/openapi-ai-agents/uadp)
-[![Production Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](https://gitlab.com/bluefly-ai/ossa-standard)
-[![Enterprise Grade](https://img.shields.io/badge/Enterprise-ISO%2042001%20Compliant-blue.svg)](https://gitlab.com/bluefly-ai/ossa-standard)
+[![OSSA Specification](https://img.shields.io/badge/OSSA-0.1.3-green.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
+[![NPM Package](https://img.shields.io/npm/v/@bluefly/open-standards-scalable-agents.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
+[![Production Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
+[![Enterprise Grade](https://img.shields.io/badge/Enterprise-ISO%2042001%20Compliant-blue.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
 
-> **Open Standards for Scalable Agents (OSSA) v0.1.3** - The definitive framework for AI agent definition, discovery, and orchestration with enterprise governance
+> **Open Standards for Scalable Agents (OSSA) 0.1.3** - The definitive framework for AI agent definition, discovery, and orchestration with enterprise governance
 
 ## Executive Summary
 
-**Open Standards for Scalable Agents (OSSA) v0.1.3** establishes the definitive framework for **AI agent definition, discovery, and orchestration** with enterprise-grade governance. Building on OpenAPI 3.1 foundations, OSSA provides a comprehensive specification system with three conformance tiers (Core, Governed, Advanced) and seamless integration across all major AI frameworks.
+**Open Standards for Scalable Agents (OSSA) 0.1.3** establishes the definitive framework for **AI agent definition, discovery, and orchestration** with enterprise-grade governance. Building on OpenAPI 3.1 foundations, OSSA provides a comprehensive specification system with three conformance tiers (Core, Governed, Advanced) and seamless integration across all major AI frameworks.
 
 ### **🎯 Strategic Value Proposition**
 
