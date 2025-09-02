@@ -15,7 +15,8 @@
     "test": "npm run validate examples/",
     "lint": "echo 'No linting configured'",
     "clean": "find . -name 'node_modules' -type d -prune -exec rm -rf {} +",
-    "build": "echo \"OSSA package ready for publication\"",
+    "build": "echo \"OSSA package ready for publication\""
+  },
   "keywords": [
     "ossa",
     "open-standards",
@@ -36,11 +37,11 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/open-standards-scalable-agents/standard.git"
+    "url": "git+https://gitlab.com/bluefly-ai/ossa-standard.git"
   },
-  "homepage": "https://github.com/open-standards-scalable-agents/standard#readme",
+  "homepage": "https://gitlab.com/bluefly-ai/ossa-standard#readme",
   "bugs": {
-    "url": "https://github.com/open-standards-scalable-agents/standard/issues"
+    "url": "https://gitlab.com/bluefly-ai/ossa-standard/issues"
   },
   "engines": {
     "node": ">=18.0.0"
