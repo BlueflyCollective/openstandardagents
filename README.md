@@ -1,10 +1,12 @@
-# Open Standards for Scalable Agents (OSSA) 0.1.3
+# Open Standards for Scalable Agents (OSSA) v0.1.3
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![OSSA Specification](https://img.shields.io/badge/OSSA-0.1.3-green.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
 [![NPM Package](https://img.shields.io/npm/v/@bluefly/open-standards-scalable-agents.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
 [![Production Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
 [![Enterprise Grade](https://img.shields.io/badge/Enterprise-ISO%2042001%20Compliant-blue.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
+
+> **🚨 MIGRATION REQUIRED**: Legacy validation scripts are deprecated as of September 2025. Please migrate to the CLI: `npm install -g @bluefly/open-standards-scalable-agents@0.1.3` and use `ossa validate` instead of direct script execution. See [DEPRECATION_NOTICE.md](DEPRECATION_NOTICE.md) for details.
 
 > **Open Standards for Scalable Agents (OSSA) 0.1.3** - The definitive framework for AI agent definition, discovery, and orchestration with enterprise governance
 

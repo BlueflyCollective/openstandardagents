@@ -1,6 +1,19 @@
 #!/usr/bin/env node
 
 /**
+ * ⚠️ DEPRECATED SCRIPT - MIGRATION REQUIRED ⚠️ 
+ * 
+ * This script is DEPRECATED as of September 2025 and will be removed in December 2025.
+ * Please migrate to the new CLI command: `ossa validate`
+ * 
+ * Migration Guide: docs/MIGRATION_GUIDE.md
+ * Install CLI: npm install -g @bluefly/open-standards-scalable-agents@0.1.3
+ * 
+ * OLD: node validate-ossa-v0.1.3.js <path>
+ * NEW: ossa validate [path]
+ * 
+ * =============================================================================
+ * 
  * OSSA v0.1.3 Compliance Validation Script
  * Open Standards for Scalable Agents validation tool with ResearchPapers integration
  * Includes ACTA token optimization and memory systems validation
@@ -10,6 +23,19 @@ import fs from 'fs';
 import { glob } from 'glob';
 import yaml from 'js-yaml';
 import path from 'path';
+
+// Display deprecation warning at runtime
+console.log('\n\x1b[43m\x1b[30m ⚠️ DEPRECATION WARNING ⚠️ \x1b[0m');
+console.log('\x1b[33m╔══════════════════════════════════════════════════════════════════════════════╗\x1b[0m');
+console.log('\x1b[33m║ This validation script is DEPRECATED and will be removed in December 2025   ║\x1b[0m');
+console.log('\x1b[33m║                                                                              ║\x1b[0m');
+console.log('\x1b[33m║ \x1b[31mOLD:\x1b[33m node validate-ossa-v0.1.3.js <path>                              ║\x1b[0m');
+console.log('\x1b[33m║ \x1b[32mNEW:\x1b[33m ossa validate [path]                                           ║\x1b[0m');
+console.log('\x1b[33m║                                                                              ║\x1b[0m');
+console.log('\x1b[33m║ Install CLI: npm install -g @bluefly/open-standards-scalable-agents@0.1.3   ║\x1b[0m');
+console.log('\x1b[33m║ Guide: docs/MIGRATION_GUIDE.md                                              ║\x1b[0m');
+console.log('\x1b[33m╚══════════════════════════════════════════════════════════════════════════════╝\x1b[0m');
+console.log('');
 
 class OSSAValidator {
     constructor() {
