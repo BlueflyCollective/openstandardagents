@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://open-standards-scalable-agents.org/schemas/v0.1.3/extensions/x-ossa-acdl.json",
+  "$id": "https://open-standards-scalable-agents.org/schemas/v0.1.6/extensions/x-ossa-acdl.json",
   "title": "OSSA ACDL (Agent Capability Discovery Layer) Extension",
   "description": "Hierarchical capability taxonomy and discovery optimization for OSSA agents",
   "type": "object",

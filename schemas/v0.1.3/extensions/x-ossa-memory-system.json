@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://open-standards-scalable-agents.org/schemas/v0.1.3/extensions/x-ossa-memory-system.json",
+  "$id": "https://open-standards-scalable-agents.org/schemas/v0.1.6/extensions/x-ossa-memory-system.json",
   "title": "OSSA Memory System Extension",
   "description": "Hierarchical memory management with hot/warm/cold tiers for OSSA agents",
   "type": "object",

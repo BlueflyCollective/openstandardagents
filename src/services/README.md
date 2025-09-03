@@ -2,7 +2,7 @@
 
 ## Overview
 
-This package provides a complete MCP (Model Context Protocol) bridge implementation for OSSA (Open Standards for Scalable Agents) v0.1.4. It enables seamless translation between OSSA capabilities and MCP tools, with registry-based discovery and real MCP server execution.
+This package provides a complete MCP (Model Context Protocol) bridge implementation for OSSA (Open Standards for Scalable Agents) v0.1.6. It enables seamless translation between OSSA capabilities and MCP tools, with registry-based discovery and real MCP server execution.
 
 ## Architecture
 
@@ -269,14 +269,14 @@ class MCPValidationError extends Error {
 
 ## Roadmap
 
-### v0.1.4 (Current)
+### v0.1.6 (Current)
 
 - ✅ Basic MCP bridge implementation
 - ✅ Registry discovery and fallback
 - ✅ Real MCP execution (stdio)
 - ✅ Schema conversion
 
-### v0.1.5 (Next)
+### v0.1.6 (Next)
 
 - 🔄 HTTP/WebSocket transport support
 - 🔄 File-based registry backend

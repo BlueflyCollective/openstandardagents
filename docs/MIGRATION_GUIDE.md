@@ -22,18 +22,18 @@
 
 | **Deprecated Script** | **New CLI Command** | **Version** | **Description** |
 |-----------------------|-------------------|-------------|-----------------|
-| `node validate-ossa-v0.1.3.js <path>` | `ossa validate [path]` | 0.1.3 | Validate OSSA agent specifications |
+| `node validate-ossa-v0.1.6.js <path>` | `ossa validate [path]` | 0.1.6 | Validate OSSA agent specifications |
 | `node validate-ossa-v0.1.2.js <path>` | `ossa validate [path] --legacy` | 0.1.0 | Legacy validation (deprecated) |
-| `node lib/tools/validation/validate-ossa-v0.1.3.js` | `ossa validate` | 0.1.3 | Direct validation script |
+| `node lib/tools/validation/validate-ossa-v0.1.6.js` | `ossa validate` | 0.1.6 | Direct validation script |
 | `node lib/tools/validation/validate-ossa-v0.1.2.js` | `ossa validate --legacy` | 0.1.0 | Legacy validation tool |
 
 ### Agent Management Commands
 
 | **Deprecated Script** | **New CLI Command** | **Version** | **Description** |
 |-----------------------|-------------------|-------------|-----------------|
-| `npm run validate` | `ossa validate` | 0.1.3 | Validate current directory |
+| `npm run validate` | `ossa validate` | 0.1.6 | Validate current directory |
 | `npm run validate:legacy` | `ossa validate --legacy` | 0.1.0 | Legacy validation mode |
-| `npm run test` | `ossa validate examples/` | 0.1.3 | Test examples directory |
+| `npm run test` | `ossa validate examples/` | 0.1.6 | Test examples directory |
 
 ### OAAS (Legacy) Migration Commands
 
@@ -48,9 +48,9 @@
 
 | **Deprecated Script** | **New CLI Command** | **Version** | **Description** |
 |-----------------------|-------------------|-------------|-----------------|
-| `node lib/uadp-discovery.js` | `ossa discovery init` | 0.1.3 | Initialize UADP discovery |
-| Manual agent discovery | `ossa discovery find` | 0.1.3 | Find agents with UADP |
-| Manual agent registration | `ossa discovery register` | 0.1.3 | Register agent with UADP |
+| `node lib/uadp-discovery.js` | `ossa discovery init` | 0.1.6 | Initialize UADP discovery |
+| Manual agent discovery | `ossa discovery find` | 0.1.6 | Find agents with UADP |
+| Manual agent registration | `ossa discovery register` | 0.1.6 | Register agent with UADP |
 
 ---
 
@@ -60,7 +60,7 @@
 
 ```bash
 # Agent Creation
-ossa create <name>                    # Create new OSSA v0.1.3 agent
+ossa create <name>                    # Create new OSSA v0.1.6 agent
 ossa create <name> --tier advanced    # Create advanced tier agent
 ossa create <name> --domain security  # Create domain-specific agent
 
@@ -72,7 +72,7 @@ ossa validate --legacy              # Legacy validation mode
 # Agent Management
 ossa list                           # List all OSSA agents
 ossa list --format json            # JSON output format
-ossa upgrade [path]                 # Upgrade agent to v0.1.3
+ossa upgrade [path]                 # Upgrade agent to v0.1.6
 
 # UADP Discovery
 ossa discovery init                 # Initialize UADP discovery
@@ -99,9 +99,9 @@ ossa discovery health              # Check discovery service health
 
 | **Deprecated Component** | **New Component** | **Version** | **Migration Path** |
 |--------------------------|-------------------|-------------|-------------------|
-| `openapi-agent-validate` | `ossa validate` | 0.1.3 | Update `.gitlab-ci.yml` scripts |
-| `agent-config-validate` | `ossa validate` | 0.1.3 | Unified validation command |
-| Custom validation scripts | `ossa validate --format json` | 0.1.3 | JSON output for CI |
+| `openapi-agent-validate` | `ossa validate` | 0.1.6 | Update `.gitlab-ci.yml` scripts |
+| `agent-config-validate` | `ossa validate` | 0.1.6 | Unified validation command |
+| Custom validation scripts | `ossa validate --format json` | 0.1.6 | JSON output for CI |
 
 ### Updated GitLab CI Example
 
@@ -111,7 +111,7 @@ validate:ossa-agents:
   image: node:18-alpine
   stage: validate
   before_script:
-    - npm install -g @bluefly/open-standards-scalable-agents@0.1.3
+    - npm install -g @bluefly/open-standards-scalable-agents@0.1.6
   script:
     - ossa validate --format json > validation-report.json
     - ossa list --format json > agents-inventory.json
@@ -132,7 +132,7 @@ All CLI packages follow this versioning scheme:
 
 | **Package** | **Current Version** | **Status** |
 |-------------|-------------------|------------|
-| `@bluefly/open-standards-scalable-agents` | 0.1.3 | ✅ Stable |
+| `@bluefly/open-standards-scalable-agents` | 0.1.6 | ✅ Stable |
 | `@bluefly/agent-studio` | 0.1.0 | 🚧 Development |
 | `@bluefly/agent-ops` | 0.1.0 | 🚧 Development |
 | `@bluefly/agent-forge` | 0.1.0 | 🚧 Development |
@@ -149,7 +149,7 @@ All CLI packages follow this versioning scheme:
 
 ### New Requirements
 - ✅ Node.js 18+ required
-- ✅ CLI installation required: `npm install -g @bluefly/open-standards-scalable-agents@0.1.3`
+- ✅ CLI installation required: `npm install -g @bluefly/open-standards-scalable-agents@0.1.6`
 - ✅ UADP discovery protocol support
 - ✅ Enhanced compliance frameworks (ISO 42001, NIST AI RMF)
 
@@ -160,7 +160,7 @@ All CLI packages follow this versioning scheme:
 ### Before (Deprecated)
 ```bash
 # Old validation approach
-node validate-ossa-v0.1.3.js examples/core-agent/
+node validate-ossa-v0.1.6.js examples/core-agent/
 npm run validate
 ./scripts/validate-agents.sh
 
@@ -189,18 +189,18 @@ ossa discovery register my-agent
 
 1. **Script not found**: Install CLI package globally
    ```bash
-   npm install -g @bluefly/open-standards-scalable-agents@0.1.3
+   npm install -g @bluefly/open-standards-scalable-agents@0.1.6
    ```
 
 2. **Legacy validation failing**: Use migration command
    ```bash
-   ossa migrate --from legacy --to 0.1.3
+   ossa migrate --from legacy --to 0.1.6
    ```
 
 3. **CI/CD pipeline errors**: Update GitLab CI to use CLI commands
    ```bash
    # Replace in .gitlab-ci.yml
-   - node validate-ossa-v0.1.3.js  # Remove
+   - node validate-ossa-v0.1.6.js  # Remove
    + ossa validate                  # Add
    ```
 
@@ -221,7 +221,7 @@ ossa --version
 ## Compliance Notes
 
 This migration maintains full compliance with:
-- ✅ **OSSA v0.1.3 Standard**
+- ✅ **OSSA v0.1.6 Standard**
 - ✅ **ISO 42001** (AI Management Systems)
 - ✅ **NIST AI RMF** (AI Risk Management Framework)
 - ✅ **Enterprise Integration** (LangChain, CrewAI, OpenAI, MCP)

@@ -30,7 +30,7 @@ All legacy validation scripts in this repository are being **DEPRECATED** and wi
 
 ```bash
 # OLD (Deprecated)
-node validate-ossa-v0.1.3.js examples/
+node validate-ossa-v0.1.6.js examples/
 npm run validate
 npm run validate:legacy
 
@@ -70,7 +70,7 @@ ossa migrate --from oaas-1.3.0
 Install the new CLI globally:
 
 ```bash
-npm install -g @bluefly/open-standards-scalable-agents@0.1.3
+npm install -g @bluefly/open-standards-scalable-agents@0.1.6
 ```
 
 Verify installation:
@@ -87,10 +87,10 @@ ossa --help
 The following scripts are deprecated and will be removed:
 
 ### Validation Scripts
-- ❌ `validate-ossa-v0.1.3.js` → `ossa validate`
-- ❌ `validate-ossa-v0.1.3-new.js` → `ossa validate`
+- ❌ `validate-ossa-v0.1.6.js` → `ossa validate`
+- ❌ `validate-ossa-v0.1.6-new.js` → `ossa validate`
 - ❌ `lib/tools/validation/validate-ossa-v0.1.2.js` → `ossa validate --legacy`
-- ❌ `lib/tools/validation/validate-ossa-v0.1.3.js` → `ossa validate`
+- ❌ `lib/tools/validation/validate-ossa-v0.1.6.js` → `ossa validate`
 - ❌ `lib/tools/validation/validate-oaas-v1.3.0.js` → `ossa migrate --from oaas-1.3.0`
 - ❌ `lib/tools/validation/validate-oaas-v1.2.0.js` → `ossa migrate --from oaas-1.2.0`
 - ❌ `lib/tools/validation/validate-oaas-enhanced.js` → `ossa migrate --from oaas`
@@ -116,7 +116,7 @@ The CLI provides enhanced functionality:
 
 ### Agent Creation
 ```bash
-ossa create <name>                    # Create OSSA v0.1.3 agent
+ossa create <name>                    # Create OSSA v0.1.6 agent
 ossa create <name> --tier advanced    # Advanced tier agent
 ossa create <name> --domain security  # Domain-specific agent
 ```
@@ -140,7 +140,7 @@ ossa discovery health                # Health check
 ```bash
 ossa list                            # List all agents
 ossa list --format json             # JSON output
-ossa upgrade [path]                  # Upgrade to v0.1.3
+ossa upgrade [path]                  # Upgrade to v0.1.6
 ```
 
 ---
@@ -152,14 +152,14 @@ ossa upgrade [path]                  # Upgrade to v0.1.3
 **OLD**:
 ```yaml
 script:
-  - node validate-ossa-v0.1.3.js examples/
+  - node validate-ossa-v0.1.6.js examples/
   - npm run validate
 ```
 
 **NEW**:
 ```yaml
 before_script:
-  - npm install -g @bluefly/open-standards-scalable-agents@0.1.3
+  - npm install -g @bluefly/open-standards-scalable-agents@0.1.6
 script:
   - ossa validate examples/
   - ossa validate --format json > validation-report.json
@@ -202,7 +202,7 @@ ossa create --help                   # Creation help
 
 ### Compliance Maintained
 All CLI commands maintain full compliance with:
-- ✅ **OSSA v0.1.3 Standard**
+- ✅ **OSSA v0.1.6 Standard**
 - ✅ **ISO 42001** (AI Management Systems)
 - ✅ **NIST AI RMF** (AI Risk Management Framework)
 - ✅ **Enterprise Integration** (LangChain, CrewAI, OpenAI, MCP)

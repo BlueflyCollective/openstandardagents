@@ -1,10 +1,10 @@
-# OSSA CLI v0.1.3 - Enhanced with UADP Discovery Protocol
+# OSSA CLI v0.1.6 - Enhanced with UADP Discovery Protocol
 
-The OSSA CLI is a lightweight command-line tool for managing OSSA v0.1.3 (Open Standards Scalable Agents) compliant agents with integrated UADP (Universal Agent Discovery Protocol) support.
+The OSSA CLI is a lightweight command-line tool for managing OSSA v0.1.6 (Open Standards Scalable Agents) compliant agents with integrated UADP (Universal Agent Discovery Protocol) support.
 
 ## Features
 
-- 🚀 **OSSA v0.1.3 Compliance** - Full support for latest agent standards
+- 🚀 **OSSA v0.1.6 Compliance** - Full support for latest agent standards
 - 🔍 **UADP Discovery Protocol** - Advanced agent discovery and registration
 - 🎯 **Multi-Tier Support** - Core, Governed, and Advanced conformance tiers
 - 🔗 **Framework Integration** - LangChain, CrewAI, OpenAI, MCP support
@@ -23,7 +23,7 @@ npm install ossa-cli
 ## Quick Start
 
 ```bash
-# Create a new OSSA v0.1.3 agent
+# Create a new OSSA v0.1.6 agent
 ossa create my-agent --domain finance --tier advanced
 
 # Validate the agent
@@ -48,7 +48,7 @@ ossa discovery find --capabilities finance_analysis --tier advanced
 
 #### `ossa create <name> [options]`
 
-Create a new OSSA v0.1.3 compliant agent with full specifications.
+Create a new OSSA v0.1.6 compliant agent with full specifications.
 
 **Options:**
 - `-d, --domain <domain>` - Agent domain (default: general)
@@ -61,14 +61,14 @@ ossa create security-agent --domain security --tier advanced
 ```
 
 **Generated Files:**
-- `agent.yml` - Full OSSA v0.1.3 specification
+- `agent.yml` - Full OSSA v0.1.6 specification
 - `openapi.yaml` - OpenAPI 3.1 spec with OSSA extensions
 - `README.md` - Documentation and quick start guide
 - Directory structure for data, config, schemas
 
 #### `ossa validate [path] [options]`
 
-Validate OSSA agent specification against v0.1.3 standards.
+Validate OSSA agent specification against v0.1.6 standards.
 
 **Options:**
 - `-v, --verbose` - Show detailed validation output
@@ -88,14 +88,14 @@ ossa validate ./my-agent --verbose
 
 #### `ossa list [options]`
 
-List all OSSA v0.1.3 agents in current workspace.
+List all OSSA v0.1.6 agents in current workspace.
 
 **Options:**
 - `-f, --format <format>` - Output format: table|json (default: table)
 
 **Features:**
 - Recursive directory scanning
-- OSSA v0.1.3 detection
+- OSSA v0.1.6 detection
 - Protocol and feature indicators
 - UADP capability detection
 
@@ -106,7 +106,7 @@ ossa list --format json
 
 #### `ossa upgrade [path] [options]`
 
-Upgrade legacy agents to OSSA v0.1.3 (planned feature).
+Upgrade legacy agents to OSSA v0.1.6 (planned feature).
 
 **Options:**
 - `--dry-run` - Show upgrade plan without applying changes
@@ -237,10 +237,10 @@ ossa discovery export registry-backup.yaml --format yaml
 
 ## Agent Specification
 
-### OSSA v0.1.3 Agent Structure
+### OSSA v0.1.6 Agent Structure
 
 ```yaml
-ossa: 0.1.3
+ossa: 0.1.6
 metadata:
   name: "agent-name"
   version: "1.0.0"
@@ -275,7 +275,7 @@ spec:
       required: true
       advanced_features: ["resource_streaming"]
     - name: "uadp"
-      version: "0.1.3"
+      version: "0.1.6"
       required: true
       discovery_modes: ["active", "passive"]
   
@@ -337,7 +337,7 @@ spec:
 ```yaml
 info:
   x-openapi-ai-agents-standard:
-    version: "0.1.3"
+    version: "0.1.6"
     conformance_tier: "advanced"
     certification_level: "gold"
     compliance_frameworks: ["ISO_42001", "NIST_AI_RMF"]

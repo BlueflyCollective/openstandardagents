@@ -1,4 +1,4 @@
-ossa: 0.1.3
+ossa: 0.1.6
 validation_config:
   name: "validation-specialist-config"
   version: "1.0.0"
