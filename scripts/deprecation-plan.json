@@ -20,10 +20,10 @@
           "Update package.json with deprecation notices"
         ],
         "affected_scripts": [
-          "validate-ossa-v0.1.3.js",
-          "validate-ossa-v0.1.3-new.js",
+          "validate-ossa-v0.1.6.js",
+          "validate-ossa-v0.1.6-new.js",
           "lib/tools/validation/validate-ossa-v0.1.2.js",
-          "lib/tools/validation/validate-ossa-v0.1.3.js",
+          "lib/tools/validation/validate-ossa-v0.1.6.js",
           "lib/tools/validation/validate-oaas-v1.3.0.js",
           "lib/tools/validation/validate-oaas-v1.2.0.js",
           "lib/tools/validation/validate-oaas-enhanced.js",
@@ -47,7 +47,7 @@
           "Deprecate NPM script wrappers"
         ],
         "migration_commands": {
-          "validate-ossa-v0.1.3.js": "ossa validate",
+          "validate-ossa-v0.1.6.js": "ossa validate",
           "validate-ossa-v0.1.2.js": "ossa validate --legacy",
           "validate-oaas-v1.3.0.js": "ossa migrate --from oaas-1.3.0",
           "validate-oaas-v1.2.0.js": "ossa migrate --from oaas-1.2.0",
@@ -91,8 +91,8 @@
           "Final documentation cleanup"
         ],
         "files_to_remove": [
-          "validate-ossa-v0.1.3.js",
-          "validate-ossa-v0.1.3-new.js",
+          "validate-ossa-v0.1.6.js",
+          "validate-ossa-v0.1.6-new.js",
           "lib/tools/validation/",
           "lib/tools/migration/",
           "lib/uadp-discovery.js"
@@ -104,7 +104,7 @@
       "completion_percentage": 85,
       "next_milestone": "2025-10-01",
       "cli_versions": {
-        "ossa": "0.1.3",
+        "ossa": "0.1.6",
         "agent-studio": "0.1.0",
         "agent-ops": "0.1.0", 
         "agent-forge": "0.1.0",
@@ -120,7 +120,7 @@
     },
     "compliance": {
       "standards": [
-        "OSSA v0.1.3",
+        "OSSA v0.1.6",
         "ISO 42001",
         "NIST AI RMF"
       ],

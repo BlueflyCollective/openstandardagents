@@ -1,4 +1,4 @@
-ossa: 0.1.3
+ossa: 0.1.6
 metadata:
   name: "compliance-auditor"
   version: "1.0.0"
@@ -34,7 +34,7 @@ spec:
       version: "2024-11-05"
       required: false
     - name: "a2a"
-      version: "0.1.3"
+      version: "0.1.6"
       required: false
   
   framework_support:

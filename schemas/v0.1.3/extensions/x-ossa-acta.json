@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://open-standards-scalable-agents.org/schemas/v0.1.3/extensions/x-ossa-acta.json",
+  "$id": "https://open-standards-scalable-agents.org/schemas/v0.1.6/extensions/x-ossa-acta.json",
   "title": "OSSA ACTA (Advanced Context Token Architecture) Extension",
   "description": "Token optimization framework for OSSA agents with dynamic placeholders and semantic compression",
   "type": "object",

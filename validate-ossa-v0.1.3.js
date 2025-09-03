@@ -7,14 +7,14 @@
  * Please migrate to the new CLI command: `ossa validate`
  * 
  * Migration Guide: docs/MIGRATION_GUIDE.md
- * Install CLI: npm install -g @bluefly/open-standards-scalable-agents@0.1.3
+ * Install CLI: npm install -g @bluefly/open-standards-scalable-agents@0.1.6
  * 
- * OLD: node validate-ossa-v0.1.3.js <path>
+ * OLD: node validate-ossa-v0.1.6.js <path>
  * NEW: ossa validate [path]
  * 
  * =============================================================================
  * 
- * OSSA v0.1.3 Compliance Validation Script
+ * OSSA v0.1.6 Compliance Validation Script
  * Open Standards for Scalable Agents validation tool with ResearchPapers integration
  * Includes ACTA token optimization and memory systems validation
  */
@@ -29,10 +29,10 @@ console.log('\n\x1b[43m\x1b[30m ⚠️ DEPRECATION WARNING ⚠️ \x1b[0m');
 console.log('\x1b[33m╔══════════════════════════════════════════════════════════════════════════════╗\x1b[0m');
 console.log('\x1b[33m║ This validation script is DEPRECATED and will be removed in December 2025   ║\x1b[0m');
 console.log('\x1b[33m║                                                                              ║\x1b[0m');
-console.log('\x1b[33m║ \x1b[31mOLD:\x1b[33m node validate-ossa-v0.1.3.js <path>                              ║\x1b[0m');
+console.log('\x1b[33m║ \x1b[31mOLD:\x1b[33m node validate-ossa-v0.1.6.js <path>                              ║\x1b[0m');
 console.log('\x1b[33m║ \x1b[32mNEW:\x1b[33m ossa validate [path]                                           ║\x1b[0m');
 console.log('\x1b[33m║                                                                              ║\x1b[0m');
-console.log('\x1b[33m║ Install CLI: npm install -g @bluefly/open-standards-scalable-agents@0.1.3   ║\x1b[0m');
+console.log('\x1b[33m║ Install CLI: npm install -g @bluefly/open-standards-scalable-agents@0.1.6   ║\x1b[0m');
 console.log('\x1b[33m║ Guide: docs/MIGRATION_GUIDE.md                                              ║\x1b[0m');
 console.log('\x1b[33m╚══════════════════════════════════════════════════════════════════════════════╝\x1b[0m');
 console.log('');
@@ -56,7 +56,7 @@ class OSSAValidator {
             const errors = [];
             const warnings = [];
 
-            // Core OSSA v0.1.3 validation
+            // Core OSSA v0.1.6 validation
             this.validateApiVersion(agent, errors);
             this.validateKind(agent, errors);
             this.validateMetadata(agent, errors, warnings);
@@ -64,7 +64,7 @@ class OSSAValidator {
             this.validateConformanceLevel(agent, errors, warnings);
             this.validateDiscovery(agent, errors, warnings);
             
-            // ResearchPapers integration validation (v0.1.3)
+            // ResearchPapers integration validation (v0.1.6)
             this.validateActaIntegration(agent, errors, warnings);
             this.validateAcdlCapabilities(agent, errors, warnings);
             this.validateGitlabCiCd(agent, errors, warnings);
@@ -473,7 +473,7 @@ class OSSAValidator {
 function main() {
     const validator = new OSSAValidator();
     
-    console.log('🚀 OSSA v0.1.3 Compliance Validator with ResearchPapers Integration');
+    console.log('🚀 OSSA v0.1.6 Compliance Validator with ResearchPapers Integration');
     console.log('Open Standards for Scalable Agents Validation Tool');
     
     // Find all agent.yml files

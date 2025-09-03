@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://open-standards-scalable-agents.org/schemas/v0.1.3/extensions/x-ossa-gitlab-cicd.json",
+  "$id": "https://open-standards-scalable-agents.org/schemas/v0.1.6/extensions/x-ossa-gitlab-cicd.json",
   "title": "OSSA GitLab CI/CD Integration Extension",
   "description": "Rapid deployment pipelines targeting 4.5-minute deployment cycles for OSSA agents",
   "type": "object",

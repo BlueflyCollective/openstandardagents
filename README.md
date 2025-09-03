@@ -1,18 +1,18 @@
-# Open Standards for Scalable Agents (OSSA) v0.1.3
+# Open Standards for Scalable Agents (OSSA) v0.1.6
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![OSSA Specification](https://img.shields.io/badge/OSSA-0.1.3-green.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
+[![OSSA Specification](https://img.shields.io/badge/OSSA-0.1.6-green.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
 [![NPM Package](https://img.shields.io/npm/v/@bluefly/open-standards-scalable-agents.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
 [![Production Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
 [![Enterprise Grade](https://img.shields.io/badge/Enterprise-ISO%2042001%20Compliant-blue.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
 
-> **🚨 MIGRATION REQUIRED**: Legacy validation scripts are deprecated as of September 2025. Please migrate to the CLI: `npm install -g @bluefly/open-standards-scalable-agents@0.1.3` and use `ossa validate` instead of direct script execution. See [DEPRECATION_NOTICE.md](DEPRECATION_NOTICE.md) for details.
+> **🚨 MIGRATION REQUIRED**: Legacy validation scripts are deprecated as of September 2025. Please migrate to the CLI: `npm install -g @bluefly/open-standards-scalable-agents@0.1.6` and use `ossa validate` instead of direct script execution. See [DEPRECATION_NOTICE.md](DEPRECATION_NOTICE.md) for details.
 
-> **Open Standards for Scalable Agents (OSSA) 0.1.3** - A framework for AI agent definition, discovery, and orchestration with enterprise governance
+> **Open Standards for Scalable Agents (OSSA) 0.1.6** - A framework for AI agent definition, discovery, and orchestration with enterprise governance
 
 ## Executive Summary
 
-**Open Standards for Scalable Agents (OSSA) 0.1.3** establishes a framework for **AI agent definition, discovery, and orchestration** with enterprise-grade governance. Building on OpenAPI 3.1 foundations, OSSA provides a comprehensive specification system with three conformance tiers (Core, Governed, Advanced) and seamless integration across all major AI frameworks.
+**Open Standards for Scalable Agents (OSSA) 0.1.6** establishes a framework for **AI agent definition, discovery, and orchestration** with enterprise-grade governance. Building on OpenAPI 3.1 foundations, OSSA provides a comprehensive specification system with three conformance tiers (Core, Governed, Advanced) and seamless integration across all major AI frameworks.
 
 ### **🎯 Strategic Value Proposition**
 
@@ -26,9 +26,9 @@
 - **Universal Compatibility**: Native support for MCP, LangChain, CrewAI, AutoGen, and custom frameworks
 - **Simplified Orchestration**: Declarative workflows with automatic agent discovery and coordination
 - **Production-Ready Templates**: Complete examples with enterprise-grade specifications and configurations
-- **Seamless Migration**: Automated migration tools from legacy OAAS v0.1.1 to OSSA v0.1.3
+- **Seamless Migration**: Automated migration tools from legacy OAAS v0.1.1 to OSSA v0.1.6
 
-## **🏗️ OSSA v0.1.3 Architecture**
+## **🏗️ OSSA v0.1.6 Architecture**
 
 ### **Three-Tier Conformance System**
 - **Core Tier**: Essential agent definitions with OpenAPI 3.1 specifications and basic capabilities
@@ -45,7 +45,7 @@
 - **Native Protocol Support**: Direct integration with MCP, LangChain, CrewAI, AutoGen, and OpenAI frameworks
 - **Runtime Translation**: Seamless protocol bridging without modification of existing agent implementations
 - **Configuration Management**: Declarative agent definitions with automatic framework-specific code generation
-- **Migration Tools**: Automated conversion from legacy specifications to OSSA v0.1.3 compliance
+- **Migration Tools**: Automated conversion from legacy specifications to OSSA v0.1.6 compliance
 
 ### **Enterprise Governance**
 - **Compliance Automation**: Built-in support for ISO 42001, NIST AI RMF, EU AI Act, and custom regulatory frameworks
@@ -121,7 +121,7 @@ curl http://localhost:4050/api/v1/coordination-status
 - **Audit Infrastructure**: Comprehensive logging, tracing, and reporting for regulatory compliance
 - **Security Framework**: Zero-trust architecture with role-based access control and end-to-end encryption
 
-## **⚡ OSSA v0.1.3 Implementation Status**
+## **⚡ OSSA v0.1.6 Implementation Status**
 
 ### **✅ PRODUCTION-READY COMPONENTS**
 
@@ -618,12 +618,12 @@ curl -X POST http://localhost:3003/api/v1/benchmark/performance \
   }'
 ```
 
-## OSSA v0.1.3 Conformance Tiers
+## OSSA v0.1.6 Conformance Tiers
 
 OSSA provides three progressive conformance tiers for different organizational needs:
 
 ### Core Tier (Essential)
-- ✅ Valid OSSA v0.1.3 agent specification structure
+- ✅ Valid OSSA v0.1.6 agent specification structure
 - ✅ OpenAPI 3.1 integration with required endpoints
 - ✅ Basic capability definitions and metadata
 - ✅ Framework compatibility declarations
@@ -647,7 +647,7 @@ OSSA provides three progressive conformance tiers for different organizational n
 
 ## Framework Integration
 
-OSSA v0.1.3 seamlessly integrates with all major AI frameworks:
+OSSA v0.1.6 seamlessly integrates with all major AI frameworks:
 
 ### LangChain
 ```python
@@ -705,7 +705,7 @@ const bridge = new MCPBridge({
 ### Installation
 
 ```bash
-# Clone OSSA v0.1.3 repository
+# Clone OSSA v0.1.6 repository
 git clone https://gitlab.com/bluefly-ai/ossa-standard.git
 cd openapi-ai-agents-standard
 
@@ -713,9 +713,9 @@ cd openapi-ai-agents-standard
 npm install
 
 # Validate OSSA agent specifications
-node validate-ossa-v0.1.3.js examples/ossa/v0.1.3/core-agent-example.yml
+node validate-ossa-v0.1.6.js examples/ossa/v0.1.6/core-agent-example.yml
 
-# Migrate from OAAS v0.1.1 to OSSA v0.1.3
+# Migrate from OAAS v0.1.1 to OSSA v0.1.6
 node tools/migration/oaas-to-ossa-migrator.js legacy-agent.yml
 
 # Run conformance tests
@@ -728,16 +728,16 @@ cd services && npm install && npm start
 ### Examples
 
 See the [`examples/`](examples/) directory for:
-- [Core Tier Agent](examples/ossa/v0.1.3/core-agent-example.yml) - Basic agent specification
-- [Governed Tier Agent](examples/ossa/v0.1.3/governed-agent-example.yml) - Production-ready agent
+- [Core Tier Agent](examples/ossa/v0.1.6/core-agent-example.yml) - Basic agent specification
+- [Governed Tier Agent](examples/ossa/v0.1.6/governed-agent-example.yml) - Production-ready agent
 - [Advanced Tier Agent](examples/04-agent-enterprise/agent.yml) - Enterprise-grade agent
 - [Orchestration Patterns](examples/orchestration-patterns/) - Multi-agent coordination examples
 
 ## Documentation
 
-- [Architecture Overview](docs/overview/architecture.md) - OSSA v0.1.3 system architecture
+- [Architecture Overview](docs/overview/architecture.md) - OSSA v0.1.6 system architecture
 - [Orchestration Specification](docs/orchestration-specification.md) - Multi-agent orchestration patterns
-- [Migration Guide](docs/migration-guide.md) - OAAS v0.1.1 to OSSA v0.1.3 migration
+- [Migration Guide](docs/migration-guide.md) - OAAS v0.1.1 to OSSA v0.1.6 migration
 - [Publish Instructions](docs/PUBLISH_INSTRUCTIONS.md) - NPM package publication guide
 
 ## Contributing
@@ -746,7 +746,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ### Quick Contribution
 
-1. **Create OSSA Agents**: Define agents using the v0.1.3 specification
+1. **Create OSSA Agents**: Define agents using the v0.1.6 specification
 2. **Validate Compliance**: Use the validation tools to ensure conformance
 3. **Share Examples**: Contribute real-world agent implementations
 4. **Improve Tools**: Enhance migration and validation utilities
@@ -759,7 +759,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## Implementation Status
 
-### ✅ OSSA v0.1.3 Complete
+### ✅ OSSA v0.1.6 Complete
 - **Core Specification**: Complete with JSON schema validation ✅ **READY**
 - **Governed Specification**: Production-ready with security and monitoring ✅ **READY**
 - **Advanced Specification**: Enterprise-grade with full governance ✅ **READY**
@@ -785,4 +785,4 @@ Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for detai
 
 ---
 
-**Open Standards for Scalable Agents (OSSA) v0.1.3** - The definitive framework for AI agent definition, discovery, and orchestration
+**Open Standards for Scalable Agents (OSSA) v0.1.6** - The definitive framework for AI agent definition, discovery, and orchestration

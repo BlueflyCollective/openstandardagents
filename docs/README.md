@@ -1,4 +1,4 @@
-# OSSA v0.1.3 Documentation
+# OSSA v0.1.6 Documentation
 
 **Open Standards for Scalable Agents - Complete Documentation**
 
@@ -16,7 +16,7 @@
 - [`enterprise-features.md`](guides/enterprise-features.md) - Enterprise capabilities
 
 ### **Technical Reference** (`reference/`)
-- [`agent-specification.md`](reference/agent-specification.md) - Agent spec v0.1.3
+- [`agent-specification.md`](reference/agent-specification.md) - Agent spec v0.1.6
 - [`agent-discovery.md`](reference/agent-discovery.md) - ACDL discovery layer
 - [`orchestration-specification.md`](reference/orchestration-specification.md) - Multi-agent orchestration
 
@@ -43,4 +43,4 @@
 - All files use kebab-case naming
 - Organized by purpose and audience
 - Cross-referenced with relative links
-- Maintained for OSSA v0.1.3 compliance
+- Maintained for OSSA v0.1.6 compliance

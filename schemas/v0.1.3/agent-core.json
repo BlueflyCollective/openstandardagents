@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://open-standards-scalable-agents.org/schemas/v0.1.3/agent-core.json",
-  "title": "OSSA Core Agent Schema v0.1.3",
+  "$id": "https://open-standards-scalable-agents.org/schemas/v0.1.6/agent-core.json",
+  "title": "OSSA Core Agent Schema v0.1.6",
   "description": "Core level OSSA agent specification for basic interoperability with enhanced security and framework support",
   "type": "object",
   "required": ["apiVersion", "kind", "metadata", "spec"],
   "properties": {
     "apiVersion": {
       "type": "string",
-      "const": "open-standards-scalable-agents/v0.1.3",
+      "const": "open-standards-scalable-agents/v0.1.6",
       "description": "OSSA API version"
     },
     "kind": {

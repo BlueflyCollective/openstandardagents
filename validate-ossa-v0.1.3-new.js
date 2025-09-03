@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * OSSA v0.1.3 Compliance Validation Script
+ * OSSA v0.1.6 Compliance Validation Script
  * Open Standards for Scalable Agents validation tool
  */
 
@@ -30,7 +30,7 @@ class OSSAValidator {
             const errors = [];
             const warnings = [];
 
-            // Core OSSA v0.1.3 validation
+            // Core OSSA v0.1.6 validation
             this.validateApiVersion(agent, errors);
             this.validateKind(agent, errors);
             this.validateMetadata(agent, errors, warnings);
@@ -80,8 +80,8 @@ class OSSAValidator {
     validateApiVersion(agent, errors) {
         if (!agent.apiVersion) {
             errors.push('Missing required field: apiVersion');
-        } else if (!['open-standards-scalable-agents/v0.1.3', 'open-standards-scalable-agents/v0.1.2'].includes(agent.apiVersion)) {
-            errors.push(`Invalid apiVersion - must be: open-standards-scalable-agents/v0.1.3 or open-standards-scalable-agents/v0.1.2 (found: ${agent.apiVersion})`);
+        } else if (!['open-standards-scalable-agents/v0.1.6', 'open-standards-scalable-agents/v0.1.2'].includes(agent.apiVersion)) {
+            errors.push(`Invalid apiVersion - must be: open-standards-scalable-agents/v0.1.6 or open-standards-scalable-agents/v0.1.2 (found: ${agent.apiVersion})`);
         }
     }
 
@@ -241,8 +241,8 @@ class OSSAValidator {
             // Basic workspace validation
             if (!workspace.apiVersion) {
                 errors.push('Missing required field: apiVersion');
-            } else if (!['open-standards-scalable-agents/v0.1.3', 'open-standards-scalable-agents/v0.1.2'].includes(workspace.apiVersion)) {
-                errors.push(`Invalid apiVersion - must be: open-standards-scalable-agents/v0.1.3 or open-standards-scalable-agents/v0.1.2`);
+            } else if (!['open-standards-scalable-agents/v0.1.6', 'open-standards-scalable-agents/v0.1.2'].includes(workspace.apiVersion)) {
+                errors.push(`Invalid apiVersion - must be: open-standards-scalable-agents/v0.1.6 or open-standards-scalable-agents/v0.1.2`);
             }
 
             if (!workspace.kind) {
@@ -291,7 +291,7 @@ class OSSAValidator {
      * Main validation method
      */
     async validate(targetPath = '.') {
-        console.log('🚀 OSSA v0.1.3 Compliance Validation');
+        console.log('🚀 OSSA v0.1.6 Compliance Validation');
         console.log('=====================================');
 
         try {

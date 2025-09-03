@@ -1,13 +1,13 @@
 # test-security-agent Agent
 
-[![OSSA v0.1.3](https://img.shields.io/badge/OSSA-v0.1.3-green.svg)](https://ossa.agents)
+[![OSSA v0.1.6](https://img.shields.io/badge/OSSA-v0.1.6-green.svg)](https://ossa.agents)
 [![UADP](https://img.shields.io/badge/UADP-Discovery-blue.svg)](https://ossa.agents)
 
-OSSA v0.1.3 advanced tier agent for security operations with UADP discovery protocol support.
+OSSA v0.1.6 advanced tier agent for security operations with UADP discovery protocol support.
 
 ## Features
 
-- 🚀 OSSA v0.1.3 compliant
+- 🚀 OSSA v0.1.6 compliant
 - 🔍 UADP discovery protocol
 - 🎯 advanced conformance tier
 - 🔗 Multi-framework integration (LangChain, CrewAI, OpenAI, MCP)
@@ -51,4 +51,4 @@ This agent supports multiple AI frameworks:
 
 - ISO 42001 (AI Management Systems)
 - NIST AI Risk Management Framework
-- OSSA v0.1.3 Advanced Conformance Tier
+- OSSA v0.1.6 Advanced Conformance Tier

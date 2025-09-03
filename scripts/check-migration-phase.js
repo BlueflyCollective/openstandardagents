@@ -115,7 +115,7 @@ function showMigrationCommands() {
   
   console.log('');
   console.log(`${blue}Migration Commands:${reset}`);
-  console.log(`${green}  npm install -g @bluefly/open-standards-scalable-agents@0.1.3${reset}`);
+  console.log(`${green}  npm install -g @bluefly/open-standards-scalable-agents@0.1.6${reset}`);
   console.log(`${green}  ossa validate [path]${reset}`);
   console.log(`${green}  ossa create <name>${reset}`);
   console.log(`${green}  ossa discovery init${reset}`);

@@ -193,7 +193,7 @@ class AgentDeploymentService {
    */
   generateOSSASpec(agentId, config) {
     return {
-      apiVersion: 'openapi-ai-agents/v0.1.3',
+      apiVersion: 'openapi-ai-agents/v0.1.6',
       kind: 'Agent',
       metadata: {
         name: agentId,
