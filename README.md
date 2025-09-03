@@ -1,59 +1,53 @@
-# Open Standards for Scalable Agents (OSSA) v0.1.6
+# Open Standards for Scalable Agents (OSSA) v0.1.7
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![OSSA Specification](https://img.shields.io/badge/OSSA-0.1.6-green.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
+[![OSSA Specification](https://img.shields.io/badge/OSSA-0.1.7-green.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
 [![NPM Package](https://img.shields.io/npm/v/@bluefly/open-standards-scalable-agents.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
-[![Production Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
-[![Enterprise Grade](https://img.shields.io/badge/Enterprise-ISO%2042001%20Compliant-blue.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
 
-> **🚨 MIGRATION REQUIRED**: Legacy validation scripts are deprecated as of September 2025. Please migrate to the CLI: `npm install -g @bluefly/open-standards-scalable-agents@0.1.6` and use `ossa validate` instead of direct script execution. See [DEPRECATION_NOTICE.md](DEPRECATION_NOTICE.md) for details.
-
-> **Open Standards for Scalable Agents (OSSA) 0.1.6** - A framework for AI agent definition, discovery, and orchestration with enterprise governance
+> **Open Standards for Scalable Agents (OSSA) 0.1.7** - A specification for AI agent definition and interoperability
 
 ## Executive Summary
 
-**Open Standards for Scalable Agents (OSSA) 0.1.6** establishes a framework for **AI agent definition, discovery, and orchestration** with enterprise-grade governance. Building on OpenAPI 3.1 foundations, OSSA provides a comprehensive specification system with three conformance tiers (Core, Governed, Advanced) and seamless integration across all major AI frameworks.
+**Open Standards for Scalable Agents (OSSA) 0.1.7** provides a specification for AI agent definition and interoperability. Built on OpenAPI 3.1, it offers three conformance levels and supports multiple AI frameworks.
 
-### **🎯 Strategic Value Proposition**
+### **Value Proposition**
 
-**For Enterprise Organizations:**
-- **Standardized Agent Architecture**: Consistent agent definitions across all AI frameworks and platforms
-- **Progressive Compliance**: Core → Governed → Advanced tiers matching regulatory and business requirements
-- **Risk Management**: Built-in governance with ISO 42001, NIST AI RMF, and EU AI Act compliance automation
-- **Vendor Independence**: Framework-agnostic specifications preventing technology lock-in
+**For Organizations:**
+- **Standardized Definitions**: Consistent agent specifications across frameworks
+- **Progressive Adoption**: Three conformance tiers (Core, Governed, Advanced)
+- **Framework Agnostic**: Works with MCP, LangChain, CrewAI, AutoGen, and others
+- **Interoperability**: Agents can work together regardless of underlying framework
 
-**For Development Teams:**
-- **Universal Compatibility**: Native support for MCP, LangChain, CrewAI, AutoGen, and custom frameworks
-- **Simplified Orchestration**: Declarative workflows with automatic agent discovery and coordination
-- **Production-Ready Templates**: Complete examples with enterprise-grade specifications and configurations
-- **Seamless Migration**: Automated migration tools from legacy OAAS v0.1.1 to OSSA v0.1.6
+**For Developers:**
+- **Clear Specifications**: YAML-based agent definitions with OpenAPI schemas
+- **Examples Included**: Working examples for each conformance level
+- **Validation Tools**: CLI tools for checking OSSA compliance
+- **Migration Support**: Tools for migrating from older specifications
 
-## **🏗️ OSSA v0.1.6 Architecture**
+## **🏗️ OSSA v0.1.7 Architecture**
 
 ### **Three-Tier Conformance System**
-- **Core Tier**: Essential agent definitions with OpenAPI 3.1 specifications and basic capabilities
-- **Governed Tier**: Production-ready agents with enhanced security, monitoring, and compliance features
-- **Advanced Tier**: Enterprise-grade agents with comprehensive governance, orchestration, and risk management
+- **Core Tier**: Basic agent definitions with OpenAPI 3.1 specifications
+- **Governed Tier**: Agents with additional security and monitoring features
+- **Advanced Tier**: Full-featured agents with orchestration and governance
 
-### **Universal Discovery and Orchestration**
-- **Hierarchical Discovery**: Multi-level agent discovery across workspaces, projects, and organizations
-- **Intelligent Orchestration**: Automated agent coordination with capability-based routing and load balancing
-- **Performance Optimization**: Optimized response times with caching and request optimization
-- **Scalability**: Container-native architecture for concurrent agent interactions
+### **Agent Discovery**
+- **Hierarchical Structure**: Agents organized in workspaces and projects
+- **YAML Definitions**: Human-readable agent specifications
+- **Schema Validation**: Ensures agents conform to OSSA standards
 
-### **Framework-Agnostic Integration**
-- **Native Protocol Support**: Direct integration with MCP, LangChain, CrewAI, AutoGen, and OpenAI frameworks
-- **Runtime Translation**: Seamless protocol bridging without modification of existing agent implementations
-- **Configuration Management**: Declarative agent definitions with automatic framework-specific code generation
-- **Migration Tools**: Automated conversion from legacy specifications to OSSA v0.1.6 compliance
+### **Framework Integration**
+- **Protocol Support**: Works with MCP, LangChain, CrewAI, AutoGen
+- **OpenAPI Compatibility**: Uses standard OpenAPI 3.1 specifications
+- **Migration Tools**: Convert from older agent formats
 
-### **Enterprise Governance**
-- **Compliance Automation**: Built-in support for ISO 42001, NIST AI RMF, EU AI Act, and custom regulatory frameworks
-- **Risk Management**: Continuous risk assessment with automated mitigation and escalation workflows
+### **Governance Features**
+- **Compliance Tracking**: Support for various compliance frameworks
+- **Risk Assessment**: Basic risk management capabilities
 
 ## **🚀 20-Agent Ecosystem Deployment**
 
-This repository includes a production-ready 20-agent deployment system with orchestration and communication infrastructure.
+This repository includes examples of agent deployment and orchestration.
 
 ### **Active Services**
 
@@ -334,7 +328,7 @@ security:
 
 ### **Universal Framework Compatibility**
 
-This OpenAPI specification ensures **seamless integration** across:
+This OpenAPI specification supports integration across:
 
 | Framework | Integration Method | Configuration | Status |
 |-----------|-------------------|---------------|---------|
@@ -394,7 +388,7 @@ curl -X GET http://localhost:3004/api/v1/health
 
 ### **2. Enterprise Agent Implementation**
 
-Create production-ready agent with comprehensive specification:
+Create an agent with full specification:
 
 ```bash
 # Generate enterprise agent template with OAAS CLI
