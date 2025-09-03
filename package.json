@@ -9,13 +9,18 @@
     "ossa-validate-legacy": "lib/tools/validation/validate-ossa-v0.1.2.js"
   },
   "scripts": {
-    "validate": "node lib/cli.js",
-    "validate:legacy": "node lib/tools/validation/validate-ossa-v0.1.2.js",
-    "validate:verbose": "node validate-oaas-v1.3.0.js --verbose",
-    "test": "npm run validate examples/",
+    "validate": "echo '⚠️ DEPRECATED: Use CLI instead: ossa validate' && node lib/cli.js",
+    "validate:legacy": "echo '⚠️ DEPRECATED: Use CLI instead: ossa validate --legacy' && node lib/tools/validation/validate-ossa-v0.1.2.js",
+    "validate:verbose": "echo '⚠️ DEPRECATED: Use CLI instead: ossa validate --verbose' && node validate-oaas-v1.3.0.js --verbose",
+    "test": "echo '⚠️ DEPRECATED: Use CLI instead: ossa validate examples/' && npm run validate examples/",
     "lint": "echo 'No linting configured'",
     "clean": "find . -name 'node_modules' -type d -prune -exec rm -rf {} +",
-    "build": "echo \"OSSA package ready for publication\""
+    "build": "echo \"OSSA package ready for publication\"",
+    "migration-help": "echo 'Migration Guide: docs/MIGRATION_GUIDE.md' && echo 'CLI Install: npm install -g @bluefly/open-standards-scalable-agents@0.1.3'",
+    "version:patch": "npm version patch --no-git-tag-version",
+    "version:check": "node ../common_npm/scripts/version-control.js",
+    "publish:safe": "node ../common_npm/scripts/safe-publish.js",
+    "prepublishOnly": "npm run version:check"
   },
   "keywords": [
     "ossa",
