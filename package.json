@@ -6,7 +6,8 @@
   "type": "module",
   "bin": {
     "ossa": "bin/ossa",
-    "ossa-validate": "lib/tools/validation/validate-ossa.js"
+    "ossa-validate": "lib/tools/validation/validate-ossa.js",
+    "ossa-langchain": "lib/integrations/langchain/langchain-cli.js"
   },
   "scripts": {
     "validate": "node lib/cli.js",
@@ -67,10 +68,15 @@
   ],
   "dependencies": {
     "@anthropic-ai/dxt": "^0.2.6",
+    "@langchain/anthropic": "^0.3.26",
+    "@langchain/community": "^0.3.54",
+    "@langchain/core": "^0.3.73",
+    "@langchain/openai": "^0.6.11",
     "axios": "^1.11.0",
     "express": "^5.1.0",
     "glob": "^10.4.5",
     "js-yaml": "^4.1.0",
+    "langchain": "^0.3.32",
     "yaml": "^2.8.1"
   }
 }
