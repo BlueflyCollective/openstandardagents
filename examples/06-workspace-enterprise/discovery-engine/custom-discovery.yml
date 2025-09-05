@@ -1,8 +1,8 @@
 # Custom Discovery Engine Configuration
 # Advanced agent discovery algorithms for enterprise workspaces
-# OpenAPI AI Agents Standard (OAAS) v0.1.1
+# OpenAPI AI Agents Standard (OAAS) v0.1.8
 
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: "openapi-ai-agents/v0.1.8"
 kind: "DiscoveryEngine"
 metadata:
   name: "enterprise-discovery-engine"

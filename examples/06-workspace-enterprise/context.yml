@@ -1,7 +1,7 @@
 # Enterprise Workspace Context - Shared Knowledge and Resources
-# OpenAPI AI Agents Standard (OAAS) v0.1.1
+# OpenAPI AI Agents Standard (OAAS) v0.1.8
 
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: "openapi-ai-agents/v0.1.8"
 kind: "WorkspaceContext"
 metadata:
   name: "enterprise-workspace-context"
@@ -396,7 +396,7 @@ spec:
     # Versioning
     versions:
       workspace: "1.0.0"
-      oaas: "0.1.1"
+      oaas: "0.1.8"
       uadp: "1.0.0"
       
     # Tags for discovery

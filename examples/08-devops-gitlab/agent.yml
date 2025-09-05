@@ -1,4 +1,4 @@
-# OpenAPI AI Agents Standard (OAAS) v0.1.1 - GitLab CI/CD DevOps Agent
+# OpenAPI AI Agents Standard (OAAS) v0.1.8 - GitLab CI/CD DevOps Agent
 # Production-ready GitLab CI/CD management and automation agent
 
 apiVersion: "open-standards-scalable-agents/v0.1.8"
@@ -19,7 +19,7 @@ metadata:
     ossa.io/conformance-level: "governed"
     ossa.io/migration-date: "2024-01-15"
     ossa.io/source-format: "oaas"
-    oaas/version: "0.1.1"
+    oaas/version: "0.1.8"
     oaas/certification-level: "gold"
     oaas/compliance-frameworks: "soc2,iso27001,gdpr,nist-cybersecurity,pci-dss"
     oaas/token-optimization: "enabled"

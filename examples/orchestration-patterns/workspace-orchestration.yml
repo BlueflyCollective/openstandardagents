@@ -1,7 +1,7 @@
 # Orchestration Rules - Workspace Level
 # Defines how workspace orchestrates agents across projects
 
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: "openapi-ai-agents/v0.1.8"
 kind: "OrchestrationRules"
 metadata:
   name: "workspace-orchestration-rules"

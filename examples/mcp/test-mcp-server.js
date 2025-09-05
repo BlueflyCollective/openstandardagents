@@ -39,7 +39,7 @@ const testMessages = [
     params: {
       name: 'validate-ossa-config',
       arguments: {
-        filePath: './examples/01-agent-basic-ossa-v0.1.2.yml'
+        filePath: './examples/01-agent-basic-ossa-v0.1.8.yml'
       }
     }
   },

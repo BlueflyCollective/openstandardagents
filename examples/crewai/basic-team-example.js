@@ -119,7 +119,7 @@ async function loadOSSAAgents() {
   
   try {
     // Try to load the basic OSSA example
-    const basicAgentPath = path.resolve(process.cwd(), 'examples/01-agent-basic-ossa-v0.1.2.yml');
+    const basicAgentPath = path.resolve(process.cwd(), 'examples/01-agent-basic-ossa-v0.1.8.yml');
     const basicAgentYaml = await readFile(basicAgentPath, 'utf-8');
     const basicAgent = yaml.parse(basicAgentYaml);
     agentSpecs.push(basicAgent);

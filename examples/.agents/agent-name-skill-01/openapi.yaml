@@ -4,7 +4,7 @@ info:
   version: "1.0.0"
   description: |
     Comprehensive Drupal module research and analysis agent compliant with 
-    OpenAPI AI Agents Standard v0.1.1 and Universal Agent Discovery Protocol (UADP) v1.0.
+    OpenAPI AI Agents Standard v0.1.8 and Universal Agent Discovery Protocol (UADP) v1.0.
     
     This agent provides exhaustive analysis of Drupal contributed modules including:
     - Module metadata and release history analysis
@@ -24,7 +24,7 @@ info:
     url: "https://www.apache.org/licenses/LICENSE-2.0.html"
     
   x-openapi-ai-agents-standard:
-    version: "0.1.1"
+    version: "0.1.8"
     certification_level: "silver"
     protocols: ["openapi", "mcp", "tddai"]
     uadp_enabled: true

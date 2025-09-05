@@ -1,8 +1,8 @@
 # Workspace-Level Agent Registry - GOLDEN STANDARD
 # Universal Agent Discovery Protocol (UADP) v1.0
-# OpenAPI AI Agents Standard (OAAS) v0.1.1
+# OpenAPI AI Agents Standard (OAAS) v0.1.8
 
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: "openapi-ai-agents/v0.1.8"
 kind: "WorkspaceRegistry"
 metadata:
   name: "enterprise-workspace-registry"

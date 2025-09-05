@@ -173,7 +173,7 @@ frameworks:
 ### Pattern 3: Version Management
 ```yaml
 # Development
-version: "0.1.0"  # Pre-production
+version: "0.1.8"  # Pre-production
 
 # Production
 version: "1.0.0"  # First stable release
@@ -251,7 +251,7 @@ const server = new MCPServer({...})
 ### Minimal Agent (Copy & Modify)
 ```yaml
 name: my-agent
-version: "0.1.0"
+version: "0.1.8"
 expertise: "What I do"
 capabilities:
   - do_something: "Description"

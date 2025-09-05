@@ -1,6 +1,6 @@
 # Drupal Module Research Agent
 
-**OpenAPI AI Agents Standard v0.1.1 + UADP v1.0 Compliant**
+**OpenAPI AI Agents Standard v0.1.8 + UADP v1.0 Compliant**
 
 A comprehensive research agent specialized in analyzing Drupal contributed modules with exhaustive depth and precision. Built for integration with the TDDAI framework and LLM Platform ecosystem.
 
@@ -31,7 +31,7 @@ drupal-research-agent/
 ```
 
 Compliant with:
-- ✅ **OpenAPI AI Agents Standard v0.1.1** (Silver Certification)
+- ✅ **OpenAPI AI Agents Standard v0.1.8** (Silver Certification)
 - ✅ **Universal Agent Discovery Protocol (UADP) v1.0**
 - ✅ **Enhanced OAAS Structure** (README.md + data/ folder)
 - ✅ **TDDAI Framework Integration**

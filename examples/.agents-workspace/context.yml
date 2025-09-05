@@ -2,7 +2,7 @@
 # Universal Agent Discovery Protocol (UADP) v1.0
 # Comprehensive workspace intelligence and domain expertise
 
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: "openapi-ai-agents/v0.1.8"
 kind: "WorkspaceContext"
 metadata:
   name: "enterprise-workspace-context"

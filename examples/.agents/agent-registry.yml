@@ -1,4 +1,4 @@
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: "openapi-ai-agents/v0.1.8"
 kind: "ProjectAgentRegistry"
 metadata:
   name: "your-project-name"
@@ -129,7 +129,7 @@ spec:
   protocols:
     uadp:
       enabled: true
-      version: "0.1.1"
+      version: "0.1.8"
       discovery_port: 9090
     mcp:
       enabled: true

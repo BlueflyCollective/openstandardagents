@@ -1,10 +1,10 @@
-# GitLab CI/CD DevOps Agent - OAAS v0.1.1 Gold Compliance
+# GitLab CI/CD DevOps Agent - OAAS v0.1.8 Gold Compliance
 
 > Enterprise GitLab CI/CD automation agent providing comprehensive pipeline optimization, security scanning, deployment orchestration, and multi-environment coordination.
 
 ## 🚀 Overview
 
-This GitLab CI/CD DevOps Agent is a production-ready, OAAS v0.1.1 Gold-compliant AI agent that provides comprehensive DevOps automation capabilities. It specializes in GitLab CI/CD pipeline management, security scanning, deployment orchestration, and compliance validation.
+This GitLab CI/CD DevOps Agent is a production-ready, OAAS v0.1.8 Gold-compliant AI agent that provides comprehensive DevOps automation capabilities. It specializes in GitLab CI/CD pipeline management, security scanning, deployment orchestration, and compliance validation.
 
 ### Key Features
 
@@ -29,7 +29,7 @@ This GitLab CI/CD DevOps Agent is a production-ready, OAAS v0.1.1 Gold-compliant
 
 ### OAAS Compliance
 
-This agent implements full OAAS v0.1.1 Gold certification requirements:
+This agent implements full OAAS v0.1.8 Gold certification requirements:
 
 - ✅ **Protocol Bridges**: MCP, A2A, Custom protocols
 - ✅ **Framework Support**: LangChain, CrewAI, AutoGen, OpenAI, Anthropic, Google
@@ -771,4 +771,4 @@ This example is provided under the Apache 2.0 License. See LICENSE file for deta
 
 ---
 
-**Note**: This is a reference implementation showcasing OAAS v0.1.1 Gold compliance for GitLab CI/CD automation. Adapt and customize according to your organization's specific requirements and security policies.
+**Note**: This is a reference implementation showcasing OAAS v0.1.8 Gold compliance for GitLab CI/CD automation. Adapt and customize according to your organization's specific requirements and security policies.

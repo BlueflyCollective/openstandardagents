@@ -171,7 +171,7 @@ Each agent follows the **Golden Standard** with 4 required components:
 
 ```yaml
 # Deploy the same agent across different frameworks
-apiVersion: openapi-ai-agents/v0.1.1
+apiVersion: openapi-ai-agents/v0.1.8
 kind: MultiFrameworkDeployment
 spec:
   agent: your-agent-name
@@ -188,7 +188,7 @@ spec:
 
 ```yaml
 # Enable protocol translation for legacy systems
-apiVersion: openapi-ai-agents/v0.1.1  
+apiVersion: openapi-ai-agents/v0.1.8  
 kind: ProtocolBridge
 spec:
   source_protocol: mcp

@@ -5,7 +5,7 @@ info:
     Enterprise GitLab CI/CD DevOps Agent providing comprehensive pipeline optimization,
     security scanning, deployment orchestration, and multi-environment coordination.
     
-    This API implements OAAS v0.1.1 Gold compliance with full protocol bridge support
+    This API implements OAAS v0.1.8 Gold compliance with full protocol bridge support
     for MCP, LangChain, CrewAI, and other AI frameworks.
     
     ## Key Features

@@ -1,8 +1,8 @@
 # OAAS Enterprise Workspace Configuration - Production Grade
 # Comprehensive enterprise workspace with full compliance, monitoring, and advanced orchestration
-# OpenAPI AI Agents Standard (OAAS) v0.1.1
+# OpenAPI AI Agents Standard (OAAS) v0.1.8
 
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: "openapi-ai-agents/v0.1.8"
 kind: "Workspace"
 metadata:
   name: "enterprise-workspace"

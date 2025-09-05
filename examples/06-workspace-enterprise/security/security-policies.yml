@@ -1,8 +1,8 @@
 # Enterprise Security Policies for AI Agent Workspace
 # Comprehensive security framework for production environments
-# OpenAPI AI Agents Standard (OAAS) v0.1.1
+# OpenAPI AI Agents Standard (OAAS) v0.1.8
 
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: "openapi-ai-agents/v0.1.8"
 kind: "SecurityPolicy"
 metadata:
   name: "enterprise-security-policies"

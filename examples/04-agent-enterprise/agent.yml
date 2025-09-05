@@ -1,4 +1,4 @@
-# OpenAPI AI Agents Standard (OAAS) v0.1.1 - Test Agent
+# OpenAPI AI Agents Standard (OAAS) v0.1.8 - Test Agent
 # Production-ready agent configuration for OAAS validation and testing
 
 apiVersion: open-standards-scalable-agents/v0.1.8
@@ -15,7 +15,7 @@ metadata:
     # OSSA Core Compliance
     ossa.io/conformance-level: "advanced"
     ossa.io/migration-date: "2025-08-27"
-    ossa.io/source-format: "openapi-ai-agents-v0.1.1"
+    ossa.io/source-format: "openapi-ai-agents-v0.1.8"
     ossa.io/compliance-frameworks: "iso-42001,nist-ai-rmf,eu-ai-act"
     ossa.io/governance-level: "enterprise"
     oaas/token-optimization: "enabled"
@@ -282,7 +282,7 @@ spec:
   frameworks:
     ossa:
       enabled: true
-      version: "0.1.2"
+      version: "0.1.8"
       conformance_level: "advanced"
     langchain:
       tool_type: "structured"

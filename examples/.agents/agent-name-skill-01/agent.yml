@@ -1,4 +1,4 @@
-apiVersion: openapi-ai-agents/v0.1.1
+apiVersion: openapi-ai-agents/v0.1.8
 kind: Agent
 metadata:
   name: agent-name-skill
@@ -7,7 +7,7 @@ metadata:
   updated: "2025-01-26"
   description: Golden standard agent template demonstrating full OAAS compliance and cross-platform compatibility
   annotations:
-    oaas/version: 0.1.1
+    oaas/version: 0.1.8
     oaas/certification-level: gold
     oaas/compliance-frameworks: iso-42001,nist-ai-rmf,eu-ai-act
     oaas/token-optimization: enabled
@@ -896,17 +896,17 @@ status:
   framework_compatibility:
     langchain:
       status: fully_compatible
-      version: 0.1.0
+      version: 0.1.8
       last_tested: "2025-01-26T10:00:00Z"
       test_coverage: 100%
     crewai:
       status: fully_compatible
-      version: 0.1.0
+      version: 0.1.8
       last_tested: "2025-01-26T10:00:00Z"
       test_coverage: 100%
     autogen:
       status: fully_compatible
-      version: 0.1.0
+      version: 0.1.8
       last_tested: "2025-01-26T10:00:00Z"
       test_coverage: 100%
     openai:

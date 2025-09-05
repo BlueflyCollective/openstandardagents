@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "description": "Generic training data patterns for cross-platform AI agents",
     "format": "JSONL-compatible training examples",
-    "schema_version": "openapi-ai-agents/v0.1.1",
+    "schema_version": "openapi-ai-agents/v0.1.8",
     "created": "2025-01-26",
     "framework_compatibility": [
       "langchain",

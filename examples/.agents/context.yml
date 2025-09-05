@@ -1,4 +1,4 @@
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: "openapi-ai-agents/v0.1.8"
 kind: "ProjectContext"
 metadata:
   name: "your-project-context"
@@ -182,7 +182,7 @@ spec:
     configuration_files:
       agent.yml:
         purpose: "Agent metadata and configuration"
-        format: "OAAS v0.1.1 standard"
+        format: "OAAS v0.1.8 standard"
         required_sections: ["metadata", "spec", "capabilities"]
         
       openapi.yaml:

@@ -1,7 +1,7 @@
 # Enterprise Orchestration Rules - Production-Grade Multi-Agent Coordination
-# OpenAPI AI Agents Standard (OAAS) v0.1.1
+# OpenAPI AI Agents Standard (OAAS) v0.1.8
 
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: "openapi-ai-agents/v0.1.8"
 kind: "OrchestrationRules"
 metadata:
   name: "enterprise-orchestration-rules"

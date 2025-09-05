@@ -1,7 +1,7 @@
 # Discovery Engine Agent - Workspace-Level GOLDEN STANDARD
 # Automatically scans workspace for projects and agents, enabling UADP discovery
 
-apiVersion: "openapi-ai-agents/v0.1.1"
+apiVersion: "openapi-ai-agents/v0.1.8"
 kind: "Agent"
 metadata:
   name: "workspace-discovery-engine"
@@ -12,7 +12,7 @@ metadata:
   
   annotations:
     # OAAS Core Compliance
-    oaas/version: "0.1.1"
+    oaas/version: "0.1.8"
     oaas/certification-level: "gold"
     oaas/agent-type: "system"
     oaas/workspace-role: "discovery-engine"
