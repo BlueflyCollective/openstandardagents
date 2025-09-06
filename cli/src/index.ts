@@ -19,12 +19,16 @@ import { registerApiCommands } from './commands/api.js';
 import { registerOrchestrationCommands, registerGraphQLCommands } from './commands/api-orchestration.js';
 import { registerMonitoringCommands, registerAdvancedCommands } from './commands/api-monitoring.js';
 import { registerValidationCommands } from './commands/validate.js';
+import { createAgentManagementCommands } from './commands/agent-management.js';
+import { createWorkspaceManagementCommands } from './commands/workspace-management.js';
 
 // Configure program
 program
   .name('ossa')
-  .description('OSSA v0.1.8 Agent CLI with UADP Discovery Protocol')
-  .version('0.1.8');
+  .description('OSSA v0.1.8 Complete Agent & Workspace Management CLI')
+  .version('0.1.8')
+  .option('-v, --verbose', 'Verbose output')
+  .option('--json', 'JSON output format');
 
 // Create agent command
 program
@@ -82,6 +86,12 @@ program.addCommand(createServicesCommand());
 
 // Add agent-forge integration
 program.addCommand(createAgentForgeIntegration());
+
+// Add comprehensive agent management commands
+program.addCommand(createAgentManagementCommands());
+
+// Add workspace management commands  
+program.addCommand(createWorkspaceManagementCommands());
 
 // Implementation functions
 
