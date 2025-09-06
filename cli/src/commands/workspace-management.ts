@@ -17,9 +17,20 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  try {
+    return JSON.stringify(error);
+  } catch {
+    return String(error);
+  }
+}
+
 export function createWorkspaceManagementCommands(): Command {
   const workspace = new Command('workspace')
-    .description('Multi-agent workspace management');
+    .description('Manage OSSA workspaces for multi-agent orchestration');
 
   // Initialize workspace
   workspace
@@ -297,7 +308,7 @@ ossa workspace status
     console.log('  3. Start orchestration: ossa orchestrate start');
     
   } catch (error) {
-    spinner.fail(`Initialization failed: ${error.message}`);
+    spinner.fail(`Initialization failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -365,7 +376,7 @@ async function showWorkspaceStatus(options: any) {
     }
     
   } catch (error) {
-    spinner.fail(`Failed to get status: ${error.message}`);
+    spinner.fail(`Failed to get status: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -504,7 +515,7 @@ async function validateWorkspace(workspacePath: string, options: any) {
     }
     
   } catch (error) {
-    spinner.fail(`Validation failed: ${error.message}`);
+    spinner.fail(`Validation failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -556,7 +567,7 @@ async function syncWorkspace(options: any) {
     }
     
   } catch (error) {
-    spinner.fail(`Sync failed: ${error.message}`);
+    spinner.fail(`Sync failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -627,7 +638,7 @@ async function importWorkspace(source: string, options: any) {
     spinner.succeed('Workspace imported successfully');
     
   } catch (error) {
-    spinner.fail(`Import failed: ${error.message}`);
+    spinner.fail(`Import failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -664,7 +675,7 @@ async function exportWorkspace(workspacePath: string, options: any) {
     spinner.succeed(`Workspace exported to ${outputFile} (${size} MB)`);
     
   } catch (error) {
-    spinner.fail(`Export failed: ${error.message}`);
+    spinner.fail(`Export failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -729,7 +740,7 @@ async function cleanWorkspace(options: any) {
     spinner.succeed(`Cleaned ${cleaned} items`);
     
   } catch (error) {
-    spinner.fail(`Clean failed: ${error.message}`);
+    spinner.fail(`Clean failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -856,7 +867,7 @@ async function showWorkspaceMetrics(options: any) {
     }
     
   } catch (error) {
-    spinner.fail(`Failed to collect metrics: ${error.message}`);
+    spinner.fail(`Failed to collect metrics: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -892,7 +903,7 @@ async function backupWorkspace(options: any) {
     }
     
   } catch (error) {
-    spinner.fail(`Backup failed: ${error.message}`);
+    spinner.fail(`Backup failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -963,7 +974,7 @@ async function restoreWorkspace(backup: string, options: any) {
     console.log(chalk.gray(`Previous workspace backed up to: ${currentBackup}`));
     
   } catch (error) {
-    spinner.fail(`Restore failed: ${error.message}`);
+    spinner.fail(`Restore failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }

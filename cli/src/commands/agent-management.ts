@@ -17,6 +17,17 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  try {
+    return JSON.stringify(error);
+  } catch {
+    return String(error);
+  }
+}
+
 export function createAgentManagementCommands(): Command {
   const agent = new Command('agent')
     .description('Comprehensive agent management operations');
@@ -195,10 +206,10 @@ async function registerAgent(options: any) {
 
     // Register in workspace
     const registryPath = path.join(workspace, '.agents-workspace', 'agents', 'registry.json');
-    let registry = {};
+    let registry: Record<string, any> = {};
     
     if (await fs.pathExists(registryPath)) {
-      registry = await fs.readJSON(registryPath);
+      registry = await fs.readJSON(registryPath) as Record<string, any>;
     }
 
     const agentId = manifest.metadata.name;
@@ -222,7 +233,7 @@ async function registerAgent(options: any) {
 
     spinner.succeed(`Agent '${agentId}' registered successfully`);
   } catch (error) {
-    spinner.fail(`Registration failed: ${error.message}`);
+    spinner.fail(`Registration failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -351,7 +362,7 @@ async function deployAgent(name: string, options: any) {
     await updateAgentStatus(name, 'active');
     
   } catch (error) {
-    spinner.fail(`Deployment failed: ${error.message}`);
+    spinner.fail(`Deployment failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -402,7 +413,7 @@ async function startAgent(name: string, options: any) {
     }
     
   } catch (error) {
-    spinner.fail(`Failed to start agent: ${error.message}`);
+    spinner.fail(`Failed to start agent: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -433,7 +444,7 @@ async function stopAgent(name: string, options: any) {
     spinner.succeed(`Agent '${name}' stopped`);
     
   } catch (error) {
-    spinner.fail(`Failed to stop agent: ${error.message}`);
+    spinner.fail(`Failed to stop agent: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -514,7 +525,7 @@ async function validateAgent(manifestPath: string, options: any) {
       }
     }
   } catch (error) {
-    spinner.fail(`Validation error: ${error.message}`);
+    spinner.fail(`Validation error: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -653,7 +664,7 @@ async function updateAgent(name: string, options: any) {
     
     spinner.succeed(`Agent '${name}' updated successfully`);
   } catch (error) {
-    spinner.fail(`Update failed: ${error.message}`);
+    spinner.fail(`Update failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -710,7 +721,7 @@ async function removeAgent(name: string, options: any) {
     
     spinner.succeed(`Agent '${name}' removed`);
   } catch (error) {
-    spinner.fail(`Removal failed: ${error.message}`);
+    spinner.fail(`Removal failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
@@ -849,7 +860,7 @@ async function executeAgentCommand(name: string, command: string, options: any) 
     }
     
   } catch (error) {
-    spinner.fail(`Execution failed: ${error.message}`);
+    spinner.fail(`Execution failed: ${getErrorMessage(error)}`);
     process.exit(1);
   }
 }
