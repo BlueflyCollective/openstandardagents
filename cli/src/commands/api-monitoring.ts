@@ -16,7 +16,8 @@ import { writeFileSync } from 'fs-extra';
 import { 
   ossaClient,
   type PlatformMetrics,
-  type MetricsFilters
+  type MetricsFilters,
+  type HealthResponse
 } from '../api/client';
 
 // =====================================================================
@@ -316,7 +317,7 @@ async function displayDashboard(compact: boolean = false): Promise<void> {
 
     spinner.stop();
 
-    const health = healthResponse.data;
+    const health = healthResponse.data as unknown as HealthResponse;
     const metrics = metricsResponse.data;
     const agents = agentsResponse.data;
 

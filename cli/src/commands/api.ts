@@ -29,11 +29,13 @@ import {
   type WorkflowExecutionRequest,
   type GraphQLRequest,
   type MetricsFilters,
-  type HealthStatus,
+  type HealthResponse,
   CONFORMANCE_TIERS,
   AGENT_CLASSES,
   AGENT_CATEGORIES
 } from '../api/client';
+import { registerMonitoringCommands, registerAdvancedCommands } from './api-monitoring';
+import { registerOrchestrationCommands, registerGraphQLCommands } from './api-orchestration';
 
 // =====================================================================
 // Command Registration Function
@@ -477,31 +479,32 @@ function registerDiscoveryCommands(program: Command): void {
 
 async function displayHealthStatus(json: boolean = false): Promise<void> {
   const response = await ossaClient.getHealth();
+  const healthData = response.data as unknown as HealthResponse;
   
   if (json) {
     console.log(JSON.stringify(response.data, null, 2));
     return;
   }
 
-  const status = response.data.status;
+  const status = healthData.status;
   const statusColor = status === 'healthy' ? 'green' : status === 'degraded' ? 'yellow' : 'red';
   
   console.log(chalk.bold('System Health Status'));
   console.log(`Status: ${chalk[statusColor](status.toUpperCase())}`);
-  console.log(`Version: ${chalk.cyan(response.data.version)}`);
+  console.log(`Version: ${chalk.cyan(healthData.version)}`);
   
-  if (response.data.ossa_version) {
-    console.log(`OSSA Version: ${chalk.cyan(response.data.ossa_version)}`);
+  if (healthData.ossa_version) {
+    console.log(`OSSA Version: ${chalk.cyan(healthData.ossa_version)}`);
   }
   
-  if (response.data.uptime) {
-    const uptime = Math.floor(response.data.uptime / 3600);
+  if (healthData.uptime) {
+    const uptime = Math.floor(healthData.uptime / 3600);
     console.log(`Uptime: ${chalk.cyan(`${uptime} hours`)}`);
   }
 
-  if (response.data.services) {
+  if (healthData.services) {
     console.log('\nServices:');
-    Object.entries(response.data.services).forEach(([service, serviceStatus]) => {
+    Object.entries(healthData.services).forEach(([service, serviceStatus]) => {
       const serviceColor = serviceStatus === 'healthy' ? 'green' : serviceStatus === 'degraded' ? 'yellow' : 'red';
       console.log(`  ${service}: ${chalk[serviceColor](serviceStatus)}`);
     });

@@ -15,7 +15,7 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
 import type { 
   // Core system types
-  HealthStatus, 
+  HealthResponse, 
   VersionInfo, 
   PlatformMetrics,
   
@@ -26,6 +26,7 @@ import type {
   AgentList,
   AgentFilters,
   AgentStatus,
+  AgentCapabilities,
   
   // Discovery types
   DiscoveryResult,
@@ -39,6 +40,18 @@ import type {
   WorkflowExecution,
   WorkflowExecutionRequest,
   WorkflowFilters,
+  
+  // Protocol and metadata types
+  Protocol,
+  ConformanceTier,
+  CertificationLevel,
+  AgentClass,
+  AgentCategory,
+  ProtocolName,
+  HealthStatus,
+  WorkflowStatus,
+  ExecutionStatus,
+  OSSAExtensions,
   
   // GraphQL types
   GraphQLRequest,
@@ -72,7 +85,7 @@ export class OSSAApiClient {
   private axios: AxiosInstance;
   private config: EnhancedApiClientConfig;
 
-  constructor(config: EnhancedApiClientConfig = {}) {
+  constructor(config: Partial<EnhancedApiClientConfig> = {}) {
     this.config = {
       baseURL: 'https://api.ossa.agents/v1',
       timeout: 30000,
@@ -105,10 +118,7 @@ export class OSSAApiClient {
     this.axios.interceptors.request.use(
       (config) => {
         // Add request ID for tracing
-        config.headers = {
-          ...config.headers,
-          'X-Request-ID': this.generateRequestId()
-        };
+        config.headers.set('X-Request-ID', this.generateRequestId());
 
         // Add timestamp for metrics
         if (this.config.enableMetrics) {
@@ -449,7 +459,7 @@ export class OSSAApiClient {
 // =====================================================================
 
 export class ApiClient extends OSSAApiClient {
-  constructor(config: ApiClientConfig = {}) {
+  constructor(config: Partial<ApiClientConfig> = {}) {
     super(config);
   }
 }
@@ -532,12 +542,11 @@ export function createJWTClient(token: string, baseURL?: string): OSSAApiClient 
 
 export type {
   // Configuration types
-  EnhancedApiClientConfig,
   ApiClientConfig,
   AuthConfig,
   
   // Core system types
-  HealthStatus,
+  HealthResponse,
   VersionInfo, 
   PlatformMetrics,
   
