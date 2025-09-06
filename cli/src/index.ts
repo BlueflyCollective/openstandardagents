@@ -14,6 +14,11 @@ import { addUADPCommands } from './uadp-commands.js';
 import { createOrchestrateCommands } from './commands/orchestrate.js';
 import { createStandardizeCommands } from './commands/standardize.js';
 import { createAgentForgeIntegration } from './commands/agent-forge-integration.js';
+import { createServicesCommand } from './commands/services.js';
+import { registerApiCommands } from './commands/api.js';
+import { registerOrchestrationCommands, registerGraphQLCommands } from './commands/api-orchestration.js';
+import { registerMonitoringCommands, registerAdvancedCommands } from './commands/api-monitoring.js';
+import { registerValidationCommands } from './commands/validate.js';
 
 // Configure program
 program
@@ -71,6 +76,9 @@ program.addCommand(createOrchestrateCommands());
 
 // Add standardization commands  
 program.addCommand(createStandardizeCommands());
+
+// Add services management commands
+program.addCommand(createServicesCommand());
 
 // Add agent-forge integration
 program.addCommand(createAgentForgeIntegration());
@@ -596,6 +604,18 @@ function getTierIcon(tier: string): string {
     case 'core': return '⚙️';
     default: return '❓';
   }
+}
+
+// Register API-first command modules
+try {
+  registerApiCommands(program);
+  registerOrchestrationCommands(program);
+  registerGraphQLCommands(program);
+  registerMonitoringCommands(program);
+  registerAdvancedCommands(program);
+  registerValidationCommands(program);
+} catch (error) {
+  console.error(chalk.red('Error registering API commands:'), error);
 }
 
 // Parse and execute
