@@ -93,8 +93,32 @@ export function createServicesCommand(): Command {
 }
 
 async function startAllServices(dev: boolean = false) {
-  for (const service of services) {
-    await startService(service.name, dev);
+  // Use Docker Compose to start all services
+  const { execSync } = require('child_process');
+  const path = require('path');
+  
+  try {
+    const projectRoot = path.resolve(process.cwd());
+    const composePath = path.join(projectRoot, 'infrastructure/docker/docker-compose.yml');
+    
+    if (require('fs').existsSync(composePath)) {
+      console.log(chalk.blue('🐳 Starting OSSA services via Docker Compose...'));
+      execSync(`docker-compose -p ossa -f ${composePath} up -d`, { 
+        stdio: 'inherit',
+        cwd: projectRoot 
+      });
+      console.log(chalk.green('✅ All OSSA services started'));
+      console.log(chalk.gray('   Gateway:     http://localhost:3000'));
+      console.log(chalk.gray('   Health:      http://localhost:3000/health'));
+      console.log(chalk.gray('   Audit:       http://localhost:3000/audit'));
+    } else {
+      // Fallback to individual service start
+      for (const service of services) {
+        await startService(service.name, dev);
+      }
+    }
+  } catch (error) {
+    console.log(chalk.red(`❌ Failed to start services: ${error}`));
   }
 }
 
@@ -157,8 +181,29 @@ async function healthCheckServices() {
 }
 
 async function stopAllServices() {
-  for (const service of services) {
-    await stopService(service.name);
+  // Use Docker Compose to stop all services
+  const { execSync } = require('child_process');
+  const path = require('path');
+  
+  try {
+    const projectRoot = path.resolve(process.cwd());
+    const composePath = path.join(projectRoot, 'infrastructure/docker/docker-compose.yml');
+    
+    if (require('fs').existsSync(composePath)) {
+      console.log(chalk.blue('🐳 Stopping OSSA services via Docker Compose...'));
+      execSync(`docker-compose -p ossa -f ${composePath} down`, { 
+        stdio: 'inherit',
+        cwd: projectRoot 
+      });
+      console.log(chalk.green('✅ All OSSA services stopped'));
+    } else {
+      // Fallback to individual service stop
+      for (const service of services) {
+        await stopService(service.name);
+      }
+    }
+  } catch (error) {
+    console.log(chalk.red(`❌ Failed to stop services: ${error}`));
   }
 }
 

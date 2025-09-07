@@ -71,12 +71,12 @@ export class OSSAStandardizer {
 
   async discoverProjects(): Promise<ProjectInfo[]> {
     const spinner = ora('Discovering .agents directories...').start();
-    
+
     try {
       // Find all .agents directories excluding __DELETE_LATER
       const agentsGlob = path.join(this.workspaceRoot, '**/.agents');
-      const agentsDirs = await glob(agentsGlob, { 
-        ignore: ['**/__DELETE_LATER*/**', '**/node_modules/**'] 
+      const agentsDirs = await glob(agentsGlob, {
+        ignore: ['**/__DELETE_LATER*/**', '**/node_modules/**']
       });
 
       this.projects = await Promise.all(
@@ -84,7 +84,7 @@ export class OSSAStandardizer {
           const projectPath = path.dirname(agentsPath);
           const projectName = this.extractProjectName(projectPath);
           const projectType = this.determineProjectType(projectPath);
-          
+
           // Get current git branch
           const projectGit = simpleGit(projectPath);
           let currentBranch = 'main';
@@ -110,7 +110,7 @@ export class OSSAStandardizer {
 
       spinner.succeed(`Discovered ${this.projects.length} projects with .agents directories`);
       return this.projects;
-      
+
     } catch (error) {
       spinner.fail('Failed to discover projects');
       throw error as Error;
@@ -120,7 +120,7 @@ export class OSSAStandardizer {
   private extractProjectName(projectPath: string): string {
     const relativePath = path.relative(this.workspaceRoot, projectPath);
     const pathParts = relativePath.split('/');
-    
+
     if (pathParts.includes('all_drupal_custom')) {
       return pathParts[pathParts.length - 1]; // module name
     } else if (pathParts.includes('common_npm')) {
@@ -134,7 +134,7 @@ export class OSSAStandardizer {
 
   private determineProjectType(projectPath: string): ProjectInfo['type'] {
     const relativePath = path.relative(this.workspaceRoot, projectPath);
-    
+
     if (relativePath.includes('all_drupal_custom/modules')) {
       return 'drupal-module';
     } else if (relativePath.includes('common_npm')) {
@@ -160,7 +160,7 @@ export class OSSAStandardizer {
 
   async standardizeAll(): Promise<void> {
     await this.discoverProjects();
-    
+
     console.log(boxen(
       chalk.cyan.bold('🔧 OSSA v0.1.8 Agent Standardization\n') +
       chalk.white(`Processing ${this.projects.length} projects...\n\n`) +
@@ -186,7 +186,7 @@ export class OSSAStandardizer {
 
     // Process projects in batches
     const batches = this.createBatches();
-    
+
     for (const [batchName, projects] of Object.entries(batches)) {
       console.log(chalk.blue.bold(`\n📦 Processing ${batchName}...`));
       await this.processBatch(projects);
@@ -195,18 +195,36 @@ export class OSSAStandardizer {
     console.log(chalk.green.bold('✅ All projects standardized successfully!'));
   }
 
+  async standardizeOneByName(projectName: string): Promise<void> {
+    const project = await this.getProjectInfoByName(projectName);
+    if (!project) {
+      throw new Error(`Project not found: ${projectName}`);
+    }
+    await fs.ensureDir(project.agentsDirPath);
+    await this.standardizeProject(project);
+  }
+
+  async getProjectInfoByName(projectName: string): Promise<ProjectInfo | null> {
+    if (this.projects.length === 0) {
+      await this.discoverProjects();
+    }
+    const existing = this.projects.find(p => p.name === projectName);
+    if (existing) return existing;
+    return await this.resolveProjectByName(projectName);
+  }
+
   private createBatches(): Record<string, ProjectInfo[]> {
     return {
-      'Critical Projects (AI Models + Core NPM)': this.projects.filter(p => 
-        p.type === 'ai-model' || 
+      'Critical Projects (AI Models + Core NPM)': this.projects.filter(p =>
+        p.type === 'ai-model' ||
         ['agent-brain', 'agent-router', 'agent-studio', 'workflow-engine'].includes(p.name)
       ),
       'Integration Projects (Providers + Orchestration)': this.projects.filter(p =>
-        p.type === 'drupal-module' && 
+        p.type === 'drupal-module' &&
         (p.name.includes('provider') || p.name.includes('orchestra') || p.name.includes('workflow'))
       ),
       'Specialized Projects (Domain-specific)': this.projects.filter(p =>
-        !['Critical Projects', 'Integration Projects'].some(batch => 
+        !['Critical Projects', 'Integration Projects'].some(batch =>
           this.createBatches()[batch]?.some(bp => bp.path === p.path)
         )
       )
@@ -221,25 +239,25 @@ export class OSSAStandardizer {
 
   private async standardizeProject(project: ProjectInfo): Promise<void> {
     const spinner = ora(`Standardizing ${project.name}...`).start();
-    
+
     try {
       // 1. Create feature branch
       await this.createFeatureBranch(project);
-      
+
       // 2. Clean up existing structure
       await this.cleanupProject(project);
-      
+
       // 3. Generate standard agent templates
       const templates = this.generateAgentTemplates(project);
-      
+
       // 4. Create agent directories and files
       await this.createAgentStructure(project, templates);
-      
+
       // 5. Commit changes
       await this.commitChanges(project);
-      
+
       spinner.succeed(`${project.name} standardized`);
-      
+
     } catch (error) {
       spinner.fail(`Failed to standardize ${project.name}`);
       console.error(chalk.red(`  Error: ${(error as Error).message}`));
@@ -249,14 +267,14 @@ export class OSSAStandardizer {
   private async createFeatureBranch(project: ProjectInfo): Promise<void> {
     const projectGit = simpleGit(project.path);
     const branchName = `${this.branchPrefix}-${Date.now()}`;
-    
+
     try {
       // Check if we're in a git repo
       await projectGit.status();
-      
+
       // Create and checkout feature branch
       await projectGit.checkoutLocalBranch(branchName);
-      
+
     } catch (error) {
       // Not a git repo or other git error - continue without branching
       console.log(chalk.yellow(`  ⚠ Git branching skipped for ${project.name}: ${(error as Error).message}`));
@@ -265,19 +283,19 @@ export class OSSAStandardizer {
 
   private async cleanupProject(project: ProjectInfo): Promise<void> {
     // Move .DS_Store files to __DELETE_LATER
-    const dsStoreFiles = await glob('**/.DS_Store', { 
+    const dsStoreFiles = await glob('**/.DS_Store', {
       cwd: project.agentsDirPath,
-      dot: true 
+      dot: true
     });
-    
+
     if (dsStoreFiles.length > 0) {
       const deleteDir = path.join(project.path, '__DELETE_LATER');
       await fs.ensureDir(deleteDir);
-      
+
       for (const file of dsStoreFiles) {
         const fullPath = path.join(project.agentsDirPath, file);
         const targetPath = path.join(deleteDir, `${path.basename(file)}_${Date.now()}`);
-        await fs.move(fullPath, targetPath).catch(() => {});
+        await fs.move(fullPath, targetPath).catch(() => { });
       }
     }
   }
@@ -323,7 +341,7 @@ export class OSSAStandardizer {
           capabilities: this.generateCoreCapabilities(project)
         }
       },
-      
+
       integration: {
         ...baseMetadata,
         metadata: {
@@ -340,7 +358,7 @@ export class OSSAStandardizer {
           capabilities: this.generateIntegrationCapabilities(project)
         }
       },
-      
+
       troubleshoot: {
         ...baseMetadata,
         metadata: {
@@ -394,7 +412,7 @@ export class OSSAStandardizer {
       'ai-model': 'AI model component specialized for domain-specific processing and intelligence',
       'platform': 'Core platform component providing foundational services'
     };
-    
+
     return `${typeDescriptions[project.type]} - ${project.name}. Integrates with the broader LLM platform architecture to provide ${this.determinePurpose(project.name, project.type)} capabilities.`;
   }
 
@@ -417,7 +435,7 @@ export class OSSAStandardizer {
       'ai-model': 'Model inference, training pipelines, data processing, and AI-specific optimizations',
       'platform': 'Platform orchestration, service management, and system coordination'
     };
-    
+
     return expertiseMap[project.type] || 'General-purpose functionality and system operations';
   }
 
@@ -428,7 +446,7 @@ export class OSSAStandardizer {
       'ai-model': 'Platform orchestration, provider routing, model chaining, and service mesh integration',
       'platform': 'System-wide service integration, microservice coordination, and external platform connectivity'
     };
-    
+
     return integrationMap[project.type] || 'Cross-system integration and service coordination';
   }
 
@@ -439,11 +457,11 @@ export class OSSAStandardizer {
       'ai-model': 'Model performance, accuracy issues, training problems, inference failures, and resource optimization',
       'platform': 'Service failures, network issues, resource constraints, and system-wide performance problems'
     };
-    
+
     return troubleshootMap[project.type] || 'General troubleshooting and problem resolution';
   }
 
-  private generateCoreCapabilities(project: ProjectInfo): Array<{name: string, description: string, project_specific: boolean}> {
+  private generateCoreCapabilities(project: ProjectInfo): Array<{ name: string, description: string, project_specific: boolean }> {
     const baseCapabilities = [
       { name: 'core_functionality', description: `Manage primary ${project.name} operations and business logic`, project_specific: true },
       { name: 'configuration_management', description: 'Handle project configuration and settings', project_specific: true },
@@ -471,7 +489,7 @@ export class OSSAStandardizer {
     return baseCapabilities;
   }
 
-  private generateIntegrationCapabilities(project: ProjectInfo): Array<{name: string, description: string, project_specific: boolean}> {
+  private generateIntegrationCapabilities(project: ProjectInfo): Array<{ name: string, description: string, project_specific: boolean }> {
     return [
       { name: 'external_api_integration', description: 'Integrate with external APIs and services', project_specific: true },
       { name: 'service_coordination', description: 'Coordinate with other platform services', project_specific: true },
@@ -480,7 +498,7 @@ export class OSSAStandardizer {
     ];
   }
 
-  private generateTroubleshootCapabilities(project: ProjectInfo): Array<{name: string, description: string, project_specific: boolean}> {
+  private generateTroubleshootCapabilities(project: ProjectInfo): Array<{ name: string, description: string, project_specific: boolean }> {
     return [
       { name: 'issue_detection', description: 'Detect and identify system issues and anomalies', project_specific: true },
       { name: 'diagnostic_analysis', description: 'Perform diagnostic analysis of problems', project_specific: true },
@@ -497,7 +515,7 @@ export class OSSAStandardizer {
       'ai-model': 'LLM platform orchestrator, model providers, vector databases, API gateway',
       'platform': 'All system components, external services, infrastructure, monitoring systems'
     };
-    
+
     return integrationMap[project.type] || 'Platform services, external APIs, system components';
   }
 
@@ -508,33 +526,37 @@ export class OSSAStandardizer {
       'ai-model': 'python,pytorch,tensorflow,onnx',
       'platform': 'docker,kubernetes,nodejs,python'
     };
-    
+
     return frameworkMap[type] || 'standard';
   }
 
   private async createAgentStructure(project: ProjectInfo, templates: StandardAgentTemplate): Promise<void> {
-    // Create standard agent directories
+    // Write to per-project '.agents/generated' to avoid root-level src and keep artifacts local
+    const projectAgentsBase = path.join(project.path, '.agents', 'generated');
+    await fs.ensureDir(projectAgentsBase);
+
     for (const [agentType, config] of Object.entries(templates)) {
-      const agentDir = path.join(project.agentsDirPath, config.metadata.name);
+      const agentDir = path.join(projectAgentsBase, config.metadata.name);
       await fs.ensureDir(agentDir);
       await fs.ensureDir(path.join(agentDir, 'config'));
-      
+
       // Write agent.yml
       await fs.writeFile(
         path.join(agentDir, 'agent.yml'),
         yaml.stringify(config, { indent: 2 })
       );
-      
+
       // Write README.md
       await fs.writeFile(
         path.join(agentDir, 'README.md'),
         this.generateAgentReadme(config, agentType, project)
       );
     }
-    
-    // Create advanced OSSA file
+
+    // Create advanced OSSA file within per-project generated folder
+    await fs.ensureDir(projectAgentsBase);
     await fs.writeFile(
-      path.join(project.agentsDirPath, `${project.name}-SPECIALIST.ossa.yml`),
+      path.join(projectAgentsBase, `${project.name}-SPECIALIST.ossa.yml`),
       this.generateAdvancedOSSAFile(project, templates.core)
     );
   }
@@ -606,25 +628,17 @@ platform_integration:
 
   private async commitChanges(project: ProjectInfo): Promise<void> {
     const projectGit = simpleGit(project.path);
-    
+
     try {
-      // Stage changes
-      await projectGit.add('.agents/*');
-      
-      // Commit
+      await projectGit.add('.agents/generated/*');
       await projectGit.commit(`feat: OSSA v0.1.8 standardization for ${project.name}
-
-- Implement standard agent structure (core, integration, troubleshoot)
-- Add OSSA v0.1.8 compliance with advanced capabilities
-- Generate project-specific agent configurations
-- Clean up system files and maintain standards
-
-🤖 Generated with OSSA Standardization System v0.1.8
-
-Co-Authored-By: OSSA-CLI <noreply@bluefly.ai>`);
-      
+ \n- Implement standard agent structure (core, integration, troubleshoot)
+ - Add OSSA v0.1.8 compliance with advanced capabilities
+ - Generate project-specific agent configurations
+ - Clean up system files and maintain standards
+ \n🤖 Generated with OSSA Standardization System v0.1.8
+ \nCo-Authored-By: OSSA-CLI <noreply@bluefly.ai>`);
     } catch (error) {
-      // Commit failed or not a git repo - continue
       console.log(chalk.yellow(`  ⚠ Git commit skipped for ${project.name}: ${(error as Error).message}`));
     }
   }
@@ -634,12 +648,43 @@ Co-Authored-By: OSSA-CLI <noreply@bluefly.ai>`);
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
   }
+
+  private async resolveProjectByName(projectName: string): Promise<ProjectInfo | null> {
+    const candidates = [
+      path.join(this.workspaceRoot, 'common_npm', projectName),
+      path.join(this.workspaceRoot, 'all_drupal_custom', 'modules', projectName),
+      path.join(this.workspaceRoot, projectName)
+    ];
+    for (const candidate of candidates) {
+      try {
+        if (await fs.pathExists(candidate)) {
+          const type = this.determineProjectType(candidate);
+          const agentsDirPath = path.join(candidate, '.agents');
+          let currentBranch = 'development';
+          try {
+            const projectGit = simpleGit(candidate);
+            currentBranch = (await projectGit.revparse(['--abbrev-ref', 'HEAD'])).trim();
+          } catch { }
+          const existingAgents = (await fs.pathExists(agentsDirPath)) ? await this.listExistingAgents(agentsDirPath) : [];
+          return {
+            path: candidate,
+            name: projectName,
+            type,
+            currentBranch,
+            agentsDirPath,
+            existingAgents
+          };
+        }
+      } catch { }
+    }
+    return null;
+  }
 }
 
 // CLI Interface
 if (import.meta.url === `file://${process.argv[1]}`) {
   const program = new Command();
-  
+
   program
     .name('ossa-standardize')
     .description('OSSA v0.1.8 Agent Standardization System')
@@ -661,7 +706,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     .action(async (options) => {
       const standardizer = new OSSAStandardizer(options.workspace);
       const projects = await standardizer.discoverProjects();
-      
+
       console.table(projects.map(p => ({
         Name: p.name,
         Type: p.type,

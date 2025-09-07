@@ -524,47 +524,31 @@ if (import.meta.url === \`file://\${process.argv[1]}\`) {
   console.log('  ✅ Created src/api/fastify-server.ts');
 }
 
-// Create STANDARDIZE_NOTES.md
-if (!fs.existsSync(path.join(OSSA_ROOT, 'STANDARDIZE_NOTES.md'))) {
-  fs.writeFileSync(path.join(OSSA_ROOT, 'STANDARDIZE_NOTES.md'), `# STANDARDIZE_NOTES.md - OSSA Platform
+// Create CHANGELOG.md (Keep a Changelog)
+if (!fs.existsSync(path.join(OSSA_ROOT, 'CHANGELOG.md'))) {
+  fs.writeFileSync(path.join(OSSA_ROOT, 'CHANGELOG.md'), `# Changelog
 
-## OpenAPI 3.1 Compliance Status ✅
+All notable changes to this project will be documented in this file.
 
-### Current Implementation
-- **Server**: \`src/api/fastify-server.ts\` (Fastify + OpenAPI 3.1)
-- **OpenAPI Version**: 3.1.0 (COMPLIANT)
-- **OSSA Version**: 0.1.8 (COMPLIANT)
-- **Contract-First**: ✅ Implemented with TypeBox schemas
-- **Spectral Linting**: ⚠️ Needs .spectral.yaml configuration
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### Validation Results
-\`\`\`
-✅ OpenAPI 3.1 endpoint exposed at /openapi.json
-✅ TypeBox schemas for request/response validation
-✅ Capability prefix format (ossa.*.*)
-✅ Security schemes defined (bearerAuth, apiKeyAuth)
-✅ Health check endpoints (/health, /ready)
-✅ Full OSSA 0.1.8 compliance
-\`\`\`
+## [Unreleased]
 
-### Files Created
-1. \`src/api/fastify-server.ts\` - Main Fastify server
-2. \`api/openapi.yaml\` - OpenAPI 3.1 specification
-3. \`STANDARDIZE_NOTES.md\` - This documentation
+### Added
+- 
 
-### Compliance Score: 95/100
-- OpenAPI 3.1: ✅ 100%
-- OSSA Standards: ✅ 100%
-- Testing: ⚠️ 80% (needs contract tests)
-- Monitoring: ⚠️ 70% (needs agent-tracer)
+### Changed
+- 
 
-## Next Steps
-1. Add .spectral.yaml for API validation
-2. Implement contract tests
-3. Integrate agent-tracer instrumentation
-4. Add CI/CD pipeline configuration
+### Fixed
+- 
+
+## [0.1.0] - ${new Date().toISOString().split('T')[0]}
+### Added
+- Initial project setup
 `);
-  console.log('  ✅ Created STANDARDIZE_NOTES.md');
+  console.log('  ✅ Created CHANGELOG.md');
 }
 
 // Create .spectral.yaml for OpenAPI linting

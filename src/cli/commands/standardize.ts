@@ -18,9 +18,9 @@ export function createStandardizeCommands(): Command {
     .option('--dry-run', 'Show standardization plan without executing')
     .action(async (options) => {
       console.log(chalk.blue('🔧 OSSA v0.1.8 Agent Standardization System'));
-      
+
       const standardizer = new OSSAStandardizer(options.workspace);
-      
+
       if (options.dryRun) {
         console.log(chalk.blue('🔍 Dry run mode - discovering projects...'));
         const projects = await standardizer.discoverProjects();
@@ -43,7 +43,7 @@ export function createStandardizeCommands(): Command {
     .action(async (options) => {
       const standardizer = new OSSAStandardizer(options.workspace);
       const projects = await standardizer.discoverProjects();
-      
+
       if (options.format === 'json') {
         console.log(JSON.stringify(projects, null, 2));
       } else if (options.format === 'yaml') {
@@ -51,14 +51,14 @@ export function createStandardizeCommands(): Command {
         console.log(yaml.stringify(projects));
       } else {
         console.log(chalk.blue(`📋 Discovered ${projects.length} projects with .agents directories:\n`));
-        
+
         // Group by type
         const byType = projects.reduce((acc, p) => {
           acc[p.type] = acc[p.type] || [];
           acc[p.type].push(p);
           return acc;
         }, {} as Record<string, typeof projects>);
-        
+
         for (const [type, typeProjects] of Object.entries(byType)) {
           console.log(chalk.yellow.bold(`${type.toUpperCase()} (${typeProjects.length}):`));
           typeProjects.forEach(p => {
@@ -67,7 +67,7 @@ export function createStandardizeCommands(): Command {
           });
           console.log('');
         }
-        
+
         console.log(chalk.gray(`Total: ${projects.length} projects`));
         console.log(chalk.gray('Legend: ✅ Has agents, ⚠️ Needs standardization'));
       }
@@ -80,19 +80,16 @@ export function createStandardizeCommands(): Command {
     .option('--dry-run', 'Show what would be changed')
     .action(async (projectName, options) => {
       console.log(chalk.blue(`🔧 Standardizing project: ${projectName}`));
-      
       const standardizer = new OSSAStandardizer(options.workspace);
-      const projects = await standardizer.discoverProjects();
-      const project = projects.find(p => p.name === projectName);
-      
+      const project = await standardizer.getProjectInfoByName(projectName);
       if (!project) {
+        const discovered = await standardizer.discoverProjects();
         console.log(chalk.red(`❌ Project '${projectName}' not found`));
         console.log(chalk.gray('Available projects:'));
-        projects.forEach(p => console.log(`  - ${p.name}`));
+        discovered.forEach(p => console.log(`  - ${p.name}`));
         return;
       }
-      
-      if (options.dryRun) {
+      if (options.dry_run || options.dryRun) {
         console.log(chalk.blue('🔍 Dry run mode - would standardize:'));
         console.log(`  Project: ${project.name}`);
         console.log(`  Type: ${project.type}`);
@@ -100,14 +97,13 @@ export function createStandardizeCommands(): Command {
         console.log(`  Existing Agents: ${project.existingAgents.join(', ') || 'None'}`);
         console.log('  Actions:');
         console.log('    - Create feature branch');
-        console.log('    - Generate standard agent structure');
-        console.log('    - Clean up system files');
+        console.log('    - Clean up .agents (DS_Store, temp)');
+        console.log('    - Generate standard agents (core, integration, troubleshoot)');
+        console.log('    - Add advanced OSSA specialist file');
         console.log('    - Commit changes');
-      } else {
-        // Implement single project standardization
-        console.log(chalk.yellow('Single project standardization not yet implemented.'));
-        console.log(chalk.gray('Use: ossa standardize all --dry-run to see full plan'));
+        return;
       }
+      await standardizer.standardizeOneByName(projectName);
     });
 
   return cmd;

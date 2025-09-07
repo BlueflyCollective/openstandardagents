@@ -1,6 +1,6 @@
 {
   "name": "@bluefly/ossa-cli",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Multi-Agent Orchestration System - OSSA v0.1.8 CLI with 93-Agent Deployment Pipeline",
   "main": "dist/index.js",
   "type": "module",
@@ -24,11 +24,13 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
+    "@types/express": "^4.17.23",
     "axios": "^1.6.0",
     "boxen": "^7.1.1",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
     "execa": "^9.6.0",
+    "express": "^5.1.0",
     "fs-extra": "^11.2.0",
     "glob": "^10.3.10",
     "inquirer": "^9.2.12",

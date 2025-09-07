@@ -5,9 +5,9 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "allowJs": true,
+    "allowJs": false,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "strict": true,
     "declaration": true,
     "skipLibCheck": true,
@@ -16,11 +16,25 @@
     "types": ["node"]
   },
   "include": [
-    "src/**/*"
+    "index.ts",
+    "commands/**/*.ts",
+    "validation/**/*.ts",
+    "uadp-commands.ts",
+    "standardizer.ts",
+    "uadp-discovery.ts",
+    "orchestrator.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "templates/**",
+    "api/**",
+    "__tests__/**",
+    "test/**",
+    "schemas/**",
+    "bin/**",
+    "tools/**",
+    "src/**"
   ],
   "ts-node": {
     "esm": true,

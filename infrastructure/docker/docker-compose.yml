@@ -1,74 +1,40 @@
 version: '3.8'
 
 services:
-  # API Gateway - Single entry point
-  gateway:
-    build: ./gateway
-    ports:
-      - "3000:3000"
+  # OSSA All-in-One Service
+  ossa:
+    container_name: ossa
+    image: ossa:latest
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.ossa
     environment:
       - NODE_ENV=development
       - SERVICE_PORT=3000
-    depends_on:
-      - discovery
-      - coordination
-      - orchestration
-      - monitoring
-    networks:
-      - ossa-network
-
-  # Discovery Service - ACDL implementation
-  discovery:
-    build: ./discovery
-    ports:
-      - "3011:3011"
-    environment:
-      - NODE_ENV=development
-      - SERVICE_PORT=3011
-    volumes:
-      - discovery-data:/app/data
-    networks:
-      - ossa-network
-
-  # Coordination Service - Agent management
-  coordination:
-    build: ./coordination
-    ports:
-      - "3010:3010"
-    environment:
-      - NODE_ENV=development
-      - SERVICE_PORT=3010
       - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://ossa:ossa_dev_password@postgres:5432/ossa
+    ports:
+      - "3000:3000"   # Gateway
+      - "3010:3010"   # Coordination
+      - "3011:3011"   # Discovery
+      - "3012:3012"   # Orchestration
+      - "3013:3013"   # Monitoring
+      - "9090:9090"   # Prometheus metrics
     depends_on:
       - redis
+      - postgres
     networks:
       - ossa-network
-
-  # Orchestration Service - Workflow management
-  orchestration:
-    build: ./orchestration
-    ports:
-      - "3012:3012"
-    environment:
-      - NODE_ENV=development
-      - SERVICE_PORT=3012
-    networks:
-      - ossa-network
-
-  # Monitoring Service - Observability
-  monitoring:
-    build: ./monitoring
-    ports:
-      - "3013:3013"
-      - "9090:9090"  # Prometheus metrics
-    environment:
-      - NODE_ENV=development
-      - SERVICE_PORT=3013
-    networks:
-      - ossa-network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   # Redis for coordination service
   redis:
+    container_name: ossa-redis
     image: redis:7-alpine
     ports:
       - "6379:6379"
@@ -79,6 +45,7 @@ services:
 
   # PostgreSQL for persistent storage
   postgres:
+    container_name: ossa-postgres
     image: postgres:15-alpine
     environment:
       POSTGRES_DB: ossa
@@ -96,6 +63,5 @@ networks:
     driver: bridge
 
 volumes:
-  discovery-data:
   redis-data:
   postgres-data:

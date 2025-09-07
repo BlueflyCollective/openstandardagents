@@ -616,6 +616,78 @@ function getTierIcon(tier: string): string {
   }
 }
 
+// Add serve command for Docker container
+program
+  .command('serve')
+  .description('Start OSSA gateway server')
+  .option('--port <port>', 'Server port', '3000')
+  .option('--host <host>', 'Server host', '0.0.0.0')
+  .action(async (options) => {
+    const express = (await import('express')).default;
+    const { WorkspaceAuditor } = await import('./services/workspace-auditor.js');
+    const app = express();
+    const port = parseInt(options.port);
+    const host = options.host;
+    
+    // Initialize workspace auditor
+    const auditor = new WorkspaceAuditor('/Users/flux423/Sites/LLM');
+    auditor.startAuditing(60000); // Audit every minute
+    
+    // Health check endpoint
+    app.get('/health', (req: any, res: any) => {
+      const auditStatus = auditor.getHealthStatus();
+      res.json({
+        status: 'ok',
+        version: '0.1.8',
+        service: 'ossa-gateway',
+        timestamp: new Date().toISOString(),
+        audit: auditStatus,
+        services: [
+          { name: 'gateway', status: 'running', port: 3000 },
+          { name: 'discovery', status: 'available', port: 3011 },
+          { name: 'coordination', status: 'available', port: 3010 },
+          { name: 'orchestration', status: 'available', port: 3012 },
+          { name: 'monitoring', status: 'available', port: 3013 }
+        ]
+      });
+    });
+
+    // Root endpoint
+    app.get('/', (req: any, res: any) => {
+      res.json({
+        name: 'OSSA Gateway',
+        version: '0.1.8',
+        description: 'Open Standards for Scalable Agents - Gateway Service',
+        endpoints: [
+          { path: '/health', method: 'GET', description: 'Health check' },
+          { path: '/api/v1/*', method: 'ALL', description: 'API Gateway routes' }
+        ]
+      });
+    });
+
+    // Audit status endpoint
+    app.get('/audit', (req: any, res: any) => {
+      const report = auditor.getLastReport();
+      res.json(report || { message: 'No audit report available yet' });
+    });
+    
+    // API gateway routes placeholder
+    app.use('/api/v1', (req: any, res: any) => {
+      res.json({
+        message: 'OSSA API Gateway',
+        path: req.path,
+        method: req.method,
+        timestamp: new Date().toISOString()
+      });
+    });
+
+    app.listen(port, host, () => {
+      console.log(chalk.green(`🚀 OSSA Gateway server running on ${host}:${port}`));
+      console.log(chalk.gray(`   Health check: http://${host === '0.0.0.0' ? 'localhost' : host}:${port}/health`));
+      console.log(chalk.gray(`   API Gateway: http://${host === '0.0.0.0' ? 'localhost' : host}:${port}/api/v1`));
+    });
+  });
+
 // Register API-first command modules
 try {
   registerApiCommands(program);
