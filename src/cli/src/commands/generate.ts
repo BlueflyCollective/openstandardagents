@@ -16,6 +16,7 @@ export interface GenerateOptions {
   spec?: string;
   template?: string;
   additionalProperties?: string;
+  format?: string;
 }
 
 export const generateCommand = new Command('generate')

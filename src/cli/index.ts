@@ -22,6 +22,7 @@ import { registerValidationCommands } from './commands/validate.js';
 import { createAgentManagementCommands } from './commands/agent-management.js';
 import { createWorkspaceManagementCommands } from './commands/workspace-management.js';
 import { generateCommand } from './src/commands/generate.js';
+import { createOpenAIAgentCommandsTS } from './commands/openai-agents-ts.js';
 
 // Configure program
 program
@@ -96,6 +97,9 @@ program.addCommand(createWorkspaceManagementCommands());
 
 // Add OpenAPI Generator commands
 program.addCommand(generateCommand);
+
+// Add OpenAI agents commands
+program.addCommand(createOpenAIAgentCommandsTS());
 // Implementation functions
 
 function createAgent(name: string, options: any) {
@@ -954,7 +958,6 @@ function generateSuccessCriteria(domain: string, tier: string, versionIndex: num
   return `<ul>\n      ${criteria[versionIndex]}\n    </ul>`;
 }
 
->>>>>>> feature/0.1.0-ossa-implementation:cli/src/index.ts
 // Add serve command for Docker container
 program
   .command('serve')
@@ -1027,10 +1030,6 @@ program
     });
   });
 
-<<<<<<< HEAD:src/cli/index.ts
-=======
->>>>>>> Stashed changes:src/cli/index.ts
->>>>>>> feature/0.1.0-ossa-implementation:cli/src/index.ts
 // Register API-first command modules
 try {
   registerApiCommands(program);
