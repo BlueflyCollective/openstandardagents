@@ -24,6 +24,11 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
+<<<<<<< Updated upstream:cli/package.json
+=======
+    "@openapitools/openapi-generator-cli": "^2.13.4",
+    "@types/express": "^4.17.23",
+>>>>>>> Stashed changes:src/cli/package.json
     "axios": "^1.6.0",
     "boxen": "^7.1.1",
     "chalk": "^5.3.0",
@@ -36,6 +41,7 @@
     "ora": "^7.0.1",
     "semver": "^7.5.4",
     "simple-git": "^3.20.0",
+    "redoc-cli": "^0.13.21",
     "table": "^6.8.1",
     "yaml": "^2.3.4"
   },

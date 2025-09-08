@@ -19,6 +19,12 @@ import { registerApiCommands } from './commands/api.js';
 import { registerOrchestrationCommands, registerGraphQLCommands } from './commands/api-orchestration.js';
 import { registerMonitoringCommands, registerAdvancedCommands } from './commands/api-monitoring.js';
 import { registerValidationCommands } from './commands/validate.js';
+<<<<<<< Updated upstream:cli/src/index.ts
+=======
+import { createAgentManagementCommands } from './commands/agent-management.js';
+import { createWorkspaceManagementCommands } from './commands/workspace-management.js';
+import { generateCommand } from './src/commands/generate.js';
+>>>>>>> Stashed changes:src/cli/index.ts
 
 // Configure program
 program
@@ -83,6 +89,18 @@ program.addCommand(createServicesCommand());
 // Add agent-forge integration
 program.addCommand(createAgentForgeIntegration());
 
+<<<<<<< Updated upstream:cli/src/index.ts
+=======
+// Add comprehensive agent management commands
+program.addCommand(createAgentManagementCommands());
+
+// Add workspace management commands  
+program.addCommand(createWorkspaceManagementCommands());
+
+// Add OpenAPI Generator commands
+program.addCommand(generateCommand);
+
+>>>>>>> Stashed changes:src/cli/index.ts
 // Implementation functions
 
 function createAgent(name: string, options: any) {
@@ -100,6 +118,11 @@ function createAgent(name: string, options: any) {
   fs.mkdirSync(path.join(agentDir, 'data'), { recursive: true });
   fs.mkdirSync(path.join(agentDir, 'config'), { recursive: true });
   fs.mkdirSync(path.join(agentDir, 'schemas'), { recursive: true });
+<<<<<<< Updated upstream:cli/src/index.ts
+=======
+  fs.mkdirSync(path.join(agentDir, 'training-modules'), { recursive: true });
+  fs.mkdirSync(path.join(agentDir, '_roadmap'), { recursive: true });
+>>>>>>> Stashed changes:src/cli/index.ts
   
   // Create agent.yml with enhanced OSSA v0.1.8 spec
   const agentSpec = {
@@ -325,6 +348,9 @@ function createAgent(name: string, options: any) {
   
   fs.writeFileSync(path.join(agentDir, 'openapi.yaml'), yaml.dump(openApiSpec));
   
+  // Create versioned roadmap files
+  createAgentRoadmaps(agentDir, name, agentSpec.metadata.version, domain, tier);
+  
   // Create enhanced README with UADP integration
   const readme = `# ${name} Agent
 
@@ -386,9 +412,23 @@ This agent supports multiple AI frameworks:
   
   console.log(chalk.green('✅ Created OSSA v0.1.8 agent:'), chalk.bold(name));
   console.log(chalk.gray('   📁'), agentDir);
+<<<<<<< Updated upstream:cli/src/index.ts
   console.log(chalk.gray('   📄 agent.yml (Enhanced OSSA v0.1.8)'));
   console.log(chalk.gray('   📄 openapi.yaml (UADP integrated)'));
   console.log(chalk.gray('   📄 README.md (Quick start guide)'));
+=======
+  console.log(chalk.gray('   📁 behaviors/        (Agent behavior definitions)'));
+  console.log(chalk.gray('   📁 config/           (Configuration files)'));
+  console.log(chalk.gray('   📁 data/             (Agent data and state)'));
+  console.log(chalk.gray('   📁 handlers/         (Event and message handlers)'));
+  console.log(chalk.gray('   📁 integrations/     (Framework integrations)'));
+  console.log(chalk.gray('   📁 schemas/          (Data validation schemas)'));
+  console.log(chalk.gray('   📁 training-modules/ (Training and learning modules)'));
+  console.log(chalk.gray('   📁 _roadmap/         (Versioned roadmap files)'));
+  console.log(chalk.gray('   📄 agent.yml         (Enhanced OSSA v0.1.8 spec)'));
+  console.log(chalk.gray('   📄 openapi.yaml      (UADP integrated API spec)'));
+  console.log(chalk.gray('   📄 README.md         (Quick start guide)'));
+>>>>>>> Stashed changes:src/cli/index.ts
   console.log('');
   console.log(chalk.blue('Next steps:'));
   console.log(chalk.gray('   1. ossa validate'), name);
@@ -405,6 +445,49 @@ function validateAgent(agentPath: string, options: any) {
     return;
   }
   
+<<<<<<< Updated upstream:cli/src/index.ts
+=======
+  // Check required directories
+  const requiredDirs = ['behaviors', 'config', 'data', 'handlers', 'integrations', 'schemas', 'training-modules', '_roadmap'];
+  const missingDirs = requiredDirs.filter(dir => !fs.existsSync(path.join(agentPath, dir)));
+  
+  if (missingDirs.length > 0) {
+    console.log(chalk.red('❌ Missing required directories:'));
+    missingDirs.forEach(dir => {
+      console.log(chalk.red(`   - ${dir}/`));
+    });
+    return;
+  }
+  
+  // Check roadmap structure
+  const roadmapDir = path.join(agentPath, '_roadmap');
+  const roadmapMetaFile = path.join(roadmapDir, 'roadmap_meta.json');
+  let roadmapValid = true;
+  let roadmapWarnings: string[] = [];
+  
+  if (!fs.existsSync(roadmapMetaFile)) {
+    roadmapWarnings.push('Missing roadmap_meta.json in _roadmap/');
+    roadmapValid = false;
+  } else {
+    try {
+      const roadmapMeta = JSON.parse(fs.readFileSync(roadmapMetaFile, 'utf8'));
+      if (!roadmapMeta.roadmap_files || roadmapMeta.roadmap_files.length === 0) {
+        roadmapWarnings.push('No roadmap files specified in roadmap_meta.json');
+      } else {
+        // Check if roadmap files exist
+        const missingRoadmapFiles = roadmapMeta.roadmap_files.filter((file: string) => 
+          !fs.existsSync(path.join(roadmapDir, file))
+        );
+        if (missingRoadmapFiles.length > 0) {
+          roadmapWarnings.push(`Missing roadmap files: ${missingRoadmapFiles.join(', ')}`);
+        }
+      }
+    } catch (e) {
+      roadmapWarnings.push('Invalid roadmap_meta.json format');
+    }
+  }
+  
+>>>>>>> Stashed changes:src/cli/index.ts
   try {
     const agent = yaml.load(fs.readFileSync(agentFile, 'utf8')) as any;
     
@@ -493,9 +576,10 @@ function validateAgent(agentPath: string, options: any) {
       issues.forEach(issue => console.log('   ' + issue));
     }
     
-    if (warnings.length > 0) {
+    if (warnings.length > 0 || roadmapWarnings.length > 0) {
       console.log(chalk.yellow('\nWarnings:'));
       warnings.forEach(warning => console.log('   ' + warning));
+      roadmapWarnings.forEach(warning => console.log('   ⚠️  Roadmap: ' + warning));
     }
     
     if (options.verbose) {
@@ -526,6 +610,30 @@ function listAgents(options: any) {
           try {
             const agent = yaml.load(fs.readFileSync(agentFile, 'utf8')) as any;
             if (agent.ossa === '0.1.8') {
+<<<<<<< Updated upstream:cli/src/index.ts
+=======
+              // Check for standard directory structure
+              const requiredDirs = ['behaviors', 'config', 'data', 'handlers', 'integrations', 'schemas', 'training-modules', '_roadmap'];
+              const existingDirs = requiredDirs.filter(dir => fs.existsSync(path.join(itemPath, dir)));
+              const structureComplete = existingDirs.length === requiredDirs.length;
+              
+              // Check roadmap status
+              const roadmapDir = path.join(itemPath, '_roadmap');
+              const roadmapMetaFile = path.join(roadmapDir, 'roadmap_meta.json');
+              let roadmapStatus = 'none';
+              let roadmapVersions = 0;
+              
+              if (fs.existsSync(roadmapMetaFile)) {
+                try {
+                  const roadmapMeta = JSON.parse(fs.readFileSync(roadmapMetaFile, 'utf8'));
+                  roadmapVersions = roadmapMeta.roadmap_files?.length || 0;
+                  roadmapStatus = roadmapVersions >= 3 ? 'complete' : roadmapVersions > 0 ? 'partial' : 'meta-only';
+                } catch (e) {
+                  roadmapStatus = 'invalid';
+                }
+              }
+              
+>>>>>>> Stashed changes:src/cli/index.ts
               agents.push({
                 name: agent.metadata?.name || item,
                 version: agent.metadata?.version || '1.0.0',
@@ -534,7 +642,15 @@ function listAgents(options: any) {
                 domain: agent.spec?.class || agent.metadata?.tags?.[0] || 'general',
                 protocols: agent.spec?.protocols?.map((p: any) => p.name).join(', ') || 'none',
                 hasOpenAPI: fs.existsSync(path.join(itemPath, 'openapi.yaml')),
+<<<<<<< Updated upstream:cli/src/index.ts
                 uadpEnabled: agent.spec?.discovery?.uadp_enabled || false
+=======
+                uadpEnabled: agent.spec?.discovery?.uadp_enabled || false,
+                structureComplete,
+                missingDirs: requiredDirs.filter(dir => !fs.existsSync(path.join(itemPath, dir))),
+                roadmapStatus,
+                roadmapVersions
+>>>>>>> Stashed changes:src/cli/index.ts
               });
             }
           } catch (e) {
@@ -568,18 +684,42 @@ function listAgents(options: any) {
     agents.forEach((agent, index) => {
       const uadpIcon = agent.uadpEnabled ? '🔍' : '⚪';
       const openApiIcon = agent.hasOpenAPI ? '📋' : '❌';
+<<<<<<< Updated upstream:cli/src/index.ts
+=======
+      const structureIcon = agent.structureComplete ? '📁' : '⚠️';
+      const roadmapIcon = getRoadmapIcon(agent.roadmapStatus);
+>>>>>>> Stashed changes:src/cli/index.ts
       
       console.log(`${index + 1}. ${chalk.blue(agent.name)} ${chalk.gray('v' + agent.version)}`);
       console.log(`   ${chalk.gray('Path:')} ${agent.path}`);
       console.log(`   ${chalk.gray('Tier:')} ${getTierIcon(agent.tier)} ${agent.tier}`);
       console.log(`   ${chalk.gray('Domain:')} ${agent.domain}`);
       console.log(`   ${chalk.gray('Protocols:')} ${agent.protocols}`);
+<<<<<<< Updated upstream:cli/src/index.ts
       console.log(`   ${chalk.gray('Features:')} ${openApiIcon} OpenAPI ${uadpIcon} UADP`);
+=======
+      console.log(`   ${chalk.gray('Features:')} ${openApiIcon} OpenAPI ${uadpIcon} UADP ${structureIcon} Structure ${roadmapIcon} Roadmap`);
+      
+      if (!agent.structureComplete && agent.missingDirs && agent.missingDirs.length > 0) {
+        console.log(`   ${chalk.yellow('Missing dirs:')} ${agent.missingDirs.join(', ')}`);
+      }
+      
+      if (agent.roadmapStatus && agent.roadmapStatus !== 'complete') {
+        const roadmapStatusText = agent.roadmapStatus === 'none' ? 'No roadmap' : 
+                                 agent.roadmapStatus === 'partial' ? `Partial roadmap (${agent.roadmapVersions}/3)` :
+                                 agent.roadmapStatus === 'meta-only' ? 'Metadata only' : 'Invalid roadmap';
+        console.log(`   ${chalk.yellow('Roadmap:')} ${roadmapStatusText}`);
+      }
+>>>>>>> Stashed changes:src/cli/index.ts
       console.log('');
     });
     
     console.log(chalk.gray(`Total: ${agents.length} agents`));
+<<<<<<< Updated upstream:cli/src/index.ts
     console.log(chalk.gray('Legend: 📋 OpenAPI spec, 🔍 UADP enabled'));
+=======
+    console.log(chalk.gray('Legend: 📋 OpenAPI spec, 🔍 UADP enabled, 📁 Complete structure, 🗺️ Roadmap complete'));
+>>>>>>> Stashed changes:src/cli/index.ts
   }
 }
 
@@ -606,6 +746,312 @@ function getTierIcon(tier: string): string {
   }
 }
 
+<<<<<<< Updated upstream:cli/src/index.ts
+=======
+function getRoadmapIcon(roadmapStatus: string): string {
+  switch (roadmapStatus) {
+    case 'complete': return '🗺️';
+    case 'partial': return '🔄';
+    case 'meta-only': return '📝';
+    case 'invalid': return '❗';
+    case 'none':
+    default: return '❌';
+  }
+}
+
+function validateAgentName(name: string): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  
+  // Check for empty or null name
+  if (!name || name.trim().length === 0) {
+    errors.push('Agent name cannot be empty');
+    return { valid: false, errors };
+  }
+  
+  const trimmedName = name.trim();
+  
+  // Check minimum length
+  if (trimmedName.length < 3) {
+    errors.push('Agent name must be at least 3 characters long');
+  }
+  
+  // Check maximum length
+  if (trimmedName.length > 50) {
+    errors.push('Agent name must be no more than 50 characters long');
+  }
+  
+  // Check for valid characters (alphanumeric, hyphens, underscores)
+  const validCharPattern = /^[a-zA-Z][a-zA-Z0-9_-]*$/;
+  if (!validCharPattern.test(trimmedName)) {
+    errors.push('Agent name must start with a letter and contain only letters, numbers, hyphens, and underscores');
+  }
+  
+  // Check for reserved names
+  const reservedNames = [
+    'admin', 'api', 'app', 'assets', 'auth', 'config', 'data', 'docs', 'health',
+    'help', 'home', 'index', 'lib', 'logs', 'main', 'public', 'src', 'static',
+    'system', 'temp', 'test', 'tmp', 'user', 'www', 'root', 'bin', 'dev', 
+    'etc', 'opt', 'var', 'usr', 'proc', 'sys', 'agents', 'behaviors', 
+    'config', 'data', 'handlers', 'integrations', 'schemas', 'training-modules'
+  ];
+  
+  if (reservedNames.includes(trimmedName.toLowerCase())) {
+    errors.push(`"${trimmedName}" is a reserved name and cannot be used`);
+  }
+  
+  // Check for common naming conventions
+  const hasConsecutiveSpecialChars = /[-_]{2,}/.test(trimmedName);
+  if (hasConsecutiveSpecialChars) {
+    errors.push('Agent name cannot have consecutive hyphens or underscores');
+  }
+  
+  // Check for ending with special characters
+  if (trimmedName.endsWith('-') || trimmedName.endsWith('_')) {
+    errors.push('Agent name cannot end with hyphens or underscores');
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors
+  };
+}
+
+function createAgentRoadmaps(agentDir: string, name: string, currentVersion: string, domain: string, tier: string) {
+  const roadmapDir = path.join(agentDir, '_roadmap');
+  
+  // Parse version and generate next versions (patch increments)
+  const versionParts = currentVersion.split('.');
+  const major = parseInt(versionParts[0]) || 1;
+  const minor = parseInt(versionParts[1]) || 0; 
+  const patch = parseInt(versionParts[2]) || 0;
+  
+  const versions = [
+    `${major}.${minor}.${patch}`,         // current
+    `${major}.${minor}.${patch + 1}`,     // +1 patch
+    `${major}.${minor}.${patch + 2}`      // +2 patch
+  ];
+  
+  versions.forEach((version, index) => {
+    const roadmapContent = createRoadmapContent(name, version, domain, tier, index);
+    const filename = `${name.toLowerCase()}_${version}.dita`;
+    fs.writeFileSync(path.join(roadmapDir, filename), roadmapContent);
+  });
+  
+  // Create JSON roadmap metadata
+  const roadmapMeta = {
+    agent: name,
+    domain: domain,
+    tier: tier,
+    versions: versions,
+    created: new Date().toISOString(),
+    ossa_version: '0.1.8',
+    roadmap_files: versions.map(v => `${name.toLowerCase()}_${v}.dita`)
+  };
+  
+  fs.writeFileSync(path.join(roadmapDir, 'roadmap_meta.json'), JSON.stringify(roadmapMeta, null, 2));
+}
+
+function createRoadmapContent(name: string, version: string, domain: string, tier: string, versionIndex: number): string {
+  const isCurrentVersion = versionIndex === 0;
+  const phase = isCurrentVersion ? 'Implementation' : versionIndex === 1 ? 'Enhancement' : 'Advanced Features';
+  
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="${name.toLowerCase()}_${version.replace(/\./g, '_')}" xml:lang="en-US">
+  <title>${name} Agent v${version} - ${phase} Roadmap</title>
+  <shortdesc>Development roadmap for ${name} agent focusing on ${domain} capabilities at ${tier} tier</shortdesc>
+  
+  <body>
+    <section id="overview">
+      <title>Overview</title>
+      <p>This roadmap outlines the development plan for ${name} agent version ${version}, 
+         designed to provide ${domain} capabilities with ${tier} tier conformance to OSSA v0.1.8.</p>
+      
+      <dl>
+        <dlentry>
+          <dt>Agent Name</dt>
+          <dd>${name}</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Version</dt>
+          <dd>${version}</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Domain</dt>
+          <dd>${domain}</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Conformance Tier</dt>
+          <dd>${tier}</dd>
+        </dlentry>
+        <dlentry>
+          <dt>OSSA Compliance</dt>
+          <dd>v0.1.8</dd>
+        </dlentry>
+      </dl>
+    </section>
+    
+    <section id="milestones">
+      <title>${phase} Milestones</title>
+      ${generateMilestones(name, version, domain, tier, versionIndex)}
+    </section>
+    
+    <section id="capabilities">
+      <title>Target Capabilities</title>
+      ${generateCapabilities(domain, tier, versionIndex)}
+    </section>
+    
+    <section id="dependencies">
+      <title>Dependencies</title>
+      ${generateDependencies(tier, versionIndex)}
+    </section>
+    
+    <section id="success_criteria">
+      <title>Success Criteria</title>
+      ${generateSuccessCriteria(domain, tier, versionIndex)}
+    </section>
+  </body>
+</topic>`;
+}
+
+function generateMilestones(name: string, version: string, domain: string, tier: string, versionIndex: number): string {
+  const milestones = [
+    // Current version milestones
+    [
+      '<li>Core agent structure implementation</li>',
+      '<li>Basic OSSA v0.1.8 compliance</li>',
+      '<li>Essential directory structure setup</li>',
+      '<li>Agent manifest and OpenAPI specification</li>',
+      '<li>Initial testing and validation</li>'
+    ],
+    // +1 version milestones  
+    [
+      '<li>Enhanced behavior definitions</li>',
+      '<li>Advanced handler implementations</li>',
+      '<li>Framework integration improvements</li>',
+      '<li>Performance optimization</li>',
+      '<li>Extended validation and testing</li>'
+    ],
+    // +2 version milestones
+    [
+      '<li>Advanced training module integration</li>',
+      '<li>Cross-agent coordination capabilities</li>',
+      '<li>Enterprise-grade security features</li>',
+      '<li>Full compliance framework integration</li>',
+      '<li>Production deployment readiness</li>'
+    ]
+  ];
+  
+  return `<ul>\n      ${milestones[versionIndex].join('\n      ')}\n    </ul>`;
+}
+
+function generateCapabilities(domain: string, tier: string, versionIndex: number): string {
+  const baseCapabilities = `<li>${domain}_analysis</li>\n      <li>multi_framework_integration</li>\n      <li>compliance_monitoring</li>`;
+  
+  const enhancedCapabilities = [
+    baseCapabilities,
+    baseCapabilities + `\n      <li>performance_optimization</li>\n      <li>advanced_${domain}_processing</li>`,
+    baseCapabilities + `\n      <li>enterprise_integration</li>\n      <li>advanced_security</li>\n      <li>cross_agent_coordination</li>`
+  ];
+  
+  return `<ul>\n      ${enhancedCapabilities[versionIndex]}\n    </ul>`;
+}
+
+function generateDependencies(tier: string, versionIndex: number): string {
+  const baseDeps = '<li>OSSA v0.1.8 framework</li>\n      <li>Node.js runtime environment</li>';
+  
+  const dependencies = [
+    baseDeps,
+    baseDeps + '\n      <li>Enhanced validation libraries</li>\n      <li>Performance monitoring tools</li>',
+    baseDeps + '\n      <li>Enterprise security frameworks</li>\n      <li>Advanced orchestration systems</li>'
+  ];
+  
+  return `<ul>\n      ${dependencies[versionIndex]}\n    </ul>`;
+}
+
+function generateSuccessCriteria(domain: string, tier: string, versionIndex: number): string {
+  const criteria = [
+    '<li>Pass all OSSA v0.1.8 validation tests</li>\n      <li>Complete directory structure compliance</li>\n      <li>Functional OpenAPI specification</li>',
+    '<li>Performance benchmarks met</li>\n      <li>Enhanced framework integration working</li>\n      <li>Advanced validation passing</li>',
+    '<li>Enterprise deployment ready</li>\n      <li>Full security compliance achieved</li>\n      <li>Production monitoring operational</li>'
+  ];
+  
+  return `<ul>\n      ${criteria[versionIndex]}\n    </ul>`;
+}
+
+// Add serve command for Docker container
+program
+  .command('serve')
+  .description('Start OSSA gateway server')
+  .option('--port <port>', 'Server port', '3000')
+  .option('--host <host>', 'Server host', '0.0.0.0')
+  .action(async (options) => {
+    const express = (await import('express')).default;
+    const { WorkspaceAuditor } = await import('./services/workspace-auditor.js');
+    const app = express();
+    const port = parseInt(options.port);
+    const host = options.host;
+    
+    // Initialize workspace auditor
+    const auditor = new WorkspaceAuditor('/Users/flux423/Sites/LLM');
+    auditor.startAuditing(60000); // Audit every minute
+    
+    // Health check endpoint
+    app.get('/health', (req: any, res: any) => {
+      const auditStatus = auditor.getHealthStatus();
+      res.json({
+        status: 'ok',
+        version: '0.1.8',
+        service: 'ossa-gateway',
+        timestamp: new Date().toISOString(),
+        audit: auditStatus,
+        services: [
+          { name: 'gateway', status: 'running', port: 3000 },
+          { name: 'discovery', status: 'available', port: 3011 },
+          { name: 'coordination', status: 'available', port: 3010 },
+          { name: 'orchestration', status: 'available', port: 3012 },
+          { name: 'monitoring', status: 'available', port: 3013 }
+        ]
+      });
+    });
+
+    // Root endpoint
+    app.get('/', (req: any, res: any) => {
+      res.json({
+        name: 'OSSA Gateway',
+        version: '0.1.8',
+        description: 'Open Standards for Scalable Agents - Gateway Service',
+        endpoints: [
+          { path: '/health', method: 'GET', description: 'Health check' },
+          { path: '/api/v1/*', method: 'ALL', description: 'API Gateway routes' }
+        ]
+      });
+    });
+
+    // Audit status endpoint
+    app.get('/audit', (req: any, res: any) => {
+      const report = auditor.getLastReport();
+      res.json(report || { message: 'No audit report available yet' });
+    });
+    
+    // API gateway routes placeholder
+    app.use('/api/v1', (req: any, res: any) => {
+      res.json({
+        message: 'OSSA API Gateway',
+        path: req.path,
+        method: req.method,
+        timestamp: new Date().toISOString()
+      });
+    });
+
+    app.listen(port, host, () => {
+      console.log(chalk.green(`🚀 OSSA Gateway server running on ${host}:${port}`));
+      console.log(chalk.gray(`   Health check: http://${host === '0.0.0.0' ? 'localhost' : host}:${port}/health`));
+      console.log(chalk.gray(`   API Gateway: http://${host === '0.0.0.0' ? 'localhost' : host}:${port}/api/v1`));
+    });
+  });
+
+>>>>>>> Stashed changes:src/cli/index.ts
 // Register API-first command modules
 try {
   registerApiCommands(program);
