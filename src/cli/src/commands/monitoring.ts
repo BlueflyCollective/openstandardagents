@@ -367,7 +367,7 @@ async function launchDashboard(dashboard: string, options: any): Promise<void> {
       console.log(chalk.green('✅ Dashboard exported successfully'));
     } else {
       console.log(chalk.blue(`📊 Launching monitoring dashboard...`));
-      console.log(chalk.gray(`Dashboard: ${dashboard || 'default'}`);
+      console.log(chalk.gray(`Dashboard: ${dashboard || 'default'}`));
       console.log(chalk.gray(`Server: http://${host}:${port}`));
       
       await startDashboardServer(dashboard, {
@@ -534,7 +534,7 @@ function getHealthColor(status: string): string {
 function getScoreColor(score: number): string {
   if (score >= 90) return chalk.green(`${score}%`);
   if (score >= 70) return chalk.yellow(`${score}%`);
-  if (score >= 50) return chalk.orange(`${score}%`);
+  if (score >= 50) return chalk.hex('#FFA500')(`${score}%`); // orange color
   return chalk.red(`${score}%`);
 }
 

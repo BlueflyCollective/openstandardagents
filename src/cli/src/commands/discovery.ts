@@ -777,7 +777,8 @@ async function listRegistries(): Promise<void> {
     console.log(`${index + 1}. ${chalk.cyan(registry.name)}`);
     console.log(`   URL: ${chalk.blue(registry.url)}`);
     console.log(`   Status: ${statusColor(registry.status)}`);
-    console.log(`   Agents: ${chalk.gray(registry.agents)}`);\n  });
+    console.log(`   Agents: ${chalk.gray(registry.agents)}`);
+  });
 }
 
 async function addRegistry(name: string, options: any): Promise<void> {
