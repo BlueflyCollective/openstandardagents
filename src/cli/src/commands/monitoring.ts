@@ -367,7 +367,7 @@ async function launchDashboard(dashboard: string, options: any): Promise<void> {
       console.log(chalk.green('✅ Dashboard exported successfully'));
     } else {
       console.log(chalk.blue(`📊 Launching monitoring dashboard...`));
-      console.log(chalk.gray(`Dashboard: ${dashboard || 'default'}`);
+      console.log(chalk.gray(`Dashboard: ${dashboard || 'default'}`));
       console.log(chalk.gray(`Server: http://${host}:${port}`));
       
       await startDashboardServer(dashboard, {
