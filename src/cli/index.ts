@@ -98,6 +98,14 @@ program.addCommand(createWorkspaceManagementCommands());
 function createAgent(name: string, options: any) {
   const { domain, priority, tier } = options;
   
+  // Validate agent name
+  const nameValidation = validateAgentName(name);
+  if (!nameValidation.valid) {
+    console.log(chalk.red('❌ Invalid agent name:'));
+    nameValidation.errors.forEach(error => console.log(chalk.red(`   - ${error}`)));
+    return;
+  }
+  
   // Create directory structure
   const agentDir = path.join(process.cwd(), name);
   
@@ -106,10 +114,15 @@ function createAgent(name: string, options: any) {
     return;
   }
   
+  // Create standard OSSA agent directory structure
   fs.mkdirSync(agentDir, { recursive: true });
-  fs.mkdirSync(path.join(agentDir, 'data'), { recursive: true });
+  fs.mkdirSync(path.join(agentDir, 'behaviors'), { recursive: true });
   fs.mkdirSync(path.join(agentDir, 'config'), { recursive: true });
+  fs.mkdirSync(path.join(agentDir, 'data'), { recursive: true });
+  fs.mkdirSync(path.join(agentDir, 'handlers'), { recursive: true });
+  fs.mkdirSync(path.join(agentDir, 'integrations'), { recursive: true });
   fs.mkdirSync(path.join(agentDir, 'schemas'), { recursive: true });
+  fs.mkdirSync(path.join(agentDir, 'training-modules'), { recursive: true });
   
   // Create agent.yml with enhanced OSSA v0.1.8 spec
   const agentSpec = {
@@ -396,9 +409,16 @@ This agent supports multiple AI frameworks:
   
   console.log(chalk.green('✅ Created OSSA v0.1.8 agent:'), chalk.bold(name));
   console.log(chalk.gray('   📁'), agentDir);
-  console.log(chalk.gray('   📄 agent.yml (Enhanced OSSA v0.1.8)'));
-  console.log(chalk.gray('   📄 openapi.yaml (UADP integrated)'));
-  console.log(chalk.gray('   📄 README.md (Quick start guide)'));
+  console.log(chalk.gray('   📁 behaviors/        (Agent behavior definitions)'));
+  console.log(chalk.gray('   📁 config/           (Configuration files)'));
+  console.log(chalk.gray('   📁 data/             (Agent data and state)'));
+  console.log(chalk.gray('   📁 handlers/         (Event and message handlers)'));
+  console.log(chalk.gray('   📁 integrations/     (Framework integrations)'));
+  console.log(chalk.gray('   📁 schemas/          (Data validation schemas)'));
+  console.log(chalk.gray('   📁 training-modules/ (Training and learning modules)'));
+  console.log(chalk.gray('   📄 agent.yml         (Enhanced OSSA v0.1.8 spec)'));
+  console.log(chalk.gray('   📄 openapi.yaml      (UADP integrated API spec)'));
+  console.log(chalk.gray('   📄 README.md         (Quick start guide)'));
   console.log('');
   console.log(chalk.blue('Next steps:'));
   console.log(chalk.gray('   1. ossa validate'), name);
@@ -410,8 +430,21 @@ function validateAgent(agentPath: string, options: any) {
   const agentFile = path.join(agentPath, 'agent.yml');
   const openApiFile = path.join(agentPath, 'openapi.yaml');
   
+  // Check required files
   if (!fs.existsSync(agentFile)) {
     console.log(chalk.red('❌ No agent.yml found'));
+    return;
+  }
+  
+  // Check required directories
+  const requiredDirs = ['behaviors', 'config', 'data', 'handlers', 'integrations', 'schemas', 'training-modules'];
+  const missingDirs = requiredDirs.filter(dir => !fs.existsSync(path.join(agentPath, dir)));
+  
+  if (missingDirs.length > 0) {
+    console.log(chalk.red('❌ Missing required directories:'));
+    missingDirs.forEach(dir => {
+      console.log(chalk.red(`   - ${dir}/`));
+    });
     return;
   }
   
@@ -536,6 +569,11 @@ function listAgents(options: any) {
           try {
             const agent = yaml.load(fs.readFileSync(agentFile, 'utf8')) as any;
             if (agent.ossa === '0.1.8') {
+              // Check for standard directory structure
+              const requiredDirs = ['behaviors', 'config', 'data', 'handlers', 'integrations', 'schemas', 'training-modules'];
+              const existingDirs = requiredDirs.filter(dir => fs.existsSync(path.join(itemPath, dir)));
+              const structureComplete = existingDirs.length === requiredDirs.length;
+              
               agents.push({
                 name: agent.metadata?.name || item,
                 version: agent.metadata?.version || '1.0.0',
@@ -544,7 +582,9 @@ function listAgents(options: any) {
                 domain: agent.spec?.class || agent.metadata?.tags?.[0] || 'general',
                 protocols: agent.spec?.protocols?.map((p: any) => p.name).join(', ') || 'none',
                 hasOpenAPI: fs.existsSync(path.join(itemPath, 'openapi.yaml')),
-                uadpEnabled: agent.spec?.discovery?.uadp_enabled || false
+                uadpEnabled: agent.spec?.discovery?.uadp_enabled || false,
+                structureComplete,
+                missingDirs: requiredDirs.filter(dir => !fs.existsSync(path.join(itemPath, dir)))
               });
             }
           } catch (e) {
@@ -578,18 +618,23 @@ function listAgents(options: any) {
     agents.forEach((agent, index) => {
       const uadpIcon = agent.uadpEnabled ? '🔍' : '⚪';
       const openApiIcon = agent.hasOpenAPI ? '📋' : '❌';
+      const structureIcon = agent.structureComplete ? '📁' : '⚠️';
       
       console.log(`${index + 1}. ${chalk.blue(agent.name)} ${chalk.gray('v' + agent.version)}`);
       console.log(`   ${chalk.gray('Path:')} ${agent.path}`);
       console.log(`   ${chalk.gray('Tier:')} ${getTierIcon(agent.tier)} ${agent.tier}`);
       console.log(`   ${chalk.gray('Domain:')} ${agent.domain}`);
       console.log(`   ${chalk.gray('Protocols:')} ${agent.protocols}`);
-      console.log(`   ${chalk.gray('Features:')} ${openApiIcon} OpenAPI ${uadpIcon} UADP`);
+      console.log(`   ${chalk.gray('Features:')} ${openApiIcon} OpenAPI ${uadpIcon} UADP ${structureIcon} Structure`);
+      
+      if (!agent.structureComplete && agent.missingDirs && agent.missingDirs.length > 0) {
+        console.log(`   ${chalk.yellow('Missing dirs:')} ${agent.missingDirs.join(', ')}`);
+      }
       console.log('');
     });
     
     console.log(chalk.gray(`Total: ${agents.length} agents`));
-    console.log(chalk.gray('Legend: 📋 OpenAPI spec, 🔍 UADP enabled'));
+    console.log(chalk.gray('Legend: 📋 OpenAPI spec, 🔍 UADP enabled, 📁 Complete structure'));
   }
 }
 
@@ -614,6 +659,63 @@ function getTierIcon(tier: string): string {
     case 'core': return '⚙️';
     default: return '❓';
   }
+}
+
+function validateAgentName(name: string): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  
+  // Check for empty or null name
+  if (!name || name.trim().length === 0) {
+    errors.push('Agent name cannot be empty');
+    return { valid: false, errors };
+  }
+  
+  const trimmedName = name.trim();
+  
+  // Check minimum length
+  if (trimmedName.length < 3) {
+    errors.push('Agent name must be at least 3 characters long');
+  }
+  
+  // Check maximum length
+  if (trimmedName.length > 50) {
+    errors.push('Agent name must be no more than 50 characters long');
+  }
+  
+  // Check for valid characters (alphanumeric, hyphens, underscores)
+  const validCharPattern = /^[a-zA-Z][a-zA-Z0-9_-]*$/;
+  if (!validCharPattern.test(trimmedName)) {
+    errors.push('Agent name must start with a letter and contain only letters, numbers, hyphens, and underscores');
+  }
+  
+  // Check for reserved names
+  const reservedNames = [
+    'admin', 'api', 'app', 'assets', 'auth', 'config', 'data', 'docs', 'health',
+    'help', 'home', 'index', 'lib', 'logs', 'main', 'public', 'src', 'static',
+    'system', 'temp', 'test', 'tmp', 'user', 'www', 'root', 'bin', 'dev', 
+    'etc', 'opt', 'var', 'usr', 'proc', 'sys', 'agents', 'behaviors', 
+    'config', 'data', 'handlers', 'integrations', 'schemas', 'training-modules'
+  ];
+  
+  if (reservedNames.includes(trimmedName.toLowerCase())) {
+    errors.push(`"${trimmedName}" is a reserved name and cannot be used`);
+  }
+  
+  // Check for common naming conventions
+  const hasConsecutiveSpecialChars = /[-_]{2,}/.test(trimmedName);
+  if (hasConsecutiveSpecialChars) {
+    errors.push('Agent name cannot have consecutive hyphens or underscores');
+  }
+  
+  // Check for ending with special characters
+  if (trimmedName.endsWith('-') || trimmedName.endsWith('_')) {
+    errors.push('Agent name cannot end with hyphens or underscores');
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors
+  };
 }
 
 // Add serve command for Docker container

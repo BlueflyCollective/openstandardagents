@@ -779,16 +779,51 @@ async function performHealthCheck(name: string): Promise<any> {
 
   if (!dirExists) healthy = false;
 
-  // Check manifest
-  const manifestPath = path.join(agentDir, 'agent.yaml');
-  const manifestExists = await fs.pathExists(manifestPath);
+  // Check required directories
+  const requiredDirs = ['behaviors', 'config', 'data', 'handlers', 'integrations', 'schemas', 'training-modules'];
+  const missingDirs = [];
+  
+  for (const dir of requiredDirs) {
+    const dirPath = path.join(agentDir, dir);
+    const exists = await fs.pathExists(dirPath);
+    if (!exists) {
+      missingDirs.push(dir);
+    }
+  }
+  
+  const structureComplete = missingDirs.length === 0;
   checks.push({
-    name: 'Manifest',
+    name: 'Directory Structure',
+    passed: structureComplete,
+    message: structureComplete 
+      ? 'All required directories present' 
+      : `Missing directories: ${missingDirs.join(', ')}`
+  });
+
+  if (!structureComplete) healthy = false;
+
+  // Check manifest files
+  const agentYml = path.join(agentDir, 'agent.yml');
+  const agentYaml = path.join(agentDir, 'agent.yaml');
+  const manifestExists = await fs.pathExists(agentYml) || await fs.pathExists(agentYaml);
+  checks.push({
+    name: 'Agent Manifest',
     passed: manifestExists,
-    message: manifestExists ? 'Manifest file present' : 'Manifest file missing'
+    message: manifestExists ? 'Agent manifest file present' : 'Agent manifest file missing (agent.yml or agent.yaml)'
   });
 
   if (!manifestExists) healthy = false;
+
+  // Check OpenAPI specification
+  const openApiPath = path.join(agentDir, 'openapi.yaml');
+  const openApiExists = await fs.pathExists(openApiPath);
+  checks.push({
+    name: 'OpenAPI Spec',
+    passed: openApiExists,
+    message: openApiExists ? 'OpenAPI specification present' : 'OpenAPI specification missing'
+  });
+
+  if (!openApiExists) healthy = false;
 
   // Check runtime status
   const status = await getAgentRuntimeStatus(name);

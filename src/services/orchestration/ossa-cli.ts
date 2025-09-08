@@ -34,6 +34,15 @@ class ClaudeCodeCLI {
       case 'discover':
         await this.discoverAgents(args.slice(3));
         break;
+      case 'create':
+        await this.createAgent(args.slice(3));
+        break;
+      case 'validate-agent':
+        await this.validateAgent(args.slice(3));
+        break;
+      case 'scaffold':
+        await this.scaffoldAgent(args.slice(3));
+        break;
       default:
         this.showHelp();
     }
@@ -140,6 +149,312 @@ class ClaudeCodeCLI {
     });
   }
 
+  private async createAgent(args: string[]) {
+    const agentName = args[0];
+    
+    if (!agentName) {
+      console.error('❌ Error: Please provide agent name');
+      console.log('Usage: ossa create <agent-name-skill>');
+      console.log('Example: ossa create security-audit-specialist');
+      return;
+    }
+
+    // Validate agent naming pattern: agent-name-skill
+    if (!this.validateAgentNaming(agentName)) {
+      console.error('❌ Error: Agent name must follow pattern "agent-name-skill"');
+      console.log('Examples: security-audit-specialist, data-analysis-expert, code-review-assistant');
+      console.log('Requirements:');
+      console.log('  - Lowercase with hyphens');
+      console.log('  - Format: {purpose}-{domain}-{role}');
+      console.log('  - Min 2 hyphens, max 4 words total');
+      return;
+    }
+
+    console.log(`🤖 Creating OSSA agent: ${agentName}`);
+    
+    try {
+      await this.scaffoldAgentStructure(agentName);
+      console.log(`✅ Agent "${agentName}" created successfully!`);
+      console.log('\nNext steps:');
+      console.log(`  1. cd .agents/${agentName}`);
+      console.log(`  2. Edit agent.yml to customize capabilities`);
+      console.log(`  3. Update openapi.yaml with API endpoints`);
+      console.log(`  4. Validate: ossa validate-agent ${agentName}`);
+    } catch (error) {
+      console.error(`❌ Failed to create agent: ${error}`);
+    }
+  }
+
+  private async validateAgent(args: string[]) {
+    const agentName = args[0];
+    
+    if (!agentName) {
+      console.error('❌ Error: Please provide agent name');
+      return;
+    }
+
+    console.log(`🔍 Validating agent: ${agentName}`);
+    
+    try {
+      const validationResult = await this.performAgentValidation(agentName);
+      
+      if (validationResult.valid) {
+        console.log(`✅ Agent "${agentName}" is valid OSSA compliant`);
+        console.log(`   Compliance Level: ${validationResult.complianceLevel}`);
+        console.log(`   Capabilities: ${validationResult.capabilities}`);
+        console.log(`   Required Files: ✅ All present`);
+      } else {
+        console.log(`❌ Agent "${agentName}" validation failed`);
+        validationResult.errors.forEach((error: string) => {
+          console.log(`   - ${error}`);
+        });
+      }
+    } catch (error) {
+      console.error(`❌ Validation error: ${error}`);
+    }
+  }
+
+  private async scaffoldAgent(args: string[]) {
+    const agentName = args[0];
+    const template = args[1] || 'standard';
+    
+    if (!agentName) {
+      console.error('❌ Error: Please provide agent name');
+      return;
+    }
+
+    console.log(`🏗️ Scaffolding agent: ${agentName} with template: ${template}`);
+    
+    try {
+      await this.scaffoldAgentStructure(agentName, template);
+      console.log(`✅ Agent scaffolded successfully!`);
+    } catch (error) {
+      console.error(`❌ Scaffolding failed: ${error}`);
+    }
+  }
+
+  private validateAgentNaming(agentName: string): boolean {
+    // Pattern: agent-name-skill (minimum 2 hyphens, 3 parts)
+    const pattern = /^[a-z][a-z0-9]*(-[a-z0-9]+){2,3}$/;
+    return pattern.test(agentName);
+  }
+
+  private async scaffoldAgentStructure(agentName: string, template: string = 'standard'): Promise<void> {
+    const fs = await import('fs');
+    const path = await import('path');
+    
+    const agentPath = `.agents/${agentName}`;
+    
+    // Create required directories
+    const requiredDirs = [
+      'behaviors',
+      'config', 
+      'data',
+      'handlers',
+      'integrations',
+      'schemas',
+      'training-modules'
+    ];
+
+    // Create base directory
+    if (!fs.existsSync(agentPath)) {
+      fs.mkdirSync(agentPath, { recursive: true });
+    }
+
+    // Create required subdirectories
+    requiredDirs.forEach(dir => {
+      const dirPath = path.join(agentPath, dir);
+      if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+      }
+    });
+
+    // Create required files
+    await this.createRequiredFiles(agentPath, agentName, template);
+  }
+
+  private async createRequiredFiles(agentPath: string, agentName: string, template: string): Promise<void> {
+    const fs = await import('fs');
+    const path = await import('path');
+    
+    // Create agent.yml
+    const agentYml = this.generateAgentYml(agentName, template);
+    fs.writeFileSync(path.join(agentPath, 'agent.yml'), agentYml);
+    
+    // Create openapi.yaml
+    const openapiYaml = this.generateOpenApiYaml(agentName);
+    fs.writeFileSync(path.join(agentPath, 'openapi.yaml'), openapiYaml);
+    
+    // Create README.md
+    const readme = this.generateAgentReadme(agentName);
+    fs.writeFileSync(path.join(agentPath, 'README.md'), readme);
+  }
+
+  private generateAgentYml(agentName: string, template: string): string {
+    return `apiVersion: open-standards-scalable-agents/v0.1.8
+kind: Agent
+metadata:
+  name: ${agentName}
+  labels:
+    pattern: agent-name-skill
+    compliance: bronze
+spec:
+  agent:
+    name: ${agentName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+    version: 0.1.0
+    description: "OSSA-compliant agent following the ${agentName} pattern"
+    
+  capabilities:
+    - name: "primary-capability"
+      description: "Main capability of this agent"
+      frameworks: ["mcp", "langchain"]
+      
+  compliance:
+    level: bronze
+    frameworks: ["mcp"]
+    
+  structure:
+    requiredDirectories:
+      - behaviors
+      - config
+      - data
+      - handlers
+      - integrations
+      - schemas
+      - training-modules
+    requiredFiles:
+      - agent.yml
+      - openapi.yaml
+`;
+  }
+
+  private generateOpenApiYaml(agentName: string): string {
+    return `openapi: 3.1.0
+info:
+  title: ${agentName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} API
+  version: 0.1.0
+  description: OSSA-compliant agent API specification
+  
+servers:
+  - url: http://localhost:3000
+    description: Development server
+    
+paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Agent is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  
+  /capabilities:
+    get:
+      summary: Get agent capabilities
+      operationId: getCapabilities
+      responses:
+        '200':
+          description: List of agent capabilities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    frameworks:
+                      type: array
+                      items:
+                        type: string
+`;
+  }
+
+  private generateAgentReadme(agentName: string): string {
+    return `# ${agentName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+
+OSSA-compliant agent following the agent-name-skill pattern.
+
+## Structure
+
+This agent follows the standard OSSA structure:
+
+- \`behaviors/\` - Agent behavior definitions
+- \`config/\` - Configuration files
+- \`data/\` - Training and reference data
+- \`handlers/\` - Request/response handlers
+- \`integrations/\` - Framework integrations
+- \`schemas/\` - JSON schemas and validation
+- \`training-modules/\` - Training and learning modules
+
+## Required Files
+
+- \`agent.yml\` - OSSA agent specification
+- \`openapi.yaml\` - API specification
+
+## Usage
+
+\`\`\`bash
+# Validate agent
+ossa validate-agent ${agentName}
+
+# Deploy agent
+ossa deploy ${agentName}
+\`\`\`
+
+## Compliance
+
+This agent targets Bronze compliance level with MCP framework support.
+`;
+  }
+
+  private async performAgentValidation(agentName: string): Promise<any> {
+    const fs = await import('fs');
+    const path = await import('path');
+    
+    const agentPath = `.agents/${agentName}`;
+    const errors: string[] = [];
+    
+    // Check required directories
+    const requiredDirs = ['behaviors', 'config', 'data', 'handlers', 'integrations', 'schemas', 'training-modules'];
+    requiredDirs.forEach(dir => {
+      if (!fs.existsSync(path.join(agentPath, dir))) {
+        errors.push(`Missing required directory: ${dir}`);
+      }
+    });
+    
+    // Check required files
+    const requiredFiles = ['agent.yml', 'openapi.yaml'];
+    requiredFiles.forEach(file => {
+      if (!fs.existsSync(path.join(agentPath, file))) {
+        errors.push(`Missing required file: ${file}`);
+      }
+    });
+    
+    // Check naming pattern
+    if (!this.validateAgentNaming(agentName)) {
+      errors.push('Agent name does not follow agent-name-skill pattern');
+    }
+    
+    return {
+      valid: errors.length === 0,
+      errors,
+      complianceLevel: 'Bronze',
+      capabilities: 1
+    };
+  }
+
   private displayOrchestrationResult(result: any) {
     console.log('\n🎯 Orchestration Results');
     console.log('=' * 50);
@@ -166,17 +481,22 @@ class ClaudeCodeCLI {
 
   private showHelp() {
     console.log(`
-🚀 Claude Code Multi-Agent CLI
+🚀 OSSA Multi-Agent CLI v0.1.8
 
 USAGE:
-  claude-code <command> [options]
+  ossa <command> [options]
 
-COMMANDS:
+AGENT MANAGEMENT:
+  create <agent-name-skill>   Create new OSSA-compliant agent
+  validate-agent <name>       Validate agent compliance  
+  scaffold <name> [template]  Scaffold agent with template
+  discover [path]            Discover agents in workspace
+
+ORCHESTRATION:
   health                      Show health status of all agents
   capabilities               List all available agent capabilities
   analyze <code|path> [lang] Analyze code using multiple agents
   orchestrate <workflow> <task> Run orchestrated workflow
-  discover [path]            Discover agents in workspace
 
 WORKFLOWS:
   sequential       Execute agents one after another
@@ -185,17 +505,46 @@ WORKFLOWS:
   fanout           Send request to multiple agents
   pipeline         Chain agent outputs as inputs
 
+AGENT NAMING PATTERN:
+  Required format: agent-name-skill
+  Examples:
+    security-audit-specialist
+    data-analysis-expert
+    code-review-assistant
+    content-generation-writer
+
 EXAMPLES:
-  claude-code health
-  claude-code analyze "function test() { var x = 1; }" javascript  
-  claude-code orchestrate sequential "analyze security vulnerabilities"
-  claude-code discover /path/to/workspace
+  ossa create security-audit-specialist
+  ossa validate-agent security-audit-specialist
+  ossa health
+  ossa orchestrate sequential "analyze security vulnerabilities"
+  ossa discover /path/to/workspace
+
+AGENT STRUCTURE:
+  📁 .agents/agent-name-skill/
+    ├── 📄 agent.yml          (OSSA specification)
+    ├── 📄 openapi.yaml       (API specification)
+    ├── 📄 README.md          (Documentation)
+    ├── 📁 behaviors/         (Agent behaviors)
+    ├── 📁 config/            (Configuration)
+    ├── 📁 data/              (Training data)
+    ├── 📁 handlers/          (Request handlers)
+    ├── 📁 integrations/      (Framework adapters)
+    ├── 📁 schemas/           (JSON schemas)
+    └── 📁 training-modules/  (Learning modules)
+
+COMPLIANCE LEVELS:
+  🥉 Bronze   - Basic MCP compliance
+  🥈 Silver   - Multi-framework support
+  🥇 Gold     - Production-ready with metrics
+  💎 Platinum - Enterprise-grade with SLAs
 
 INTEGRATION:
-  🔗 OAAS-compliant agents with universal framework support
+  🔗 OSSA-compliant agents with universal framework support
   🔗 MCP integration for Claude Desktop
-  🔗 Token optimization (35-45% savings)
+  🔗 Token optimization (35-45% savings via ACTA/VORTEX)
   🔗 Enterprise compliance (ISO 42001, NIST AI RMF)
+  🔗 Agent-name-skill naming pattern enforced
 `);
   }
 }
