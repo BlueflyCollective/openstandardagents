@@ -247,6 +247,7 @@ class ClaudeCodeCLI {
     
     // Create required directories
     const requiredDirs = [
+      '_roadmap',
       'behaviors',
       'config', 
       'data',
@@ -427,7 +428,7 @@ This agent targets Bronze compliance level with MCP framework support.
     const errors: string[] = [];
     
     // Check required directories
-    const requiredDirs = ['behaviors', 'config', 'data', 'handlers', 'integrations', 'schemas', 'training-modules'];
+    const requiredDirs = ['_roadmap', 'behaviors', 'config', 'data', 'handlers', 'integrations', 'schemas', 'training-modules'];
     requiredDirs.forEach(dir => {
       if (!fs.existsSync(path.join(agentPath, dir))) {
         errors.push(`Missing required directory: ${dir}`);
@@ -435,7 +436,7 @@ This agent targets Bronze compliance level with MCP framework support.
     });
     
     // Check required files
-    const requiredFiles = ['agent.yml', 'openapi.yaml'];
+    const requiredFiles = ['agent.yml', 'openapi.yaml', 'README.md'];
     requiredFiles.forEach(file => {
       if (!fs.existsSync(path.join(agentPath, file))) {
         errors.push(`Missing required file: ${file}`);
@@ -525,6 +526,7 @@ AGENT STRUCTURE:
     ├── 📄 agent.yml          (OSSA specification)
     ├── 📄 openapi.yaml       (API specification)
     ├── 📄 README.md          (Documentation)
+    ├── 📁 _roadmap/          (Project roadmap in DITA, JSON backup)
     ├── 📁 behaviors/         (Agent behaviors)
     ├── 📁 config/            (Configuration)
     ├── 📁 data/              (Training data)
@@ -533,6 +535,26 @@ AGENT STRUCTURE:
     ├── 📁 schemas/           (JSON schemas)
     └── 📁 training-modules/  (Learning modules)
 
+WORKSPACE STRUCTURE:
+  📁 .agents-workspace/
+    ├── 📁 agents/            (registry, active, inactive, templates)
+    ├── 📁 behaviors/         (common, specialized, templates)
+    ├── 📁 config/            (workspace.yaml, security.yaml, etc.)
+    ├── 📁 data/              (vectors, documents, cache, knowledge)
+    ├── 📁 handlers/          (coordination, workflow, monitoring)
+    ├── 📁 integrations/      (gitlab, k8s, langchain, crewai, mcp)
+    ├── 📁 schemas/           (agent, workflow, security, compliance)
+    ├── 📁 training-modules/  (feedback-loops, model-updates, etc.)
+    ├── 📁 workflows/         (templates, active, completed, failed)
+    ├── 📁 plans/             (OSSA 360° Loop - execution planning)
+    ├── 📁 executions/        (OSSA 360° Loop - execution reports)
+    ├── 📁 feedback/          (OSSA 360° Loop - reviews & judgments)
+    ├── 📁 learning/          (OSSA 360° Loop - learning signals)
+    ├── 📁 audit/             (OSSA 360° Loop - immutable event logs)
+    ├── 📁 logs/              (agents, workflows, system, errors)
+    ├── 📁 metrics/           (performance and monitoring data)
+    ├── 📁 roadmap/           (sitemap.json, milestones, dependencies)
+    └── 📁 governance/        (policies, budgets, approvals)
 COMPLIANCE LEVELS:
   🥉 Bronze   - Basic MCP compliance
   🥈 Silver   - Multi-framework support
