@@ -6,6 +6,7 @@ include:
   # Git-flow workflow with OpenAPI support
   - component: gitlab.bluefly.io/llm/gitlab_components/workflow/git-flow@0.1.0
     inputs:
+      component_version: "0.1.0"
       project_version: "0.1.9"
       project_type: "ossa"
       enable_auto_merge: true
@@ -19,6 +20,7 @@ include:
   # OSSA compliance validation
   - component: gitlab.bluefly.io/llm/gitlab_components/policies/ossa-validate@0.1.0
     inputs:
+      component_version: "0.1.0"
       version: "0.1.9"
       strict_mode: true
       local_source_path: "/Users/flux423/Sites/LLM/OSSA"
@@ -34,6 +36,7 @@ include:
   # Node.js build and test
   - component: gitlab.bluefly.io/llm/gitlab_components/nodejs/build@0.1.0
     inputs:
+      component_version: "0.1.0"
       node_version: "20"
       typescript_check: true
       build_script: "build"
@@ -58,6 +61,7 @@ include:
   # Release management
   - component: gitlab.bluefly.io/llm/gitlab_components/release/release-manager@0.1.0
     inputs:
+      component_version: "0.1.0"
       version: "0.1.9"
       project_type: "npm"
       package_name: "@bluefly/ossa"
