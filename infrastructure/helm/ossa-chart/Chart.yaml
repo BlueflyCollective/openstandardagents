@@ -20,19 +20,21 @@ maintainers:
   - name: BlueFly LLM Team
     email: team@bluefly.io
 
-dependencies:
-  - name: postgresql
-    version: "12.x.x"
-    repository: https://charts.bitnami.com/bitnami
-    condition: postgresql.enabled
-  - name: redis
-    version: "17.x.x" 
-    repository: https://charts.bitnami.com/bitnami
-    condition: redis.enabled
-  - name: nginx-ingress
-    version: "4.x.x"
-    repository: https://kubernetes.github.io/ingress-nginx
-    condition: ingress.enabled
+# Dependencies can be added with: helm dependency build
+# Uncomment below when ready to add external dependencies
+# dependencies:
+#   - name: postgresql
+#     version: "12.x.x"
+#     repository: https://charts.bitnami.com/bitnami
+#     condition: postgresql.enabled
+#   - name: redis
+#     version: "17.x.x" 
+#     repository: https://charts.bitnami.com/bitnami
+#     condition: redis.enabled
+#   - name: nginx-ingress
+#     version: "4.x.x"
+#     repository: https://kubernetes.github.io/ingress-nginx
+#     condition: ingress.enabled
 
 annotations:
   category: AI/ML
