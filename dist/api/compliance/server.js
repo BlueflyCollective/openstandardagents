@@ -142,7 +142,7 @@ app.post('/api/v1/compliance/validate', async (req, res) => {
             return res.status(400).json({
                 success: false,
                 error: 'Invalid request body',
-                details: validation.error.errors
+                details: validation.error.issues
             });
         }
         const { agent, context, frameworks } = validation.data;
@@ -188,7 +188,7 @@ app.post('/api/v1/compliance/validate/batch', async (req, res) => {
             return res.status(400).json({
                 success: false,
                 error: 'Invalid request body',
-                details: validation.error.errors
+                details: validation.error.issues
             });
         }
         const { agents, context, frameworks } = validation.data;
@@ -265,7 +265,7 @@ app.post('/api/v1/compliance/report', async (req, res) => {
             return res.status(400).json({
                 success: false,
                 error: 'Invalid request body',
-                details: validation.error.errors
+                details: validation.error.issues
             });
         }
         const { agents, context, frameworks } = validation.data;

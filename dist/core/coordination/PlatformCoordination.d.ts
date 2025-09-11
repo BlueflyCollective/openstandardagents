@@ -3,7 +3,7 @@
  * Implements separation of duties and inter-agent communication
  */
 import { EventEmitter } from 'events';
-import { OrchestratorPlatform } from '../orchestrator';
+import { OrchestratorPlatform } from '../orchestrator/index.js';
 export interface PlatformAgent {
     id: string;
     type: 'orchestrator' | 'spec-authority' | 'registry-core' | 'compliance-engine' | 'protocol-bridge' | 'governance-core' | 'federation-manager' | 'security-authority' | 'monitor-platform' | 'workflow-executor';

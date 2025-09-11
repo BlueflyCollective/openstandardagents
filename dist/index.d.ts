@@ -36,5 +36,5 @@ export declare function initializeOrchestratorPlatform(): Promise<{
  */
 export declare function shutdownOrchestratorPlatform(orchestrator: OrchestratorPlatform, apiServer: OrchestrationAPIServer): Promise<void>;
 export { OrchestratorPlatform, OrchestrationAPIServer, PlatformCoordination, PRODUCTION_CONFIG, API_CONFIG };
-export * from './types';
+export * from './types/index.js';
 //# sourceMappingURL=index.d.ts.map

@@ -326,7 +326,7 @@ export class ComplianceEngine {
         const requirements = this.specValidator.getConformanceLevels()[level];
         let score = 1.0;
         // Validate minimum capabilities
-        const capabilities = agent.spec.capabilities?.domains || [];
+        const capabilities = agent.spec.capabilities?.domain ? [agent.spec.capabilities.domain] : [];
         if (capabilities.length < requirements.minCapabilities) {
             findings.push({
                 id: `conformance-${level}-capabilities`,
@@ -351,7 +351,7 @@ export class ComplianceEngine {
             });
             score *= 0.7;
         }
-        // Validate feature requirements
+        // Validate feature requirements  
         if (requirements.auditLogging && !conformance.auditLogging) {
             findings.push({
                 id: `conformance-${level}-audit`,
@@ -668,6 +668,37 @@ export class ComplianceEngine {
      */
     getEnterprisePolicies() {
         return Array.from(this.enterprisePolicies.values());
+    }
+    /**
+     * Get conformance levels and their requirements
+     */
+    getConformanceLevels() {
+        return {
+            bronze: {
+                minCapabilities: 1,
+                minProtocols: 1,
+                auditLogging: false,
+                feedbackLoop: false,
+                propsTokens: false,
+                learningSignals: false
+            },
+            silver: {
+                minCapabilities: 2,
+                minProtocols: 2,
+                auditLogging: true,
+                feedbackLoop: false,
+                propsTokens: false,
+                learningSignals: false
+            },
+            gold: {
+                minCapabilities: 3,
+                minProtocols: 3,
+                auditLogging: true,
+                feedbackLoop: true,
+                propsTokens: true,
+                learningSignals: true
+            }
+        };
     }
 }
 //# sourceMappingURL=ComplianceEngine.js.map

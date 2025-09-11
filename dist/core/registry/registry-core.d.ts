@@ -102,6 +102,18 @@ export declare class RegistryCore extends EventEmitter {
     private startHealthMonitoring;
     private updateDiscoveryLatency;
     private updateMatchLatency;
+    /**
+     * Initialize the registry core
+     */
+    initialize(): Promise<void>;
+    /**
+     * Register an agent
+     */
+    register(agent: any, tenant?: string): Promise<RegistrationResponse>;
+    /**
+     * Discover agents based on query
+     */
+    discover(query: DiscoveryQuery): Promise<DiscoveryResponse>;
 }
 export {};
 //# sourceMappingURL=registry-core.d.ts.map

@@ -5,15 +5,15 @@
  */
 
 import { Command } from 'commander';
-import { OrchestratorPlatform } from '../core/orchestrator/index';
-import { OrchestrationAPIServer } from '../api/orchestration/server';
+import { OrchestratorPlatform } from '../core/orchestrator/index.js';
+import { OrchestrationAPIServer } from '../api/orchestration/server.js';
 import { 
   OrchestratorConfig, 
   Agent,
   AgentType,
   AgentStatus,
   Capability
-} from '../types';
+} from '../types/index.js';
 
 const program = new Command();
 

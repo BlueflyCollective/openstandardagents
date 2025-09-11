@@ -496,7 +496,7 @@ export class HealthMonitor extends EventEmitter {
         return stateEventMap[state] || 'updated';
     }
     generateSingleAgentReport(agentId, health, lifecycle) {
-        const uptime = lifecycle.totalUptime;
+        let uptime = lifecycle.totalUptime;
         if (lifecycle.currentState === 'active' && lifecycle.lastActivated) {
             uptime += Date.now() - lifecycle.lastActivated.getTime();
         }

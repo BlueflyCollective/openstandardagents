@@ -161,7 +161,7 @@ export class HealthMonitor extends EventEmitter {
     // Clear existing timer if any
     const existingTimer = this.healthCheckTimers.get(agentId);
     if (existingTimer) {
-      clearInterval(existingTimer);
+      clearInterval(existingTimer as any);
     }
 
     // Start periodic health checks
@@ -354,7 +354,7 @@ export class HealthMonitor extends EventEmitter {
   async stopHealthMonitoring(agentId: string): Promise<void> {
     const timer = this.healthCheckTimers.get(agentId);
     if (timer) {
-      clearInterval(timer);
+      clearInterval(timer as any);
       this.healthCheckTimers.delete(agentId);
     }
 
@@ -444,7 +444,7 @@ export class HealthMonitor extends EventEmitter {
   private async checkEndpoint(endpoint: {
     protocol: string;
     url: string;
-    status: string;
+    status: 'healthy' | 'degraded' | 'unhealthy';
     responseTime: number;
     lastChecked: Date;
     errorCount: number;
@@ -665,7 +665,7 @@ export class HealthMonitor extends EventEmitter {
     health: HealthMetrics,
     lifecycle: AgentLifecycle
   ): any {
-    const uptime = lifecycle.totalUptime;
+    let uptime = lifecycle.totalUptime;
     if (lifecycle.currentState === 'active' && lifecycle.lastActivated) {
       uptime += Date.now() - lifecycle.lastActivated.getTime();
     }

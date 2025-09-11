@@ -14,7 +14,7 @@ import {
   TaskStatus,
   AgentStatus,
   MessageType
-} from '../../types';
+} from '../../types/index.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface FeedbackLoopPhase {

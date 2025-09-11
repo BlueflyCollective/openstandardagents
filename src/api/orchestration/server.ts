@@ -4,7 +4,7 @@
  */
 
 import express, { Request, Response, NextFunction } from 'express';
-import { OrchestratorPlatform } from '../../core/orchestrator.js';
+import { OrchestratorPlatform } from '../../core/orchestrator/index.js';
 import { 
   OrchestratorConfig,
   Workflow,
@@ -135,11 +135,12 @@ export class OrchestrationAPIServer {
     
     // Basic content type validation
     if (req.method === 'POST' && !req.is('application/json')) {
-      return res.status(400).json({
+      res.status(400).json({
         error: 'Invalid Content-Type',
         message: 'Content-Type must be application/json',
         timestamp: new Date().toISOString()
       });
+      return;
     }
     
     next();

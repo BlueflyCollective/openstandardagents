@@ -592,5 +592,25 @@ export class RegistryCore extends EventEmitter {
             (this.metrics.averageMatchLatency * (this.metrics.totalMatchRequests - 1) + latency) /
                 this.metrics.totalMatchRequests;
     }
+    /**
+     * Initialize the registry core
+     */
+    async initialize() {
+        console.log('[REGISTRY-CORE] Initializing...');
+        this.startPeriodicHealthChecks();
+        console.log('[REGISTRY-CORE] Ready');
+    }
+    /**
+     * Register an agent
+     */
+    async register(agent, tenant) {
+        return this.registerAgent(agent, tenant);
+    }
+    /**
+     * Discover agents based on query
+     */
+    async discover(query) {
+        return this.discoverAgents(query);
+    }
 }
 //# sourceMappingURL=registry-core.js.map

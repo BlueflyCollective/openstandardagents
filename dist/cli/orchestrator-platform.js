@@ -4,9 +4,9 @@
  * Production runtime coordination and workflow management
  */
 import { Command } from 'commander';
-import { OrchestratorPlatform } from '../core/orchestrator/index';
-import { OrchestrationAPIServer } from '../api/orchestration/server';
-import { AgentType, AgentStatus } from '../types';
+import { OrchestratorPlatform } from '../core/orchestrator/index.js';
+import { OrchestrationAPIServer } from '../api/orchestration/server.js';
+import { AgentType, AgentStatus } from '../types/index.js';
 const program = new Command();
 // Default production configuration
 const DEFAULT_ORCHESTRATOR_CONFIG = {

@@ -500,7 +500,7 @@ export class RegistryCore extends EventEmitter {
    */
   async shutdown(): Promise<void> {
     if (this.healthCheckTimer) {
-      clearInterval(this.healthCheckTimer);
+      clearInterval(this.healthCheckTimer as any);
       this.healthCheckTimer = null;
     }
 
@@ -773,5 +773,28 @@ export class RegistryCore extends EventEmitter {
     this.metrics.averageMatchLatency = 
       (this.metrics.averageMatchLatency * (this.metrics.totalMatchRequests - 1) + latency) / 
       this.metrics.totalMatchRequests;
+  }
+
+  /**
+   * Initialize the registry core
+   */
+  async initialize(): Promise<void> {
+    console.log('[REGISTRY-CORE] Initializing...');
+    this.startPeriodicHealthChecks();
+    console.log('[REGISTRY-CORE] Ready');
+  }
+
+  /**
+   * Register an agent
+   */
+  async register(agent: any, tenant?: string): Promise<RegistrationResponse> {
+    return this.registerAgent(agent, tenant);
+  }
+
+  /**
+   * Discover agents based on query
+   */
+  async discover(query: DiscoveryQuery): Promise<DiscoveryResponse> {
+    return this.discoverAgents(query);
   }
 }
