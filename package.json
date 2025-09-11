@@ -1,7 +1,7 @@
 {
   "name": "@ossa/platform",
-  "version": "0.2.0",
-  "description": "OSSA Platform v0.2.0 - Specification Standard & Production Runtime Platform for AI Agents",
+  "version": "0.1.9",
+  "description": "OSSA Platform v0.1.9 - Specification Standard & Production Runtime Platform for AI Agents",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

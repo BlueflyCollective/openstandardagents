@@ -1,4 +1,4 @@
-# OSSA Platform v0.2.0 - Technical Implementation Roadmap
+# OSSA Platform v0.1.9 - Specification Standard Roadmap
 *Specification Standard & Production Runtime Platform*
 
 ## ⚠️ CRITICAL: Development Rules & Safeguards
@@ -103,100 +103,96 @@ git checkout -b feature/receive-ossa-runtime
 
 ---
 
-## 🎯 Claude Desktop Integration Roadmap (v0.2.0)
+## 🎯 Specification Standard Roadmap (v0.1.9)
 
 ### Phase Overview
-The OSSA v0.2.0 release focuses on **Claude Desktop integration** with Model Context Protocol (MCP) support, voice-enabled agent orchestration, real-time dashboard monitoring, and production-ready enterprise features.
+The OSSA v0.1.9 release focuses on **specification separation** - removing implementation code to agent-buildkit while establishing OSSA as the authoritative specification standard.
 
-### Current Status: v0.1.8 → v0.2.0
+### Current Status: v0.1.8 → v0.1.9
 - ✅ **Core OSSA Foundation**: Agent specification, registry, CLI tools
 - ✅ **Documentation Infrastructure**: GitLab Pages with comprehensive guides
 - ✅ **Enterprise Compliance**: Governance framework and security standards
 - ✅ **MCP Client Implementation**: WebSocket-based MCP client in CLI (`src/cli/commands/mcp.ts`)
-- ✅ **OSSA v0.2.0 Schema**: Complete OpenAPI 3.1 compliant schema with VoiceAgent, MCPAgent, VoiceMCPAgent types
+- ✅ **OSSA v0.1.9 Schema**: Complete OpenAPI 3.1 compliant specification schema
 - ✅ **Voice Integration**: Voice-MCP agent manifest template with STT/TTS providers
 - ✅ **GitLab CI/CD**: Infrastructure with agent registry API and real-time events
-- ❌ **CRITICAL GAPS**: MCP Server (SSE transport), Claude Desktop Extension, OSSA-specific MCP tools
+- ❌ **CRITICAL TASKS**: Migrate implementation code to agent-buildkit, pure specification focus
 
-### 🚨 Critical Gaps for Claude Desktop Integration
+### 🚨 Critical Tasks for Specification Separation
 
-#### Missing Components (CRITICAL PRIORITY)
-1. **MCP Server with SSE Transport** - Most critical gap
-   - Current: WebSocket-based MCP client in CLI
-   - Needed: SSE (Server-Sent Events) transport MCP server
-   - Missing: `src/mcp-server/index.ts` with `@modelcontextprotocol/server` and `@modelcontextprotocol/transport-sse`
+#### Implementation Migration (CRITICAL PRIORITY)
+1. **CLI Tools Migration** - Move to agent-buildkit
+   - Current: 4 CLI files in OSSA (`src/cli/`)
+   - Target: `agent-buildkit/src/ossa-tools/cli/`
+   - Impact: Pure specification focus in OSSA
 
-2. **Claude Desktop Extension Package** - Required for installation
-   - Current: None
-   - Needed: Complete `.dxt` extension with manifest
-   - Missing: `extension/manifest.json` with proper MCP server configuration
+2. **MCP Server Migration** - Move to agent-buildkit  
+   - Current: 7 MCP server files in OSSA (`src/mcp-server/`)
+   - Target: `agent-buildkit/src/ossa-tools/mcp-server/`
+   - Impact: Implementation tool, not specification standard
 
-3. **OSSA-Specific MCP Tools** - What makes it useful for Claude
-   - Current: Generic MCP validation
-   - Needed: Claude-accessible tools: `ossa_generate_agent`, `ossa_validate`, `ossa_introspect`, `ossa_lifecycle`, `ossa_test_compliance`
+3. **Runtime Infrastructure Migration** - Move to agent-buildkit
+   - Current: 11 runtime files + 53 infrastructure files
+   - Target: `agent-buildkit/src/ossa-tools/runtime/` and `infrastructure/`
+   - Impact: OSSA becomes specification-only
 
-4. **Project Configuration Templates** - Team collaboration
-   - Current: Individual YAML manifests
-   - Needed: `.mcp.json` for team collaboration
-   - Missing: `templates/.mcp.json` with OSSA server configuration
+4. **Specification Cleanup** - Keep core standards
+   - Current: Mixed specification + implementation
+   - Target: OpenAPI specs, JSON schemas, type definitions only
+   - Impact: Clear specification authority
 
-5. **Real-time Dashboard Integration** - Medium priority
-   - Current: Basic dashboard spawn in CLI
-   - Needed: WebSocket integration with Claude Desktop
-
-6. **Package Distribution** - Medium priority
-   - Current: None
-   - Needed: NPM packages for MCP server and CLI tools
+5. **Agent Directory Strategy** - Specification examples only
+   - Current: Mixed development + examples in `.agents/`
+   - Target: Specification examples only, no `.agents-workspace/`
+   - Impact: Development tools belong in agent-buildkit
 
 ---
 
-## Phase 1: Claude Desktop MCP Server (Weeks 1-2) - CRITICAL
+## Phase 1: Specification Separation (v0.1.9) - CRITICAL
 
-### Week 1: Core MCP Server Implementation
-**Deliverables**: SSE transport MCP server for Claude Desktop integration
+### Week 1: Implementation Migration to Agent-BuildKit
+**Deliverables**: Move all 76 implementation files to agent-buildkit
 
 #### Milestones
-- [ ] **MCP Server Foundation**
-  - Create `src/mcp-server/index.ts` with `@modelcontextprotocol/server`
-  - Implement SSE transport using `@modelcontextprotocol/transport-sse`
-  - Add MCP v1.1 protocol compliance with handshake validation
-  - Implement authentication framework with bearer tokens
-  - Add comprehensive error handling and logging
+- [ ] **CLI Tools Migration**
+  - Move `src/cli/` (4 files) to `agent-buildkit/src/ossa-tools/cli/`
+  - Update import paths to use `@ossa/specification` package
+  - Test CLI integration from agent-buildkit
+  - Remove CLI implementation from OSSA
 
-- [ ] **OSSA-Specific MCP Tools**
-  - `ossa_generate_agent`: Generate OSSA-compliant agent manifests
-  - `ossa_validate`: Validate agent compliance against OSSA schema
-  - `ossa_introspect`: Analyze agent capabilities and dependencies
-  - `ossa_lifecycle`: Manage agent lifecycle (spawn, stop, restart)
-  - `ossa_test_compliance`: Run compliance tests and generate reports
+- [ ] **MCP Server Migration**  
+  - Move `src/mcp-server/` (7 files) to `agent-buildkit/src/ossa-tools/mcp-server/`
+  - Update dependencies and build configuration
+  - Test MCP server functionality from agent-buildkit
+  - Remove MCP server implementation from OSSA
 
-- [ ] **Package Configuration**
-  - Create `package.json` for MCP server with proper dependencies
-  - Add TypeScript configuration for MCP server
-  - Implement build scripts for distribution
-  - Add NPM package configuration for `@ossa/mcp-server`
+- [ ] **Runtime Migration**
+  - Move `src/core/` (11 files) to `agent-buildkit/src/ossa-tools/runtime/`
+  - Update runtime dependencies and configurations
+  - Test orchestration functionality from agent-buildkit
+  - Remove runtime implementation from OSSA
 
 **Success Criteria:**
-- ✅ MCP server responds to Claude Desktop with proper SSE transport
-- ✅ All OSSA-specific tools functional and tested
-- ✅ Server handles authentication and error scenarios gracefully
-- ✅ Package builds successfully for distribution
+- ✅ All implementation code successfully moved to agent-buildkit
+- ✅ Agent-buildkit integration tests pass
+- ✅ OSSA maintains only specification files
+- ✅ No broken import paths or dependencies
 
-### Week 2: Claude Desktop Extension Package
-**Deliverables**: Complete `.dxt` extension package for Claude Desktop
+### Week 2: Specification Cleanup and Standards
+**Deliverables**: Pure specification-only OSSA repository
 
 #### Milestones
-- [ ] **Extension Manifest**
-  - Create `extension/manifest.json` with proper MCP server configuration
-  - Configure extension metadata and versioning
-  - Add proper command and argument configuration
-  - Implement extension validation and testing
+- [ ] **Specification Files Refinement**
+  - Keep only OpenAPI specs (`src/api/*.openapi.yml`) - 4 files
+  - Keep only JSON schemas (`src/api/*.schema.json`) - 2 files  
+  - Keep only type definitions (`src/types/`) - 6 files
+  - Keep only specification validator (`src/specification/validator.ts`) - 1 file
 
-- [ ] **Extension Packaging**
-  - Create `.dxt` package with proper structure
-  - Add installation and uninstallation scripts
-  - Implement extension validation tools
-  - Create distribution package for NPM
+- [ ] **Agent Examples Cleanup**
+  - Keep specification examples only (`examples/`, `src/agents/voice-assistant/`)
+  - Remove development artifacts and build tools
+  - Update examples to reference agent-buildkit for implementation
+  - Create clear specification vs implementation documentation
 
 - [ ] **Integration Testing**
   - Test extension installation in Claude Desktop
@@ -1117,7 +1113,7 @@ performance:
 - [ ] 42.3% token efficiency improvement
 - [ ] Enterprise governance and compliance features
 
-### 🎯 **Success Metrics v0.1.10**
+### 🎯 **Integration Success Metrics**
 - [ ] MCP server responds to tool/list
 - [ ] Multi-framework integration working
 - [ ] 50+ registered agents
@@ -1202,7 +1198,7 @@ performance:
 - [ ] Release notes completed
 - [ ] Beta documentation ready
 
-### 🎯 **Success Metrics v0.1.11**
+### 🎯 **Production Success Metrics**
 - [ ] 1000+ production agents
 - [ ] 99.9% uptime achieved
 - [ ] <50ms p95 latency
@@ -1285,9 +1281,7 @@ performance:
 - **91% context preservation** across agent sessions
 
 ### Version Targets
-- **v0.1.9**: Token usage reduction 50-70% vs baseline
-- **v0.1.10**: Response latency <250ms p99
-- **v0.1.11**: System availability 99.97%+ uptime
+- **v0.1.9**: Specification separation complete
 - **v1.0.0**: Agent coordination efficiency <5% overhead
 
 ## Risk Management
@@ -1323,21 +1317,21 @@ performance:
 
 ## Immediate Next Actions
 
-### Next 30 Days (v0.1.9 Foundation)
+### Next 30 Days (v0.1.9 Specification Separation)
 1. Finalize ACDL specification and OpenAPI schema
 2. Implement basic agent registration system
 3. Create reference agent implementations
 4. Set up development environment with Qdrant
 5. Package agents as MCP servers using `@anthropic-ai/dxt`
 
-### Next 90 Days (v0.1.10 Integration)  
+### Next 60 Days (Integration with Agent-BuildKit)  
 1. Complete Phase 3-6 framework integration
 2. Begin open source integration with MCP/LangChain/CrewAI
 3. Establish GitLab CI/CD pipeline templates
 4. Create comprehensive testing framework
 5. Deploy working demo with honest documentation
 
-### Next 180 Days (v0.1.11 Production)
+### Next 90 Days (Production Readiness)
 1. Deploy production-ready OSSA framework
 2. Achieve Silver conformance level
 3. Integrate with existing enterprise infrastructure
