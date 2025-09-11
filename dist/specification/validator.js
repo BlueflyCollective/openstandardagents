@@ -2,6 +2,10 @@ import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 /**
  * OSSA Specification Authority - ACDL Validator v0.1.9-alpha.1
  *

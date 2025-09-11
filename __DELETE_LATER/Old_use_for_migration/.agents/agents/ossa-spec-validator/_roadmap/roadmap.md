@@ -1,1 +1,0 @@
-# ossa-spec-validator Roadmap
