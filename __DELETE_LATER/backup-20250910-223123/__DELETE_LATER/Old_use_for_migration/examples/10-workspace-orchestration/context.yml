@@ -1,0 +1,408 @@
+# Enterprise Workspace Context - Shared Knowledge and Resources
+# OpenAPI AI Agents Standard (OSSA) v0.1.8
+
+ossa: "0.1.8"
+kind: "WorkspaceContext"
+metadata:
+  name: "enterprise-workspace-context"
+  version: "1.0.0"
+  description: "Comprehensive shared context for enterprise workspace agent coordination"
+  created: "2025-01-26"
+  updated: "2025-01-26"
+  
+  annotations:
+    context/scope: "workspace"
+    context/visibility: "all-agents"
+    context/update-frequency: "real-time"
+    context/persistence: "distributed"
+    
+spec:
+  # === SHARED KNOWLEDGE BASE ===
+  knowledge_base:
+    # Organization knowledge
+    organization:
+      name: "${ORGANIZATION_NAME}"
+      domain: "${ORGANIZATION_DOMAIN}"
+      industry: "${ORGANIZATION_INDUSTRY}"
+      size: "enterprise"  # startup | medium | enterprise | fortune500
+      
+      structure:
+        teams:
+          engineering:
+            size: 200
+            projects: ["backend", "frontend", "mobile", "infrastructure"]
+            
+          data_science:
+            size: 50
+            projects: ["ml-platform", "analytics", "research"]
+            
+          security:
+            size: 20
+            projects: ["security-tools", "compliance", "incident-response"]
+            
+          operations:
+            size: 30
+            projects: ["devops", "sre", "platform"]
+            
+      policies:
+        data_retention: "90d"
+        backup_frequency: "daily"
+        disaster_recovery: "4h RTO, 1h RPO"
+        change_management: "ITIL"
+        
+    # Technical standards
+    technical_standards:
+      programming_languages:
+        primary: ["python", "typescript", "go"]
+        secondary: ["java", "rust", "swift"]
+        scripting: ["bash", "powershell"]
+        
+      frameworks:
+        backend: ["fastapi", "django", "express", "gin"]
+        frontend: ["react", "vue", "angular"]
+        mobile: ["react-native", "flutter", "swift", "kotlin"]
+        ml: ["tensorflow", "pytorch", "scikit-learn", "huggingface"]
+        
+      databases:
+        relational: ["postgresql", "mysql", "oracle"]
+        nosql: ["mongodb", "cassandra", "dynamodb"]
+        cache: ["redis", "memcached"]
+        vector: ["pinecone", "weaviate", "qdrant"]
+        
+      cloud_platforms:
+        primary: "aws"
+        secondary: ["azure", "gcp"]
+        regions: ["us-east-1", "eu-west-1", "ap-southeast-1"]
+        
+      ci_cd:
+        vcs: "github"
+        ci: "github-actions"
+        cd: "argocd"
+        artifacts: "artifactory"
+        
+    # Business context
+    business_context:
+      products:
+        - name: "main-product"
+          type: "saas"
+          users: 1000000
+          revenue_impact: "high"
+          
+        - name: "mobile-app"
+          type: "mobile"
+          users: 500000
+          revenue_impact: "medium"
+          
+      customers:
+        segments: ["enterprise", "mid-market", "smb"]
+        industries: ["technology", "finance", "healthcare"]
+        geographic: ["north_america", "europe", "asia_pacific"]
+        
+      compliance_requirements:
+        - framework: "iso-27001"
+          status: "certified"
+          renewal_date: "2025-12-31"
+          
+        - framework: "soc2-type2"
+          status: "certified"
+          renewal_date: "2025-06-30"
+          
+        - framework: "gdpr"
+          status: "compliant"
+          
+        - framework: "hipaa"
+          status: "compliant"
+          applicable_products: ["healthcare-module"]
+          
+  # === SHARED RESOURCES ===
+  resources:
+    # API endpoints
+    apis:
+      internal:
+        - name: "identity-service"
+          endpoint: "https://identity.internal.company.com"
+          auth: "oauth2"
+          rate_limit: 1000
+          
+        - name: "data-platform"
+          endpoint: "https://data.internal.company.com"
+          auth: "api_key"
+          rate_limit: 500
+          
+        - name: "ml-serving"
+          endpoint: "https://ml.internal.company.com"
+          auth: "jwt"
+          rate_limit: 100
+          
+      external:
+        - name: "openai"
+          endpoint: "https://api.openai.com/v1"
+          auth: "bearer"
+          rate_limit: 3000
+          cost_per_1k_tokens: 0.002
+          
+        - name: "anthropic"
+          endpoint: "https://api.anthropic.com/v1"
+          auth: "bearer"
+          rate_limit: 1000
+          cost_per_1k_tokens: 0.003
+          
+    # Databases
+    databases:
+      - name: "main-postgres"
+        type: "postgresql"
+        connection_string: "${MAIN_DB_CONNECTION}"
+        purpose: "primary_datastore"
+        read_replicas: 3
+        
+      - name: "analytics-warehouse"
+        type: "snowflake"
+        connection_string: "${ANALYTICS_DB_CONNECTION}"
+        purpose: "analytics"
+        
+      - name: "cache-redis"
+        type: "redis"
+        connection_string: "${REDIS_CONNECTION}"
+        purpose: "caching"
+        ttl: 3600
+        
+      - name: "vector-store"
+        type: "pinecone"
+        connection_string: "${VECTOR_DB_CONNECTION}"
+        purpose: "embeddings"
+        dimensions: 1536
+        
+    # File systems
+    storage:
+      - name: "s3-main"
+        type: "s3"
+        bucket: "company-main-bucket"
+        region: "us-east-1"
+        purpose: "general"
+        
+      - name: "s3-ml-artifacts"
+        type: "s3"
+        bucket: "company-ml-artifacts"
+        region: "us-east-1"
+        purpose: "ml_models"
+        
+      - name: "s3-logs"
+        type: "s3"
+        bucket: "company-logs"
+        region: "us-east-1"
+        purpose: "logging"
+        retention: "90d"
+        
+    # Compute resources
+    compute:
+      - name: "eks-main"
+        type: "kubernetes"
+        provider: "aws"
+        version: "1.28"
+        nodes: 50
+        purpose: "primary_compute"
+        
+      - name: "gpu-cluster"
+        type: "kubernetes"
+        provider: "aws"
+        gpu_type: "a100"
+        nodes: 10
+        purpose: "ml_training"
+        
+      - name: "serverless"
+        type: "lambda"
+        provider: "aws"
+        runtime: ["python3.11", "nodejs18"]
+        purpose: "event_processing"
+        
+  # === SHARED CONFIGURATIONS ===
+  configurations:
+    # Model configurations
+    models:
+      default_llm: "gpt-4-turbo"
+      fallback_llm: "gpt-3.5-turbo"
+      
+      available_models:
+        - model: "gpt-4-turbo"
+          provider: "openai"
+          context_window: 128000
+          cost_per_1k_input: 0.01
+          cost_per_1k_output: 0.03
+          
+        - model: "claude-3-opus"
+          provider: "anthropic"
+          context_window: 200000
+          cost_per_1k_input: 0.015
+          cost_per_1k_output: 0.075
+          
+        - model: "gemini-1.5-pro"
+          provider: "google"
+          context_window: 1000000
+          cost_per_1k_input: 0.007
+          cost_per_1k_output: 0.021
+          
+    # Security configurations
+    security:
+      authentication:
+        providers: ["okta", "azure-ad"]
+        mfa_required: true
+        session_timeout: 3600
+        
+      encryption:
+        algorithm: "aes-256-gcm"
+        key_rotation: "30d"
+        
+      network:
+        vpc_id: "vpc-xxx"
+        private_subnets: ["subnet-xxx", "subnet-yyy"]
+        public_subnets: ["subnet-aaa", "subnet-bbb"]
+        
+    # Monitoring configurations
+    monitoring:
+      providers:
+        metrics: "datadog"
+        logs: "elasticsearch"
+        traces: "jaeger"
+        
+      dashboards:
+        - name: "agent-performance"
+          url: "https://dashboards.company.com/agent-performance"
+          
+        - name: "cost-tracking"
+          url: "https://dashboards.company.com/cost-tracking"
+          
+        - name: "security-monitoring"
+          url: "https://dashboards.company.com/security"
+          
+  # === RUNTIME CONTEXT ===
+  runtime:
+    # Environment variables
+    environment:
+      stage: "${ENVIRONMENT_STAGE}"  # dev | staging | prod
+      region: "${AWS_REGION}"
+      availability_zones: ["${AZ1}", "${AZ2}", "${AZ3}"]
+      
+    # Feature flags
+    feature_flags:
+      enable_caching: true
+      enable_tracing: true
+      enable_cost_optimization: true
+      enable_auto_scaling: true
+      enable_circuit_breaker: true
+      
+      experimental:
+        enable_quantum_optimization: false
+        enable_neuromorphic_computing: false
+        enable_federated_learning: false
+        
+    # Rate limits
+    rate_limits:
+      global:
+        requests_per_minute: 10000
+        burst_size: 15000
+        
+      per_team:
+        engineering: 5000
+        data_science: 3000
+        security: "unlimited"
+        
+      per_capability:
+        code_analysis: 1000
+        security_scanning: 500
+        ml_inference: 2000
+        
+    # Cost controls
+    cost_controls:
+      daily_budget: 1000  # USD
+      alert_threshold: 0.8
+      hard_limit: 1.2
+      
+      per_team_budget:
+        engineering: 400
+        data_science: 400
+        security: 100
+        operations: 100
+        
+  # === KNOWLEDGE GRAPHS ===
+  knowledge_graphs:
+    # Project dependencies
+    project_dependencies:
+      backend-api:
+        depends_on: ["database", "cache", "message-queue"]
+        consumers: ["frontend", "mobile", "external-api"]
+        
+      ml-platform:
+        depends_on: ["data-pipeline", "gpu-cluster", "model-registry"]
+        consumers: ["api", "batch-jobs", "real-time-inference"]
+        
+    # Capability mappings
+    capability_graph:
+      code_analysis:
+        providers: ["static-analyzer", "security-scanner", "performance-profiler"]
+        consumers: ["ci-pipeline", "code-review", "security-audit"]
+        
+      ml_training:
+        providers: ["data-pipeline", "gpu-cluster", "experiment-tracker"]
+        consumers: ["model-registry", "serving-platform", "monitoring"]
+        
+    # Team expertise
+    expertise_graph:
+      backend:
+        experts: ["team-a", "team-b"]
+        technologies: ["python", "go", "postgresql", "redis"]
+        
+      frontend:
+        experts: ["team-c", "team-d"]
+        technologies: ["react", "typescript", "graphql"]
+        
+      ml:
+        experts: ["team-e"]
+        technologies: ["pytorch", "tensorflow", "kubeflow"]
+        
+  # === EVENT CONTEXT ===
+  events:
+    # Recent incidents
+    recent_incidents:
+      - id: "INC-2025-001"
+        date: "2025-01-20"
+        severity: "high"
+        resolution: "patched"
+        affected_services: ["api", "database"]
+        
+    # Scheduled maintenance
+    scheduled_maintenance:
+      - id: "MAINT-2025-001"
+        date: "2025-02-01"
+        duration: "4h"
+        affected_services: ["database"]
+        
+    # Active experiments
+    active_experiments:
+      - name: "new-ml-model"
+        status: "running"
+        progress: 0.75
+        expected_completion: "2025-02-15"
+        
+  # === WORKSPACE METADATA ===
+  metadata:
+    # Statistics
+    statistics:
+      total_projects: 50
+      active_agents: 125
+      daily_requests: 1000000
+      average_latency: "250ms"
+      success_rate: 0.995
+      
+    # Versioning
+    versions:
+      workspace: "1.0.0"
+      oaas: "0.1.8"
+      uadp: "1.0.0"
+      
+    # Tags for discovery
+    tags:
+      - "enterprise"
+      - "multi-region"
+      - "high-availability"
+      - "compliant"
+      - "production"

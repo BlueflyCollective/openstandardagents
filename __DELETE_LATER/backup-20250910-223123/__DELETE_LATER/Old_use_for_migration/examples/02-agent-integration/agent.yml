@@ -1,0 +1,79 @@
+ossa: "0.1.8"
+kind: Agent
+metadata:
+  name: example-integration
+  version: "2.0.0"
+  description: Integration-ready agent with framework compatibility
+  created: '2025-08-27T21:50:05.362Z'
+  labels:
+    tier: governed
+    domain: integration
+  annotations:
+    ossa.io/conformance-level: "governed"
+    ossa.io/migration-date: "2024-01-15"
+    ossa.io/source-format: "oaas"
+spec:
+  agent:
+    name: "Integration Agent"
+    expertise: "Demonstrates framework integration and API specification with comprehensive capability coverage"
+  capabilities:
+    - name: analyze_project
+      description: Comprehensive project analysis
+      frameworks:
+        - langchain
+        - crewai
+    - name: generate_code
+      description: AI-powered code generation
+      frameworks:
+        - mcp
+        - langchain
+    - name: validate_compliance
+      description: Check standards compliance
+      frameworks:
+        - all
+    - name: optimize_performance
+      description: Performance optimization suggestions
+      frameworks:
+        - langchain
+        - autogen
+  context_management:
+    max_tokens: 8000
+    optimization: adaptive
+  frameworks:
+    mcp:
+      enabled: true
+      server_name: integration-example
+    langchain:
+      enabled: true
+      tool_type: structured
+    crewai:
+      enabled: true
+      role: analyst
+      backstory: Expert in code analysis and generation
+  openapi: ./openapi.yaml
+  integration:
+    authentication:
+      type: api_key
+    rate_limiting:
+      requests_per_minute: 60
+  monitoring:
+    metrics: true
+    logging:
+      level: info
+  security:
+    authentication: api_key
+    authorization: rbac
+    audit_logging: true
+    data_classification: confidential
+  discovery:
+    uadp:
+      enabled: true
+      tags: ["integration", "framework", "analysis", "generation", "compliance"]
+      priority: 80
+  protocols:
+    - openapi
+    - mcp
+  api:
+    specification: ./openapi.yaml
+    base_url: http://localhost:8080/api/v1
+    endpoints: {}

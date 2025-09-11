@@ -1,0 +1,53 @@
+ossa: "0.1.8"
+kind: Agent
+metadata:
+  name: example-basic
+  version: "1.0.0"
+  description: |
+    A simple agent showing the minimum viable configuration for a useful
+    OSSA agent with framework compatibility and clear capabilities.
+  created: '2025-08-27T21:50:05.395Z'
+  labels:
+    tier: core
+    domain: development
+  annotations:
+    ossa.io/conformance-level: "core"
+    ossa.io/migration-date: "2024-01-15"
+    ossa.io/source-format: "oaas"
+spec:
+  agent:
+    name: example-basic
+    expertise: Basic agent demonstrating core OSSA features
+  capabilities:
+    - name: analyze_code
+      description: Analyzes code quality and structure
+    - name: generate_docs
+      description: Creates documentation from code
+    - name: validate_syntax
+      description: Checks syntax errors and formatting
+    - name: suggest_improvements
+      description: Recommends code improvements
+  frameworks:
+    mcp:
+      enabled: true
+    langchain:
+      enabled: true
+    crewai:
+      enabled: true
+  security:
+    authentication: api_key
+    authorization: rbac
+    audit_logging: true
+    data_classification: confidential
+  discovery:
+    uadp:
+      enabled: true
+      tags: ["development", "code-analysis", "documentation", "syntax"]
+      priority: 50
+  protocols:
+    - openapi
+    - mcp
+  api:
+    specification: ./openapi.yaml
+    base_url: http://localhost:8080/api/v1
+    endpoints: {}

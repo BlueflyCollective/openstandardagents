@@ -1,0 +1,1124 @@
+openapi: 3.1.0
+info:
+  title: Production Agent API
+  description: |
+    Production-grade OpenAPI specification for an enterprise OAAS agent.
+    
+    This agent provides comprehensive functionality with enterprise-grade security,
+    monitoring, performance optimization, and compliance features.
+    
+    ## Features
+    - Advanced text analysis with ML models
+    - Multi-format content generation
+    - Document processing and summarization
+    - Code analysis and optimization
+    - Semantic search capabilities
+    - Real-time collaboration
+    - Enterprise security and audit logging
+    - Performance monitoring and metrics
+    
+    ## Security
+    - OAuth2 authentication with JWT tokens
+    - Role-based access control (RBAC)
+    - Rate limiting and request throttling
+    - Input validation and sanitization
+    - Audit logging for compliance
+    
+    ## Performance
+    - Response caching for improved latency
+    - Request batching for efficiency
+    - Circuit breaker pattern for resilience
+    - Health checks and graceful degradation
+    
+    ## Compliance
+    - GDPR compliant data processing
+    - SOX audit trail support
+    - ISO 42001 AI management compliance
+  version: "2.0.0"
+  contact:
+    name: Production Team
+    email: production@example.com
+    url: https://docs.example.com/support
+  license:
+    name: Proprietary
+    url: https://example.com/license
+
+# OAAS Extension - Required for all OAAS agents
+x-openapi-ai-agents-standard:
+  version: "0.1.8"
+  agent:
+    name: "production-agent"
+    level: 3
+    frameworks:
+      mcp: enabled
+      langchain: enabled
+      crewai: enabled
+      openai: enabled
+    capabilities:
+      - advanced_text_analysis
+      - content_generation
+      - document_processing
+      - code_analysis
+      - semantic_search
+    compliance:
+      - iso-42001
+      - gdpr
+      - sox
+    security:
+      authentication: oauth2
+      authorization: rbac
+      audit_logging: enabled
+    performance:
+      caching: enabled
+      circuit_breaker: enabled
+      rate_limiting: enabled
+
+servers:
+  - url: https://api.production.example.com/v2
+    description: Production server
+  - url: https://api.staging.example.com/v2
+    description: Staging server
+  - url: http://localhost:8080/v2
+    description: Development server
+
+paths:
+  /health:
+    get:
+      summary: Comprehensive Health Check
+      description: |
+        Detailed health check including dependency status, performance metrics,
+        and system readiness indicators.
+      operationId: getHealth
+      tags:
+        - Health
+      responses:
+        '200':
+          description: System is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy, degraded, unhealthy]
+                  timestamp:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+                  uptime:
+                    type: integer
+                    description: Uptime in seconds
+                  dependencies:
+                    type: object
+                    properties:
+                      database:
+                        type: string
+                        enum: [healthy, degraded, unhealthy]
+                      ml_service:
+                        type: string
+                        enum: [healthy, degraded, unhealthy]
+                      cache:
+                        type: string
+                        enum: [healthy, degraded, unhealthy]
+                  performance:
+                    type: object
+                    properties:
+                      avg_response_time:
+                        type: number
+                        description: Average response time in milliseconds
+                      requests_per_second:
+                        type: number
+                      error_rate:
+                        type: number
+                        minimum: 0
+                        maximum: 1
+                  resources:
+                    type: object
+                    properties:
+                      cpu_usage:
+                        type: number
+                        minimum: 0
+                        maximum: 100
+                      memory_usage:
+                        type: number
+                        minimum: 0
+                        maximum: 100
+                      disk_usage:
+                        type: number
+                        minimum: 0
+                        maximum: 100
+                required:
+                  - status
+                  - timestamp
+                  - version
+        '503':
+          description: System is unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /health/live:
+    get:
+      summary: Liveness Probe
+      description: Kubernetes liveness probe endpoint
+      operationId: getLiveness
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Service is alive
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [alive]
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /health/ready:
+    get:
+      summary: Readiness Probe
+      description: Kubernetes readiness probe endpoint
+      operationId: getReadiness
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Service is ready to accept traffic
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [ready]
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /analyze/text:
+    post:
+      summary: Advanced Text Analysis
+      description: |
+        Perform comprehensive text analysis using state-of-the-art ML models.
+        
+        Features include:
+        - Multi-language support (50+ languages)
+        - Advanced sentiment analysis with emotion detection
+        - Named entity recognition (NER)
+        - Topic modeling and classification
+        - Text similarity and clustering
+        - Readability and complexity metrics
+        - Bias detection and fairness analysis
+      operationId: analyzeText
+      tags:
+        - Analysis
+      security:
+        - OAuth2: [read:analysis]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  minLength: 1
+                  maxLength: 50000
+                  description: Text content to analyze
+                options:
+                  type: object
+                  properties:
+                    language:
+                      type: string
+                      pattern: '^[a-z]{2}$'
+                      description: ISO 639-1 language code (auto-detect if not provided)
+                    analysis_types:
+                      type: array
+                      items:
+                        type: string
+                        enum: [sentiment, entities, topics, readability, bias, similarity]
+                      default: [sentiment, entities, topics]
+                    confidence_threshold:
+                      type: number
+                      minimum: 0
+                      maximum: 1
+                      default: 0.5
+                    batch_processing:
+                      type: boolean
+                      default: false
+                      description: Enable batch processing for large texts
+                context:
+                  type: object
+                  properties:
+                    domain:
+                      type: string
+                      enum: [general, technical, medical, legal, financial]
+                      default: general
+                    user_id:
+                      type: string
+                      description: User identifier for personalization
+                    session_id:
+                      type: string
+                      description: Session identifier for context continuity
+              required:
+                - text
+      responses:
+        '200':
+          description: Analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  analysis:
+                    type: object
+                    properties:
+                      language:
+                        type: object
+                        properties:
+                          detected:
+                            type: string
+                          confidence:
+                            type: number
+                            minimum: 0
+                            maximum: 1
+                      sentiment:
+                        type: object
+                        properties:
+                          polarity:
+                            type: string
+                            enum: [positive, negative, neutral]
+                          score:
+                            type: number
+                            minimum: -1
+                            maximum: 1
+                          emotions:
+                            type: object
+                            properties:
+                              joy:
+                                type: number
+                                minimum: 0
+                                maximum: 1
+                              anger:
+                                type: number
+                                minimum: 0
+                                maximum: 1
+                              fear:
+                                type: number
+                                minimum: 0
+                                maximum: 1
+                              sadness:
+                                type: number
+                                minimum: 0
+                                maximum: 1
+                              surprise:
+                                type: number
+                                minimum: 0
+                                maximum: 1
+                      entities:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            text:
+                              type: string
+                            type:
+                              type: string
+                              enum: [PERSON, ORGANIZATION, LOCATION, DATE, MONEY, PERCENT]
+                            confidence:
+                              type: number
+                              minimum: 0
+                              maximum: 1
+                            start_offset:
+                              type: integer
+                            end_offset:
+                              type: integer
+                      topics:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            topic:
+                              type: string
+                            relevance:
+                              type: number
+                              minimum: 0
+                              maximum: 1
+                            keywords:
+                              type: array
+                              items:
+                                type: string
+                      readability:
+                        type: object
+                        properties:
+                          flesch_score:
+                            type: number
+                            minimum: 0
+                            maximum: 100
+                          grade_level:
+                            type: string
+                          complexity:
+                            type: string
+                            enum: [very_easy, easy, moderate, difficult, very_difficult]
+                      bias:
+                        type: object
+                        properties:
+                          overall_score:
+                            type: number
+                            minimum: 0
+                            maximum: 1
+                          categories:
+                            type: object
+                            properties:
+                              gender:
+                                type: number
+                                minimum: 0
+                                maximum: 1
+                              racial:
+                                type: number
+                                minimum: 0
+                                maximum: 1
+                              age:
+                                type: number
+                                minimum: 0
+                                maximum: 1
+                  metadata:
+                    type: object
+                    properties:
+                      processed_at:
+                        type: string
+                        format: date-time
+                      processing_time:
+                        type: number
+                      model_version:
+                        type: string
+                      request_id:
+                        type: string
+                      user_id:
+                        type: string
+                required:
+                  - analysis
+                  - metadata
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /analyze/code:
+    post:
+      summary: Code Analysis
+      description: |
+        Analyze source code for quality metrics, security vulnerabilities,
+        performance issues, and best practices compliance.
+      operationId: analyzeCode
+      tags:
+        - Analysis
+      security:
+        - OAuth2: [read:analysis, read:code]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  minLength: 1
+                  maxLength: 100000
+                  description: Source code to analyze
+                language:
+                  type: string
+                  enum: [python, javascript, java, go, rust, typescript, cpp, csharp]
+                  description: Programming language
+                analysis_types:
+                  type: array
+                  items:
+                    type: string
+                    enum: [quality, security, performance, style, complexity]
+                  default: [quality, security, style]
+                context:
+                  type: object
+                  properties:
+                    project_type:
+                      type: string
+                      enum: [web, api, cli, library, mobile]
+                    framework:
+                      type: string
+                      description: Framework or library being used
+              required:
+                - code
+                - language
+      responses:
+        '200':
+          description: Code analysis completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  analysis:
+                    type: object
+                    properties:
+                      language:
+                        type: string
+                      quality:
+                        type: object
+                        properties:
+                          overall_score:
+                            type: number
+                            minimum: 0
+                            maximum: 100
+                          maintainability:
+                            type: number
+                            minimum: 0
+                            maximum: 100
+                          testability:
+                            type: number
+                            minimum: 0
+                            maximum: 100
+                      security:
+                        type: object
+                        properties:
+                          vulnerabilities:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                severity:
+                                  type: string
+                                  enum: [low, medium, high, critical]
+                                line_number:
+                                  type: integer
+                                description:
+                                  type: string
+                                recommendation:
+                                  type: string
+                      performance:
+                        type: object
+                        properties:
+                          issues:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                impact:
+                                  type: string
+                                  enum: [low, medium, high]
+                                line_number:
+                                  type: integer
+                                suggestion:
+                                  type: string
+                      complexity:
+                        type: object
+                        properties:
+                          cyclomatic_complexity:
+                            type: number
+                          cognitive_complexity:
+                            type: number
+                          lines_of_code:
+                            type: integer
+                          functions_count:
+                            type: integer
+                  recommendations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        category:
+                          type: string
+                        priority:
+                          type: string
+                          enum: [low, medium, high, critical]
+                        description:
+                          type: string
+                        code_snippet:
+                          type: string
+                  metadata:
+                    type: object
+                    properties:
+                      processed_at:
+                        type: string
+                        format: date-time
+                      processing_time:
+                        type: number
+                      analyzer_version:
+                        type: string
+                required:
+                  - analysis
+                  - metadata
+
+  /generate/content:
+    post:
+      summary: Advanced Content Generation
+      description: |
+        Generate high-quality content using advanced language models.
+        
+        Supports multiple content types, styles, and formats with fine-grained
+        control over generation parameters.
+      operationId: generateContent
+      tags:
+        - Generation
+      security:
+        - OAuth2: [write:content]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                  minLength: 1
+                  maxLength: 5000
+                  description: Generation prompt or instruction
+                type:
+                  type: string
+                  enum: [article, summary, explanation, creative, technical, marketing, email]
+                  default: article
+                parameters:
+                  type: object
+                  properties:
+                    max_length:
+                      type: integer
+                      minimum: 50
+                      maximum: 10000
+                      default: 1000
+                    style:
+                      type: string
+                      enum: [formal, casual, technical, creative, persuasive, informative]
+                      default: informative
+                    tone:
+                      type: string
+                      enum: [professional, friendly, authoritative, conversational, academic]
+                      default: professional
+                    audience:
+                      type: string
+                      enum: [general, expert, beginner, executive, technical]
+                      default: general
+                    format:
+                      type: string
+                      enum: [paragraph, list, outline, qa, structured]
+                      default: paragraph
+                    temperature:
+                      type: number
+                      minimum: 0
+                      maximum: 2
+                      default: 0.7
+                      description: Controls randomness in generation
+                    top_p:
+                      type: number
+                      minimum: 0
+                      maximum: 1
+                      default: 0.9
+                      description: Controls diversity via nucleus sampling
+                context:
+                  type: object
+                  properties:
+                    domain:
+                      type: string
+                      enum: [technology, business, healthcare, education, legal, marketing]
+                    previous_content:
+                      type: string
+                      description: Previous content for continuity
+                    keywords:
+                      type: array
+                      items:
+                        type: string
+                      description: Keywords to include in content
+                    constraints:
+                      type: array
+                      items:
+                        type: string
+                      description: Content constraints or requirements
+              required:
+                - prompt
+      responses:
+        '200':
+          description: Content generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+                    description: Generated content
+                  variants:
+                    type: array
+                    items:
+                      type: string
+                    description: Alternative content variations
+                  metadata:
+                    type: object
+                    properties:
+                      generated_at:
+                        type: string
+                        format: date-time
+                      processing_time:
+                        type: number
+                      model_used:
+                        type: string
+                      word_count:
+                        type: integer
+                      character_count:
+                        type: integer
+                      readability_score:
+                        type: number
+                      confidence_score:
+                        type: number
+                        minimum: 0
+                        maximum: 1
+                  quality_metrics:
+                    type: object
+                    properties:
+                      coherence:
+                        type: number
+                        minimum: 0
+                        maximum: 1
+                      relevance:
+                        type: number
+                        minimum: 0
+                        maximum: 1
+                      originality:
+                        type: number
+                        minimum: 0
+                        maximum: 1
+                      style_consistency:
+                        type: number
+                        minimum: 0
+                        maximum: 1
+                required:
+                  - content
+                  - metadata
+
+  /search/semantic:
+    post:
+      summary: Semantic Search
+      description: |
+        Perform semantic search across indexed content using vector similarity.
+        
+        Find semantically similar content even when exact keywords don't match.
+      operationId: semanticSearch
+      tags:
+        - Search
+      security:
+        - OAuth2: [read:search]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  minLength: 1
+                  maxLength: 1000
+                  description: Search query
+                options:
+                  type: object
+                  properties:
+                    limit:
+                      type: integer
+                      minimum: 1
+                      maximum: 100
+                      default: 10
+                    similarity_threshold:
+                      type: number
+                      minimum: 0
+                      maximum: 1
+                      default: 0.7
+                    include_metadata:
+                      type: boolean
+                      default: true
+                    search_types:
+                      type: array
+                      items:
+                        type: string
+                        enum: [content, concepts, entities, topics]
+                      default: [content, concepts]
+                filters:
+                  type: object
+                  properties:
+                    content_type:
+                      type: array
+                      items:
+                        type: string
+                        enum: [document, article, code, comment]
+                    date_range:
+                      type: object
+                      properties:
+                        start:
+                          type: string
+                          format: date
+                        end:
+                          type: string
+                          format: date
+                    tags:
+                      type: array
+                      items:
+                        type: string
+              required:
+                - query
+      responses:
+        '200':
+          description: Search completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        content:
+                          type: string
+                        similarity_score:
+                          type: number
+                          minimum: 0
+                          maximum: 1
+                        metadata:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            content_type:
+                              type: string
+                            created_at:
+                              type: string
+                              format: date-time
+                            tags:
+                              type: array
+                              items:
+                                type: string
+                        highlights:
+                          type: array
+                          items:
+                            type: string
+                          description: Relevant excerpts from the content
+                  total_results:
+                    type: integer
+                  query_analysis:
+                    type: object
+                    properties:
+                      intent:
+                        type: string
+                      entities:
+                        type: array
+                        items:
+                          type: string
+                      concepts:
+                        type: array
+                        items:
+                          type: string
+                  metadata:
+                    type: object
+                    properties:
+                      processed_at:
+                        type: string
+                        format: date-time
+                      processing_time:
+                        type: number
+                      search_id:
+                        type: string
+                required:
+                  - results
+                  - total_results
+                  - metadata
+
+  /documents:
+    post:
+      summary: Process Document
+      description: |
+        Process and analyze documents in various formats.
+        
+        Supports PDF, Word, text files, and performs comprehensive
+        document analysis and summarization.
+      operationId: processDocument
+      tags:
+        - Documents
+      security:
+        - OAuth2: [write:documents]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Document file to process
+                options:
+                  type: string
+                  description: JSON-encoded processing options
+                  example: '{"extract_text": true, "summarize": true, "analyze_structure": true}'
+      responses:
+        '200':
+          description: Document processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  document_id:
+                    type: string
+                    description: Unique document identifier
+                  extracted_text:
+                    type: string
+                    description: Extracted text content
+                  summary:
+                    type: string
+                    description: Document summary
+                  structure:
+                    type: object
+                    properties:
+                      sections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            level:
+                              type: integer
+                            content:
+                              type: string
+                      metadata:
+                        type: object
+                        properties:
+                          page_count:
+                            type: integer
+                          word_count:
+                            type: integer
+                          language:
+                            type: string
+                  analysis:
+                    type: object
+                    properties:
+                      topics:
+                        type: array
+                        items:
+                          type: string
+                      entities:
+                        type: array
+                        items:
+                          type: string
+                      sentiment:
+                        type: object
+                        properties:
+                          overall:
+                            type: string
+                            enum: [positive, negative, neutral]
+                          score:
+                            type: number
+                  metadata:
+                    type: object
+                    properties:
+                      processed_at:
+                        type: string
+                        format: date-time
+                      processing_time:
+                        type: number
+                      file_size:
+                        type: integer
+                      file_type:
+                        type: string
+                required:
+                  - document_id
+                  - metadata
+
+  /metrics:
+    get:
+      summary: Agent Metrics
+      description: |
+        Get performance and usage metrics for the agent.
+        
+        Provides insights into agent performance, usage patterns,
+        and system health metrics in Prometheus format.
+      operationId: getMetrics
+      tags:
+        - Monitoring
+      security:
+        - OAuth2: [read:metrics]
+      responses:
+        '200':
+          description: Metrics retrieved successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Prometheus-formatted metrics
+                example: |
+                  # HELP agent_requests_total Total number of requests
+                  # TYPE agent_requests_total counter
+                  agent_requests_total{method="POST",endpoint="/analyze/text"} 1234
+                  
+                  # HELP agent_response_time_seconds Response time in seconds
+                  # TYPE agent_response_time_seconds histogram
+                  agent_response_time_seconds_bucket{le="0.1"} 100
+                  agent_response_time_seconds_bucket{le="0.5"} 450
+                  agent_response_time_seconds_bucket{le="1.0"} 800
+                  agent_response_time_seconds_bucket{le="+Inf"} 1000
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+            timestamp:
+              type: string
+              format: date-time
+            request_id:
+              type: string
+              description: Unique request identifier for debugging
+            trace_id:
+              type: string
+              description: Distributed tracing identifier
+          required:
+            - code
+            - message
+            - timestamp
+      required:
+        - error
+
+  responses:
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    Forbidden:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    PayloadTooLarge:
+      description: Request payload too large
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        X-RateLimit-Limit:
+          description: Request limit per time window
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          description: Remaining requests in current window
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          description: Time when rate limit resets (Unix timestamp)
+          schema:
+            type: integer
+    
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication with JWT tokens
+      flows:
+        clientCredentials:
+          tokenUrl: https://auth.example.com/oauth2/token
+          scopes:
+            read:analysis: Read access to analysis endpoints
+            read:search: Read access to search endpoints
+            read:metrics: Read access to metrics and monitoring
+            read:code: Read access to code analysis
+            write:content: Write access to content generation
+            write:documents: Write access to document processing
+            admin:all: Full administrative access
+    
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication (fallback method)
+
+security:
+  - OAuth2: []
+  - ApiKeyAuth: []
+
+tags:
+  - name: Health
+    description: Health checks and system status
+  - name: Analysis
+    description: Text and code analysis capabilities
+  - name: Generation
+    description: Content generation and creation
+  - name: Search
+    description: Semantic search and discovery
+  - name: Documents
+    description: Document processing and analysis
+  - name: Monitoring
+    description: Metrics and performance monitoring
+
+externalDocs:
+  description: Production Agent Documentation
+  url: https://docs.example.com/agents/production

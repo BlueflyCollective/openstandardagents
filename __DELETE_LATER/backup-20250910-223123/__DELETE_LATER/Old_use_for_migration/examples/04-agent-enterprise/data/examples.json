@@ -1,0 +1,317 @@
+{
+  "api_examples": {
+    "version": "1.0.0",
+    "base_url": "http://localhost:8080/api/v1",
+    
+    "authentication": {
+      "api_key": {
+        "headers": {
+          "X-API-Key": "your-api-key-here"
+        }
+      },
+      "jwt": {
+        "headers": {
+          "Authorization": "Bearer your-jwt-token"
+        }
+      },
+      "oauth2": {
+        "headers": {
+          "Authorization": "Bearer your-oauth-token"
+        }
+      }
+    },
+    
+    "endpoints": [
+      {
+        "name": "health_check",
+        "method": "GET",
+        "path": "/health",
+        "description": "Check agent health status",
+        "example_request": {
+          "curl": "curl -X GET http://localhost:8080/api/v1/health"
+        },
+        "example_response": {
+          "status": "healthy",
+          "timestamp": "2025-01-26T12:00:00Z",
+          "version": "1.0.0",
+          "uptime": 3600,
+          "services": {
+            "validation": {"status": "up", "response_time": 1},
+            "testing": {"status": "up", "response_time": 2},
+            "analysis": {"status": "up", "response_time": 1}
+          }
+        }
+      },
+      {
+        "name": "execute_test",
+        "method": "POST",
+        "path": "/test/execute",
+        "description": "Execute a test scenario",
+        "example_request": {
+          "curl": "curl -X POST http://localhost:8080/api/v1/test/execute -H 'Content-Type: application/json' -H 'X-API-Key: your-key' -d '{\"test_type\": \"integration\", \"test_suite\": \"api_validation\", \"parameters\": {\"timeout\": 300}}'",
+          "body": {
+            "test_type": "integration",
+            "test_suite": "api_validation",
+            "parameters": {
+              "timeout": 300,
+              "environment": "staging"
+            }
+          }
+        },
+        "example_response": {
+          "test_id": "test_001",
+          "status": "passed",
+          "results": {
+            "total_tests": 25,
+            "passed": 24,
+            "failed": 1,
+            "duration": 45.2
+          },
+          "report": "Test execution completed successfully with 96% pass rate",
+          "recommendations": [
+            "Fix failing test in authentication module",
+            "Consider adding more edge case tests"
+          ]
+        }
+      },
+      {
+        "name": "validate_compliance",
+        "method": "POST",
+        "path": "/validate/compliance",
+        "description": "Validate OAAS compliance",
+        "example_request": {
+          "curl": "curl -X POST http://localhost:8080/api/v1/validate/compliance -H 'Content-Type: application/json' -H 'X-API-Key: your-key' -d '{\"specification\": \"agent.yml content\", \"frameworks\": [\"iso-42001\", \"nist-ai-rmf\"], \"strict_mode\": true}'",
+          "body": {
+            "specification": "agent.yml content here...",
+            "frameworks": ["iso-42001", "nist-ai-rmf"],
+            "strict_mode": true,
+            "include_suggestions": true
+          }
+        },
+        "example_response": {
+          "valid": true,
+          "certification_level": "gold",
+          "frameworks": {
+            "iso-42001": {
+              "compliant": true,
+              "score": 98,
+              "issues": [],
+              "recommendations": ["Add additional audit logging"]
+            },
+            "nist-ai-rmf": {
+              "compliant": true,
+              "score": 92,
+              "issues": [],
+              "recommendations": ["Implement enhanced encryption"]
+            }
+          },
+          "overall_score": 95,
+          "recommendations": [
+            "Add additional audit logging",
+            "Implement enhanced encryption"
+          ],
+          "issues": []
+        }
+      },
+      {
+        "name": "analyze_code",
+        "method": "POST",
+        "path": "/analyze/code",
+        "description": "Analyze code quality",
+        "example_request": {
+          "curl": "curl -X POST http://localhost:8080/api/v1/analyze/code -H 'Content-Type: application/json' -H 'X-API-Key: your-key' -d '{\"code\": \"function example() { return \\\"test\\\"; }\", \"language\": \"typescript\", \"analysis_type\": [\"quality\", \"security\"]}'",
+          "body": {
+            "code": "function example() { return 'test'; }",
+            "language": "typescript",
+            "analysis_type": ["quality", "security", "performance"],
+            "include_suggestions": true
+          }
+        },
+        "example_response": {
+          "analysis_id": "analysis_001",
+          "quality_score": 85,
+          "metrics": {
+            "complexity": 2,
+            "maintainability": 88,
+            "test_coverage": 75,
+            "security_score": 92
+          },
+          "issues": [
+            {
+              "severity": "warning",
+              "message": "Function lacks JSDoc documentation",
+              "line": 1,
+              "column": 1,
+              "rule": "jsdoc-required"
+            }
+          ],
+          "suggestions": [
+            "Add comprehensive JSDoc documentation",
+            "Consider adding input validation",
+            "Implement error handling"
+          ],
+          "recommendations": [
+            {
+              "type": "document",
+              "priority": "medium",
+              "description": "Add JSDoc documentation for better code maintainability",
+              "example": "/**\n * Example function that returns a test string\n * @returns {string} A test string\n */"
+            }
+          ]
+        }
+      },
+      {
+        "name": "benchmark_performance",
+        "method": "POST",
+        "path": "/benchmark/performance",
+        "description": "Benchmark performance metrics",
+        "example_request": {
+          "curl": "curl -X POST http://localhost:8080/api/v1/benchmark/performance -H 'Content-Type: application/json' -H 'X-API-Key: your-key' -d '{\"test_scenarios\": [\"api_load_test\"], \"duration\": 60, \"concurrent_users\": 10}'",
+          "body": {
+            "test_scenarios": ["api_load_test", "database_performance"],
+            "duration": 60,
+            "concurrent_users": 10,
+            "metrics": ["response_time", "throughput", "memory", "cpu"]
+          }
+        },
+        "example_response": {
+          "benchmark_id": "benchmark_001",
+          "results": {
+            "response_time": {
+              "average": 150,
+              "p95": 300,
+              "p99": 500
+            },
+            "throughput": 667,
+            "resource_usage": {
+              "memory": 256,
+              "cpu": 45
+            },
+            "error_rate": 0.001
+          },
+          "recommendations": [
+            "Consider implementing response caching",
+            "Optimize database queries",
+            "Scale horizontally for better throughput"
+          ]
+        }
+      },
+      {
+        "name": "assess_security",
+        "method": "POST",
+        "path": "/security/assess",
+        "description": "Assess security vulnerabilities",
+        "example_request": {
+          "curl": "curl -X POST http://localhost:8080/api/v1/security/assess -H 'Content-Type: application/json' -H 'X-API-Key: your-key' -d '{\"target\": \"api_endpoints\", \"assessment_type\": [\"vulnerability\", \"compliance\"], \"frameworks\": [\"owasp\"]}'",
+          "body": {
+            "target": "api_endpoints",
+            "assessment_type": ["vulnerability", "compliance", "code_review"],
+            "frameworks": ["owasp", "nist", "iso-27001"]
+          }
+        },
+        "example_response": {
+          "assessment_id": "security_001",
+          "security_score": 88,
+          "vulnerabilities": [
+            {
+              "severity": "medium",
+              "title": "Missing input validation",
+              "description": "API endpoint lacks proper input validation",
+              "cve": "CVE-2024-0001",
+              "remediation": "Implement comprehensive input validation"
+            }
+          ],
+          "compliance_status": {
+            "owasp": true,
+            "nist": true,
+            "iso-27001": false
+          },
+          "recommendations": [
+            "Implement comprehensive input validation",
+            "Add rate limiting to prevent abuse",
+            "Enable security headers"
+          ]
+        }
+      },
+      {
+        "name": "generate_documentation",
+        "method": "POST",
+        "path": "/docs/generate",
+        "description": "Generate documentation",
+        "example_request": {
+          "curl": "curl -X POST http://localhost:8080/api/v1/docs/generate -H 'Content-Type: application/json' -H 'X-API-Key: your-key' -d '{\"doc_type\": \"api\", \"format\": \"markdown\", \"include_examples\": true}'",
+          "body": {
+            "doc_type": "api",
+            "format": "markdown",
+            "include_examples": true,
+            "target_audience": "developers"
+          }
+        },
+        "example_response": {
+          "doc_id": "doc_001",
+          "content": "# Test Agent API Documentation\n\n## Overview\nThis API provides comprehensive testing, validation, and analysis capabilities...",
+          "format": "markdown",
+          "size": 15420,
+          "generated_at": "2025-01-26T12:00:00Z"
+        }
+      }
+    ]
+  },
+  
+  "framework_integrations": {
+    "langchain": {
+      "description": "LangChain integration example",
+      "code": "from langchain.tools import Tool\nfrom langchain.agents import Agent\n\n# Create test execution tool\ntest_tool = Tool(\n    name=\"execute_test\",\n    description=\"Execute a test scenario\",\n    func=execute_test_function,\n    args_schema=TestExecutionInput\n)\n\n# Create agent with test capabilities\nagent = Agent(\n    tools=[test_tool],\n    llm=llm,\n    agent_type=\"zero-shot-react-description\"\n)"
+    },
+    "crewai": {
+      "description": "CrewAI integration example",
+      "code": "from crewai import Agent, Task, Crew\n\n# Create test specialist agent\ntest_agent = Agent(\n    role='Test Specialist',\n    goal='Execute comprehensive tests and validate quality',\n    backstory='Expert in testing methodologies and quality assurance',\n    tools=[test_tool, validation_tool],\n    verbose=True\n)\n\n# Create test execution task\ntest_task = Task(\n    description='Execute integration tests for API endpoints',\n    agent=test_agent,\n    expected_output='Test execution report with results and recommendations'\n)\n\n# Create crew and execute\ncrew = Crew(agents=[test_agent], tasks=[test_task])\nresult = crew.kickoff()"
+    },
+    "autogen": {
+      "description": "AutoGen integration example",
+      "code": "import autogen\n\n# Create test agent\nconfig_list = [{\n    'model': 'gpt-4',\n    'api_key': 'your-api-key'\n}]\n\ntest_agent = autogen.AssistantAgent(\n    name=\"test_specialist\",\n    system_message=\"You are a test specialist. Execute tests and provide analysis.\",\n    llm_config={\"config_list\": config_list}\n)\n\n# Create user proxy\nuser_proxy = autogen.UserProxyAgent(\n    name=\"user_proxy\",\n    human_input_mode=\"NEVER\",\n    max_consecutive_auto_reply=1\n)\n\n# Start conversation\nuser_proxy.initiate_chat(\n    test_agent,\n    message=\"Execute integration tests for the API endpoints\"\n)"
+    },
+    "openai": {
+      "description": "OpenAI Assistants integration example",
+      "code": "from openai import OpenAI\n\nclient = OpenAI(api_key='your-api-key')\n\n# Create assistant with test capabilities\nassistant = client.beta.assistants.create(\n    name=\"Test Agent\",\n    instructions=\"You are a test specialist. Execute tests and provide analysis.\",\n    model=\"gpt-4\",\n    tools=[\n        {\"type\": \"function\", \"function\": {\n            \"name\": \"execute_test\",\n            \"description\": \"Execute a test scenario\",\n            \"parameters\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"test_type\": {\"type\": \"string\"},\n                    \"test_suite\": {\"type\": \"string\"}\n                }\n            }\n        }}\n    ]\n)\n\n# Create thread and run\nthread = client.beta.threads.create()\nrun = client.beta.threads.runs.create(\n    thread_id=thread.id,\n    assistant_id=assistant.id\n)"
+    },
+    "anthropic": {
+      "description": "Anthropic MCP integration example",
+      "code": "# MCP server configuration\n{\n  \"mcpServers\": {\n    \"test-agent\": {\n      \"command\": \"node\",\n      \"args\": [\"test-agent-mcp-server.js\"],\n      \"env\": {\n        \"API_KEY\": \"your-api-key\"\n      }\n    }\n  }\n}\n\n# MCP server implementation\nimport { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';\n\nconst server = new Server(\n  {\n    name: 'test-agent',\n    version: '1.0.0'\n  },\n  {\n    capabilities: {\n      tools: {}\n    }\n  }\n);\n\n// Add test execution tool\nserver.setRequestHandler('tools/call', async (request) => {\n  if (request.params.name === 'execute_test') {\n    return await executeTest(request.params.arguments);\n  }\n});"
+    }
+  },
+  
+  "usage_patterns": {
+    "testing_workflow": {
+      "description": "Complete testing workflow example",
+      "steps": [
+        "1. Execute unit tests",
+        "2. Run integration tests", 
+        "3. Perform security assessment",
+        "4. Generate compliance report",
+        "5. Create documentation"
+      ],
+      "example": "curl -X POST /test/execute -d '{\"test_type\": \"unit\"}' && curl -X POST /test/execute -d '{\"test_type\": \"integration\"}' && curl -X POST /security/assess -d '{\"target\": \"api\"}'"
+    },
+    "validation_workflow": {
+      "description": "Compliance validation workflow",
+      "steps": [
+        "1. Validate against ISO 42001",
+        "2. Check NIST AI RMF compliance",
+        "3. Assess EU AI Act requirements",
+        "4. Generate compliance report"
+      ],
+      "example": "curl -X POST /validate/compliance -d '{\"specification\": \"agent.yml\", \"frameworks\": [\"iso-42001\", \"nist-ai-rmf\", \"eu-ai-act\"]}'"
+    },
+    "analysis_workflow": {
+      "description": "Code analysis workflow",
+      "steps": [
+        "1. Analyze code quality",
+        "2. Check security vulnerabilities",
+        "3. Benchmark performance",
+        "4. Generate recommendations"
+      ],
+      "example": "curl -X POST /analyze/code -d '{\"code\": \"...\", \"language\": \"typescript\"}' && curl -X POST /benchmark/performance -d '{\"test_scenarios\": [\"load_test\"]}'"
+    }
+  }
+}

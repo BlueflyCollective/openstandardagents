@@ -1,0 +1,215 @@
+{
+  "oaas_training_specification": {
+    "version": "1.0.0",
+    "description": "TDDAI training data for OAAS agent generation",
+    "created": "2024-01-26",
+    "purpose": "Train TDDAI to generate OAAS-compliant agents at appropriate complexity levels"
+  },
+  
+  "complexity_levels": {
+    "0-minimal": {
+      "name": "Minimal Discovery",
+      "lines": 7,
+      "directory": "agent-minimal",
+      "use_case": "bare_minimum_for_discovery",
+      "features": ["name", "version", "capabilities"],
+      "frameworks": [],
+      "when_to_use": "Quick testing, discovery verification only"
+    },
+    "1-basic": {
+      "name": "Basic Quickstart",
+      "lines": 30,
+      "directory": "01-agent-basic",
+      "use_case": "5_minute_quickstart",
+      "features": ["capabilities_with_descriptions", "context_paths", "basic_frameworks"],
+      "frameworks": ["mcp", "langchain", "crewai"],
+      "when_to_use": "Learning OAAS, rapid prototyping, simple agents"
+    },
+    "2-integration": {
+      "name": "Framework Integration",
+      "lines": 50,
+      "directory": "02-agent-integration",
+      "use_case": "framework_ready",
+      "features": ["openapi_spec", "framework_configs", "auth", "rate_limiting"],
+      "frameworks": ["mcp", "langchain", "crewai", "autogen"],
+      "when_to_use": "Multi-framework support needed, API-first design"
+    },
+    "3-production": {
+      "name": "Production Standard",
+      "lines": 200,
+      "directory": "03-agent-production",
+      "use_case": "production_deployment",
+      "features": ["security", "monitoring", "scaling", "compliance", "data_folder"],
+      "frameworks": ["all"],
+      "when_to_use": "Going to production, need monitoring and security"
+    },
+    "4-enterprise": {
+      "name": "Enterprise Complete",
+      "lines": 400,
+      "directory": "04-agent-enterprise",
+      "use_case": "enterprise_compliance",
+      "features": ["full_compliance", "audit_trails", "governance", "multi_region"],
+      "frameworks": ["all"],
+      "when_to_use": "Enterprise requirements, regulatory compliance, SOX/HIPAA"
+    }
+  },
+  
+  "progression_rules": {
+    "from_minimal_to_basic": {
+      "trigger": "Need framework support or better discovery",
+      "changes": ["Add framework declarations", "Add capability descriptions", "Add context paths"]
+    },
+    "from_basic_to_integration": {
+      "trigger": "Need API endpoints or multiple framework support",
+      "changes": ["Add OpenAPI spec", "Add framework configurations", "Add authentication"]
+    },
+    "from_integration_to_production": {
+      "trigger": "Deploying to production environment",
+      "changes": ["Add security config", "Add monitoring", "Add scaling rules", "Add compliance"]
+    },
+    "from_production_to_enterprise": {
+      "trigger": "Enterprise compliance requirements",
+      "changes": ["Add full audit trails", "Add governance", "Add multi-region support", "Add forensic logging"]
+    }
+  },
+  
+  "validation_requirements": {
+    "level_0": {
+      "required_fields": ["name", "version"],
+      "optional_fields": ["capabilities", "expertise"],
+      "max_lines": 10
+    },
+    "level_1": {
+      "required_fields": ["name", "version", "expertise", "capabilities"],
+      "optional_fields": ["description", "context_paths", "frameworks"],
+      "max_lines": 35
+    },
+    "level_2": {
+      "required_fields": ["name", "version", "expertise", "capabilities", "frameworks", "openapi"],
+      "optional_fields": ["context_management", "integration"],
+      "max_lines": 60
+    },
+    "level_3": {
+      "required_fields": ["name", "version", "expertise", "capabilities", "frameworks", "openapi", "compliance", "monitoring", "deployment"],
+      "optional_fields": ["security", "data"],
+      "max_lines": 250
+    },
+    "level_4": {
+      "required_fields": ["all"],
+      "optional_fields": [],
+      "min_lines": 350
+    }
+  },
+  
+  "capability_patterns": {
+    "naming": "lowercase_with_underscores",
+    "description_required": true,
+    "examples": [
+      {"name": "analyze_code", "description": "Analyzes code quality and structure"},
+      {"name": "generate_tests", "description": "Creates comprehensive test suites"},
+      {"name": "security_audit", "description": "Performs security vulnerability scanning"},
+      {"name": "optimize_performance", "description": "Suggests performance improvements"}
+    ]
+  },
+  
+  "framework_configurations": {
+    "mcp": {
+      "minimal_config": {"enabled": true},
+      "full_config": {
+        "enabled": true,
+        "server_name": "agent-name",
+        "server_config": {
+          "host": "0.0.0.0",
+          "port": 3100
+        }
+      }
+    },
+    "langchain": {
+      "minimal_config": {"enabled": true},
+      "full_config": {
+        "enabled": true,
+        "tool_type": "structured",
+        "async_support": true,
+        "streaming": true,
+        "memory_compatible": true
+      }
+    },
+    "crewai": {
+      "minimal_config": {"enabled": true},
+      "full_config": {
+        "enabled": true,
+        "role": "specialist",
+        "backstory": "Expert in domain",
+        "delegation_enabled": true
+      }
+    }
+  },
+  
+  "tddai_commands": {
+    "learn": "tddai agent learn --from=/path/to/examples",
+    "create": "tddai agent create --name=<name> --level=<0-4>",
+    "validate": "tddai agent validate --spec=oaas",
+    "upgrade": "tddai agent upgrade --to-level=<level>",
+    "deploy": "tddai agent deploy --environment=<env>"
+  },
+  
+  "generation_templates": {
+    "level_1_template": "examples/01-agent-basic/agent.yml",
+    "level_2_template": "examples/02-agent-integration/agent.yml",
+    "level_3_template": "examples/03-agent-production/agent.yml",
+    "level_4_template": "examples/04-agent-enterprise/agent.yml"
+  },
+  
+  "common_mistakes": [
+    {
+      "mistake": "Starting with Level 4 for simple use case",
+      "correction": "Start with Level 1-2 and upgrade as needed"
+    },
+    {
+      "mistake": "Missing OpenAPI spec for Level 2+",
+      "correction": "Always include openapi.yaml for Level 2 and above"
+    },
+    {
+      "mistake": "Enabling all frameworks when only using one",
+      "correction": "Only enable frameworks you actually integrate with"
+    },
+    {
+      "mistake": "No capability descriptions",
+      "correction": "Always add descriptions for better discovery"
+    }
+  ],
+  
+  "best_practices": [
+    "Start with Level 1 for new projects",
+    "Upgrade to Level 2 when adding API endpoints",
+    "Move to Level 3 before production deployment",
+    "Only use Level 4 for enterprise compliance needs",
+    "Keep capability names consistent across agents",
+    "Use clear, descriptive names without abbreviations",
+    "Test at each level before upgrading",
+    "Document upgrade reasons in commit messages"
+  ],
+  
+  "migration_paths": {
+    "from_existing_project": [
+      "Run: oaas agent migrate <project> --analyze",
+      "Review suggested level based on project complexity",
+      "Generate initial agent.yml with: oaas agent create --from-project",
+      "Validate with: oaas agent validate",
+      "Test discovery: oaas workspace scan"
+    ],
+    "from_other_frameworks": {
+      "langchain": "Use Level 2 template with langchain config",
+      "crewai": "Use Level 2 template with crewai role/backstory",
+      "autogen": "Use Level 2-3 template with autogen config",
+      "custom": "Start with Level 1 and add custom bridges"
+    }
+  },
+  
+  "workspace_patterns": {
+    "small_team": "Use 05-workspace-basic for 2-10 agents",
+    "enterprise": "Use 06-workspace-enterprise for compliance needs",
+    "multi_project": "One workspace.yml per project root",
+    "monorepo": "Single workspace.yml at repo root with deep scanning"
+  }
+}

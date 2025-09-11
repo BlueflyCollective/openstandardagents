@@ -1,0 +1,1009 @@
+openapi: 3.1.0
+info:
+  title: Test Agent API
+  version: 1.0.0
+  description: Comprehensive test agent API for OAAS validation, testing, and analysis
+  contact:
+    name: OpenAPI AI Agents Standard
+    url: https://github.com/openapi-ai-agents/standard
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+  # OAAS Extensions
+  x-openapi-ai-agents-standard:
+    version: "0.1.8"
+    certification_level: "gold"
+    compliance_frameworks: ["iso-42001", "nist-ai-rmf", "eu-ai-act"]
+    token_optimization: "enabled"
+    protocol_bridges: ["mcp", "a2a", "custom"]
+
+  x-agent-metadata:
+    class: "specialist"
+    protocols: ["openapi", "mcp", "uadp", "a2a"]
+    capabilities: ["test_execution", "validation_analysis", "code_analysis"]
+    domains: ["testing", "validation", "quality_assurance"]
+
+  x-protocol-bridges:
+    mcp:
+      enabled: true
+      latency: "<50ms"
+      tools_endpoint: "/mcp/tools"
+      resources_endpoint: "/mcp/resources"
+    a2a:
+      enabled: true
+      latency: "<35ms"
+      agent_card_endpoint: "/a2a/agent-card"
+    uadp:
+      enabled: true
+      discovery_endpoint: "/uadp/discover"
+
+  x-token-management:
+    optimization_enabled: true
+    target_savings: "35-45%"
+    strategies:
+      [
+        "request_deduplication",
+        "response_compression",
+        "context_window_optimization",
+      ]
+
+  x-performance:
+    caching: "semantic"
+    compression: "enabled"
+    deduplication: "content-hash"
+
+  x-enterprise:
+    audit_logging: "enabled"
+    rbac: "supported"
+    encryption: "at-rest-and-transit"
+    compliance_monitoring: "automated"
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+  - url: https://api.openapi-ai-agents.org/v1
+    description: Production server
+
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []
+  - OAuth2: []
+
+paths:
+  /health:
+    get:
+      operationId: healthCheck
+      summary: Health check endpoint
+      description: Returns the health status of the test agent
+      tags:
+        - Health
+      security: []
+      responses:
+        "200":
+          description: Agent is healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+        "503":
+          description: Agent is unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /ready:
+    get:
+      operationId: readinessCheck
+      summary: Readiness check endpoint
+      description: Returns the readiness status of the test agent
+      tags:
+        - Health
+      security: []
+      responses:
+        "200":
+          description: Agent is ready
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReadinessStatus"
+        "503":
+          description: Agent is not ready
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /test/execute:
+    post:
+      operationId: executeTest
+      summary: Execute test scenario
+      description: Execute a comprehensive test scenario with validation
+      tags:
+        - Testing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TestExecutionRequest"
+      responses:
+        "200":
+          description: Test execution completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TestExecutionResponse"
+        "400":
+          description: Invalid test request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Test execution failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /validate/compliance:
+    post:
+      operationId: validateCompliance
+      summary: Validate OAAS compliance
+      description: Validate agent specifications against OAAS compliance frameworks
+      tags:
+        - Validation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ComplianceValidationRequest"
+      responses:
+        "200":
+          description: Compliance validation completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComplianceValidationResponse"
+        "400":
+          description: Invalid validation request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /analyze/code:
+    post:
+      operationId: analyzeCode
+      summary: Analyze code quality
+      description: Analyze code quality, patterns, and best practices
+      tags:
+        - Analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CodeAnalysisRequest"
+      responses:
+        "200":
+          description: Code analysis completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CodeAnalysisResponse"
+        "400":
+          description: Invalid analysis request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /benchmark/performance:
+    post:
+      operationId: benchmarkPerformance
+      summary: Benchmark performance metrics
+      description: Benchmark performance metrics and identify optimization opportunities
+      tags:
+        - Performance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PerformanceBenchmarkRequest"
+      responses:
+        "200":
+          description: Performance benchmark completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PerformanceBenchmarkResponse"
+
+  /security/assess:
+    post:
+      operationId: assessSecurity
+      summary: Assess security vulnerabilities
+      description: Assess security vulnerabilities and compliance
+      tags:
+        - Security
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecurityAssessmentRequest"
+      responses:
+        "200":
+          description: Security assessment completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityAssessmentResponse"
+
+  /docs/generate:
+    post:
+      operationId: generateDocumentation
+      summary: Generate documentation
+      description: Generate comprehensive documentation and reports
+      tags:
+        - Documentation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentationRequest"
+      responses:
+        "200":
+          description: Documentation generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentationResponse"
+
+  /metrics:
+    get:
+      operationId: getMetrics
+      summary: Get performance metrics
+      description: Retrieve performance and operational metrics
+      tags:
+        - Metrics
+      security: []
+      responses:
+        "200":
+          description: Metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetricsResponse"
+
+  # MCP Protocol Bridge Endpoints
+  /mcp/tools:
+    get:
+      operationId: getMCPTools
+      summary: Get MCP tools
+      description: Retrieve available MCP tools
+      tags:
+        - MCP Bridge
+      security: []
+      responses:
+        "200":
+          description: MCP tools retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MCPToolsResponse"
+
+  /mcp/resources:
+    get:
+      operationId: getMCPResources
+      summary: Get MCP resources
+      description: Retrieve available MCP resources
+      tags:
+        - MCP Bridge
+      security: []
+      responses:
+        "200":
+          description: MCP resources retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MCPResourcesResponse"
+
+  # A2A Protocol Bridge Endpoints
+  /a2a/agent-card:
+    get:
+      operationId: getA2AAgentCard
+      summary: Get A2A agent card
+      description: Retrieve A2A agent card information
+      tags:
+        - A2A Bridge
+      security: []
+      responses:
+        "200":
+          description: A2A agent card retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/A2AAgentCardResponse"
+
+  # UADP Protocol Bridge Endpoints
+  /uadp/discover:
+    get:
+      operationId: discoverUADP
+      summary: UADP discovery
+      description: Discover agent capabilities via UADP
+      tags:
+        - UADP Bridge
+      security: []
+      responses:
+        "200":
+          description: UADP discovery completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UADPDiscoveryResponse"
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication
+
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: /oauth/authorize
+          tokenUrl: /oauth/token
+          scopes:
+            read: Read access
+            write: Write access
+            admin: Admin access
+
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        timestamp:
+          type: string
+          format: date-time
+        version:
+          type: string
+        uptime:
+          type: integer
+          description: Uptime in seconds
+        services:
+          type: object
+          properties:
+            validation:
+              $ref: "#/components/schemas/ServiceStatus"
+            testing:
+              $ref: "#/components/schemas/ServiceStatus"
+            analysis:
+              $ref: "#/components/schemas/ServiceStatus"
+      required:
+        - status
+        - timestamp
+        - version
+        - uptime
+
+    ReadinessStatus:
+      type: object
+      properties:
+        ready:
+          type: boolean
+        timestamp:
+          type: string
+          format: date-time
+        checks:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReadinessCheck"
+      required:
+        - ready
+        - timestamp
+
+    ServiceStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [up, down, degraded]
+        response_time:
+          type: integer
+          description: Response time in milliseconds
+        last_check:
+          type: string
+          format: date-time
+      required:
+        - status
+        - last_check
+
+    ReadinessCheck:
+      type: object
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+          enum: [pass, fail, warn]
+        message:
+          type: string
+      required:
+        - name
+        - status
+
+    TestExecutionRequest:
+      type: object
+      properties:
+        test_type:
+          type: string
+          enum: [unit, integration, e2e, performance, security]
+        test_suite:
+          type: string
+          description: Test suite identifier
+        parameters:
+          type: object
+          description: Test parameters
+        environment:
+          type: string
+          enum: [development, staging, production]
+        timeout:
+          type: integer
+          description: Timeout in seconds
+          default: 300
+      required:
+        - test_type
+        - test_suite
+
+    TestExecutionResponse:
+      type: object
+      properties:
+        test_id:
+          type: string
+        status:
+          type: string
+          enum: [passed, failed, skipped, error]
+        results:
+          type: object
+          properties:
+            total_tests:
+              type: integer
+            passed:
+              type: integer
+            failed:
+              type: integer
+            skipped:
+              type: integer
+            duration:
+              type: number
+              description: Duration in seconds
+        report:
+          type: string
+          description: Detailed test report
+        recommendations:
+          type: array
+          items:
+            type: string
+      required:
+        - test_id
+        - status
+        - results
+
+    ComplianceValidationRequest:
+      type: object
+      properties:
+        specification:
+          type: string
+          description: Agent specification to validate
+        frameworks:
+          type: array
+          items:
+            type: string
+            enum: [iso-42001, nist-ai-rmf, eu-ai-act]
+        strict_mode:
+          type: boolean
+          default: false
+        include_suggestions:
+          type: boolean
+          default: true
+      required:
+        - specification
+        - frameworks
+
+    ComplianceValidationResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        certification_level:
+          type: string
+          enum: [bronze, silver, gold]
+        frameworks:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/FrameworkValidation"
+        overall_score:
+          type: number
+          minimum: 0
+          maximum: 100
+        recommendations:
+          type: array
+          items:
+            type: string
+        issues:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationIssue"
+      required:
+        - valid
+        - certification_level
+        - overall_score
+
+    FrameworkValidation:
+      type: object
+      properties:
+        compliant:
+          type: boolean
+        score:
+          type: number
+          minimum: 0
+          maximum: 100
+        issues:
+          type: array
+          items:
+            type: string
+        recommendations:
+          type: array
+          items:
+            type: string
+      required:
+        - compliant
+        - score
+
+    ValidationIssue:
+      type: object
+      properties:
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+        message:
+          type: string
+        path:
+          type: string
+        suggestion:
+          type: string
+      required:
+        - severity
+        - message
+
+    CodeAnalysisRequest:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code to analyze
+        language:
+          type: string
+          enum: [typescript, javascript, python, java, csharp]
+        analysis_type:
+          type: array
+          items:
+            type: string
+            enum: [quality, security, performance, maintainability, complexity]
+        include_suggestions:
+          type: boolean
+          default: true
+      required:
+        - code
+        - language
+
+    CodeAnalysisResponse:
+      type: object
+      properties:
+        analysis_id:
+          type: string
+        quality_score:
+          type: number
+          minimum: 0
+          maximum: 100
+        metrics:
+          type: object
+          properties:
+            complexity:
+              type: number
+            maintainability:
+              type: number
+            test_coverage:
+              type: number
+            security_score:
+              type: number
+        issues:
+          type: array
+          items:
+            $ref: "#/components/schemas/CodeIssue"
+        suggestions:
+          type: array
+          items:
+            type: string
+        recommendations:
+          type: array
+          items:
+            $ref: "#/components/schemas/CodeRecommendation"
+      required:
+        - analysis_id
+        - quality_score
+        - metrics
+
+    CodeIssue:
+      type: object
+      properties:
+        severity:
+          type: string
+          enum: [info, warning, error, critical]
+        message:
+          type: string
+        line:
+          type: integer
+        column:
+          type: integer
+        rule:
+          type: string
+      required:
+        - severity
+        - message
+
+    CodeRecommendation:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [refactor, optimize, secure, test, document]
+        priority:
+          type: string
+          enum: [low, medium, high]
+        description:
+          type: string
+        example:
+          type: string
+      required:
+        - type
+        - priority
+        - description
+
+    PerformanceBenchmarkRequest:
+      type: object
+      properties:
+        test_scenarios:
+          type: array
+          items:
+            type: string
+        duration:
+          type: integer
+          description: Benchmark duration in seconds
+          default: 60
+        concurrent_users:
+          type: integer
+          default: 10
+        metrics:
+          type: array
+          items:
+            type: string
+            enum: [response_time, throughput, memory, cpu, error_rate]
+      required:
+        - test_scenarios
+
+    PerformanceBenchmarkResponse:
+      type: object
+      properties:
+        benchmark_id:
+          type: string
+        results:
+          type: object
+          properties:
+            response_time:
+              type: object
+              properties:
+                average:
+                  type: number
+                p95:
+                  type: number
+                p99:
+                  type: number
+            throughput:
+              type: number
+              description: Requests per second
+            resource_usage:
+              type: object
+              properties:
+                memory:
+                  type: number
+                cpu:
+                  type: number
+            error_rate:
+              type: number
+        recommendations:
+          type: array
+          items:
+            type: string
+      required:
+        - benchmark_id
+        - results
+
+    SecurityAssessmentRequest:
+      type: object
+      properties:
+        target:
+          type: string
+          description: Target to assess
+        assessment_type:
+          type: array
+          items:
+            type: string
+            enum: [vulnerability, compliance, penetration, code_review]
+        frameworks:
+          type: array
+          items:
+            type: string
+            enum: [owasp, nist, iso-27001, pci-dss]
+      required:
+        - target
+        - assessment_type
+
+    SecurityAssessmentResponse:
+      type: object
+      properties:
+        assessment_id:
+          type: string
+        security_score:
+          type: number
+          minimum: 0
+          maximum: 100
+        vulnerabilities:
+          type: array
+          items:
+            $ref: "#/components/schemas/Vulnerability"
+        compliance_status:
+          type: object
+          additionalProperties:
+            type: boolean
+        recommendations:
+          type: array
+          items:
+            type: string
+      required:
+        - assessment_id
+        - security_score
+
+    Vulnerability:
+      type: object
+      properties:
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+        title:
+          type: string
+        description:
+          type: string
+        cve:
+          type: string
+        remediation:
+          type: string
+      required:
+        - severity
+        - title
+        - description
+
+    DocumentationRequest:
+      type: object
+      properties:
+        doc_type:
+          type: string
+          enum: [api, user_guide, technical_spec, compliance_report]
+        format:
+          type: string
+          enum: [markdown, html, pdf, json]
+        include_examples:
+          type: boolean
+          default: true
+        target_audience:
+          type: string
+          enum: [developers, users, administrators, auditors]
+      required:
+        - doc_type
+        - format
+
+    DocumentationResponse:
+      type: object
+      properties:
+        doc_id:
+          type: string
+        content:
+          type: string
+        format:
+          type: string
+        size:
+          type: integer
+          description: Document size in bytes
+        generated_at:
+          type: string
+          format: date-time
+      required:
+        - doc_id
+        - content
+        - format
+        - generated_at
+
+    MetricsResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        metrics:
+          type: object
+          properties:
+            requests_total:
+              type: integer
+            requests_successful:
+              type: integer
+            requests_failed:
+              type: integer
+            average_response_time:
+              type: number
+            active_connections:
+              type: integer
+            memory_usage:
+              type: number
+            cpu_usage:
+              type: number
+      required:
+        - timestamp
+        - metrics
+
+    MCPToolsResponse:
+      type: object
+      properties:
+        tools:
+          type: array
+          items:
+            $ref: "#/components/schemas/MCPTool"
+      required:
+        - tools
+
+    MCPTool:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        input_schema:
+          type: object
+      required:
+        - name
+        - description
+
+    MCPResourcesResponse:
+      type: object
+      properties:
+        resources:
+          type: array
+          items:
+            $ref: "#/components/schemas/MCPResource"
+      required:
+        - resources
+
+    MCPResource:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        path:
+          type: string
+      required:
+        - name
+        - type
+        - path
+
+    A2AAgentCardResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        capabilities:
+          type: array
+          items:
+            type: string
+        endpoint:
+          type: string
+        version:
+          type: string
+      required:
+        - name
+        - capabilities
+        - endpoint
+        - version
+
+    UADPDiscoveryResponse:
+      type: object
+      properties:
+        agent_id:
+          type: string
+        capabilities:
+          type: array
+          items:
+            type: string
+        protocols:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [active, inactive, maintenance]
+      required:
+        - agent_id
+        - capabilities
+        - protocols
+        - status
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        details:
+          type: object
+      required:
+        - error
+        - message
+        - timestamp
+
+tags:
+  - name: Health
+    description: Health and readiness checks
+  - name: Testing
+    description: Test execution and validation
+  - name: Validation
+    description: Compliance validation
+  - name: Analysis
+    description: Code and performance analysis
+  - name: Performance
+    description: Performance benchmarking
+  - name: Security
+    description: Security assessment
+  - name: Documentation
+    description: Documentation generation
+  - name: Metrics
+    description: Performance metrics
+  - name: MCP Bridge
+    description: MCP protocol bridge endpoints
+  - name: A2A Bridge
+    description: A2A protocol bridge endpoints
+  - name: UADP Bridge
+    description: UADP protocol bridge endpoints

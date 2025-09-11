@@ -1,0 +1,377 @@
+# OpenAPI AI Agents Standard (OSSA) v0.1.8 - Test Agent
+# Production-ready agent configuration for OSSA validation and testing
+
+ossa: "0.1.8"
+kind: "Agent"
+metadata:
+  name: "test-agent"
+  version: "1.0.0"
+  created: "2025-01-26"
+  updated: "2025-01-26"
+  description: "Comprehensive test agent for OSSA validation, testing, and analysis with full framework compatibility"
+
+  # Universal Framework Compatibility Annotations
+  annotations:
+    # OSSA Core Compliance
+    ossa.io/conformance-level: "advanced"
+    ossa.io/migration-date: "2025-08-27"
+    ossa.io/source-format: "openapi-ai-agents-v0.1.8"
+    ossa.io/compliance-frameworks: "iso-42001,nist-ai-rmf,eu-ai-act"
+    ossa.io/governance-level: "enterprise"
+    oaas/token-optimization: "enabled"
+    oaas/protocol-bridges: "mcp,a2a,custom"
+
+    # Universal Framework Support
+    oaas/framework-support: "langchain,crewai,autogen,openai,anthropic,google,huggingface"
+
+    # LangChain Integration
+    langchain/tool-type: "structured"
+    langchain/integration-method: "function_call"
+    langchain/async-support: "true"
+    langchain/streaming: "supported"
+    langchain/memory-compatible: "true"
+    langchain/chain-compatible: "true"
+
+    # CrewAI Integration
+    crewai/role-type: "specialist"
+    crewai/collaboration-mode: "sequential"
+    crewai/delegation-enabled: "true"
+    crewai/task-execution: "parallel"
+    crewai/memory-sharing: "enabled"
+
+    # AutoGen Integration
+    autogen/agent-type: "assistant"
+    autogen/conversation-role: "participant"
+    autogen/handoff-enabled: "true"
+    autogen/group-chat: "compatible"
+    autogen/code-execution: "supported"
+
+    # OpenAI Assistants Integration
+    openai/assistant-type: "function_calling"
+    openai/function-calling: "supported"
+    openai/file-search: "supported"
+    openai/code-interpreter: "supported"
+    openai/vision: "compatible"
+
+    # Anthropic MCP Integration
+    anthropic/mcp-server: "compatible"
+    anthropic/tool-type: "function"
+    anthropic/streaming: "supported"
+    anthropic/resource-access: "enabled"
+    anthropic/prompt-templates: "supported"
+
+    # Google Vertex AI Integration
+    google/agent-builder: "compatible"
+    google/vertex-ai: "supported"
+    google/function-calling: "supported"
+    google/gemini-integration: "native"
+    google/multimodal: "supported"
+
+    # UADP Integration
+    uadp/auto-discovery: "enabled"
+    uadp/health-monitoring: "enabled"
+    uadp/capability-advertising: "enabled"
+    uadp/workspace-integration: "enabled"
+    uadp/hierarchical-orchestration: "supported"
+
+    # Performance and Optimization
+    performance/token-optimization: "35-45-percent"
+    performance/caching: "semantic"
+    performance/compression: "enabled"
+    performance/deduplication: "content-hash"
+
+    # Enterprise Features
+    enterprise/audit-logging: "enabled"
+    enterprise/rbac: "supported"
+    enterprise/encryption: "at-rest-and-transit"
+    enterprise/compliance-monitoring: "automated"
+
+  labels:
+    tier: "advanced"
+    domain: "testing-validation"
+    category: "production-ready"
+    complexity: "comprehensive"
+    maturity: "stable"
+    certification: "gold"
+
+spec:
+  agent:
+    name: "Enterprise Test Agent"
+    expertise: "Production-ready test agent providing comprehensive testing, validation, and analysis capabilities for OSSA compliance"
+
+  # Core capabilities and protocols
+  capabilities:
+    - name: "test_execution"
+      description: "Execute comprehensive test suites and validation scenarios"
+      frameworks: ["langchain", "crewai", "autogen"]
+      input_schema: "./schemas/test.input.json"
+      output_schema: "./schemas/test.output.json"
+      compliance: ["iso-42001", "nist-ai-rmf"]
+      sla: "99.9%"
+
+    - name: "validation_analysis"
+      description: "Analyze and validate OSSA compliance across multiple frameworks"
+      frameworks: ["langchain", "openai", "anthropic"]
+      input_schema: "./schemas/validation.input.json"
+      output_schema: "./schemas/validation.output.json"
+      compliance: ["iso-42001", "nist-ai-rmf", "eu-ai-act"]
+      sla: "99.5%"
+
+    - name: "code_analysis"
+      description: "Analyze code quality, patterns, and best practices"
+      frameworks: ["langchain", "crewai", "autogen"]
+      input_schema: "./schemas/code.input.json"
+      output_schema: "./schemas/code.output.json"
+      compliance: ["iso-42001"]
+      sla: "99.0%"
+
+    - name: "performance_benchmarking"
+      description: "Benchmark performance metrics and optimization opportunities"
+      frameworks: ["langchain", "openai"]
+
+    - name: "security_assessment"
+      description: "Assess security vulnerabilities and compliance"
+      frameworks: ["langchain", "anthropic"]
+
+    - name: "documentation_generation"
+      description: "Generate comprehensive documentation and reports"
+      frameworks: ["langchain", "crewai", "autogen"]
+
+  # OSSA-compliant discovery configuration
+  discovery:
+    uadp:
+      enabled: true
+      tags: ["enterprise", "testing", "validation", "analysis", "compliance", "security"]
+      priority: 95
+
+  protocols:
+    supported: ["openapi", "mcp", "uadp", "a2a"]
+    primary: "openapi"
+    bridges:
+      mcp:
+        enabled: true
+        version: "2024-11-05"
+        capabilities: ["tools", "resources", "prompts"]
+        tools:
+          - name: "execute_test"
+            description: "Execute a test scenario"
+            input_schema:
+              type: "object"
+              properties:
+                test_type: { type: "string" }
+                parameters: { type: "object" }
+          - name: "validate_compliance"
+            description: "Validate OSSA compliance"
+            input_schema:
+              type: "object"
+              properties:
+                specification: { type: "string" }
+                framework: { type: "string" }
+        resources:
+          - name: "test_scenarios"
+            type: "file"
+            path: "./data/test-scenarios.json"
+          - name: "validation_rules"
+            type: "file"
+            path: "./data/validation-rules.json"
+
+      uadp:
+        enabled: true
+        discovery:
+          auto_discovery: true
+          discovery_interval: 30
+          health_monitoring: true
+          capability_advertising: true
+        context_sharing: "enabled"
+        orchestration:
+          hierarchical_coordination: true
+          multi_agent_workflows: true
+          delegation_patterns: ["sequential", "parallel", "conditional"]
+
+      a2a:
+        enabled: true
+        agent_card:
+          name: "test-agent"
+          capabilities: ["testing", "validation", "analysis"]
+          endpoint: "http://localhost:8080/api/v1"
+        discovery:
+          method: "broadcast"
+          interval: "30s"
+
+  # Resource requirements (Kubernetes-style)
+  resource_requirements:
+    memory: "512Mi"
+    cpu: "250m"
+    storage: "2Gi"
+    network: "100Mbps"
+
+  scaling:
+    min_replicas: 1
+    max_replicas: 5
+    target_cpu: 70
+    target_memory: 80
+
+  # Security configuration
+  security:
+    authentication:
+      methods: ["api_key", "jwt", "oauth2"]
+      required: true
+    authorization:
+      model: "rbac"
+      roles: ["user", "admin", "service"]
+    rate_limiting:
+      requests_per_minute: 100
+      burst_allowance: 20
+      per_user_limit: 50
+    encryption:
+      at_rest: true
+      in_transit: "tls_1_3"
+    audit_logging: true
+
+  # Performance optimization
+  performance:
+    token_optimization:
+      enabled: true
+      target_savings: "35-45%"
+      strategies:
+        - "request_deduplication"
+        - "response_compression"
+        - "context_window_optimization"
+        - "smart_caching"
+    caching:
+      enabled: true
+      ttl: 3600
+      levels: ["request", "computation", "result"]
+    monitoring:
+      metrics: true
+      tracing: true
+      health_checks: true
+
+  # Compliance and governance
+  compliance:
+    frameworks:
+      - "iso-42001"
+      - "nist-ai-rmf"
+      - "eu-ai-act"
+    certification_level: "gold"
+    audit_trail: true
+    data_governance: true
+
+  # API specification reference
+  api:
+    specification: "./openapi.yaml"
+    base_url: "http://localhost:8080/api/v1"
+    version: "1.0.0"
+
+  # Context paths for knowledge
+  context_paths:
+    - path: "./src"
+      description: "Source code and implementation"
+      languages: ["typescript", "javascript"]
+    - path: "./tests"
+      description: "Test suites and validation scenarios"
+      frameworks: ["jest", "mocha"]
+    - path: "./docs"
+      description: "Documentation and specifications"
+      formats: ["markdown", "yaml"]
+    - path: "./data"
+      description: "Training data and examples"
+      formats: ["json", "yaml"]
+
+  # Framework configurations
+  frameworks:
+    ossa:
+      enabled: true
+      version: "0.1.8"
+      conformance_level: "advanced"
+    langchain:
+      tool_type: "structured"
+      async_support: true
+      streaming: true
+      memory: "conversational"
+      chains: ["test_execution", "validation_analysis"]
+
+    crewai:
+      role: "test_specialist"
+      backstory: "Expert in testing methodologies and quality assurance"
+      delegation: true
+      collaboration: "sequential"
+
+    autogen:
+      agent_type: "assistant"
+      system_message: "You are a comprehensive test agent specializing in OSSA validation and analysis"
+      conversation_style: "professional"
+      code_execution: true
+
+    openai:
+      assistant_type: "function_calling"
+      functions: ["execute_test", "validate_compliance", "analyze_code"]
+      file_search: true
+      code_interpreter: true
+
+    anthropic:
+      mcp_server: true
+      tools: ["test_execution", "validation_analysis"]
+      streaming: true
+      resource_access: true
+
+    google:
+      vertex_ai: true
+      function_calling: true
+      gemini_integration: "native"
+      multimodal: true
+
+  # Monitoring and observability
+  monitoring:
+    health_check: "/health"
+    metrics_endpoint: "/metrics"
+    logging_level: "info"
+    alerting:
+      enabled: true
+      channels: ["email", "slack"]
+      thresholds:
+        error_rate: 0.01
+        response_time: 1000
+        availability: 0.99
+
+  # Deployment configuration
+  deployment:
+    strategy: "rolling_update"
+    replicas: 2
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "250m"
+    health_checks:
+      liveness: "/health"
+      readiness: "/ready"
+      startup: "/startup"
+
+status:
+  phase: "ready"
+  conditions:
+    - type: "ready"
+      status: "true"
+      last_transition_time: "2025-01-26T12:00:00Z"
+    - type: "healthy"
+      status: "true"
+      last_transition_time: "2025-01-26T12:00:00Z"
+    - type: "compliant"
+      status: "true"
+      last_transition_time: "2025-01-26T12:00:00Z"
+  deployment:
+    replicas: 2
+    available_replicas: 2
+    ready_replicas: 2
+  last_updated: "2025-08-27T12:00:00Z"
+  
+  discovery:
+    uadp:
+      enabled: true
+      tags: ["testing", "validation", "analysis", "enterprise", "compliance"]
+      priority: "high"
+      health_check_interval: 30
+      capability_refresh_interval: 300

@@ -1,0 +1,82 @@
+# Run hooks in parallel where safe; show timing
+assert_lefthook_installed: true
+min_version: "1.6.0"
+
+pre-commit:
+  parallel: true
+  commands:
+
+    # 1) OSSA agent/schema validation (fail fast)
+    ossa-validate:
+      run: >
+        (command -v ossa >/dev/null && ossa validate .) ||
+        ( [ -x ./src/cli/bin/ossa ] && ./src/cli/bin/ossa validate . ) ||
+        ( [ -x ./node_modules/.bin/ossa ] && ./node_modules/.bin/ossa validate . ) ||
+        (echo "OSSA validation failed or CLI not found" && exit 1)
+
+    # 2) Workspace audit (block unexpected files entering the tree)
+    workspace-audit:
+      run: |
+        files=$(git diff --cached --name-only -z | xargs -0 -I{} bash -lc 'printf "%s\n" "{}"' )
+        if [ -z "$files" ]; then files=$(git ls-files -z | xargs -0 -I{} bash -lc 'printf "%s\n" "{}"'); fi
+
+        unexpected=$(printf "%s\n" "$files" | grep -v -E '^node_modules/|^\.git/|^schemas/|^config/|^data/|^\.agents-workspace/|^\.agent-reports/' \
+          | grep -v -E '(^|/)(agent\.yml|README\.md|LICENSE|CHANGELOG\.md|\.gitignore|\.editorconfig|\.prettierrc.*|package\.json|tsconfig\.json|pnpm-lock\.yaml|yarn\.lock|package-lock\.json)$' || true)
+
+        if [ -n "$unexpected" ]; then
+          echo "Unexpected files staged (blocklist):"
+          echo "$unexpected"
+          echo "If these are legit, place them under schemas/ docs/ config/ or add explicit allow rules."
+          exit 1
+        fi
+
+    # 3) Quarantine & normalize common strays (auto-fixes BEFORE commit)
+    quarantine-mv:
+      stage_fixed: true
+      run: |
+        mapfile -t staged < <(git diff --cached --name-only)
+        for t in "${staged[@]}"; do
+          [[ "$t" =~ ^(node_modules|dist|\.cache|\.git)/ ]] && continue
+          d=$(dirname "$t"); b=$(basename "$t")
+          if [ "$b" = "openapi.yaml" ] && [ "$(basename "$d")" != "schemas" ]; then
+            mkdir -p "$d/schemas"
+            git mv -f "$t" "$d/schemas/openapi.yaml"
+          fi
+          if [ "$b" = "README.md" ] && [ "$(basename "$d")" != "docs" ]; then
+            mkdir -p "$d/docs"
+            git mv -f "$t" "$d/docs/README.md"
+          fi
+        done
+
+    # 4) Allowlist enforcement (optional but strong)
+    allowlist:
+      run: |
+        if [ -f agents.allow ]; then
+          mapfile -t dirs < <(git diff --cached --name-only | awk -F/ 'NF>1{print $1}' | sort -u)
+          allowed=$(tr -d '\r' < agents.allow)
+          for d in "${dirs[@]}"; do
+            if [ -e "$d/agent.yml" ] || [ -d "$d/manifests" ]; then
+              echo "$allowed" | grep -Fxq "$d" || { echo "Not in allowlist: $d"; exit 1; }
+            fi
+          done
+        fi
+
+    # 5) Ignore noisy binary and build output at commit time (safety net)
+    ignore-noise:
+      run: |
+        git update-index --assume-unchanged -q \
+          node_modules/ \
+          **/dist/ \
+          **/.cache/ \
+          __DELETE_LATER/
+
+pre-push:
+  parallel: true
+  commands:
+    # 6) Workspace-wide batch validation before push
+    ossa-batch-validate:
+      run: >
+        (command -v ossa >/dev/null && ossa validate .) ||
+        ( [ -x ./src/cli/bin/ossa ] && ./src/cli/bin/ossa validate . ) ||
+        ( [ -x ./node_modules/.bin/ossa ] && ./node_modules/.bin/ossa validate . ) ||
+        (echo "Validation failed (OSSA CLI not found)" && exit 1)

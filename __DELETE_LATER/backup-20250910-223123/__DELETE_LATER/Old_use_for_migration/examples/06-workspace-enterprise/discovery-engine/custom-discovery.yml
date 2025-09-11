@@ -1,0 +1,211 @@
+# Custom Discovery Engine Configuration
+# Advanced agent discovery algorithms for enterprise workspaces
+# OpenAPI AI Agents Standard (OSSA) v0.1.8
+
+ossa: "0.1.8"
+kind: "DiscoveryEngine"
+metadata:
+  name: "enterprise-discovery-engine"
+  version: "1.0.0"
+  description: "Custom discovery algorithms for large-scale agent orchestration"
+
+spec:
+  # === DISCOVERY ALGORITHMS ===
+  algorithms:
+    # Capability-based discovery
+    capability_discovery:
+      enabled: true
+      confidence_threshold: 0.85
+      fuzzy_matching: true
+      semantic_search: true
+      vector_similarity_threshold: 0.75
+      
+      # Advanced matching algorithms
+      matching_strategies:
+        - exact_match:
+            weight: 1.0
+            boost_certified: true
+            
+        - semantic_match:
+            weight: 0.8
+            embedding_model: "text-embedding-ada-002"
+            dimension: 1536
+            
+        - fuzzy_match:
+            weight: 0.6
+            algorithm: "levenshtein"
+            max_distance: 2
+            
+        - context_aware:
+            weight: 0.9
+            consider_domain: true
+            consider_team: true
+            consider_history: true
+
+    # Load-aware discovery
+    load_balancing_discovery:
+      enabled: true
+      metrics_collection: true
+      health_check_required: true
+      
+      load_factors:
+        - cpu_utilization: 0.3
+        - memory_usage: 0.25
+        - request_queue: 0.25
+        - response_time: 0.2
+        
+      thresholds:
+        overloaded: 0.85
+        degraded: 0.70
+        healthy: 0.50
+
+    # Geographic discovery
+    geo_aware_discovery:
+      enabled: true
+      data_residency_compliance: true
+      
+      regions:
+        - name: "us-east-1"
+          preference: 1.0
+          compliance: ["sox", "ccpa"]
+          
+        - name: "eu-west-1" 
+          preference: 0.8
+          compliance: ["gdpr", "eu-ai-act"]
+          
+        - name: "ap-southeast-1"
+          preference: 0.6
+          compliance: ["local-privacy"]
+
+  # === DISCOVERY OPTIMIZATION ===
+  optimization:
+    # Caching strategies
+    caching:
+      enabled: true
+      levels:
+        - l1_cache:
+            type: "memory"
+            ttl: 300  # 5 minutes
+            size: "512MB"
+            
+        - l2_cache:
+            type: "redis"
+            ttl: 3600  # 1 hour
+            cluster: "redis://cache-cluster:6379"
+            
+        - l3_cache:
+            type: "database"
+            ttl: 86400  # 24 hours
+            persistence: true
+
+    # Predictive discovery
+    predictive_discovery:
+      enabled: true
+      ml_model: "discovery-predictor-v1"
+      confidence_threshold: 0.8
+      
+      features:
+        - request_pattern
+        - time_of_day
+        - user_history
+        - team_preferences
+        - seasonal_trends
+
+    # Real-time updates
+    real_time_sync:
+      enabled: true
+      websocket_enabled: true
+      event_streaming: "kafka://events:9092"
+      
+      update_triggers:
+        - agent_status_change
+        - capability_update
+        - performance_metrics
+        - health_check_result
+
+  # === DISCOVERY POLICIES ===
+  policies:
+    # Security policies
+    security:
+      authentication_required: true
+      authorization_model: "rbac"
+      
+      access_control:
+        - role: "admin"
+          permissions: ["discover_all", "modify_discovery"]
+          
+        - role: "developer"
+          permissions: ["discover_team", "discover_public"]
+          
+        - role: "viewer"
+          permissions: ["discover_public"]
+
+    # Compliance policies  
+    compliance:
+      audit_discovery: true
+      data_classification_aware: true
+      
+      frameworks:
+        - iso_42001:
+            discovery_logging: "comprehensive"
+            agent_certification_required: true
+            
+        - nist_ai_rmf:
+            risk_based_discovery: true
+            continuous_monitoring: true
+
+    # Quality policies
+    quality:
+      minimum_agent_level: 2
+      certification_preferred: "gold"
+      performance_threshold: 0.90
+      
+      rejection_criteria:
+        - health_check_failed: true
+        - outdated_version: true
+        - security_issues: true
+        - compliance_violations: true
+
+  # === DISCOVERY METRICS ===
+  metrics:
+    collection:
+      enabled: true
+      interval: "30s"
+      retention: "30d"
+      
+    tracked_metrics:
+      - discovery_latency
+      - cache_hit_ratio
+      - agent_availability
+      - routing_accuracy
+      - cost_per_discovery
+      
+    thresholds:
+      discovery_latency: "100ms"
+      cache_hit_ratio: 0.85
+      agent_availability: 0.99
+      routing_accuracy: 0.95
+
+  # === ADVANCED FEATURES ===
+  advanced:
+    # Multi-tenancy support
+    multi_tenant:
+      enabled: true
+      tenant_isolation: "strict"
+      cross_tenant_discovery: false
+      
+    # Federation support
+    federation:
+      enabled: true
+      federated_registries:
+        - name: "partner-registry"
+          endpoint: "https://partners.example.com/registry"
+          trust_level: "verified"
+          
+    # Chaos engineering
+    chaos_testing:
+      enabled: false  # Enable for testing environments
+      failure_injection:
+        discovery_failures: 0.01
+        network_partitions: 0.005
+        cache_misses: 0.1
