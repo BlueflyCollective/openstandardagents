@@ -3,7 +3,7 @@
  * Foundation for all agent implementations
  */
 import { EventEmitter } from 'events';
-import { AgentStatus, AgentType, MessageType, TaskStatus } from '../../types';
+import { AgentStatus, AgentType, MessageType, TaskStatus } from '../../types/index.js';
 export class BaseAgent extends EventEmitter {
     id;
     name;
@@ -169,13 +169,13 @@ export class BaseAgent extends EventEmitter {
     /**
      * Handle query messages
      */
-    async handleQuery(message) {
+    async handleQuery(_message) {
         // Default query handling - can be overridden
     }
     /**
      * Handle event messages
      */
-    async handleEvent(message) {
+    async handleEvent(_message) {
         // Default event handling - can be overridden
     }
     /**

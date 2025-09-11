@@ -13,7 +13,7 @@ import {
   MessageType,
   Task,
   TaskStatus
-} from '../../types';
+} from '../../types/index.js';
 
 export abstract class BaseAgent extends EventEmitter implements Agent {
   public readonly id: string;

@@ -1,4 +1,4 @@
-import { components } from '../../types/api.js';
+import { components } from '../../types/acdl-api.js';
 type ACDLManifest = components['schemas']['ACDLManifest'];
 type Capabilities = components['schemas']['Capabilities'];
 type Performance = components['schemas']['Performance'];

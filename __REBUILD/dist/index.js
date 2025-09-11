@@ -2,10 +2,12 @@
  * OSSA Platform Entry Point
  * Production orchestration platform initialization
  */
-import { OrchestratorPlatform } from './core/orchestrator';
-import { OrchestrationAPIServer } from './api/orchestration/server';
-import { PlatformCoordination } from './core/coordination/PlatformCoordination';
-import { AgentType, AgentStatus } from './types';
+import { OrchestratorPlatform } from './core/orchestrator.js';
+import { OrchestrationAPIServer } from './api/orchestration/server.js';
+import { PlatformCoordination } from './core/coordination/PlatformCoordination.js';
+import { ComplianceEngine } from './core/compliance/ComplianceEngine.js';
+import { startComplianceServer } from './api/compliance/server.js';
+import { AgentType, AgentStatus } from './types/index.js';
 // Production configuration
 const PRODUCTION_CONFIG = {
     maxConcurrentTasks: 100,
@@ -51,6 +53,12 @@ const API_CONFIG = {
         window: 60000
     }
 };
+const COMPLIANCE_CONFIG = {
+    port: parseInt(process.env.OSSA_COMPLIANCE_PORT || '3004'),
+    host: process.env.OSSA_COMPLIANCE_HOST || '0.0.0.0',
+    frameworks: ['iso-42001', 'nist-ai-rmf', 'eu-ai-act'],
+    enforcementLevel: process.env.NODE_ENV === 'production' ? 'blocking' : 'warning'
+};
 /**
  * Initialize ORCHESTRATOR-PLATFORM in production mode
  */
@@ -67,19 +75,28 @@ export async function initializeOrchestratorPlatform() {
         coordination.on('coordination:response', (response) => {
             console.log(`[COORDINATION] Response from ${response.from}: ${response.status}`);
         });
+        // Initialize compliance engine
+        console.log('[INIT] Initializing enterprise compliance engine...');
+        const complianceEngine = new ComplianceEngine();
         // Initialize API server
         console.log('[INIT] Starting REST API server...');
         const apiServer = new OrchestrationAPIServer(PRODUCTION_CONFIG, API_CONFIG);
         await apiServer.start();
+        // Initialize compliance API server
+        console.log('[INIT] Starting compliance API server...');
+        process.env.OSSA_COMPLIANCE_PORT = COMPLIANCE_CONFIG.port.toString();
+        await startComplianceServer();
         // Register production agents
-        await registerProductionAgents(orchestrator);
+        await registerProductionAgents(orchestrator, complianceEngine);
         // Setup health monitoring
         setupHealthMonitoring(orchestrator, coordination);
         console.log('✅ ORCHESTRATOR-PLATFORM initialized successfully');
         console.log(`📊 API Server: http://${API_CONFIG.host}:${API_CONFIG.port}/api/v1/orchestration/health`);
+        console.log(`🛡️  Compliance Engine: http://${COMPLIANCE_CONFIG.host}:${COMPLIANCE_CONFIG.port}/health`);
         console.log(`🔄 Platform Coordination: ${coordination.getPlatformAgentStatus().length} agents registered`);
+        console.log(`📋 Compliance Frameworks: ${COMPLIANCE_CONFIG.frameworks.length} supported`);
         console.log('');
-        return { orchestrator, apiServer, coordination };
+        return { orchestrator, apiServer, coordination, complianceEngine };
     }
     catch (error) {
         console.error('❌ Failed to initialize ORCHESTRATOR-PLATFORM:', error);
@@ -89,7 +106,7 @@ export async function initializeOrchestratorPlatform() {
 /**
  * Register production-ready agents
  */
-async function registerProductionAgents(orchestrator) {
+async function registerProductionAgents(orchestrator, complianceEngine) {
     console.log('[INIT] Registering production agents...');
     const productionAgents = [
         {
@@ -223,6 +240,37 @@ async function registerProductionAgents(orchestrator) {
                     memory: '256Mi'
                 }
             }
+        },
+        {
+            id: 'compliance-engine-v0.1.9',
+            name: 'Enterprise Compliance Engine',
+            version: '0.1.9-alpha.1',
+            type: AgentType.MONITOR,
+            capabilities: [
+                { name: 'ossa-conformance-validation', version: '0.1.9', inputs: [], outputs: [] },
+                { name: 'regulatory-compliance', version: '0.1.9', inputs: [], outputs: [] },
+                { name: 'enterprise-policy-enforcement', version: '0.1.9', inputs: [], outputs: [] },
+                { name: 'audit-trail-management', version: '0.1.9', inputs: [], outputs: [] }
+            ],
+            status: AgentStatus.IDLE,
+            metadata: {
+                created: new Date(),
+                updated: new Date(),
+                author: 'ossa-platform',
+                tags: ['production', 'compliance', 'enterprise', 'monitoring'],
+                description: 'Enterprise compliance and governance engine for OSSA Platform production deployments'
+            },
+            config: {
+                resources: {
+                    cpu: '500m',
+                    memory: '1Gi'
+                },
+                compliance: {
+                    frameworks: ['iso-42001', 'nist-ai-rmf', 'eu-ai-act'],
+                    enforcementLevel: 'blocking',
+                    auditRetention: '2y'
+                }
+            }
         }
     ];
     for (const agent of productionAgents) {
@@ -284,7 +332,7 @@ export { OrchestratorPlatform, OrchestrationAPIServer, PlatformCoordination, PRO
 // Export types
 export * from './types';
 // Auto-initialize if run directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
     initializeOrchestratorPlatform()
         .then(({ orchestrator, apiServer, coordination }) => {
         console.log('🎯 ORCHESTRATOR-PLATFORM ready for production workloads');

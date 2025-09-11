@@ -3,7 +3,7 @@
  * Production REST API for agent workflow coordination
  */
 import express from 'express';
-import { OrchestratorConfig } from '../../types';
+import { OrchestratorConfig } from '../../types/index.js';
 export interface OrchestrationAPIConfig {
     port: number;
     host: string;

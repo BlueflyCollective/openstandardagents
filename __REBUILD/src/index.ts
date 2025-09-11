@@ -385,7 +385,7 @@ export {
 export * from './types';
 
 // Auto-initialize if run directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   initializeOrchestratorPlatform()
     .then(({ orchestrator, apiServer, coordination }) => {
       console.log('🎯 ORCHESTRATOR-PLATFORM ready for production workloads');

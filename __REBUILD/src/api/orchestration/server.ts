@@ -4,13 +4,13 @@
  */
 
 import express, { Request, Response, NextFunction } from 'express';
-import { OrchestratorPlatform } from '../../core/orchestrator';
+import { OrchestratorPlatform } from '../../core/orchestrator.js';
 import { 
   OrchestratorConfig,
   Workflow,
   Agent,
   AgentType
-} from '../../types';
+} from '../../types/index.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface OrchestrationAPIConfig {

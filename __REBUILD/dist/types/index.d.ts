@@ -246,7 +246,7 @@ export interface EncryptionConfig {
     algorithm: string;
     keyStore: string;
 }
-export * from './agents';
-export * from './workflows';
-export * from './policies';
+export * from './agents/index.js';
+export * from './workflows/index.js';
+export * from './policies/index.js';
 //# sourceMappingURL=index.d.ts.map

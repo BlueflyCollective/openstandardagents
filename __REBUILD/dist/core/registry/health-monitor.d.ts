@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { components } from '../../types/api.js';
+import { components } from '../../types/acdl-api.js';
 type ACDLManifest = components['schemas']['ACDLManifest'];
 export interface HealthMetrics {
     agentId: string;

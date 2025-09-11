@@ -3,7 +3,7 @@
  * Foundation for all agent implementations
  */
 import { EventEmitter } from 'events';
-import { Agent, AgentStatus, AgentType, Capability, Message, MessageType, Task } from '../../types';
+import { Agent, AgentStatus, AgentType, Capability, Message, MessageType, Task } from '../../types/index.js';
 export declare abstract class BaseAgent extends EventEmitter implements Agent {
     readonly id: string;
     readonly name: string;
@@ -59,11 +59,11 @@ export declare abstract class BaseAgent extends EventEmitter implements Agent {
     /**
      * Handle query messages
      */
-    protected handleQuery(message: Message): Promise<void>;
+    protected handleQuery(_message: Message): Promise<void>;
     /**
      * Handle event messages
      */
-    protected handleEvent(message: Message): Promise<void>;
+    protected handleEvent(_message: Message): Promise<void>;
     /**
      * Register with orchestrator
      */
