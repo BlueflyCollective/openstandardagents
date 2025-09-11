@@ -271,12 +271,12 @@ program
       
       Object.entries(levels).forEach(([level, requirements]) => {
         console.log(chalk.green(`${level.toUpperCase()} Level`));
-        console.log(chalk.gray(`   Minimum Capabilities: ${requirements.minCapabilities}`));
-        console.log(chalk.gray(`   Minimum Protocols: ${requirements.minProtocols}`));
-        console.log(chalk.gray(`   Audit Logging: ${requirements.auditLogging ? 'Required' : 'Optional'}`));
-        console.log(chalk.gray(`   Feedback Loop: ${requirements.feedbackLoop ? 'Required' : 'Optional'}`));
-        console.log(chalk.gray(`   PROPS Tokens: ${requirements.propsTokens ? 'Required' : 'Optional'}`));
-        console.log(chalk.gray(`   Learning Signals: ${requirements.learningSignals ? 'Required' : 'Optional'}`));
+        console.log(chalk.gray(`   Minimum Capabilities: ${(requirements as any).minCapabilities}`));
+        console.log(chalk.gray(`   Minimum Protocols: ${(requirements as any).minProtocols}`));
+        console.log(chalk.gray(`   Audit Logging: ${(requirements as any).auditLogging ? 'Required' : 'Optional'}`));
+        console.log(chalk.gray(`   Feedback Loop: ${(requirements as any).feedbackLoop ? 'Required' : 'Optional'}`));
+        console.log(chalk.gray(`   PROPS Tokens: ${(requirements as any).propsTokens ? 'Required' : 'Optional'}`));
+        console.log(chalk.gray(`   Learning Signals: ${(requirements as any).learningSignals ? 'Required' : 'Optional'}`));
         console.log();
       });
       

@@ -352,7 +352,7 @@ export class ComplianceEngine {
       const specValidation = await this.specValidator.validate(agent);
       if (!specValidation.valid) {
         auditEntry.outcome = 'failure';
-        auditEntry.details.specErrors = specValidation.errors;
+        auditEntry.details.specErrors = (specValidation as any).errors;
         this.auditLog.push(auditEntry);
         
         return {
@@ -364,7 +364,7 @@ export class ComplianceEngine {
             category: 'specification',
             requirement: 'OSSA v0.1.9-alpha.1 compliance',
             description: 'Agent violates OSSA specification requirements',
-            evidence: specValidation.errors,
+            evidence: (specValidation as any).errors,
             remediation: 'Fix specification violations and re-validate'
           }],
           recommendations: ['Review OSSA specification documentation', 'Use OSSA-compliant agent templates'],
@@ -438,7 +438,7 @@ export class ComplianceEngine {
     let score = 1.0;
 
     // Validate minimum capabilities
-    const capabilities = agent.spec.capabilities?.domains || [];
+    const capabilities = agent.spec.capabilities?.domain ? [agent.spec.capabilities.domain] : [];
     if (capabilities.length < requirements.minCapabilities) {
       findings.push({
         id: `conformance-${level}-capabilities`,
@@ -465,8 +465,8 @@ export class ComplianceEngine {
       score *= 0.7;
     }
 
-    // Validate feature requirements
-    if (requirements.auditLogging && !conformance.auditLogging) {
+    // Validate feature requirements  
+    if (requirements.auditLogging && !(conformance as any).auditLogging) {
       findings.push({
         id: `conformance-${level}-audit`,
         severity: context.environment === 'production' ? 'critical' : 'high',
@@ -478,7 +478,7 @@ export class ComplianceEngine {
       score *= context.environment === 'production' ? 0.5 : 0.8;
     }
 
-    if (requirements.feedbackLoop && !conformance.feedbackLoop) {
+    if (requirements.feedbackLoop && !(conformance as any).feedbackLoop) {
       findings.push({
         id: `conformance-${level}-feedback`,
         severity: 'medium',
@@ -490,7 +490,7 @@ export class ComplianceEngine {
       score *= 0.9;
     }
 
-    if (requirements.propsTokens && !conformance.propsTokens) {
+    if (requirements.propsTokens && !(conformance as any).propsTokens) {
       findings.push({
         id: `conformance-${level}-props`,
         severity: 'medium',
@@ -836,6 +836,45 @@ export class ComplianceEngine {
    */
   getEnterprisePolicies(): EnterprisePolicyEnforcement[] {
     return Array.from(this.enterprisePolicies.values());
+  }
+
+  /**
+   * Get conformance levels and their requirements
+   */
+  getConformanceLevels(): Record<'bronze' | 'silver' | 'gold', {
+    minCapabilities: number;
+    minProtocols: number;
+    auditLogging: boolean;
+    feedbackLoop: boolean;
+    propsTokens: boolean;
+    learningSignals: boolean;
+  }> {
+    return {
+      bronze: {
+        minCapabilities: 1,
+        minProtocols: 1,
+        auditLogging: false,
+        feedbackLoop: false,
+        propsTokens: false,
+        learningSignals: false
+      },
+      silver: {
+        minCapabilities: 2,
+        minProtocols: 2,
+        auditLogging: true,
+        feedbackLoop: false,
+        propsTokens: false,
+        learningSignals: false
+      },
+      gold: {
+        minCapabilities: 3,
+        minProtocols: 3,
+        auditLogging: true,
+        feedbackLoop: true,
+        propsTokens: true,
+        learningSignals: true
+      }
+    };
   }
 }
 

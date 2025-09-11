@@ -149,6 +149,17 @@ export declare class ComplianceEngine {
      * Get enterprise policies
      */
     getEnterprisePolicies(): EnterprisePolicyEnforcement[];
+    /**
+     * Get conformance levels and their requirements
+     */
+    getConformanceLevels(): Record<'bronze' | 'silver' | 'gold', {
+        minCapabilities: number;
+        minProtocols: number;
+        auditLogging: boolean;
+        feedbackLoop: boolean;
+        propsTokens: boolean;
+        learningSignals: boolean;
+    }>;
 }
 export interface ComplianceReportSummary {
     totalAgents: number;

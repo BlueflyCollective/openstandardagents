@@ -330,7 +330,7 @@ export async function shutdownOrchestratorPlatform(orchestrator, apiServer) {
 // Export core components
 export { OrchestratorPlatform, OrchestrationAPIServer, PlatformCoordination, PRODUCTION_CONFIG, API_CONFIG };
 // Export types
-export * from './types';
+export * from './types/index.js';
 // Auto-initialize if run directly
 if (import.meta.url === `file://${process.argv[1]}`) {
     initializeOrchestratorPlatform()

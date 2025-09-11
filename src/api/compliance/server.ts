@@ -153,7 +153,7 @@ app.post('/api/v1/compliance/validate', async (req, res) => {
       return res.status(400).json({
         success: false,
         error: 'Invalid request body',
-        details: validation.error.errors
+        details: validation.error.issues
       });
     }
 
@@ -207,7 +207,7 @@ app.post('/api/v1/compliance/validate/batch', async (req, res) => {
       return res.status(400).json({
         success: false,
         error: 'Invalid request body',
-        details: validation.error.errors
+        details: validation.error.issues
       });
     }
 
@@ -296,7 +296,7 @@ app.post('/api/v1/compliance/report', async (req, res) => {
       return res.status(400).json({
         success: false,
         error: 'Invalid request body',
-        details: validation.error.errors
+        details: validation.error.issues
       });
     }
 
@@ -368,13 +368,13 @@ app.get('/api/v1/compliance/conformance-levels', (req, res) => {
         levels: Object.entries(levels).map(([level, requirements]) => ({
           level,
           requirements: {
-            minCapabilities: requirements.minCapabilities,
-            minProtocols: requirements.minProtocols,
+            minCapabilities: (requirements as any).minCapabilities,
+            minProtocols: (requirements as any).minProtocols,
             features: {
-              auditLogging: requirements.auditLogging,
-              feedbackLoop: requirements.feedbackLoop,
-              propsTokens: requirements.propsTokens,
-              learningSignals: requirements.learningSignals
+              auditLogging: (requirements as any).auditLogging,
+              feedbackLoop: (requirements as any).feedbackLoop,
+              propsTokens: (requirements as any).propsTokens,
+              learningSignals: (requirements as any).learningSignals
             }
           }
         }))

@@ -4,7 +4,7 @@
  * Plan → Execute → Review → Judge → Learn → Govern
  */
 import { EventEmitter } from 'events';
-import { Agent, Workflow, OrchestratorConfig, AgentType } from '../../types';
+import { Agent, Workflow, OrchestratorConfig, AgentType } from '../../types/index.js';
 export interface FeedbackLoopPhase {
     name: 'plan' | 'execute' | 'review' | 'judge' | 'learn' | 'govern';
     agents: string[];

@@ -3,7 +3,7 @@
  * Production REST API for agent workflow coordination
  */
 import express from 'express';
-import { OrchestratorPlatform } from '../../core/orchestrator.js';
+import { OrchestratorPlatform } from '../../core/orchestrator/index.js';
 import { v4 as uuidv4 } from 'uuid';
 export class OrchestrationAPIServer {
     app;
@@ -89,11 +89,12 @@ export class OrchestrationAPIServer {
         req.headers['x-request-id'] = req.headers['x-request-id'] || uuidv4();
         // Basic content type validation
         if (req.method === 'POST' && !req.is('application/json')) {
-            return res.status(400).json({
+            res.status(400).json({
                 error: 'Invalid Content-Type',
                 message: 'Content-Type must be application/json',
                 timestamp: new Date().toISOString()
             });
+            return;
         }
         next();
     }

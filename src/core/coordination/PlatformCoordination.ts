@@ -4,7 +4,7 @@
  */
 
 import { EventEmitter } from 'events';
-import { OrchestratorPlatform } from '../orchestrator';
+import { OrchestratorPlatform } from '../orchestrator/index.js';
 
 export interface PlatformAgent {
   id: string;

@@ -4,7 +4,7 @@
  * Plan → Execute → Review → Judge → Learn → Govern
  */
 import { EventEmitter } from 'events';
-import { AgentType, AgentStatus } from '../../types';
+import { AgentType, AgentStatus } from '../../types/index.js';
 import { v4 as uuidv4 } from 'uuid';
 export class OrchestratorPlatform extends EventEmitter {
     agents = new Map();

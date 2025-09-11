@@ -69,7 +69,7 @@ export function createRegistryCommand(): Command {
     .action(async (options) => {
       try {
         const { default: fetch } = await import('node-fetch');
-        const response = await fetch(`${options.url}/api/health`);
+        const response = await (fetch as any)(`${options.url}/api/health`);
         
         if (response.ok) {
           const health = await response.json();
@@ -137,7 +137,7 @@ export function createRegistryCommand(): Command {
         };
 
         const { default: fetch } = await import('node-fetch');
-        const response = await fetch(`${options.url}/api/v1/agents/register`, {
+        const response = await (fetch as any)(`${options.url}/api/v1/agents/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ export function createRegistryCommand(): Command {
         };
 
         const { default: fetch } = await import('node-fetch');
-        const response = await fetch(`${options.url}/api/v1/discovery/query`, {
+        const response = await (fetch as any)(`${options.url}/api/v1/discovery/query`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -225,7 +225,7 @@ export function createRegistryCommand(): Command {
     .action(async (options) => {
       try {
         const { default: fetch } = await import('node-fetch');
-        const response = await fetch(`${options.url}/api/v1/registry/metrics`, {
+        const response = await (fetch as any)(`${options.url}/api/v1/registry/metrics`, {
           headers: {
             'Authorization': `Bearer ${options.token}`
           }

@@ -34,4 +34,5 @@ export class Orchestrator {
   }
 }
 
+export { Orchestrator as OrchestratorPlatform };
 export default Orchestrator;

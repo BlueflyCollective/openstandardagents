@@ -382,7 +382,7 @@ export {
 };
 
 // Export types
-export * from './types';
+export * from './types/index.js';
 
 // Auto-initialize if run directly
 if (import.meta.url === `file://${process.argv[1]}`) {
