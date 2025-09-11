@@ -1,6 +1,68 @@
-# GitLab CI/CD Pipeline for OSSA Platform v0.1.9-alpha.1
-# TDD RED Phase Configuration - All tests expected to FAIL
+# GitLab CI/CD Pipeline for OSSA Platform v0.1.0
+# Using GitLab CI/CD Components Library v0.1.0
 
+# Include reusable components from GitLab Components Library
+include:
+  # Git-flow workflow with OpenAPI support
+  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/git-flow@0.1.0
+    inputs:
+      project_version: "0.1.9"
+      project_type: "ossa"
+      enable_auto_merge: true
+      openapi_validation: true
+      openapi_spec_path: "src/api/acdl-specification.yml"
+      compliance_level: "ossa"
+      tag_prefix_feature: "ossa-feat"
+      tag_prefix_dev: "ossa-dev"
+      tag_prefix_prod: "ossa-v"
+  
+  # OSSA compliance validation
+  - component: gitlab.bluefly.io/llm/gitlab_components/policies/ossa-validate@0.1.0
+    inputs:
+      version: "0.1.9"
+      strict_mode: true
+      local_source_path: "/Users/flux423/Sites/LLM/OSSA"
+      security_threshold: 9.0
+  
+  # Branch naming policy
+  - component: gitlab.bluefly.io/llm/gitlab_components/policies/branch-naming@0.1.0
+    inputs:
+      enforce_mode: "block"
+      allowed_prefixes: "feature,bug,fix,hotfix,release,__REBUILD"
+      allow_version_numbers: false
+  
+  # Node.js build and test
+  - component: gitlab.bluefly.io/llm/gitlab_components/nodejs/build@0.1.0
+    inputs:
+      node_version: "20"
+      typescript_check: true
+      build_script: "build"
+  
+  - component: gitlab.bluefly.io/llm/gitlab_components/nodejs/test@0.1.0
+    inputs:
+      node_version: "20"
+      test_script: "test"
+      coverage_enabled: true
+  
+  # Agent testing framework
+  - component: gitlab.bluefly.io/llm/gitlab_components/ai/agent-buildkit@0.1.0
+    inputs:
+      test_agents: ["orchestrator", "worker", "critic", "validator"]
+      parallel_execution: true
+      max_agents: 40
+      enable_agent_mesh: true
+  
+  # Security scanning
+  - component: gitlab.bluefly.io/llm/gitlab_components/security/secrets-scan@0.1.0
+  
+  # Release management
+  - component: gitlab.bluefly.io/llm/gitlab_components/release/release-manager@0.1.0
+    inputs:
+      version: "0.1.9"
+      project_type: "npm"
+      package_name: "@bluefly/ossa"
+
+# Additional stages specific to OSSA
 stages:
   - validate
   - test-red
@@ -11,8 +73,10 @@ stages:
 
 variables:
   NODE_VERSION: "20"
-  OSSA_VERSION: "0.1.9-alpha.1"
+  OSSA_VERSION: "0.1.9"
   MOCK_MODE: "true"
+  # Component library version
+  COMPONENTS_VERSION: "0.1.0"
   
 # TDD Phase 1: All tests MUST fail (RED)
 test:red-phase:
