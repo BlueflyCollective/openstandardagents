@@ -4,7 +4,7 @@
 # Include reusable components from GitLab Components Library
 include:
   # Git-flow workflow with OpenAPI support
-  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/git-flow@0.1.0
+  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/git-flow/template@0.1.0
     inputs:
       component_version: "0.1.0"
       project_version: "0.1.9"
