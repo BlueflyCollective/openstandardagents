@@ -1038,6 +1038,155 @@ Production Agents (your actual agents)
 
 ---
 
+## ⏺ OSSA ↔ Claude Agents Integration Audit Report
+
+### Executive Summary
+
+This technical audit reveals a complex dual-agent ecosystem where OSSA and Claude agents operate in parallel but with limited cross-integration. While both systems have sophisticated structures, significant gaps prevent seamless interoperability.
+
+### Agent Directory Inventory
+
+#### Claude Agent Locations
+- Global agents: `/Users/flux423/.claude/agents/` (18 agents)
+- Project agents: `/Users/flux423/Sites/LLM/.claude/agents/` (6 agents) 
+- Agent definitions: Symlinked OSSA agents in `/Users/flux423/.claude/agents/definitions/`
+
+#### OSSA Agent Locations
+- Global workspace: `/Users/flux423/Sites/LLM/.agents-workspace/` (central registry)
+- Project agents: Multiple `.agents/` directories across 48+ repositories
+- Core OSSA: `/Users/flux423/Sites/LLM/OSSA/.agents/`
+
+### Agent Distribution Analysis
+- Claude global agents: 18 specialized agents (development, infrastructure, UI, security, workflow)
+- Claude project agents: 6 domain-specific agents (orchestration, infrastructure, security, documentation, migration)
+- OSSA agents: 30+ agents across ecosystem with hierarchical governance
+- Drupal modules: 15+ modules with dedicated `.agents/` directories
+
+### Integration Gaps Analysis
+
+#### 1. Agent Discovery Disconnection
+**Problem**: Claude Code cannot automatically discover OSSA agents
+- Claude uses `index.json` registry format
+- OSSA uses `registry.yml` with different schema structure  
+- No cross-registry synchronization mechanism
+
+#### 2. Schema Incompatibility
+
+**Claude Format**:
+```json
+{
+  "agents": {
+    "category": {
+      "agent-id": {
+        "type": "worker|orchestrator|critic",
+        "capabilities": [...],
+        "triggers": [...]
+      }
+    }
+  }
+}
+```
+
+**OSSA Format**:
+```yaml
+apiVersion: "open-standards-scalable-agents/v0.1.3"
+kind: "Agent"
+metadata: {...}
+spec:
+  agent: {...}
+  capabilities: {...}
+  frameworks: {...}
+```
+
+#### 3. CLI Integration Failures
+- `forge agents list`: Works but doesn't see OSSA agents
+- `node OSSA/dist/cli/index.js registry list`: Command fails
+- No unified command interface
+
+#### 4. Workflow Orchestration Conflicts
+
+**Claude Orchestration**:
+- Task-based agent coordination
+- JSON-defined spawn patterns
+- Simple dependency chains
+
+**OSSA Orchestration**:
+- State-machine based workflows
+- YAML-defined complex orchestrations
+- Hierarchical agent dependencies with handoff contracts
+
+### Missing Integration Pieces
+
+#### 1. Registry Bridge Service
+No service exists to:
+- Translate between Claude JSON and OSSA YAML schemas
+- Synchronize agent registrations across systems
+- Maintain unified agent discovery
+
+#### 2. Claude Code OSSA Integration
+Missing components:
+- OSSA agent loader in Claude Code
+- `.agents/` directory scanner
+- OSSA YAML parser for Claude-compatible format
+
+#### 3. CLI Unification
+No unified interface for:
+- Cross-system agent listing
+- Unified agent spawning
+- Consistent agent status monitoring
+
+#### 4. Workflow Interoperability
+Missing features:
+- OSSA orchestration execution from Claude
+- Claude agent participation in OSSA workflows
+- Cross-system handoff protocols
+
+### Technical Recommendations
+
+#### Phase 1: Foundation (OSSA Specification Focus)
+1. **Universal Agent Schema**: Define standard schema supporting both Claude and OSSA agents
+2. **Protocol Specification**: Create OSSA standard for cross-system agent discovery
+3. **Interoperability Standards**: Define Claude-OSSA compatibility requirements
+
+#### Phase 2: Specification Extensions (Q1 2025)
+1. **ACDL v2.0**: Include Claude Code compatibility specifications
+2. **Registry Standards**: Define universal agent registry format
+3. **Workflow Protocol**: Standardize cross-system orchestration
+
+#### Phase 3: Compliance Framework (Q2 2025)
+1. **Claude-OSSA Certification**: Define compliance levels for integration
+2. **Interoperability Testing**: Specification for cross-system validation
+3. **Migration Standards**: Define Claude → OSSA agent conversion standards
+
+### OSSA Integration Priorities
+
+#### 🔴 IMMEDIATE (Week 1-2): Specification Standards
+- [ ] Define Universal Agent Schema in ACDL v2.0
+- [ ] Create Claude-OSSA interoperability specification
+- [ ] Document registry bridge requirements
+
+#### 🟡 HIGH (Week 3-4): Protocol Standards  
+- [ ] Standardize cross-system agent discovery protocol
+- [ ] Define workflow orchestration compatibility requirements
+- [ ] Create agent capability mapping specifications
+
+#### 🟢 MEDIUM (Week 5-6): Compliance & Certification
+- [ ] Define Claude-OSSA compatibility levels
+- [ ] Create interoperability testing specifications
+- [ ] Document migration path standards
+
+### Key Findings for OSSA Specification
+
+The audit reveals that OSSA must expand its specification to include:
+1. **Claude Code Compatibility**: Standards for Claude agent integration
+2. **Universal Schema**: Multi-system agent definitions
+3. **Cross-Platform Protocols**: Inter-system communication standards
+4. **Migration Standards**: Converting between agent formats
+
+**Primary Recommendation**: OSSA v0.2.0 should include comprehensive Claude Code interoperability specifications, positioning OSSA as the universal standard for both native OSSA agents and Claude Code integration.
+
+---
+
 ## Phase 1: Specification Engine (Week 1)
 *Target: Dec 16-20 | Status: IN PROGRESS*
 
