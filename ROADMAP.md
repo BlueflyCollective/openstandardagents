@@ -852,24 +852,189 @@ await transport.start();
 
 ---
 
-## 🚨 CRITICAL GAPS IDENTIFIED (From Migration Audit)
+## 🚨 CRITICAL: Role Confusion & Clean Separation Analysis
 
-### MISSING PRODUCTION SYSTEMS (OSSA Platform)
-1. **VORTEX Token Optimization** (67% reduction) - `/vortex/enhanced-vortex-engine.ts`
-2. **Production Docker Infrastructure** - Complete multi-service orchestration 
-3. **17+ Production Agents** - Working agent registry from `.agents/`
-4. **Security & Trust System** - Malicious agent protection, trust scoring
-5. **Memory Coherence System** - Agent memory management
-6. **K8s Production Manifests** - Enterprise deployment configs
-7. **Monitoring Stack** - Prometheus/Grafana integration
-8. **360° Feedback Loop Engine** - Core orchestration workflow
-9. **Multi-tenant Federation** - Enterprise scaling features
-10. **Compliance Engine** - FedRAMP, SOC2, OSSA validation
+Looking at these roadmaps, I can see significant overlap and role confusion between OSSA and Agent-BuildKit. Let me help you create a clean separation with aligned technical plans.
 
-### RECOVERY PRIORITIES
-🔴 **IMMEDIATE** (Week 1-2): VORTEX, Docker infrastructure, Agent registry
-🟡 **HIGH** (Week 3-4): Security system, K8s manifests, Monitoring  
-🟢 **MEDIUM** (Week 5-6): Federation, Advanced compliance features
+### Critical Issues to Address
+
+#### 1. **Role Confusion**
+- Both roadmaps claim ownership of implementation code
+- OSSA should be a **specification standard** (like OpenAPI), not an implementation
+- Agent-BuildKit should be the **implementation toolkit** (like Swagger Codegen)
+
+#### 2. **Version Alignment Issues**
+- OSSA at v0.1.9 (specification maturity)
+- Agent-BuildKit at v0.1.0 (implementation beginning)
+- These versions should reflect their different maturity levels
+
+#### 3. **Feature Overlap**
+Both claim ownership of:
+- CLI tools
+- MCP servers
+- Docker/K8s infrastructure
+- Runtime engines
+- Agent implementations
+
+## Proposed Clean Separation
+
+### **OSSA Platform (v0.1.9)**
+**Role: Specification Standard & Compliance Authority**
+
+```yaml
+# OSSA owns WHAT agents should do, not HOW they do it
+Responsibilities:
+  Standards:
+    - Agent Capability Description Language (ACDL)
+    - Agent taxonomy (9 categories)
+    - Communication protocols
+    - Compliance requirements
+    - OpenAPI specifications for agent APIs
+    
+  Governance:
+    - Conformance levels (Bronze/Silver/Gold)
+    - Certification processes
+    - Security standards
+    - Audit requirements
+    
+  NOT Owned:
+    - Implementation code
+    - CLI tools
+    - Runtime engines
+    - Docker/K8s configs
+    - MCP servers
+```
+
+### **Agent-BuildKit (v0.1.0)**
+**Role: Development Tools & Implementation**
+
+```yaml
+# Agent-BuildKit owns HOW to build OSSA-compliant agents
+Responsibilities:
+  Development Tools:
+    - CLI for agent development
+    - Scaffolding generators
+    - Testing frameworks
+    - Local development environment
+    
+  Implementation:
+    - OSSA client SDK
+    - Runtime engines
+    - MCP server implementations
+    - Docker/K8s deployment tools
+    - VORTEX optimization engine
+    
+  Integration:
+    - Claude Code integration
+    - GitLab/GitHub tools
+    - Cost optimization
+    - Monitoring dashboards
+```
+
+## Recommended Roadmap Updates
+
+### OSSA Roadmap (Focus on Standards)
+
+```markdown
+# OSSA v0.1.9 → v0.2.0 Roadmap
+
+## Current Release (v0.1.9)
+✅ ACDL specification complete
+✅ Agent taxonomy defined
+✅ OpenAPI schemas for compliance
+✅ Governance framework
+
+## Next Release (v0.2.0) - Q1 2025
+### Pure Specification Focus
+- [ ] ACDL v2.0 with enhanced capability descriptions
+- [ ] Multi-protocol communication standards
+- [ ] Cross-framework interoperability specs
+- [ ] Compliance automation specifications
+- [ ] NO implementation code
+
+## Future (v1.0.0) - Q2 2025
+- [ ] W3C/IETF standardization submission
+- [ ] Industry adoption program
+- [ ] Certification authority establishment
+```
+
+### Agent-BuildKit Roadmap (Focus on Implementation)
+
+```markdown
+# Agent-BuildKit v0.1.0 → v1.0.0 Roadmap
+
+## Current Focus (v0.1.0)
+### Receiving OSSA Implementation Code
+- [ ] Week 1: Migrate CLI tools from OSSA
+- [ ] Week 2: Migrate MCP server from OSSA
+- [ ] Week 3: Migrate runtime engine from OSSA
+- [ ] Week 4: Migrate infrastructure configs from OSSA
+
+### Core Features
+- [ ] OSSA v0.1.9 compliance validation
+- [ ] Development CLI with scaffolding
+- [ ] Testing framework (TDD enforcement)
+- [ ] Local development environment
+
+## Next Release (v0.2.0) - Q1 2025
+### Enhanced Development Tools
+- [ ] VORTEX token optimization (67% reduction)
+- [ ] Claude Code complete integration
+- [ ] Cost analytics dashboard
+- [ ] Multi-provider AI routing
+- [ ] GitLab/GitHub CI/CD integration
+
+## Production Release (v1.0.0) - Q2 2025
+- [ ] Production-ready agent runtime
+- [ ] Enterprise deployment tools
+- [ ] Complete monitoring stack
+- [ ] Multi-tenant support
+```
+
+## Technical Alignment Plan
+
+### Dependency Structure
+```
+OSSA (npm: @ossa/specification)
+  ↓ provides specs
+Agent-BuildKit (npm: @bluefly/agent-buildkit)
+  ↓ implements specs
+Production Agents (your actual agents)
+```
+
+### Migration Timeline
+
+**Week 1-2: Clean Separation**
+1. OSSA removes all implementation code to `deprecated/` folder
+2. Agent-BuildKit imports implementation from OSSA
+3. Update all imports to use `@ossa/specification`
+
+**Week 3-4: Integration Testing**
+1. Verify Agent-BuildKit can validate against OSSA specs
+2. Test all migrated tools work correctly
+3. Update documentation to reflect separation
+
+**Week 5-6: Release**
+1. OSSA v0.1.9 - pure specification
+2. Agent-BuildKit v0.1.0 - with all tools
+3. Clear documentation of responsibilities
+
+## Key Decisions Needed
+
+1. **OSSA Repository**: Should contain ONLY specifications, schemas, and standards documentation
+2. **Agent-BuildKit Repository**: Should contain ALL implementation code, tools, and runtime
+3. **Version Strategy**: Keep versions separate - OSSA for spec maturity, BuildKit for implementation maturity
+4. **Package Strategy**: OSSA as dependency of BuildKit, not the other way around
+
+### RECOVERY PRIORITIES FOR AGENT-BUILDKIT
+🔴 **IMMEDIATE** (Week 1-2): Receive VORTEX, Docker infrastructure, Agent registry from OSSA
+🟡 **HIGH** (Week 3-4): Integrate Security system, K8s manifests, Monitoring  
+🟢 **MEDIUM** (Week 5-6): Build Federation features, Advanced compliance tools
+
+### OSSA PRIORITIES (SPECIFICATION FOCUS)
+🔴 **IMMEDIATE** (Week 1-2): Remove all implementation code, focus on ACDL v2.0 specs
+🟡 **HIGH** (Week 3-4): Compliance standards, certification framework
+🟢 **MEDIUM** (Week 5-6): W3C standardization preparation, industry adoption
 
 ---
 
