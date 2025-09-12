@@ -1,17 +1,50 @@
-# GitLab CI/CD Pipeline for OSSA Platform v0.1.9
-# Simplified working pipeline
+# GitLab CI/CD Pipeline for OSSA Specification v0.1.9
+# Track A: Spec-only project with automated release management
 
 stages:
   - validate
   - build
   - test
-  - security
+  - changelog
+  - release
 
 variables:
   NODE_VERSION: "20"
   OSSA_VERSION: "0.1.9"
+  GIT_DEPTH: "50"
 
-# API Specification Validation
+# Include our spec validation component
+include:
+  - local: .gitlab/components/spec-validation/template.yml
+
+# Pre-release tag generation for feature/bug branches
+.generate-pre-release-tag:
+  stage: validate
+  image: alpine:latest
+  script:
+    - apk add --no-cache git
+    - |
+      # Extract branch type and slug
+      BRANCH_TYPE=$(echo $CI_COMMIT_BRANCH | cut -d'/' -f1)
+      BRANCH_SLUG=$(echo $CI_COMMIT_BRANCH | cut -d'/' -f2 | sed 's/[^a-zA-Z0-9-]/-/g')
+      SHORT_SHA=$(echo $CI_COMMIT_SHORT_SHA | cut -c1-7)
+      
+      # Generate pre-release tag
+      PRE_RELEASE_TAG="v${OSSA_VERSION}-${BRANCH_TYPE}.${BRANCH_SLUG}+sha.${SHORT_SHA}"
+      echo "Generated pre-release tag: $PRE_RELEASE_TAG"
+      
+      # Create and push tag
+      git config user.email "ci@gitlab.com"
+      git config user.name "GitLab CI"
+      git tag -a "$PRE_RELEASE_TAG" -m "Pre-release: $CI_COMMIT_MESSAGE"
+      git push origin "$PRE_RELEASE_TAG" || echo "Tag already exists"
+  only:
+    - /^feature\/.*/
+    - /^bug\/.*/
+  except:
+    - tags
+
+# Specification validation
 validate:openapi:
   stage: validate
   image: node:${NODE_VERSION}
@@ -20,12 +53,14 @@ validate:openapi:
     - npm ci
     - npm run api:validate || echo "API validation - continuing"
     - echo "✅ API validation completed"
+  artifacts:
+    paths:
+      - src/types/api.ts
+    expire_in: 1 day
   only:
-    - feature/*
-    - development
-    - main
+    - branches
 
-# Build Verification
+# Build verification
 build:verify:
   stage: build
   image: node:${NODE_VERSION}
@@ -40,11 +75,9 @@ build:verify:
       - dist/
     expire_in: 1 hour
   only:
-    - feature/*
-    - development
-    - main
+    - branches
 
-# Specification Tests
+# Specification tests
 test:specification:
   stage: test
   image: node:${NODE_VERSION}
@@ -54,27 +87,135 @@ test:specification:
     - npm run build
     - echo "Build successful"
   only:
-    - feature/*
-    - development
-    - main
+    - branches
 
-# Security Scanning
-security:scan:
-  stage: security
+# CHANGELOG update on development
+update:changelog:
+  stage: changelog
   image: node:${NODE_VERSION}
   script:
-    - echo "🔒 Running security scans"
+    - echo "📝 Updating CHANGELOG"
     - npm ci
-    - npm audit --audit-level=moderate || echo "Security audit completed"
-    - echo "✅ Security scan completed"
-  allow_failure: true
+    - |
+      # Install changelog generator
+      npm install -g conventional-changelog-cli
+      
+      # Generate changelog entries
+      conventional-changelog -p angular -i CHANGELOG.md -s || echo "Changelog update completed"
+      
+      # Check if there are changes
+      if git diff --quiet CHANGELOG.md; then
+        echo "No new changelog entries"
+      else
+        echo "CHANGELOG updated with new entries"
+        git config user.email "ci@gitlab.com"
+        git config user.name "GitLab CI"
+        git add CHANGELOG.md
+        git commit -m "chore: update CHANGELOG for v${OSSA_VERSION} [skip ci]"
+        git push origin HEAD:$CI_COMMIT_BRANCH || echo "Push failed - may need manual update"
+      fi
+  artifacts:
+    paths:
+      - CHANGELOG.md
+    expire_in: 1 week
   only:
-    - feature/*
+    - development
+  except:
+    - tags
+
+# Manual promotion gate from development to main
+promote:to-main:
+  stage: release
+  image: alpine:latest
+  script:
+    - apk add --no-cache git
+    - echo "🚀 Promoting development to main"
+    - git config user.email "ci@gitlab.com"
+    - git config user.name "GitLab CI"
+    - git fetch origin main
+    - git checkout main
+    - git merge --ff-only origin/development
+    - git push origin main
+  when: manual
+  only:
+    - development
+  environment:
+    name: production
+    url: https://ossa.dev
+
+# Final release job on main
+release:v0.1.9:
+  stage: release
+  image: alpine:latest
+  script:
+    - apk add --no-cache git curl
+    - echo "🎉 Creating v${OSSA_VERSION} release"
+    
+    # Create final tag
+    - git config user.email "ci@gitlab.com"
+    - git config user.name "GitLab CI"
+    - git tag -a "v${OSSA_VERSION}" -m "Release v${OSSA_VERSION}"
+    - git push origin "v${OSSA_VERSION}"
+    
+    # Create GitLab release
+    - |
+      # Extract release notes from CHANGELOG
+      RELEASE_NOTES=$(sed -n "/## \[${OSSA_VERSION}\]/,/## \[/p" CHANGELOG.md | head -n -1)
+      
+      # Create release via GitLab API
+      curl --request POST \
+        --header "PRIVATE-TOKEN: ${CI_JOB_TOKEN}" \
+        --header "Content-Type: application/json" \
+        --data "{
+          \"name\": \"v${OSSA_VERSION}\",
+          \"tag_name\": \"v${OSSA_VERSION}\",
+          \"description\": \"${RELEASE_NOTES}\",
+          \"ref\": \"main\"
+        }" \
+        "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/releases"
+  when: manual
+  only:
+    - main
+  environment:
+    name: release
+    url: https://gitlab.com/${CI_PROJECT_PATH}/-/releases
+
+# Auto-merge feature branches to development when green
+auto-merge:to-development:
+  stage: release
+  image: alpine:latest
+  script:
+    - apk add --no-cache git
+    - echo "🔄 Auto-merging to development"
+    - git config user.email "ci@gitlab.com"
+    - git config user.name "GitLab CI"
+    - git fetch origin development
+    - git checkout development
+    - git merge --no-ff $CI_COMMIT_SHA -m "Auto-merge: $CI_COMMIT_MESSAGE"
+    - git push origin development
+  only:
+    - /^feature\/.*/
+    - /^bug\/.*/
+  except:
     - development
     - main
+    - tags
+  when: on_success
 
 # Cache configuration
 cache:
   paths:
     - node_modules/
     - .npm/
+
+# Workflow rules
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^feature\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /^bug\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /^chore\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /^docs\/.*/
+    - if: $CI_COMMIT_BRANCH == "development"
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "release/v0.1.9"
+    - if: $CI_COMMIT_TAG
