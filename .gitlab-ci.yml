@@ -44,16 +44,15 @@ build:verify:
     - development
     - main
 
-# Specification Validation Tests
+# Specification Tests
 test:specification:
   stage: test
   image: node:${NODE_VERSION}
   script:
-    - echo "🧪 Running OSSA specification validation"
+    - echo "Running OSSA specification tests"
     - npm ci
     - npm run build
-    - echo "Specification validation: Build successful ✅"
-    - echo "✅ OSSA specification is valid"
+    - echo "Build successful"
   only:
     - feature/*
     - development
