@@ -255,39 +255,40 @@ test:contracts:
     - __REBUILD
     - feature/*
 
-# Deploy to test environment (disabled in RED phase)
+# Deploy to test environment (OSSA as specification standard)
 deploy:test:
   stage: deploy
   image: node:${NODE_VERSION}
   script:
-    - echo "🚀 Deployment disabled during TDD RED phase"
-    - echo "Will be enabled once tests pass in GREEN phase"
-    - echo "Current phase: RED (implementation pending)"
+    - echo "🚀 Deploying OSSA specification standard"
+    - echo "Building specification package"
+    - npm ci
+    - npm run build
+    - echo "✅ OSSA specification ready for deployment"
   when: manual
   only:
-    - __REBUILD
+    - feature/v0.1.9-specification-separation
+    - development
   environment:
-    name: test-red-phase
-    url: http://test-ossa-red.bluefly.io
+    name: specification-standard
+    url: https://ossa.dev
 
 # Notification job
 notify:status:
   stage: .post
   image: alpine:latest
   script:
-    - echo "📊 CI/CD Pipeline Status for OSSA v0.1.9-alpha.1"
-    - echo "Phase: TDD RED (all tests expected to fail)"
-    - echo "Status: $([ $CI_JOB_STATUS = 'success' ] && echo '✅ RED phase requirements met' || echo '⚠️ Unexpected results')"
+    - echo "📊 CI/CD Pipeline Status for OSSA v0.1.9 Specification"
+    - echo "Phase: Specification Standard (pure specification)"
+    - echo "Implementation migrated to agent-buildkit"
     - |
-      # Summary of expected results
-      echo "Expected Results in RED Phase:"
-      echo "- ✅ API validation: PASS"
-      echo "- ✅ Mock server: PASS"  
-      echo "- ❌ Unit tests: FAIL (expected)"
-      echo "- ❌ Integration tests: FAIL (expected)"
-      echo "- ❌ Build: FAIL (expected without implementation)"
+      echo "OSSA Specification Results:"
+      echo "- ✅ API validation: Expected to PASS"
+      echo "- ✅ Specification build: Expected to PASS"  
+      echo "- ⚠️ Implementation tests: MIGRATED to agent-buildkit"
       echo ""
-      echo "Next Phase: GREEN (implement to pass tests)"
+      echo "OSSA is now a pure specification standard like OpenAPI"
+      echo "Implementation available at agent-buildkit"
   allow_failure: true
   when: always
 
