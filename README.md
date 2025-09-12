@@ -1,9 +1,9 @@
-# OSSA - Open Standards Scalable Agents
+# OSSA Specification Standard
 
-[![Version](https://img.shields.io/badge/version-0.1.9-blue.svg)](https://gitlab.bluefly.io/llm/openapi-ai-agents-standard)
+[![Version](https://img.shields.io/npm/v/@ossa/specification)](https://www.npmjs.com/package/@ossa/specification)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-78%25_passing-yellow.svg)](test/)
 [![Specification](https://img.shields.io/badge/OpenAPI-3.1-orange.svg)](src/api/)
+[![Standard](https://img.shields.io/badge/standard-OSSA-blue.svg)](https://ossa.dev)
 
 ## An Open Specification for AI Agent Interoperability
 
