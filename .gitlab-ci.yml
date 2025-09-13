@@ -6,9 +6,9 @@
 # include:
 #   - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@0.1.0
 #     inputs:
-#       project_version: "0.1.9"
 #       enable_ai_ml_testing: true
 #       ossa_compliance_check: true
+#       # project_version: auto-detected from package.json
 
 # Temporary: Use local template for testing
 include:
@@ -16,7 +16,7 @@ include:
 
 # Override variables for OSSA-specific needs
 variables:
-  PROJECT_VERSION: "0.1.9"  # Explicit version for OSSA
+  # PROJECT_VERSION is auto-detected from package.json by golden component
   ENABLE_OSSA: "true"
   ENABLE_TDD: "true"
   ENABLE_AI_ML_TESTING: "true"

@@ -37,11 +37,14 @@ include:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
+| `project_version` | Override project version (optional) | Auto-detected from package.json |
 | `stage-names` | Custom stage names | `validate build test changelog release` |
 | `node-version` | Node.js version | `20` |
 | `python-version` | Python version | `3.11` |
 | `enable-tdd` | Enable TDD checks | `true` |
 | `enable-ossa-compliance` | Enable OSSA spec validation | `false` |
+| `ossa_compliance_check` | Enable OSSA compliance (alias) | `false` |
+| `enable_ai_ml_testing` | Enable AI/ML testing | `false` |
 | `enable-auto-merge` | Auto-merge features to development | `false` |
 | `changelog-preset` | Conventional changelog preset | `angular` |
 
@@ -50,20 +53,22 @@ include:
 ```yaml
 include:
   - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@0.1.0
-
-variables:
-  ENABLE_TDD: "true"
-  ENABLE_OSSA: "true"
-  ENABLE_AUTO_MERGE: "false"
+    inputs:
+      enable_ai_ml_testing: true
+      ossa_compliance_check: true
+      # project_version: auto-detected from package.json (no need to specify)
 ```
 
 ## Version Detection Priority
 
-1. **package.json** → `.version` (Node/TypeScript projects)
-2. **component.yml** → `version:` (GitLab component projects)
-3. **pyproject.toml** → `project.version` (Python projects)
-4. **composer.json** → `version` (PHP/Drupal modules)
-5. **Git tags** → Latest tag + patch bump (fallback)
+1. **Explicit input** → `project_version` (only if provided - NOT recommended)
+2. **package.json** → `.version` (Node/TypeScript projects - RECOMMENDED)
+3. **component.yml** → `version:` (GitLab component projects)
+4. **pyproject.toml** → `project.version` (Python projects)
+5. **composer.json** → `version` (PHP/Drupal modules)
+6. **Git tags** → Latest tag + patch bump (fallback)
+
+**Note:** The golden component automatically detects version from your project files. You should NOT specify `project_version` unless you have a specific need to override.
 
 ## Branch Model
 
@@ -119,15 +124,15 @@ Examples:
 
 ## Integration Examples
 
-### agent-buildkit (v0.1.0)
+### agent-buildkit (auto-detects v0.1.0 from package.json)
 
 ```yaml
 include:
   - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@0.1.0
-
-variables:
-  ENABLE_TDD: "true"
-  ENABLE_AUTO_MERGE: "true"
+    inputs:
+      enable-tdd: true
+      enable-auto-merge: true
+      # Version automatically detected from package.json (0.1.0)
 
 # Additional agent-buildkit specific jobs
 validate:cleanup-metrics:
@@ -136,15 +141,15 @@ validate:cleanup-metrics:
     - echo "Validating 83→35 root items cleanup"
 ```
 
-### OSSA (v0.1.9)
+### OSSA (auto-detects v0.1.9 from package.json)
 
 ```yaml
 include:
   - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@0.1.0
-
-variables:
-  ENABLE_OSSA: "true"
-  ENABLE_TDD: "true"
+    inputs:
+      enable_ai_ml_testing: true
+      ossa_compliance_check: true
+      # Version automatically detected from package.json (0.1.9)
 
 # Additional OSSA specific jobs
 validate:ossa-spec:
@@ -153,13 +158,13 @@ validate:ossa-spec:
     - npm run api:validate
 ```
 
-### Common NPM Packages
+### Common NPM Packages (auto-detects version)
 
 ```yaml
 include:
   - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@0.1.0
-
-# Inherits all defaults, no overrides needed
+    # Version automatically detected from package.json
+    # All defaults apply - no inputs needed
 ```
 
 ## Safety & Conventions

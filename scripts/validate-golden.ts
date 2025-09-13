@@ -143,10 +143,10 @@ class GoldenValidator {
       this.fileContains('.gitlab-ci.yml', 'golden/template.yml'),
       'CI includes golden component'
     );
+    // Check that version is NOT hardcoded (should be auto-detected)
     this.check(
-      this.fileContains('.gitlab-ci.yml', 'project_version.*0.1.9'),
-      'Explicit version set to 0.1.9',
-      'warning'
+      !this.fileContains('.gitlab-ci.yml', 'PROJECT_VERSION: "0.1.9"'),
+      'Version is auto-detected (not hardcoded)'
     );
     this.check(
       this.fileContains('.gitlab-ci.yml', 'enable_ai_ml_testing.*true'),
