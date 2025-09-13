@@ -51,8 +51,15 @@ test:specification:
   script:
     - echo "Running OSSA specification tests"
     - npm ci
-    - npm run build
-    - echo "Build successful"
+    - npm run lint
+    - npm test
+    - echo "Tests completed successfully"
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
   only:
     - feature/*
     - development
