@@ -1,10 +1,10 @@
-# Agent Capability Description Language (ACDL) v0.1.9-alpha.1
+# Agent Capability Description Language (ACDL) v0.1.9
 # OSSA Platform Standard for Agent Capability Declaration
 
 openapi: 3.1.0
 info:
   title: Agent Capability Description Language (ACDL)
-  version: 0.1.9-alpha.1
+  version: 0.1.9
   description: |
     ACDL is the standardized language for agents to declare their capabilities,
     requirements, and integration points within the OSSA ecosystem.

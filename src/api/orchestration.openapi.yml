@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: OSSA Orchestration API
-  version: 0.1.9-alpha.1
+  version: 0.1.9
   description: |
     Orchestration API for managing multi-agent workflows, task distribution,
     and the 360° feedback loop (Plan → Execute → Review → Judge → Learn → Govern)

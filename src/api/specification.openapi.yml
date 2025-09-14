@@ -1,10 +1,10 @@
 openapi: 3.1.0
 info:
   title: OSSA Specification Engine API
-  version: 0.2.0
+  version: 0.1.9
   description: |
     OSSA Platform Specification Engine - Defines and validates agent specifications,
-    taxonomies, and capability descriptions according to OSSA v0.2.0 standards.
+    taxonomies, and capability descriptions according to OSSA v0.1.9 standards.
   contact:
     name: OSSA Platform Team
     url: https://ossa.bluefly.io
