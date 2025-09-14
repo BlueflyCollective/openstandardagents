@@ -233,3 +233,75 @@ test:integration:
       when: on_success
     - if: '$CI_COMMIT_BRANCH =~ /^feature\/.*/'
       when: on_success
+
+# Auto-merge feature branches to development after successful tests
+auto-merge:development:
+  stage: release
+  needs: ["test:specification", "test:integration", "security:scan"]
+  image: alpine/git:latest
+  before_script:
+    - git config --global user.email "ci@bluefly.io"
+    - git config --global user.name "OSSA CI/CD"
+  script:
+    - echo "🔄 Auto-merging feature branch to development"
+    - git checkout development
+    - git pull origin development
+    - git merge --no-ff $CI_COMMIT_SHA -m "auto-merge: feature $CI_COMMIT_REF_NAME → development"
+    - |
+      # Create development tag
+      DEV_TAG="dev-$(date +%Y%m%d-%H%M%S)-${CI_COMMIT_SHORT_SHA}"
+      git tag -a "$DEV_TAG" -m "Development tag for feature $CI_COMMIT_REF_NAME"
+      git push origin development --tags
+    - echo "✅ Auto-merged to development with tag $DEV_TAG"
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^feature\/.*/'
+      when: on_success
+    - if: '$CI_COMMIT_BRANCH =~ /^bug\/.*/'
+      when: on_success
+
+# Auto-merge development to release branch
+auto-merge:release:
+  stage: release
+  needs: ["auto-merge:development"]
+  image: alpine/git:latest
+  before_script:
+    - git config --global user.email "ci@bluefly.io"
+    - git config --global user.name "OSSA CI/CD"
+  script:
+    - echo "🔄 Auto-merging development to release"
+    - git checkout release/v0.1.9 || git checkout -b release/v0.1.9
+    - git pull origin release/v0.1.9 || echo "New release branch"
+    - git merge --no-ff development -m "auto-merge: development → release/v0.1.9"
+    - git push origin release/v0.1.9
+    - echo "✅ Auto-merged to release/v0.1.9"
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^feature\/.*/'
+      when: on_success
+    - if: '$CI_COMMIT_BRANCH =~ /^bug\/.*/'
+      when: on_success
+
+# Manual merge to main with release tag
+release:main:
+  stage: release
+  image: alpine/git:latest
+  before_script:
+    - git config --global user.email "ci@bluefly.io"
+    - git config --global user.name "OSSA CI/CD"
+  script:
+    - echo "🚀 Creating release tag and merging to main"
+    - git checkout main
+    - git pull origin main
+    - git merge --no-ff release/v0.1.9 -m "release: OSSA v0.1.9 - Standalone CI Pipeline"
+    - |
+      # Create release tag
+      RELEASE_TAG="v0.1.9-$(date +%Y%m%d)"
+      git tag -a "$RELEASE_TAG" -m "OSSA v0.1.9 Release - Standalone CI Pipeline"
+      git push origin main --tags
+    - echo "✅ Released to main with tag $RELEASE_TAG"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "release/v0.1.9"'
+      when: manual
+      allow_failure: false
+  environment:
+    name: production
+    url: https://gitlab.bluefly.io/llm/openapi-ai-agents-standard/-/releases
