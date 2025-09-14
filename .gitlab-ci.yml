@@ -15,7 +15,7 @@ include:
       strict_mode: true
       test_coverage_threshold: 80
       node_version: "20"
-      enable_npm_publish: true
+      enable_npm_publish: false  # Controlled separately for OSSA
       npm_registry: "https://registry.npmjs.org"
       enable_auto_flow: false  # Manual review required for spec changes
 
@@ -88,30 +88,58 @@ test:specification:
     - if: '$CI_COMMIT_BRANCH == "main"'
       when: on_success
 
-# OSSA specification release job
-release:ossa-spec:
-  stage: release
-  needs: ["release:production"]
+# OSSA NPM Package Test (dry-run for all branches)
+package:test:
+  stage: build
   image: node:20
   script:
-    - echo "📦 Publishing OSSA specification to npm"
+    - echo "🧪 Testing NPM package creation"
+    - npm ci
+    - npm run build
+    - npm run pack:test
+    - echo "📦 Package would contain:"
+    - npm pack --dry-run | tail -20
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+# OSSA NPM Publish (ONLY main branch, ONLY after release merge)
+publish:npm:
+  stage: release
+  image: node:20
+  before_script:
+    - echo "🔐 Configuring NPM authentication"
+    - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+    - npm whoami
+  script:
+    - echo "📦 Publishing OSSA specification to NPM"
+    - echo "🔍 Final validation before publish"
+    - npm run prepublishOnly
     - |
-      # Ensure we're publishing as specification only
-      npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-      
-      # Update package.json name if needed
-      if grep -q "@bluefly/open-standards-scalable-agents" package.json; then
-        echo "Publishing as @bluefly/open-standards-scalable-agents"
-      else
-        echo "Package name already updated to @ossa/specification"
+      # Verify this is the OSSA specification package
+      PACKAGE_NAME=$(node -e "console.log(require('./package.json').name)")
+      if [ "$PACKAGE_NAME" != "@bluefly/open-standards-scalable-agents" ]; then
+        echo "❌ Wrong package name: $PACKAGE_NAME"
+        exit 1
       fi
       
-      # Publish to npm
-      npm publish --access public || echo "NPM publish skipped"
-    - echo "✅ OSSA specification v${PROJECT_VERSION} published"
-  when: manual
+      PACKAGE_VERSION=$(node -e "console.log(require('./package.json').version)")
+      echo "📋 Publishing: $PACKAGE_NAME@$PACKAGE_VERSION"
+      
+      # Check if version already exists
+      if npm view $PACKAGE_NAME@$PACKAGE_VERSION version 2>/dev/null; then
+        echo "⚠️ Version $PACKAGE_VERSION already exists, skipping"
+      else
+        echo "🚀 Publishing new version..."
+        npm publish --access public --tag latest
+        echo "✅ Published: $PACKAGE_NAME@$PACKAGE_VERSION"
+      fi
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+      allow_failure: false
   environment:
-    name: npm
-    url: https://www.npmjs.com/package/@ossa/specification
+    name: npmjs-production
+    url: https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents
+  dependencies:
+    - build:project

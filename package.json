@@ -13,7 +13,9 @@
     "api:validate": "swagger-cli validate src/api/specification.openapi.yml",
     "api:generate": "openapi-typescript src/api/specification.openapi.yml -o src/types/api.ts",
     "clean": "rm -rf dist coverage",
-    "precommit": "npm run lint && npm run api:validate && npm run test"
+    "precommit": "npm run lint && npm run api:validate && npm run test",
+    "prepublishOnly": "npm run clean && npm run build && npm run test && npm run api:validate",
+    "pack:test": "npm pack --dry-run"
   },
   "keywords": [
     "ossa",
