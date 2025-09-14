@@ -1,18 +1,23 @@
 # OSSA v0.1.9 - GitLab CI/CD Configuration
 # Uses Bluefly Golden CI Orchestration Component
 
-# Include the golden workflow component
-# Production usage (uncomment when component is published):
-# include:
-#   - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@0.1.0
-#     inputs:
-#       enable_ai_ml_testing: true
-#       ossa_compliance_check: true
-#       # project_version: auto-detected from package.json
-
-# Temporary: Use local template for testing
+# 🏆 GOLDEN WORKFLOW for OSSA Compliance Projects
 include:
-  - local: .gitlab/components/workflow/golden/template.yml
+  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@0.1.0
+    inputs:
+      project_version: "0.1.9"  # Auto-detected from package.json
+      enable_ai_ml_testing: true
+      enable_comprehensive_testing: true
+      enable_security_scanning: true
+      ossa_version: "0.1.9"
+      ossa_compliance_check: true
+      security_threshold: 9.0
+      strict_mode: true
+      test_coverage_threshold: 80
+      node_version: "20"
+      enable_npm_publish: true
+      npm_registry: "https://registry.npmjs.org"
+      enable_auto_flow: false  # Manual review required for spec changes
 
 # Override variables for OSSA-specific needs
 variables:
