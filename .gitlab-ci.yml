@@ -3,9 +3,9 @@
 
 # 🏆 GOLDEN WORKFLOW for OSSA Compliance Projects
 include:
-  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@0.1.0
+  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@v0.1.0
     inputs:
-      project_version: "0.1.9"  # Auto-detected from package.json
+      project_version: "0.1.9"
       enable_ai_ml_testing: true
       enable_comprehensive_testing: true
       enable_security_scanning: true
@@ -21,7 +21,6 @@ include:
 
 # Override variables for OSSA-specific needs
 variables:
-  # PROJECT_VERSION is auto-detected from package.json by golden component
   ENABLE_OSSA: "true"
   ENABLE_TDD: "true"
   ENABLE_AI_ML_TESTING: "true"
