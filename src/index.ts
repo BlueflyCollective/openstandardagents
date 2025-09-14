@@ -13,7 +13,11 @@ export const SPECIFICATION_FILES = {
   main: './api/specification.openapi.yml',
   voice: './api/voice-agent-specification.yml',
   agentManifestSchema: './api/agent-manifest.schema.json',
-  workflowSchema: './api/workflow.schema.json'
+  workflowSchema: './api/workflow.schema.json',
+  // Tier 1 MCP Servers
+  context7Mcp: './api/context7-mcp.openapi.yml',
+  webEvalMcp: './api/web-eval-mcp.openapi.yml',
+  magicMcp: './api/magic-mcp.openapi.yml'
 } as const;
 
 // Export TypeScript type definitions
