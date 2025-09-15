@@ -26,6 +26,8 @@ validate:branch-name:
         echo "❌ Invalid branch name: $CI_COMMIT_REF_NAME"
         exit 1
       fi
+  rules:
+    - when: on_success
 
 validate:spec:
   stage: validate
