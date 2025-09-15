@@ -71,10 +71,10 @@ test:basic:
 # Semantic release tagging based on branch type
 tag:semantic:
   stage: tag
-  image: alpine/git
+  image: node:${NODE_VERSION}
   needs: ["test:basic"]
   before_script:
-    - apk add --no-cache nodejs npm
+    - apt-get update && apt-get install -y git
     - git config --global user.email "ci@bluefly.io"
     - git config --global user.name "OSSA CI"
   script:
@@ -118,9 +118,10 @@ tag:semantic:
 # Auto-merge feature branches to development
 merge:development:
   stage: merge
-  image: alpine/git
+  image: node:${NODE_VERSION}
   needs: ["tag:semantic"]
   before_script:
+    - apt-get update && apt-get install -y git
     - git config --global user.email "ci@bluefly.io"
     - git config --global user.name "OSSA CI"
   script:
@@ -160,7 +161,7 @@ release:semantic:
   stage: release
   image: node:${NODE_VERSION}
   before_script:
-    - apk add --no-cache git
+    - apt-get update && apt-get install -y git
     - git config --global user.email "ci@bluefly.io"
     - git config --global user.name "OSSA CI"
     - npm install -g semantic-release @semantic-release/changelog @semantic-release/git
