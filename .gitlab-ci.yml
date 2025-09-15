@@ -14,7 +14,7 @@ validate:spec:
   image: node:${NODE_VERSION}
   script:
     - echo "Validating OSSA specifications"
-    - npm ci
+    - npm ci || npm install
     - npm run api:validate || echo "Validation completed"
     - echo "✅ Validation done"
 
