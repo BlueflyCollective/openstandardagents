@@ -6,12 +6,197 @@
 import { Command } from 'commander';
 import GitWorktreeManager, { type WorktreeConfig } from '../../services/worktree/git-worktree-manager.js';
 import BranchingStrategyManager from '../../services/worktree/branching-strategy.js';
-import { existsSync } from 'fs';
-import { resolve } from 'path';
+import { existsSync, readFileSync } from 'fs';
+import { resolve, join } from 'path';
 import chalk from 'chalk';
+import * as yaml from 'js-yaml';
 
 const worktreeManager = new GitWorktreeManager();
 const branchingStrategy = new BranchingStrategyManager();
+
+/**
+ * Extract agent dependencies from agent configuration
+ */
+function extractAgentDependencies(agentName: string): string[] {
+  try {
+    const agentPath = join('.agents', agentName, 'agent.yml');
+    
+    if (!existsSync(agentPath)) {
+      console.warn(chalk.yellow(`⚠️  Agent config not found at ${agentPath}`));
+      return [];
+    }
+    
+    const agentConfig = yaml.load(readFileSync(agentPath, 'utf8')) as any;
+    
+    if (!agentConfig?.spec?.dependencies?.agents) {
+      return [];
+    }
+    
+    // Extract agent dependency names
+    return agentConfig.spec.dependencies.agents
+      .filter((dep: any) => !dep.optional) // Only required dependencies
+      .map((dep: any) => dep.name);
+      
+  } catch (error) {
+    console.warn(chalk.yellow(`⚠️  Unable to extract dependencies for ${agentName}: ${(error as Error).message}`));
+    return [];
+  }
+}
+
+/**
+ * Display comprehensive flow status for agents
+ */
+function displayFlowStatus(specificAgent?: string): void {
+  console.log(chalk.blue('🔀 Agentic Flow Status\n'));
+  
+  try {
+    const activeWorktrees = worktreeManager.listActiveWorktrees();
+    
+    if (activeWorktrees.length === 0) {
+      console.log(chalk.gray('📭 No active agent worktrees found'));
+      return;
+    }
+    
+    // Filter for specific agent if requested
+    const targetWorktrees = specificAgent 
+      ? activeWorktrees.filter(w => w.agentName === specificAgent)
+      : activeWorktrees;
+    
+    if (specificAgent && targetWorktrees.length === 0) {
+      console.log(chalk.red(`❌ Agent '${specificAgent}' not found in active worktrees`));
+      return;
+    }
+    
+    console.log(chalk.cyan(`📊 Found ${targetWorktrees.length} active agent${targetWorktrees.length === 1 ? '' : 's'}\n`));
+    
+    for (const worktree of targetWorktrees) {
+      displayAgentFlowStatus(worktree);
+    }
+    
+    // Overall summary if showing all agents
+    if (!specificAgent && targetWorktrees.length > 1) {
+      displayFlowSummary(targetWorktrees);
+    }
+    
+  } catch (error) {
+    console.error(chalk.red(`❌ Error retrieving flow status: ${(error as Error).message}`));
+  }
+}
+
+/**
+ * Display flow status for a single agent
+ */
+function displayAgentFlowStatus(worktree: any): void {
+  const config = worktreeManager.loadWorktreeConfig(worktree.agentName);
+  const branchAwareness = worktreeManager.getBranchAwareness(worktree.agentName);
+  
+  console.log(chalk.bold(`🤖 ${worktree.agentName}`));
+  console.log(`   ${chalk.gray('Path:')} ${worktree.path}`);
+  
+  if (config) {
+    console.log(`   ${chalk.gray('Priority:')} ${getPriorityDisplay(config.priority)}`);
+    console.log(`   ${chalk.gray('Phase:')} ${config.phase}`);
+    console.log(`   ${chalk.gray('Base Branch:')} ${chalk.green(config.baseBranch)}`);
+    
+    if (config.dependencies && config.dependencies.length > 0) {
+      console.log(`   ${chalk.gray('Dependencies:')} ${config.dependencies.join(', ')}`);
+    }
+  }
+  
+  // Git status
+  console.log(`   ${chalk.gray('Commits Ahead:')} ${branchAwareness.commitsAhead}`);
+  console.log(`   ${chalk.gray('Commits Behind:')} ${branchAwareness.commitsBehind}`);
+  console.log(`   ${chalk.gray('Uncommitted Changes:')} ${branchAwareness.hasUncommittedChanges ? chalk.yellow('Yes') : chalk.green('No')}`);
+  console.log(`   ${chalk.gray('Conflicts:')} ${branchAwareness.hasConflicts ? chalk.red('Yes') : chalk.green('No')}`);
+  
+  // Flow recommendations
+  const flowStatus = getFlowStatus(branchAwareness, config);
+  console.log(`   ${chalk.gray('Flow Status:')} ${flowStatus}`);
+  
+  console.log(); // Empty line for spacing
+}
+
+/**
+ * Get priority display with color coding
+ */
+function getPriorityDisplay(priority: string): string {
+  switch (priority) {
+    case 'critical': return chalk.red('🔴 Critical');
+    case 'high': return chalk.yellow('🟡 High');
+    case 'medium': return chalk.blue('🔵 Medium');
+    case 'low': return chalk.gray('⚫ Low');
+    default: return priority;
+  }
+}
+
+/**
+ * Get flow status with recommendations
+ */
+function getFlowStatus(branchAwareness: any, config: any): string {
+  if (branchAwareness.hasConflicts) {
+    return chalk.red('🚨 Conflicts need resolution');
+  }
+  
+  if (branchAwareness.commitsAhead > 0 && !branchAwareness.hasUncommittedChanges) {
+    return chalk.green('✅ Ready for integration');
+  }
+  
+  if (branchAwareness.hasUncommittedChanges) {
+    return chalk.yellow('⚡ Active development');
+  }
+  
+  if (branchAwareness.commitsBehind > 0) {
+    return chalk.cyan('🔄 Needs sync with base');
+  }
+  
+  return chalk.gray('⏸️  Idle');
+}
+
+/**
+ * Display overall flow summary
+ */
+function displayFlowSummary(worktrees: any[]): void {
+  console.log(chalk.bold('📈 Flow Summary\n'));
+  
+  const stats = {
+    total: worktrees.length,
+    readyForIntegration: 0,
+    activeDevelopment: 0,
+    conflicts: 0,
+    needsSync: 0,
+    idle: 0
+  };
+  
+  for (const worktree of worktrees) {
+    const branchAwareness = worktreeManager.getBranchAwareness(worktree.agentName);
+    
+    if (branchAwareness.hasConflicts) {
+      stats.conflicts++;
+    } else if (branchAwareness.commitsAhead > 0 && !branchAwareness.hasUncommittedChanges) {
+      stats.readyForIntegration++;
+    } else if (branchAwareness.hasUncommittedChanges) {
+      stats.activeDevelopment++;
+    } else if (branchAwareness.commitsBehind > 0) {
+      stats.needsSync++;
+    } else {
+      stats.idle++;
+    }
+  }
+  
+  console.log(`   ${chalk.green('✅ Ready for Integration:')} ${stats.readyForIntegration}`);
+  console.log(`   ${chalk.yellow('⚡ Active Development:')} ${stats.activeDevelopment}`);
+  console.log(`   ${chalk.red('🚨 Conflicts:')} ${stats.conflicts}`);
+  console.log(`   ${chalk.cyan('🔄 Needs Sync:')} ${stats.needsSync}`);
+  console.log(`   ${chalk.gray('⏸️  Idle:')} ${stats.idle}`);
+  
+  // Recommendations
+  if (stats.conflicts > 0) {
+    console.log(chalk.red(`\n⚠️  ${stats.conflicts} agent${stats.conflicts === 1 ? '' : 's'} have conflicts that need resolution`));
+  }
+  if (stats.readyForIntegration > 0) {
+    console.log(chalk.green(`\n🎉 ${stats.readyForIntegration} agent${stats.readyForIntegration === 1 ? '' : 's'} ready for integration`));
+  }
+}
 
 export const worktreeCommand = new Command('worktree');
 
@@ -76,7 +261,7 @@ function createWorktreeCommand(): Command {
           agentCount: 1, // Individual agent for now
           priority: options.priority,
           complexity: options.specialization?.includes('protocol') ? 'high' : 'medium',
-          dependencies: [], // TODO: Extract from agent config
+          dependencies: extractAgentDependencies(options.agent),
           riskTolerance: options.priority === 'critical' ? 'conservative' : 'moderate',
           timeline: options.priority === 'critical' ? 'immediate' : 'standard'
         } as const;
@@ -96,7 +281,7 @@ function createWorktreeCommand(): Command {
           ossaVersion: options.version,
           priority: options.priority as any,
           phase: parseInt(options.phase),
-          dependencies: [] // TODO: Extract from context
+          dependencies: extractAgentDependencies(options.agent)
         };
 
         // Create the worktree
@@ -266,9 +451,7 @@ function flowCommand(): Command {
     .description('Show current flow status for agents')
     .option('--agent <name>', 'Show status for specific agent')
     .action((options) => {
-      // TODO: Implement flow status display
-      console.log(chalk.blue('🔀 Agentic Flow Status'));
-      console.log(chalk.yellow('This feature is under development in Phase 1'));
+      displayFlowStatus(options.agent);
     });
 
   flowCmd

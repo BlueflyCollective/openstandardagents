@@ -527,11 +527,11 @@ export class WorktreeOrchestrator extends EventEmitter {
     const metrics: CoordinationMetrics = {
       totalAgents: activeWorktrees.length,
       activeWorktrees: activeWorktrees.length,
-      integrationsPending: 0, // TODO: Calculate from git state
-      conflictsDetected: 0,   // TODO: Calculate from git state
-      averageCompletionTime: 0, // TODO: Calculate from historical data
-      throughput: 0,          // TODO: Calculate commits/hour
-      utilizationRate: 0      // TODO: Calculate from agent activity
+      integrationsPending: this.calculateIntegrationsPending(activeWorktrees),
+      conflictsDetected: this.detectConflicts(activeWorktrees),
+      averageCompletionTime: this.calculateAverageCompletionTime(),
+      throughput: this.calculateThroughput(),
+      utilizationRate: this.calculateUtilizationRate(activeWorktrees)
     };
 
     this.metricsHistory.push(metrics);
@@ -542,6 +542,136 @@ export class WorktreeOrchestrator extends EventEmitter {
     }
 
     this.emit('orchestration:metrics', metrics);
+  }
+
+  /**
+   * Calculate number of pending integrations from git state
+   */
+  private calculateIntegrationsPending(activeWorktrees: Array<any>): number {
+    let pendingCount = 0;
+    
+    for (const worktree of activeWorktrees) {
+      try {
+        // Check if worktree has commits ready for integration
+        const agentConfig = this.worktreeManager.loadWorktreeConfig(worktree.agentName);
+        if (agentConfig) {
+          const branchAwareness = this.worktreeManager.getBranchAwareness(worktree.agentName);
+          
+          // Count branches with commits ahead of their base
+          if (branchAwareness.commitsAhead > 0 && !branchAwareness.hasConflicts) {
+            pendingCount++;
+          }
+        }
+      } catch (error) {
+        // Skip if unable to check git state
+        console.warn(`Unable to check integration status for ${worktree.agentName}:`, (error as Error).message);
+      }
+    }
+    
+    return pendingCount;
+  }
+
+  /**
+   * Detect conflicts across active worktrees
+   */
+  private detectConflicts(activeWorktrees: Array<any>): number {
+    let conflictCount = 0;
+    
+    for (const worktree of activeWorktrees) {
+      try {
+        const branchAwareness = this.worktreeManager.getBranchAwareness(worktree.agentName);
+        if (branchAwareness.hasConflicts) {
+          conflictCount++;
+        }
+      } catch (error) {
+        // Skip if unable to check git state
+        console.warn(`Unable to check conflict status for ${worktree.agentName}:`, (error as Error).message);
+      }
+    }
+    
+    return conflictCount;
+  }
+
+  /**
+   * Calculate average completion time from historical data
+   */
+  private calculateAverageCompletionTime(): number {
+    if (this.metricsHistory.length < 2) {
+      return 0;
+    }
+    
+    // Calculate based on agent completion rates over time
+    const recentMetrics = this.metricsHistory.slice(-12); // Last hour (12 * 5-minute intervals)
+    let totalCompletionTime = 0;
+    let completions = 0;
+    
+    for (let i = 1; i < recentMetrics.length; i++) {
+      const previous = recentMetrics[i - 1];
+      const current = recentMetrics[i];
+      
+      // If active agents decreased, some completed
+      if (previous.activeWorktrees > current.activeWorktrees) {
+        const completedAgents = previous.activeWorktrees - current.activeWorktrees;
+        totalCompletionTime += 5; // 5 minutes per interval
+        completions += completedAgents;
+      }
+    }
+    
+    return completions > 0 ? totalCompletionTime / completions : 0;
+  }
+
+  /**
+   * Calculate throughput (commits per hour)
+   */
+  private calculateThroughput(): number {
+    if (this.metricsHistory.length < 12) {
+      return 0;
+    }
+    
+    // Count integrations completed in the last hour
+    const recentMetrics = this.metricsHistory.slice(-12); // Last hour
+    let totalIntegrations = 0;
+    
+    for (let i = 1; i < recentMetrics.length; i++) {
+      const previous = recentMetrics[i - 1];
+      const current = recentMetrics[i];
+      
+      // If pending integrations decreased, they were completed
+      if (previous.integrationsPending > current.integrationsPending) {
+        totalIntegrations += previous.integrationsPending - current.integrationsPending;
+      }
+    }
+    
+    // Convert to commits per hour (12 intervals = 1 hour)
+    return totalIntegrations;
+  }
+
+  /**
+   * Calculate utilization rate from agent activity
+   */
+  private calculateUtilizationRate(activeWorktrees: Array<any>): number {
+    if (activeWorktrees.length === 0) {
+      return 0;
+    }
+    
+    let activeAgents = 0;
+    
+    for (const worktree of activeWorktrees) {
+      try {
+        const branchAwareness = this.worktreeManager.getBranchAwareness(worktree.agentName);
+        
+        // Consider agent active if it has recent commits or pending changes
+        if (branchAwareness.commitsAhead > 0 || branchAwareness.hasUncommittedChanges) {
+          activeAgents++;
+        }
+      } catch (error) {
+        // Skip if unable to check activity
+        console.warn(`Unable to check activity for ${worktree.agentName}:`, (error as Error).message);
+      }
+    }
+    
+    // Return percentage of active agents
+    return Math.round((activeAgents / Math.max(activeWorktrees.length, this.config.maxConcurrentAgents)) * 100);
   }
 
   /**
