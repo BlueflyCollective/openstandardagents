@@ -9,6 +9,11 @@ stages:
   - security
   - deploy
 
+# Temporary: Use local template for testing
+include:
+  - local: .gitlab/components/workflow/golden/template.yml
+
+# Override variables for OSSA-specific needs
 variables:
   NODE_VERSION: "20"
   OSSA_VERSION: "0.1.9-alpha.1"
@@ -60,12 +65,13 @@ test:red-phase:
     - feature/*
     - development
 
-# API Specification Validation
-validate:openapi:
+# OSSA-specific validation job
+validate:ossa-spec:
   stage: validate
-  image: node:${NODE_VERSION}
+  needs: ["detect:version"]
+  image: node:20
   script:
-    - echo "📋 Validating OpenAPI specifications"
+    - echo "🔍 Validating OSSA specification v${PROJECT_VERSION}"
     - npm ci
     - npm run api:validate
     - npx swagger-cli validate src/api/acdl-specification.yml
@@ -132,10 +138,11 @@ test:mock-server:
     - __REBUILD
     - feature/*
 
-# Security Scanning
-security:scan:
-  stage: security
-  image: node:${NODE_VERSION}
+# OSSA specification release job
+release:ossa-spec:
+  stage: release
+  needs: ["release:production"]
+  image: node:20
   script:
     - echo "🔒 Running security scans"
     - npm ci
