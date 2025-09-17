@@ -21,6 +21,7 @@ include:
 variables:
   NODE_VERSION: "20"
   OSSA_VERSION: "0.1.9-alpha.1"
+  PROJECT_VERSION: "0.1.9"
   MOCK_MODE: "true"
   
 # TDD Phase 1: All tests MUST fail (RED)
