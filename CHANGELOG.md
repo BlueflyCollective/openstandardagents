@@ -1,62 +1,74 @@
 # Changelog
 
-All notable changes to the OpenAPI AI Agents Standard (OAAS) will be documented in this file.
+All notable changes to OSSA (Open Standards Scalable Agents) will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.1] - 2025-01-27
+## [0.1.9] - 2025-09-12
+
+### Overview
+Enhanced OSSA v0.1.9 release with master orchestrator capabilities, multi-agent coordination, and GitLab CI/CD integration. This release strengthens both the specification standard and reference implementation.
 
 ### Added
-- Initial public release of OpenAPI AI Agents Standard (OAAS)
-- Universal Agent Discovery Protocol (UADP) for hierarchical agent discovery
-- Runtime Translation Engine supporting multiple AI frameworks without code modification
-- Support for MCP, LangChain, CrewAI, OpenAI, and Anthropic protocols
-- Enterprise compliance automation for ISO 42001:2023, NIST AI RMF, EU AI Act
-- Progressive certification levels (Bronze, Silver, Gold)
-- Workspace Orchestrator for multi-agent coordination
-- Validation API Server for compliance checking
-- Comprehensive agent schemas and templates
-- Production-ready examples and documentation
+- **OSSA Master Orchestrator**: Enhanced orchestrator with multi-agent coordination capabilities
+  - Adaptive strategy execution (parallel/sequential/adaptive)
+  - __REBUILD_TOOLS workflow for automated tool rebuilding
+  - Test-Driven Development (TDD) enforcement
+  - Agent lifecycle management and health monitoring
+  - 360° Feedback Loop: Plan → Execute → Review → Judge → Learn → Govern
 
-### Framework Support
-- Model Context Protocol (MCP) - Full integration
-- LangChain - Native tool support
-- CrewAI - Agent role mapping
-- OpenAI - Assistant API compatibility
-- Anthropic - Tool use integration
-- AutoGen - Conversational agent support
+- **CLI Enhancements**: New OSSA orchestrator commands via `ossa orch`
+  - `spawn` - Create specialized agents with context inheritance
+  - `rebuild-tools` - Execute __REBUILD_TOOLS workflow
+  - `coordinate` - Multi-agent workflow coordination
+  - `enforce-tdd` - TDD compliance enforcement
+  - `status` - Orchestrator health and metrics
+  - `lifecycle` - Agent lifecycle management
 
-### Performance
-- Sub-100ms agent discovery for 1000+ agents
-- 35-45% token cost reduction through optimization
-- Memory-efficient state management
-- Concurrent request handling
+- **API-First Development**: OpenAPI 3.1.0 compliance for all new endpoints
+- **GitLab CI/CD Integration**: Golden component v0.1.0 for standardized pipelines
+- **Infrastructure Support**: Kubernetes, Helm, and OrbStack deployment ready
 
-### Security
-- Zero-trust architecture
-- Encrypted inter-agent communication
-- Comprehensive audit trails
-- Role-based access control (RBAC)
+### Enhanced
+- **Registry Core**: Improved agent registration with health monitoring
+- **Compliance Engine**: Enhanced OSSA v0.1.9 standard validation
+- **Platform Architecture**: Better separation between specification and implementation
 
-### Documentation
-- Complete technical specification
-- Integration guides for all supported frameworks
-- Migration guide from existing systems
-- Best practices and troubleshooting guides
+### Technical
+- TypeScript strict mode compliance improvements
+- ES Module support with proper configuration
+- Commander.js v14 for enhanced CLI experience
+- Chalk v5 for improved console output formatting
+
+### Changed
+- Package name remains `@bluefly/open-standards-scalable-agents`
+- Enhanced separation between specification and implementation layers
+- Updated roadmap with migration strategy and execution plans
+
+### Fixed
+- Validator DNS-1123 pattern for proper agent name validation
+- Missing agent types (voice) and capability domains (audio, speech, interaction)
+- TypeScript configuration for isolated modules
+- Build dependencies (zod, @modelcontextprotocol/sdk)
 
 ### Known Issues
-- Multi-region federation is under development
-- Advanced security features (mTLS) planned for next release
-- Some compliance automation features are in preview
+- Jest configuration needs ESM module updates (non-blocking for release)
+- Some TypeScript strict mode warnings remain (non-breaking)
+- MCP server has minor type definition issues
 
-## [Unreleased]
+### Migration Notes
+- OSSA specification files remain in this repository
+- Implementation components will migrate to agent-buildkit for better modularity
+- All CLI commands maintain backward compatibility
+- GitLab CI/CD pipelines now use golden components
 
-### Planned
-- Multi-region federation support
-- Advanced security with mTLS
-- Complete compliance automation
-- Enhanced performance optimization
-- Additional framework integrations (Google Vertex AI)
-- Improved caching strategies
-- Extended monitoring capabilities
+## [0.1.8] - 2024-09-10 (Internal)
+
+### Added
+- Initial OSSA foundation and core architecture
+- Basic agent specification and registry
+- CLI tools prototype
+
+## Notes
+This release establishes OSSA as the authoritative specification standard for AI agent orchestration with a working reference implementation. The project provides a complete framework for building, registering, and orchestrating AI agents across different platforms and frameworks.

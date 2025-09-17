@@ -3,42 +3,27 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
-yarn.lock
 
 # Build outputs
 dist/
 build/
 *.tsbuildinfo
 
-# Runtime data
-logs/
-*.log
-pids/
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-.nyc_output/
-
-# Environment files
+# Environment variables
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Editor directories and files
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# OS generated files
+# OS
 .DS_Store
 .DS_Store?
 ._*
@@ -47,33 +32,45 @@ coverage/
 ehthumbs.db
 Thumbs.db
 
-# Temporary files
-*.tmp
-*.temp
-*.bak
-*.backup
-temp/
-tmp/
+# Logs
+logs/
+*.log
 
-# Test artifacts
-test-results/
-playwright-report/
-test-results.xml
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
 
-# Local development
-.cache/
-.parcel-cache/
-.next/
-.nuxt/
-.vitepress/cache/
+# Coverage directory used by tools like istanbul
+coverage/
+.nyc_output/
 
-# Validation output
-validation-report.json
-conformance-report.json
+# Dependency directories
+node_modules/
+jspm_packages/
 
-# Claude
-.claude.DS_Store
+# Optional npm cache directory
+.npm
 
-# Safe deletion folder - move files here instead of using rm -rf
-__DELETE_LATER/
-reports/
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional REPL history
+.node_repl_history

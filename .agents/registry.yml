@@ -1,80 +1,284 @@
-apiVersion: open-standards-scalable-agents/v0.1.8
-kind: AgentRegistry
+apiVersion: "@bluefly/open-standards-scalable-agents/v0.1.9"
+kind: Registry
 metadata:
-  name: ossa-project-registry
-  description: "OSSA v0.1.8 compliant agent registry"
-  version: 0.1.8
+  name: ossa-reference-agents
+  version: "0.1.9"
+  namespace: ossa-examples
+  description: Reference implementation registry for OSSA agent examples
+  labels:
+    registry-type: reference
+    compliance: gold
+  annotations:
+    documentation: https://docs.ossa.io/agents/registry
+    repository: https://github.com/ossa/reference-agents
+  created: "2024-01-01T00:00:00Z"
+  updated: "2024-01-01T00:00:00Z"
 
 spec:
   agents:
-    - name: ossa-validator-agent
-      file: ossa-validator-agent.yml
+    # Orchestrator Agents
+    - name: example-orchestrator
+      type: orchestrator
+      subtype: orchestrator.workflow
+      version: "0.1.9"
+      namespace: ossa-examples
+      path: ./orchestrators/example-orchestrator/agent.yml
       status: active
-      compliance: gold
+      conformance: gold
       capabilities:
-        - schema_validation
-        - compliance_checking
-        - ossa_enforcement
-      
-    - name: orchestration-agent  
-      file: orchestration-agent.yml
-      status: active
-      compliance: gold
-      capabilities:
-        - agent_coordination
-        - task_distribution
-        - workflow_management
-        - conflict_resolution
-        
-    - name: ossa-documentation-agent
-      file: ../.claude/agents/ossa-documentation-agent.yml
-      status: active
-      compliance: gold
-      capabilities:
-        - documentation_generation
-        - spec_maintenance
-        - example_creation
-        - tutorial_writing
-        
-    - name: ci-validation-agent
-      file: ../.gitlab/agents/ci-validation-agent.yml  
-      status: active
-      compliance: gold
-      capabilities:
-        - ci_pipeline_validation
-        - ossa_compliance_checking
-        - automated_testing
-        - deployment_orchestration
-        
-    - name: gitlab-pipeline-monitor
-      file: ../.gitlab/agents/gitlab-pipeline-monitor.yml
-      status: active
-      compliance: gold
-      capabilities:
-        - gitlab_api_authentication
-        - pipeline_status_monitoring
-        - failed_job_analysis
-        - contextual_troubleshooting
-        - ci_cd_optimization_recommendations
-        - bluefly_ecosystem_integration
+        - workflow-management
+        - agent-coordination
+        - task-decomposition
+        - execution-planning
+        - resource-allocation
+      protocols: [ossa, rest]
+      resources:
+        cpu: "1-4"
+        memory: "2-8Gi"
+        storage: "10-50Gi"
+      description: Reference implementation orchestrator for complex multi-agent workflows
 
-  configuration:
-    ossa_version: "0.1.8"
-    compliance_level: "gold"
-    token_optimization: 75
-    discovery_latency: 50  # ms
-    
-  extensions:
-    acta:
-      enabled: true
-      vectorProvider: "qdrant"
-      endpoint: "http://localhost:6333"
-      
-    acdl:
-      enabled: true
-      taxonomyBase: "ai-capabilities"
-      
-    coordination:
-      enabled: true
-      maxAgents: 20
-      loadBalancing: "capability-based"
+    # Worker Agents
+    - name: task-heavy-worker
+      type: worker
+      subtype: worker.computation
+      version: "0.1.9"
+      namespace: ossa-examples
+      path: ./workers/task-heavy/agent.yml
+      status: active
+      conformance: gold
+      dockerService: ossa-task-heavy
+      capabilities:
+        - heavy-computation
+        - batch-processing
+        - data-transformation
+        - algorithmic-processing
+        - parallel-execution
+      protocols: [ossa, rest]
+      resources:
+        cpu: "2-4"
+        memory: "4-8Gi"
+        storage: "20-100Gi"
+      description: Heavy computation worker for resource-intensive tasks
+
+    - name: security-agent
+      type: worker
+      subtype: worker.security
+      version: "0.1.9"
+      namespace: ossa-examples
+      path: ./workers/security-agent/agent.yml
+      status: active
+      conformance: gold
+      dockerService: ossa-security-agent
+      capabilities:
+        - security
+        - authentication
+        - encryption
+        - audit-logging
+        - compliance
+      protocols: [ossa, rest]
+      resources:
+        cpu: "1-4"
+        memory: "2-8Gi"
+        storage: "50-500Gi"
+      description: Security-focused worker for auth, encryption, auditing, and compliance
+
+    # Critic Agents
+    - name: code-reviewer-critic
+      type: critic
+      subtype: critic.code_quality
+      version: "0.1.9"
+      namespace: ossa-examples
+      path: ./critics/code-reviewer/agent.yml
+      status: active
+      conformance: gold
+      capabilities:
+        - code-analysis
+        - quality-assessment
+        - security-review
+        - performance-analysis
+        - best-practices
+      protocols: [ossa, rest]
+      resources:
+        cpu: "0.5-2"
+        memory: "1-4Gi"
+        storage: "5-20Gi"
+      description: Code review and quality analysis critic for development workflows
+
+    # Judge Agents
+    - name: quality-assessor-judge
+      type: judge
+      subtype: judge.quality
+      version: "0.1.9"
+      namespace: ossa-examples
+      path: ./judges/quality-assessor/agent.yml
+      status: active
+      conformance: gold
+      capabilities:
+        - quality-assessment
+        - decision-making
+        - standards-compliance
+        - performance-evaluation
+        - acceptability-criteria
+      protocols: [ossa, rest]
+      resources:
+        cpu: "0.5-2"
+        memory: "1-4Gi"
+        storage: "2-10Gi"
+      description: Quality assessment judge for evaluating outputs and making quality decisions
+
+    # Monitor Agents
+    - name: system-monitor
+      type: monitor
+      subtype: monitor.system
+      version: "0.1.9"
+      namespace: ossa-examples
+      path: ./monitors/system-monitor/agent.yml
+      status: active
+      conformance: silver
+      capabilities:
+        - system-monitoring
+        - performance-tracking
+        - health-assessment
+        - alerting
+        - metrics-collection
+      protocols: [ossa, prometheus]
+      resources:
+        cpu: "1-4"
+        memory: "2-8Gi"
+        storage: "50-500Gi"
+      description: System monitoring agent for tracking performance, health, and metrics
+
+    # Integrator Agents
+    - name: api-connector-integrator
+      type: integrator
+      subtype: integrator.api
+      version: "0.1.9"
+      namespace: ossa-examples
+      path: ./integrators/api-connector/agent.yml
+      status: active
+      conformance: gold
+      capabilities:
+        - api-integration
+        - data-transformation
+        - protocol-bridging
+        - service-orchestration
+        - authentication-management
+      protocols: [ossa, rest, graphql]
+      resources:
+        cpu: "1-4"
+        memory: "2-8Gi"
+        storage: "10-100Gi"
+      description: API integration agent for connecting with external services and systems
+
+    # Voice Agents
+    - name: voice-assistant
+      type: voice
+      subtype: voice.assistant
+      version: "0.1.9"
+      namespace: ossa-examples
+      path: ./voice/voice-assistant.yml
+      status: active
+      conformance: gold
+      capabilities:
+        - audio
+        - speech
+        - interaction
+        - nlp
+        - orchestration
+      protocols: [rest, websocket]
+      resources:
+        cpu: "0.5-2"
+        memory: "1-4Gi"
+        storage: "5-10Gi"
+      description: Voice interface agent for hands-free interaction with OSSA platform
+
+  dockerServices:
+    # Map Docker Compose services to agents
+    - serviceName: ossa-task-heavy
+      agentName: task-heavy-worker
+      port: 3004
+      environment:
+        AGENT_TYPE: task-heavy
+        AGENT_SPECIALIZATION: heavy_computation
+        MAX_CONCURRENT_TASKS: 5
+        TASK_TIMEOUT: 120000
+
+    - serviceName: ossa-comm-multiprotocol
+      port: 3005
+      status: needs_manifest
+      description: Communication agent with multi-protocol support (websocket, grpc, rest, graphql)
+      environment:
+        AGENT_TYPE: communication-multiprotocol
+        SUPPORTED_PROTOCOLS: websocket,grpc,rest,graphql
+
+    - serviceName: ossa-mcp-enhanced
+      port: 3006
+      status: needs_manifest
+      description: Enhanced MCP Server agent with auto-discovery
+      environment:
+        AGENT_TYPE: mcp-enhanced
+        MCP_VERSION: "2.0"
+        TOOL_REGISTRY_SIZE: 500
+
+    - serviceName: ossa-data-agent
+      port: 3007
+      status: needs_manifest
+      description: Data processing agent supporting batch, stream, and realtime modes
+      environment:
+        AGENT_TYPE: data
+        PROCESSING_MODES: batch,stream,realtime
+        SUPPORTED_FORMATS: json,csv,xml,yaml,parquet
+
+    - serviceName: ossa-analytics-agent
+      port: 3008
+      status: needs_manifest
+      description: Analytics agent with pandas, numpy, scipy, sklearn support
+      environment:
+        AGENT_TYPE: analytics
+        ANALYTICS_ENGINES: pandas,numpy,scipy,sklearn
+        VISUALIZATION_ENABLED: true
+
+    - serviceName: ossa-security-agent
+      agentName: security-agent
+      port: 3009
+      environment:
+        AGENT_TYPE: security
+        SECURITY_FEATURES: auth,encryption,audit,compliance
+        ENCRYPTION_LEVEL: AES-256
+
+  statistics:
+    totalAgents: 8
+    agentsByType:
+      orchestrator: 1
+      worker: 2
+      critic: 1
+      judge: 1
+      trainer: 0
+      governor: 0
+      monitor: 1
+      integrator: 1
+      voice: 1
+    conformanceLevels:
+      gold: 7
+      silver: 1
+      bronze: 0
+    coverage:
+      complete: 8
+      needsManifest: 4
+      deprecated: 0
+
+  metadata:
+    registry:
+      maintainer: "OSSA Platform Team"
+      lastAudit: "2024-01-01T00:00:00Z"
+      nextAudit: "2024-04-01T00:00:00Z"
+      complianceStatus: "verified"
+    agents:
+      averageConformance: 0.875  # (7*1 + 1*0.5) / 8
+      resourceUtilization: "moderate"
+      protocolCoverage: ["ossa", "rest", "websocket", "prometheus", "graphql"]
+      domainCoverage: [
+        "workflow-management", "heavy-computation", "security", "code-analysis",
+        "quality-assessment", "system-monitoring", "api-integration", "voice-interaction"
+      ]

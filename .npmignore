@@ -1,71 +1,49 @@
-# Development files
-.git
-.gitlab
-.gitignore
+# Development files  
+src/types/
+src/specification/
+tests/
+__DELETE_LATER/
+docs/
+examples/
+infrastructure/
+.agents/
+.gitlab/
+scripts/
+extension/
+
+# Configuration files
 .gitlab-ci.yml
+jest.config.cjs
+tsconfig.json
+.eslintrc.*
+.prettierrc*
+playwright.config.ts
+lefthook.yml
+
+# Development artifacts
 *.log
 *.tmp
-
-# Test files
-tests/
-test/
-*.test.ts
-*.test.js
-*.spec.ts
-*.spec.js
+.DS_Store
 coverage/
-.nyc_output/
-
-# Source files (only publish dist)
-services/src/
-services/*.ts
-!services/dist/
-
-# Development configs
-tsconfig.json
-tsconfig.prod.json
-jest.config.js
-.eslintrc*
-.prettierrc*
-
-# Local/personal files
-.env
-.env.local
-*.local.*
 node_modules/
 
-# Documentation sources (keep compiled docs)
-docs/*.md.bak
-docs/drafts/
+# Git and CI
+.git/
+.gitignore
+.gitattributes
+.branch-protection.json
 
-# Validation API (separate service)
-services/validation-api/
-services/validation-server.js
-services/workspace-orchestrator/src/
-services/workspace-orchestrator/*.ts
-services/workspace-orchestrator/node_modules/
+# Claude and settings
+.claude/
+settings.local.json
 
-# Build artifacts
-*.tsbuildinfo
-dist.bak/
+# Documentation (keep only essential)
+ROADMAP.md
+CHANGELOG.md
 
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-
-# Example data that might contain personal info
-examples/**/*.local.json
-examples/**/*.local.yml
-examples/**/*.local.yaml
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
+# Include only essentials:
+# dist/ - compiled TypeScript ✓
+# src/api/ - OpenAPI/JSON schema files ✓
+# package.json - metadata ✓
+# README.md - package documentation ✓
+# LICENSE - required ✓
