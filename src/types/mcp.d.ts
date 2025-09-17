@@ -15,8 +15,14 @@ declare module '@modelcontextprotocol/transport-sse' {
 }
 
 declare module 'express' {
-  export interface Application {}
-  export default function(): Application;
+  export interface Application {
+    use(middleware: any): void;
+  }
+  function express(): Application;
+  namespace express {
+    export function json(): any;
+  }
+  export = express;
 }
 
 declare module 'cors' {

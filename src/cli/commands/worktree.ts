@@ -266,7 +266,7 @@ function createWorktreeCommand(): Command {
           timeline: options.priority === 'critical' ? 'immediate' : 'standard'
         } as const;
 
-        const optimalFlow = branchingStrategy.determineOptimalFlow(agentName);
+        const optimalFlow = branchingStrategy.determineOptimalFlow(options.agent);
         const flowConfig = branchingStrategy.getFlowConfig(optimalFlow);
         
         console.log(chalk.cyan(`🔀 Using ${optimalFlow} flow with ${flowConfig?.coordinationLevel} coordination`));
@@ -289,7 +289,7 @@ function createWorktreeCommand(): Command {
         
         // Get branch awareness information
         const branchAwareness = worktreeManager.getBranchAwareness(options.agent);
-        const versionAwareness = worktreeManager.getProjectVersionAwareness(options.agent);
+        const versionAwareness = worktreeManager.getProjectVersionAwareness();
 
         console.log(chalk.green('✅ Agent worktree created successfully!'));
         console.log(chalk.gray('📁 Path:'), chalk.white(worktreePath));
@@ -401,7 +401,7 @@ function integrateCommand(): Command {
         console.log(chalk.blue(`🔀 Coordinating integration for ${agents.length} agents...`));
         console.log(chalk.gray('Agents:'), agents.join(', '));
         
-        const integrationBranch = await worktreeManager.coordinateIntegration(agents, options.branch);
+        const integrationBranch = await worktreeManager.coordinateIntegration(agents);
         
         console.log(chalk.green('✅ Integration coordination complete!'));
         console.log(chalk.gray('🌿 Integration branch:'), chalk.white(integrationBranch));
@@ -428,7 +428,7 @@ function cleanupCommand(): Command {
       try {
         console.log(chalk.yellow(`🧹 Cleaning up worktree for ${agent}...`));
         
-        await worktreeManager.cleanupWorktree(agent, options.keepBranch);
+        await worktreeManager.cleanupWorktree(agent);
         
         console.log(chalk.green(`✅ Worktree cleaned up successfully!`));
         if (options.keepBranch) {
@@ -474,7 +474,7 @@ function flowCommand(): Command {
         deadline: new Date(Date.now() + 48 * 60 * 60 * 1000) // 48 hours from now
       };
 
-      const recommendation = branchingStrategy.adaptFlow(options.flow, metrics, constraints);
+      const recommendation = branchingStrategy.adaptFlow({ flow: options.flow, metrics, constraints });
       
       console.log(chalk.blue('🧠 Flow Adaptation Analysis'));
       console.log(chalk.gray('Current flow:'), chalk.white(options.flow));
@@ -539,7 +539,7 @@ function statusCommand(): Command {
         }
 
         const branchAwareness = worktreeManager.getBranchAwareness(agent);
-        const versionAwareness = worktreeManager.getProjectVersionAwareness(agent);
+        const versionAwareness = worktreeManager.getProjectVersionAwareness();
 
         console.log(chalk.blue(`📊 Agent Worktree Status: ${agent}`));
         console.log('');
