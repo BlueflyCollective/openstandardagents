@@ -266,7 +266,7 @@ function createWorktreeCommand(): Command {
           timeline: options.priority === 'critical' ? 'immediate' : 'standard'
         } as const;
 
-        const optimalFlow = branchingStrategy.determineOptimalFlow(flowContext);
+        const optimalFlow = branchingStrategy.determineOptimalFlow(agentName);
         const flowConfig = branchingStrategy.getFlowConfig(optimalFlow);
         
         console.log(chalk.cyan(`🔀 Using ${optimalFlow} flow with ${flowConfig?.coordinationLevel} coordination`));
@@ -347,12 +347,12 @@ function listWorktreesCommand(): Command {
           .forEach(phase => {
             console.log(chalk.cyan(`Phase ${phase}:`));
             byPhase[parseInt(phase)].forEach((worktree: any) => {
-              const priorityColor = {
+              const priorityColor = ({
                 critical: chalk.red,
                 high: chalk.yellow,
                 medium: chalk.blue,
                 low: chalk.gray
-              }[worktree.priority] || chalk.white;
+              } as any)[worktree.priority] || chalk.white;
 
               console.log(`  ${priorityColor('●')} ${chalk.white(worktree.agent)}`);
               console.log(`    Branch: ${chalk.gray(worktree.branch)}`);

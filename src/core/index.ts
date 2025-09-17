@@ -20,7 +20,7 @@ export const SPECIFICATION_FILES = {
 export * from '../types/index.js';
 
 // Export specification validator
-export { SpecificationValidator } from './specification/validator.js';
+export { SpecificationValidator } from '../specification/validator.js';
 
 // Package metadata
 export const OSSA_VERSION = '0.1.9';
