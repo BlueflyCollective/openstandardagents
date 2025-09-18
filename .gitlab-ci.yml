@@ -1,4 +1,4 @@
-# GitLab CI/CD Pipeline for OSSA Platform v0.1.9-alpha.1
+# GitLab CI/CD Pipeline for OSSA Platform v0.1.0-alpha.1
 # TDD RED Phase Configuration - All tests expected to FAIL
 
 stages:
@@ -219,7 +219,7 @@ deploy:test:
     - echo "✅ OSSA specification ready for deployment"
   when: manual
   only:
-    - feature/v0.1.9-specification-separation
+    - feature/v0.1.0-specification-separation
     - development
   environment:
     name: specification-standard
@@ -230,7 +230,7 @@ notify:status:
   stage: .post
   image: alpine:latest
   script:
-    - "echo '📊 CI/CD Pipeline Status for OSSA v0.1.9 Specification'"
+    - "echo '📊 CI/CD Pipeline Status for OSSA v0.1.0 Specification'"
     - "echo 'Phase: Specification Standard (pure specification)'"
     - "echo 'Implementation migrated to agent-buildkit'"
     - "echo 'OSSA Specification Results:'"

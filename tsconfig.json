@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "lib": ["ES2022"],
     "outDir": "./dist",
     "rootDir": "./src",
@@ -36,6 +36,10 @@
     "tests",
     "**/*.test.ts",
     "**/*.spec.ts",
-    "src/mcp"
+    "src/mcp",
+    "src/server/app.ts",
+    "src/server/routes",
+    "src/server/middleware",
+    "src/server/services"
   ]
 }
