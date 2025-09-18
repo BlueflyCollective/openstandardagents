@@ -5,17 +5,25 @@
   "type": "module",
   "main": "dist/types/index.js",
   "types": "dist/types/index.d.ts",
+  "bin": {
+    "ossa": "dist/cli/ossa-cli.js",
+    "ossa-deploy": "dist/cli/agent-deployment.js"
+  },
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "build": "tsc",
+    "build": "tsc && chmod +x dist/cli/*.js",
+    "build:cli": "tsc && chmod +x dist/cli/*.js && npm link",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
     "api:generate": "openapi-typescript src/api/specification.openapi.yml -o src/types/api.ts",
     "api:validate": "swagger-cli validate src/api/specification.openapi.yml",
     "validate:specs": "npm run api:validate && npm run validate:schemas",
     "validate:schemas": "node scripts/validate-schemas.cjs",
+    "cli:link": "npm link",
+    "cli:unlink": "npm unlink -g @ossa/specification",
+    "deploy:agents": "ossa-deploy deploy --all",
     "precommit": "npm run lint && npm run test",
     "clean": "rm -rf dist coverage"
   },
