@@ -1,0 +1,56 @@
+# Redocly Configuration - LLM Organization OpenAPI Standards
+# This configuration enforces consistent OpenAPI compliance across all projects
+
+extends:
+  - recommended
+
+apis:
+  # OSSA Project APIs
+  ossa-complete:
+    root: ./src/api/ossa-complete.openapi.yml
+  ossa-specification:
+    root: ./src/api/specification.openapi.yml
+  ossa-orchestration:
+    root: ./src/api/orchestration.openapi.yml
+
+# Organization-wide linting rules
+rules:
+  # Mandatory structure rules
+  operation-operationId: error
+  operation-operationId-unique: error
+  tag-description: error
+  info-contact: error
+  info-license: error
+  operation-description: error
+  operation-2xx-response: error
+  operation-4xx-response: warn
+  paths-kebab-case: warn
+  
+  # Security rules
+  security-defined: error
+  no-server-example.com: warn
+  no-server-trailing-slash: error
+  
+  # Schema quality rules
+  no-unresolved-refs: error
+  no-unused-components: warn
+  no-undefined-server-variable: error
+  no-invalid-media-type-examples: error
+  no-identical-paths: error
+  no-ambiguous-paths: error
+  
+  # Documentation quality
+  operation-summary: warn
+  parameter-description: warn
+  no-path-trailing-slash: error
+  
+  # Response standards
+  operation-singular-tag: warn
+  operation-tag-defined: warn
+  
+  # Additional validations
+  boolean-parameter-prefixes: off
+
+# Plugins for enhanced functionality
+plugins:
+  - "@redocly/openapi-core"

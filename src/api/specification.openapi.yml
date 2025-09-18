@@ -13,10 +13,15 @@ info:
     url: https://opensource.org/licenses/MIT
 
 servers:
-  - url: http://localhost:3000/api/v1
-    description: Local development server
-  - url: https://api.llm.bluefly.io/api/v1
-    description: Production server (when deployed)
+  - url: https://api-dev.llm.bluefly.io/ossa/v1
+    description: Development server
+  - url: https://api.llm.bluefly.io/ossa/v1
+    description: Production server
+
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []
+  - OAuth2: [read, write]
 
 paths:
   /specification/validate:
@@ -167,6 +172,28 @@ paths:
                 type: object
 
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for accessing OSSA platform
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authenticated requests
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.llm.bluefly.io/oauth/authorize
+          tokenUrl: https://auth.llm.bluefly.io/oauth/token
+          scopes:
+            read: Read access to agent specifications
+            write: Write access to create and modify specifications
+            admin: Administrative access to platform
   schemas:
     AgentManifest:
       type: object
