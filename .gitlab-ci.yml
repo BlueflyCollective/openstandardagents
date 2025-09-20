@@ -268,7 +268,7 @@ pages:
   image: node:${NODE_VERSION}
   script:
     - echo "🌐 Building OSSA Documentation Site with Redocly"
-    - npm ci
+    - npm install  # Use install instead of ci to handle lock file issues
     - echo "Preparing public directory with Redocly API documentation..."
     - |
       # The public directory already contains our Redocly setup
