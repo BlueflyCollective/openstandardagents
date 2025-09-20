@@ -269,41 +269,99 @@ pages:
   stage: pages
   image: node:${NODE_VERSION}
   script:
-    - echo "🌐 Building OSSA Documentation Site"
-    - echo "Copying static files to public/"
-    - cp -r public/* .
-    - echo "Building additional documentation pages..."
+    - echo "🌐 Building OSSA Documentation Site with Redocly"
+    - npm ci
+    - echo "Preparing public directory with Redocly API documentation..."
     - |
-      # Create consolidated docs from existing markdown files
-      mkdir -p docs/specification
-      mkdir -p docs/getting-started
-      mkdir -p docs/development
-      mkdir -p docs/api
+      # The public directory already contains our Redocly setup
+      # Just need to copy OpenAPI specs to be accessible
+      mkdir -p public/src/api
+      cp src/api/*.yml public/src/api/ 2>/dev/null || true
+      cp src/api/*.yaml public/src/api/ 2>/dev/null || true
       
-      # Copy and consolidate key documentation
-      if [ -f "docs/01-project-overview.md" ]; then
-        cp docs/01-project-overview.md docs/overview/project-overview.md
+      # Create docs structure
+      mkdir -p public/docs/specification
+      mkdir -p public/docs/getting-started
+      mkdir -p public/docs/development
+      
+      # Copy key documentation
+      if [ -f ".agents/README.md" ]; then
+        cp .agents/README.md public/docs/specification/agents.md
+        # Convert markdown to HTML for web viewing
+        npx markdown-to-html .agents/README.md -o public/docs/specification/agents.html 2>/dev/null || true
       fi
       
       if [ -f "README.md" ]; then
-        cp README.md docs/getting-started/readme.md
+        cp README.md public/docs/getting-started/index.md
+        npx markdown-to-html README.md -o public/docs/getting-started/index.html 2>/dev/null || true
       fi
       
-      # Process API documentation
-      if [ -f "src/api/openapi.yaml" ]; then
-        echo "API documentation available at src/api/openapi.yaml" > docs/api/index.md
+      if [ -f "ROADMAP.md" ]; then
+        cp ROADMAP.md public/docs/development/roadmap.md
+        npx markdown-to-html ROADMAP.md -o public/docs/development/roadmap.html 2>/dev/null || true
+      fi
+      
+      
+      # The main API documentation page is api-docs.html with Redocly
+      if [ -f "public/api-docs.html" ]; then
+        echo "✅ Redocly API documentation ready at api-docs.html"
       fi
       
       echo "✅ Documentation site built successfully"
-    - ls -la
+    - ls -la public/
+    - echo "📦 Documentation structure:"
+    - find public -type f -name "*.html" | head -20
   artifacts:
     paths:
       - public
-    expire_in: 1 hour
+    expire_in: 30 days
   only:
     - main
     - development
-    - pages  # Allow manual deployment from pages branch
+    - pages
+
+# Release and tagging job
+release:version:
+  stage: release
+  image: node:${NODE_VERSION}
+  script:
+    - echo "🏷️ Creating release tag for OSSA v${PROJECT_VERSION}"
+    - |
+      # Check if we're on main or development branch
+      if [[ "$CI_COMMIT_BRANCH" == "main" ]]; then
+        TAG_NAME="v${PROJECT_VERSION}"
+        echo "Creating production release: $TAG_NAME"
+      elif [[ "$CI_COMMIT_BRANCH" == "development" ]]; then
+        TAG_NAME="v${PROJECT_VERSION}-dev"
+        echo "Creating development release: $TAG_NAME"
+      else
+        echo "Release only runs on main or development branches"
+        exit 0
+      fi
+    - |
+      # Create git tag
+      git config --global user.email "ci@ossa.dev"
+      git config --global user.name "OSSA CI"
+      git tag -a "$TAG_NAME" -m "OSSA Release $TAG_NAME
+
+      Features:
+      - Agent specification v${OSSA_VERSION}
+      - Complete API documentation
+      - Production-ready Docker infrastructure
+      - GitLab Pages documentation site
+
+      Built from commit: ${CI_COMMIT_SHA}"
+      
+      # Push tag to repository
+      git push origin "$TAG_NAME"
+      
+      echo "✅ Tag $TAG_NAME created and pushed"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
+    - if: $CI_COMMIT_BRANCH == "development"
+      when: on_success
+  allow_failure: false
 
 # Only run on specific branches during TDD phases
 workflow:

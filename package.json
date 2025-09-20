@@ -30,7 +30,9 @@
     "api:validate:complete": "npx @redocly/cli lint src/api/ossa-complete.openapi.yml",
     "api:validate:ecosystem": "cd ../agent_buildkit && npm run ecosystem:validate",
     "api:bundle": "npx @redocly/cli bundle src/api/ossa-complete.openapi.yml --output dist/ossa-complete.json",
-    "api:docs": "npx @redocly/cli build-docs src/api/ossa-complete.openapi.yml --output docs/api/ossa-complete.html",
+    "api:docs": "npx @redocly/cli preview",
+    "api:docs:build": "npx @redocly/cli build-docs src/api/ossa-complete.openapi.yml --output dist/api-docs/index.html",
+    "api:docs:serve": "npx @redocly/cli preview",
     "validate:specs": "npm run api:validate && npm run api:validate:complete && npm run validate:schemas",
     "validate:schemas": "node scripts/validate-schemas.cjs",
     "cli:link": "npm link",
@@ -71,6 +73,7 @@
     "zod": "^4.1.5"
   },
   "devDependencies": {
+    "@redocly/cli": "^2.1.5",
     "@types/chalk": "^0.4.31",
     "@types/commander": "^2.12.0",
     "@types/compression": "^1.7.5",
