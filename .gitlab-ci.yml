@@ -327,15 +327,20 @@ release:version:
   script:
     - echo "🏷️ Creating release tag for OSSA v${PROJECT_VERSION}"
     - |
-      # Check if we're on main or development branch
+      # Check branch and create appropriate tag
       if [[ "$CI_COMMIT_BRANCH" == "main" ]]; then
         TAG_NAME="v${PROJECT_VERSION}"
         echo "Creating production release: $TAG_NAME"
       elif [[ "$CI_COMMIT_BRANCH" == "development" ]]; then
         TAG_NAME="v${PROJECT_VERSION}-dev"
         echo "Creating development release: $TAG_NAME"
+      elif [[ "$CI_COMMIT_BRANCH" =~ ^feature/ ]]; then
+        # Extract feature name from branch
+        FEATURE_NAME=$(echo "$CI_COMMIT_BRANCH" | sed 's/^feature\///')
+        TAG_NAME="v${PROJECT_VERSION}-${FEATURE_NAME}"
+        echo "Creating feature release: $TAG_NAME"
       else
-        echo "Release only runs on main or development branches"
+        echo "Release only runs on main, development, or feature branches"
         exit 0
       fi
     - |
@@ -360,6 +365,8 @@ release:version:
     - if: $CI_COMMIT_BRANCH == "main"
       when: manual
     - if: $CI_COMMIT_BRANCH == "development"
+      when: on_success
+    - if: $CI_COMMIT_BRANCH =~ /^feature\//
       when: on_success
   allow_failure: false
 
