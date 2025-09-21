@@ -32,7 +32,7 @@ test:red-phase:
   image: node:${NODE_VERSION}
   script:
     - echo "🔴 TDD RED Phase - Expecting ALL tests to fail"
-    - npm ci
+    - npm install
     - npm run build || true  # Allow build to fail
     - npm run api:validate || echo "✅ API validation expected to pass"
     - "echo 'Running ACDL tests (expecting failures)...'"
@@ -60,6 +60,7 @@ test:red-phase:
     - feature/*
     - fix/*
     - development
+    - pages
 
 # OSSA-specific validation job
 validate:ossa-spec:
@@ -68,7 +69,7 @@ validate:ossa-spec:
   image: node:20
   script:
     - echo "🔍 Validating OSSA specification v${PROJECT_VERSION}"
-    - npm ci
+    - npm install
     - npm run api:validate
     - npx swagger-cli validate src/api/ossa-complete.openapi.yml || echo "Swagger validation completed"
     - echo "✅ API specifications valid"
@@ -81,6 +82,7 @@ validate:ossa-spec:
     - feature/*
     - fix/*
     - development
+    - pages
 
 # Mock Server Testing
 test:mock-server:
@@ -94,7 +96,7 @@ test:mock-server:
     MOCK_PORT: "3001"
   script:
     - echo "🖥️ Testing ACDL Mock Server"
-    - npm ci
+    - npm install
     - npm run build || echo "Build may fail in RED phase"
     - "npm run mock:server:bg"
     - "sleep 5"
@@ -123,7 +125,7 @@ security:ossa-spec:
   image: node:20
   script:
     - echo "🔒 Running security scans"
-    - npm ci
+    - npm install
     - npm audit --audit-level=moderate || echo "Security issues found - will be addressed in implementation phase"
     - "if grep -r 'password\\|secret\\|key\\|token' test/ --include='*.ts' --include='*.js' | grep -v 'mock\\|test\\|example'; then echo '⚠️ Potential secrets in test files'; else echo '✅ No secrets found in test files'; fi"
   allow_failure: true
@@ -139,7 +141,7 @@ lint:check:
   image: node:${NODE_VERSION}
   script:
     - echo "🧹 Running linting and formatting checks"
-    - npm ci
+    - npm install
     - npm run lint || echo "Linting issues found"
     - npx prettier --check 'src/**/*.ts' 'test/**/*.ts' || echo "Formatting issues found"
   artifacts:
@@ -157,7 +159,7 @@ build:verify:
   image: node:${NODE_VERSION}
   script:
     - echo "🔨 Attempting build (may fail in TDD RED phase)"
-    - npm ci
+    - npm install
     - npm run clean
     - npm run build || {
         echo "⚠️ Build failed - expected in RED phase without implementation"
@@ -183,7 +185,7 @@ test:agent-integration:
     OSSA_API_URL: "http://localhost:3001"
   script:
     - echo "🤖 Testing agent integration patterns"
-    - npm ci
+    - npm install
     - npm run build || true
     - "npm run mock:server:bg"
     - "sleep 3"
@@ -206,7 +208,7 @@ test:contracts:
   image: node:${NODE_VERSION}
   script:
     - echo "📋 Contract testing against OpenAPI spec"
-    - npm ci
+    - npm install
     - "npm install -g dredd || echo 'Dredd installation may fail'"
     - "npm run mock:server:bg"
     - "sleep 3"
@@ -224,7 +226,7 @@ deploy:test:
   script:
     - echo "🚀 Deploying OSSA specification standard"
     - echo "Building specification package"
-    - npm ci
+    - npm install
     - npm run build
     - echo "✅ OSSA specification ready for deployment"
   when: manual
@@ -325,40 +327,54 @@ release:version:
   script:
     - echo "🏷️ Creating release tag for OSSA v${PROJECT_VERSION}"
     - |
-      # Check if we're on main or development branch
+      # Check if we're on main, development, or pages branch
       if [[ "$CI_COMMIT_BRANCH" == "main" ]]; then
         TAG_NAME="v${PROJECT_VERSION}"
         echo "Creating production release: $TAG_NAME"
       elif [[ "$CI_COMMIT_BRANCH" == "development" ]]; then
         TAG_NAME="v${PROJECT_VERSION}-dev"
         echo "Creating development release: $TAG_NAME"
+      elif [[ "$CI_COMMIT_BRANCH" == "pages" ]]; then
+        TAG_NAME="v${PROJECT_VERSION}-pages"
+        echo "Creating pages release: $TAG_NAME"
       else
-        echo "Release only runs on main or development branches"
+        echo "Release only runs on main, development, or pages branches"
         exit 0
       fi
     - |
-      # Create git tag
-      git config --global user.email "ci@ossa.dev"
-      git config --global user.name "OSSA CI"
-      git tag -a "$TAG_NAME" -m "OSSA Release $TAG_NAME
-
+      # Create GitLab release using API instead of git push
+      echo "Creating GitLab release via API..."
+      
+      RELEASE_DESCRIPTION="OSSA Release $TAG_NAME
+      
       Features:
       - Agent specification v${OSSA_VERSION}
       - Complete API documentation
       - Production-ready Docker infrastructure
       - GitLab Pages documentation site
-
+      
       Built from commit: ${CI_COMMIT_SHA}"
       
-      # Push tag to repository
-      git push origin "$TAG_NAME"
+      # Create release using GitLab Release API (uses CI_JOB_TOKEN automatically)
+      curl --request POST \
+        --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --header "Content-Type: application/json" \
+        --data "{
+          \"name\": \"$TAG_NAME\",
+          \"tag_name\": \"$TAG_NAME\",
+          \"description\": \"$RELEASE_DESCRIPTION\",
+          \"ref\": \"${CI_COMMIT_SHA}\"
+        }" \
+        "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/releases"
       
-      echo "✅ Tag $TAG_NAME created and pushed"
+      echo "✅ Release $TAG_NAME created via GitLab API"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
       when: manual
     - if: $CI_COMMIT_BRANCH == "development"
       when: on_success
+    - if: $CI_COMMIT_BRANCH == "pages"
+      when: manual
   allow_failure: false
 
 # Only run on specific branches during TDD phases
