@@ -357,7 +357,15 @@ release:version:
 
       # Create and push each tag
       for TAG_NAME in "${TAGS_TO_CREATE[@]}"; do
-        echo "📌 Creating tag: $TAG_NAME"
+        echo "📌 Checking tag: $TAG_NAME"
+
+        # Check if tag already exists
+        if git tag -l | grep -q "^${TAG_NAME}$"; then
+          echo "⚠️ Tag $TAG_NAME already exists, skipping creation"
+          continue
+        fi
+
+        echo "✨ Creating new tag: $TAG_NAME"
 
         # Create tag with descriptive message
         git tag -a "$TAG_NAME" -m "OSSA Release $TAG_NAME
