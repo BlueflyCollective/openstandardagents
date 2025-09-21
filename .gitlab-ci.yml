@@ -359,7 +359,8 @@ release:version:
       for TAG_NAME in "${TAGS_TO_CREATE[@]}"; do
         echo "📌 Checking tag: $TAG_NAME"
 
-        # Check if tag already exists
+        # Fetch existing tags and check if tag already exists
+        git fetch --tags origin || true
         if git tag -l | grep -q "^${TAG_NAME}$"; then
           echo "⚠️ Tag $TAG_NAME already exists, skipping creation"
           continue
