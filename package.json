@@ -30,7 +30,9 @@
     "api:validate:complete": "npx @redocly/cli lint src/api/ossa-complete.openapi.yml",
     "api:validate:ecosystem": "cd ../agent_buildkit && npm run ecosystem:validate",
     "api:bundle": "npx @redocly/cli bundle src/api/ossa-complete.openapi.yml --output dist/ossa-complete.json",
-    "api:docs": "npx @redocly/cli build-docs src/api/ossa-complete.openapi.yml --output docs/api/ossa-complete.html",
+    "api:docs": "npx @redocly/cli preview src/api/ossa-complete.openapi.yml",
+    "api:docs:build": "npx @redocly/cli build-docs src/api/ossa-complete.openapi.yml --output dist/api-docs/index.html",
+    "api:docs:serve": "npx @redocly/cli preview src/api/ossa-complete.openapi.yml",
     "validate:specs": "npm run api:validate && npm run api:validate:complete && npm run validate:schemas",
     "validate:schemas": "node scripts/validate-schemas.cjs",
     "cli:link": "npm link",
@@ -39,7 +41,13 @@
     "server:health": "curl -f http://localhost:3000/health || exit 1",
     "server:docs": "open http://localhost:3000/docs",
     "precommit": "npm run lint && npm run test",
-    "clean": "rm -rf dist coverage"
+    "clean": "node -e \"const fs=require('fs'); ['dist','coverage'].forEach(d => fs.rmSync(d, {recursive:true, force:true}))\"",
+    "test:acdl": "node dist/cli/ossa-cli.js test --protocol acdl",
+    "mock:server:bg": "node dist/server/simple-app.js &",
+    "agents:spawn:tdd": "node dist/cli/ossa-cli.js spawn --type tdd",
+    "agents:spawn:validation": "node dist/cli/ossa-cli.js spawn --type validation",
+    "agents:workload": "node dist/cli/ossa-cli.js workload",
+    "test:with-mock": "MOCK_MODE=true npm test"
   },
   "keywords": [
     "ossa",
@@ -71,6 +79,7 @@
     "zod": "^4.1.5"
   },
   "devDependencies": {
+    "@redocly/cli": "^2.1.5",
     "@types/chalk": "^0.4.31",
     "@types/commander": "^2.12.0",
     "@types/compression": "^1.7.5",
