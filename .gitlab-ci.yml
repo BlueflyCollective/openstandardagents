@@ -1,31 +1,49 @@
-# GitLab CI/CD Pipeline for OSSA Platform v0.1.0-alpha.1
-# TDD RED Phase Configuration - All tests expected to FAIL
+# GitLab CI/CD Pipeline for OSSA Platform v1.0
+# Comprehensive CI/CD for agent validation, conformance testing, and deployment
 
-# Temporary: Use local template for testing
+# Include golden workflow component for standardization
 include:
-  - local: .gitlab/components/workflow/golden/template.yml
+  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@v0.1.0
+    inputs:
+      project_name: "OSSA"
+      enable_auto_flow: true
+      enable_comprehensive_testing: true
+      enable_security_scanning: true
+      test_coverage_threshold: 85
+      enable_roadmap_sync: true
+      enable_linear_integration: true
 
-# Override stages from golden template to include OSSA-specific stages
+# OSSA-specific stages extending golden workflow
 stages:
-  - detect
+  - prepare
   - validate
+  - conformance
   - build
   - test
-  - test-red
-  - test-agents
-  - roadmap
-  - changelog
   - security
+  - benchmark
   - deploy
-  - pages
+  - monitor
   - release
+  - roadmap-sync
 
-# Override variables for OSSA-specific needs
+# Global variables
 variables:
   NODE_VERSION: "20"
-  OSSA_VERSION: "0.1.9-alpha.1"
-  PROJECT_VERSION: "0.1.9"
-  MOCK_MODE: "true"
+  OSSA_VERSION: "1.0"
+  PROJECT_VERSION: "1.0.0"
+  DOCKER_REGISTRY: "registry.gitlab.com/${CI_PROJECT_PATH}"
+  # Database configuration
+  POSTGRES_VERSION: "14"
+  POSTGRES_DB: "ossa_test"
+  POSTGRES_USER: "ossa"
+  POSTGRES_PASSWORD: "ossa_test_password"
+  DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
+  # Conformance thresholds
+  BRONZE_COVERAGE: "50"
+  SILVER_COVERAGE: "70"
+  GOLD_COVERAGE: "85"
+  PLATINUM_COVERAGE: "95"
   
 # TDD Phase 1: All tests MUST fail (RED)
 test:red-phase:
