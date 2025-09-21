@@ -95,6 +95,41 @@
 
 **Priority**: **CRITICAL** - Essential for public adoption and developer experience
 
+### **1.0 Claude Code Integration Features** - NEW
+#### **Transcript & User Experience**
+- [ ] **Model Attribution System** - Track and display AI model versions in interactions
+  - [ ] Model metadata in OSSA agent responses
+  - [ ] Performance metrics per model version
+  - [ ] Model evolution tracking across sessions
+- [ ] **User Tier Management** - Proper Claude Max/Pro/Free tier recognition
+  - [ ] Feature availability based on subscription level
+  - [ ] Resource allocation per tier
+  - [ ] Usage analytics by tier
+
+#### **Hooks & Configuration**
+- [ ] **Enhanced Hook System** - SessionEnd and lifecycle management
+  - [ ] SystemMessage support for SessionEnd hooks
+  - [ ] Hook chaining with OSSA context preservation
+  - [ ] Pre/post agent execution hooks
+  - [ ] Custom hook templates for OSSA workflows
+- [ ] **Configuration Management**
+  - [ ] SpinnerTipsEnabled and UI preferences
+  - [ ] Agent-specific configuration profiles
+  - [ ] Environment-based settings inheritance
+  - [ ] Hot-reload configuration updates
+
+#### **IDE Integration**
+- [ ] **Cursor IDE Support** - Native integration via `/ide cursor`
+  - [ ] OSSA project workspace synchronization
+  - [ ] Agent debugging in Cursor IDE
+  - [ ] Code navigation for agent specifications
+  - [ ] Live agent testing from IDE
+- [ ] **General IDE Enhancements**
+  - [ ] Large OSSA project optimization
+  - [ ] Multi-window agent monitoring
+  - [ ] Integrated OSSA validation
+  - [ ] Real-time specification linting
+
 ### **1.1 Extended Agent Lifecycle Management**
 
 #### **Advanced CLI Commands - NEW**
