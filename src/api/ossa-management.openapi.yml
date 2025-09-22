@@ -371,6 +371,116 @@ paths:
               schema:
                 $ref: '#/components/schemas/ComplianceReport'
 
+  /agents/backup:
+    post:
+      tags: [Agents]
+      summary: Create backup of all agent directories
+      operationId: backupAgents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                repositories:
+                  type: array
+                  items:
+                    type: string
+                  description: Repository paths to backup
+                backupLocation:
+                  type: string
+                  description: Custom backup directory
+                includeMetadata:
+                  type: boolean
+                  default: true
+      responses:
+        202:
+          description: Backup job started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupJob'
+
+  /agents/backup/{jobId}:
+    get:
+      tags: [Agents]
+      summary: Get backup job status
+      operationId: getBackupJob
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Backup job status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupJobStatus'
+
+  /agents/capabilities/matrix:
+    get:
+      tags: [Agents]
+      summary: Generate agent capability matrix
+      operationId: getCapabilityMatrix
+      parameters:
+        - name: format
+          in: query
+          schema:
+            type: string
+            enum: [json, markdown, html]
+            default: json
+        - name: includeStats
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        200:
+          description: Agent capability matrix
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CapabilityMatrix'
+            text/markdown:
+              schema:
+                type: string
+            text/html:
+              schema:
+                type: string
+
+  /schemas/validate:
+    post:
+      tags: [Validation]
+      summary: Validate JSON schemas
+      operationId: validateSchemas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                schemaFiles:
+                  type: array
+                  items:
+                    type: string
+                  description: Paths to schema files to validate
+                validateReferences:
+                  type: boolean
+                  default: true
+      responses:
+        200:
+          description: Schema validation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaValidationResult'
+
 components:
   parameters:
     RepoIdParam:
@@ -819,6 +929,126 @@ components:
               type: integer
             averageScore:
               type: number
+
+    BackupJob:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, running, completed, failed]
+        startedAt:
+          type: string
+          format: date-time
+        progress:
+          type: integer
+          minimum: 0
+          maximum: 100
+
+    BackupJobStatus:
+      allOf:
+        - $ref: '#/components/schemas/BackupJob'
+        - type: object
+          properties:
+            completedAt:
+              type: string
+              format: date-time
+            backupLocation:
+              type: string
+            results:
+              type: array
+              items:
+                type: object
+                properties:
+                  repository:
+                    type: string
+                  status:
+                    type: string
+                  agentsBackedUp:
+                    type: integer
+                  backupSize:
+                    type: string
+                  errors:
+                    type: array
+                    items:
+                      type: string
+
+    CapabilityMatrix:
+      type: object
+      properties:
+        generated:
+          type: string
+          format: date-time
+        statistics:
+          type: object
+          properties:
+            totalAgents:
+              type: integer
+            categories:
+              type: integer
+            capabilities:
+              type: integer
+            domains:
+              type: integer
+        categories:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              agents:
+                type: array
+                items:
+                  type: string
+              capabilities:
+                type: array
+                items:
+                  type: string
+              domains:
+                type: array
+                items:
+                  type: string
+        agents:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              category:
+                type: string
+              capabilities:
+                type: array
+                items:
+                  type: string
+              domains:
+                type: array
+                items:
+                  type: string
+
+    SchemaValidationResult:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              file:
+                type: string
+              valid:
+                type: boolean
+              errors:
+                type: array
+                items:
+                  type: string
+              warnings:
+                type: array
+                items:
+                  type: string
 
     Pagination:
       type: object
