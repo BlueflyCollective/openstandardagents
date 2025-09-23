@@ -142,8 +142,8 @@ security:ossa-spec:
     - if: $CI_COMMIT_BRANCH =~ /^fix\//
     - if: $CI_COMMIT_BRANCH =~ /^bug\//
     - if: $CI_COMMIT_BRANCH =~ /^hotfix\//
+    - if: $CI_COMMIT_BRANCH == "main"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - main
 
 # Lint and Format Check
 lint:check:
