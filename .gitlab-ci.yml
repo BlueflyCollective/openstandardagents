@@ -175,9 +175,9 @@ build:verify:
     - npm install
     - npm run clean
     - npm run build || {
-        echo "⚠️ Build failed - expected in RED phase without implementation"
-        echo "Build will succeed once implementation is complete"
-        exit 0
+        echo "⚠️ Build failed - expected in RED phase without implementation";
+        echo "Build will succeed once implementation is complete";
+        exit 0;
       }
     - echo "✅ Build successful"
   artifacts:
