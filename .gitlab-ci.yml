@@ -98,7 +98,7 @@ test:mock-server:
     - echo "🖥️ Testing ACDL Mock Server"
     - npm install
     - npm run build || echo "Build may fail in RED phase"
-    - "npm run mock:server:bg"
+    - "PORT=3001 npm run mock:server:bg"
     - "sleep 5"
     - "curl -f http://localhost:3001/health || (echo '❌ Mock server health check failed' && exit 1)"
     - "echo '✅ Mock server running'"
@@ -187,7 +187,7 @@ test:agent-integration:
     - echo "🤖 Testing agent integration patterns"
     - npm install
     - npm run build || true
-    - "npm run mock:server:bg"
+    - "PORT=3001 npm run mock:server:bg"
     - "sleep 3"
     - "echo 'Testing orchestrator agents...'"
     - "curl -X POST http://localhost:3001/api/v1/acdl/discover -H 'Content-Type: application/json' -d '{\"agentType\": \"orchestrator\"}' || echo 'Expected to work with mock'"
