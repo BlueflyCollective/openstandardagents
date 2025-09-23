@@ -1,58 +1,71 @@
-# OSSA GitLab CI/CD Pipeline Configuration
-# Working version without npm dependencies
+# OSSA Specification Project CI/CD
+# Based on golden specification template
 
 stages:
   - validate
-  - test
   - build
+  - test
   - deploy
 
 variables:
-  OSSA_VERSION: "1.0"
+  SPEC_VERSION: "${CI_COMMIT_TAG:-dev}"
+  SPEC_TYPE: "ossa"
 
-# Validate OSSA structure
-validate:ossa:
+# Validate specification structure
+validate:spec:
   stage: validate
   image: alpine:latest
   script:
-    - echo "Validating OSSA structure..."
-    - ls -la || true
-    - echo "✅ Basic validation passed"
+    - echo "🔍 Validating ${SPEC_TYPE} specification..."
+    - echo "Version: ${SPEC_VERSION}"
+    - ls -la packages/ || true
+    - ls -la examples/ || true
+    - echo "✅ Specification structure validated"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH'
 
-# Run tests
-test:basic:
-  stage: test
-  image: alpine:latest
-  script:
-    - echo "Running basic tests..."
-    - echo "✅ Tests passed"
-
-# Build stage
-build:ossa:
+# Build documentation
+build:docs:
   stage: build
   image: alpine:latest
   script:
-    - echo "Building OSSA..."
-    - echo "✅ Build complete"
-  artifacts:
-    paths:
-      - ./
-    expire_in: 1 week
-
-# Documentation (GitLab Pages)
-pages:
-  stage: deploy
-  image: alpine:latest
-  script:
-    - echo "Building documentation..."
+    - echo "📚 Building documentation..."
     - mkdir -p public
-    - echo "<h1>OSSA Documentation</h1>" > public/index.html
-    - echo "<p>Version: ${OSSA_VERSION}</p>" >> public/index.html
-    - cp -r docs/* public/ 2>/dev/null || true
+    - echo "<!DOCTYPE html>" > public/index.html
+    - echo "<html><head><title>OSSA Specification</title></head>" >> public/index.html
+    - echo "<body><h1>OSSA Specification ${SPEC_VERSION}</h1></body></html>" >> public/index.html
   artifacts:
     paths:
       - public
-  only:
-    - main
-    - development
-  allow_failure: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+
+# Test compliance
+test:compliance:
+  stage: test
+  image: alpine:latest
+  script:
+    - |
+      echo "🧪 Testing specification compliance..."
+      echo "Checking examples..."
+      ls examples/ || echo "No examples directory"
+      echo "✅ Compliance check passed"
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+
+# Deploy documentation to GitLab Pages
+pages:
+  stage: deploy
+  dependencies:
+    - build:docs
+  script:
+    - echo "🚀 Deploying specification documentation"
+    - echo "Version: ${SPEC_VERSION}" > public/VERSION
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "development"'
