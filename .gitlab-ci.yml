@@ -2,16 +2,18 @@
 # Production-ready CI/CD for OSSA Platform v1.0
 
 # ==================== GOLDEN WORKFLOW INTEGRATION ====================
-include:
-  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@v0.1.0
-    inputs:
-      project_name: "OSSA"
-      enable_auto_flow: true
-      enable_comprehensive_testing: true
-      enable_security_scanning: true
-      test_coverage_threshold: 85
-      enable_roadmap_sync: true
-      enable_linear_integration: true
+# NOTE: Golden workflow component currently inaccessible, using direct configuration
+# TODO: Re-enable when component is available
+# include:
+#   - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@v0.1.0
+#     inputs:
+#       project_name: "OSSA"
+#       enable_auto_flow: true
+#       enable_comprehensive_testing: true
+#       enable_security_scanning: true
+#       test_coverage_threshold: 85
+#       enable_roadmap_sync: true
+#       enable_linear_integration: true
 
 # ==================== WORKFLOW RULES ====================
 workflow:
@@ -20,7 +22,7 @@ workflow:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "development"'
     - if: '$CI_COMMIT_TAG'
-    - when: manual
+    - when: always
 
 # ==================== VARIABLES ====================
 variables:
@@ -370,7 +372,7 @@ benchmark:validation:
   script:
     - echo "⚡ Benchmarking OSSA validation..."
     - node benchmarks/validation.js || true
-    - echo "Target: <50ms per validation"
+    - 'echo "Target: <50ms per validation"'
   artifacts:
     paths:
       - benchmark-results/
@@ -384,7 +386,7 @@ benchmark:discovery:
   script:
     - echo "⚡ Benchmarking agent discovery..."
     - node benchmarks/discovery.js || true
-    - echo "Target: 100 agents in <2s"
+    - 'echo "Target: 100 agents in <2s"'
   artifacts:
     paths:
       - benchmark-results/
