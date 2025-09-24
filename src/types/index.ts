@@ -322,3 +322,14 @@ export interface EncryptionConfig {
 export * from './agents/index.js';
 export * from './workflows/index.js';
 export * from './policies/index.js';
+
+// Service Registry Types (re-export from ServiceRegistry module)
+export type {
+  ServiceDefinition,
+  ServiceCapability,
+  ServiceHealth,
+  ServiceHealthStatus,
+  ServiceDiscoveryFilter,
+  ServiceRegistryConfig,
+  RedisClient
+} from '../services/ServiceRegistry.js';
