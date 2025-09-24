@@ -1,5 +1,5 @@
-# GitLab CI/CD Pipeline for OSSA Platform v0.1.0-alpha.1
-# TDD RED Phase Configuration - All tests expected to FAIL
+# GitLab CI/CD Pipeline for OSSA Specification v0.1.9
+# Pure Specification Standard - No Implementation
 
 # Golden template - GitLab component format
 # This is a GitLab component template and needs to be registered as a component
@@ -55,12 +55,13 @@ test:red-phase:
       - test-output.log
     expire_in: 1 week
   allow_failure: true  # Expected to fail in RED phase
-  only:
-    - __REBUILD
-    - feature/*
-    - fix/*
-    - development
-    - pages
+  rules:
+    - if: $CI_COMMIT_BRANCH == "__REBUILD"
+    - if: $CI_COMMIT_BRANCH =~ /^feature\//
+    - if: $CI_COMMIT_BRANCH =~ /^fix\//
+    - if: $CI_COMMIT_BRANCH == "development"
+    - if: $CI_COMMIT_BRANCH == "pages"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 # OSSA-specific validation job
 validate:ossa-spec:
@@ -77,12 +78,15 @@ validate:ossa-spec:
     paths:
       - src/types/api.ts
     expire_in: 1 day
-  only:
-    - __REBUILD
-    - feature/*
-    - fix/*
-    - development
-    - pages
+  rules:
+    - if: $CI_COMMIT_BRANCH == "__REBUILD"
+    - if: $CI_COMMIT_BRANCH =~ /^feature\//
+    - if: $CI_COMMIT_BRANCH =~ /^fix\//
+    - if: $CI_COMMIT_BRANCH =~ /^bug\//
+    - if: $CI_COMMIT_BRANCH =~ /^hotfix\//
+    - if: $CI_COMMIT_BRANCH == "development"
+    - if: $CI_COMMIT_BRANCH == "pages"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 # Mock Server Testing
 test:mock-server:
@@ -115,10 +119,13 @@ test:mock-server:
       - test-output.log
     expire_in: 1 week
   allow_failure: true
-  only:
-    - __REBUILD
-    - feature/*
-    - fix/*
+  rules:
+    - if: $CI_COMMIT_BRANCH == "__REBUILD"
+    - if: $CI_COMMIT_BRANCH =~ /^feature\//
+    - if: $CI_COMMIT_BRANCH =~ /^fix\//
+    - if: $CI_COMMIT_BRANCH =~ /^bug\//
+    - if: $CI_COMMIT_BRANCH =~ /^hotfix\//
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 # OSSA specification security check
 security:ossa-spec:
@@ -130,11 +137,14 @@ security:ossa-spec:
     - npm audit --audit-level=moderate || echo "Security issues found - will be addressed in implementation phase"
     - "if grep -r 'password\\|secret\\|key\\|token' test/ --include='*.ts' --include='*.js' | grep -v 'mock\\|test\\|example'; then echo '⚠️ Potential secrets in test files'; else echo '✅ No secrets found in test files'; fi"
   allow_failure: true
-  only:
-    - __REBUILD
-    - feature/*
-    - fix/*
-    - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "__REBUILD"
+    - if: $CI_COMMIT_BRANCH =~ /^feature\//
+    - if: $CI_COMMIT_BRANCH =~ /^fix\//
+    - if: $CI_COMMIT_BRANCH =~ /^bug\//
+    - if: $CI_COMMIT_BRANCH =~ /^hotfix\//
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 # Lint and Format Check
 lint:check:
@@ -149,10 +159,13 @@ lint:check:
     reports:
       junit: lint-results.xml
   allow_failure: true
-  only:
-    - __REBUILD
-    - feature/*
-    - fix/*
+  rules:
+    - if: $CI_COMMIT_BRANCH == "__REBUILD"
+    - if: $CI_COMMIT_BRANCH =~ /^feature\//
+    - if: $CI_COMMIT_BRANCH =~ /^fix\//
+    - if: $CI_COMMIT_BRANCH =~ /^bug\//
+    - if: $CI_COMMIT_BRANCH =~ /^hotfix\//
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 # Build Verification (may fail in RED phase)
 build:verify:
@@ -163,9 +176,9 @@ build:verify:
     - npm install
     - npm run clean
     - npm run build || {
-        echo "⚠️ Build failed - expected in RED phase without implementation"
-        echo "Build will succeed once implementation is complete"
-        exit 0
+        echo "⚠️ Build failed - expected in RED phase without implementation";
+        echo "Build will succeed once implementation is complete";
+        exit 0;
       }
     - echo "✅ Build successful"
   artifacts:
@@ -173,10 +186,13 @@ build:verify:
       - dist/
     expire_in: 1 hour
   allow_failure: true
-  only:
-    - __REBUILD
-    - feature/*
-    - fix/*
+  rules:
+    - if: $CI_COMMIT_BRANCH == "__REBUILD"
+    - if: $CI_COMMIT_BRANCH =~ /^feature\//
+    - if: $CI_COMMIT_BRANCH =~ /^fix\//
+    - if: $CI_COMMIT_BRANCH =~ /^bug\//
+    - if: $CI_COMMIT_BRANCH =~ /^hotfix\//
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 # Agent Integration Test
 test:agent-integration:
@@ -199,10 +215,13 @@ test:agent-integration:
     - "curl -X POST http://localhost:3001/api/v1/acdl/discover -H 'Content-Type: application/json' -d '{\"agentType\": \"critic\", \"domains\": [\"security\", \"quality\"]}' || echo 'Expected to work with mock'"
     - "echo '✅ Agent integration patterns tested'"
   allow_failure: true
-  only:
-    - __REBUILD
-    - feature/*
-    - fix/*
+  rules:
+    - if: $CI_COMMIT_BRANCH == "__REBUILD"
+    - if: $CI_COMMIT_BRANCH =~ /^feature\//
+    - if: $CI_COMMIT_BRANCH =~ /^fix\//
+    - if: $CI_COMMIT_BRANCH =~ /^bug\//
+    - if: $CI_COMMIT_BRANCH =~ /^hotfix\//
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 # Contract Testing (Dredd-style)
 test:contracts:
@@ -216,10 +235,13 @@ test:contracts:
     - "sleep 3"
     - "dredd src/api/ossa-complete.openapi.yml http://localhost:3001 || (echo '⚠️ Contract tests failed - expected in RED phase' && echo 'Will pass once implementation matches specification')"
   allow_failure: true
-  only:
-    - __REBUILD
-    - feature/*
-    - fix/*
+  rules:
+    - if: $CI_COMMIT_BRANCH == "__REBUILD"
+    - if: $CI_COMMIT_BRANCH =~ /^feature\//
+    - if: $CI_COMMIT_BRANCH =~ /^fix\//
+    - if: $CI_COMMIT_BRANCH =~ /^bug\//
+    - if: $CI_COMMIT_BRANCH =~ /^hotfix\//
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 # Deploy to test environment (OSSA as specification standard)
 deploy:test:
@@ -232,9 +254,13 @@ deploy:test:
     - npm run build
     - echo "✅ OSSA specification ready for deployment"
   when: manual
-  only:
-    - feature/v0.1.0-specification-separation
-    - development
+  rules:
+    - if: $CI_COMMIT_BRANCH == "feature/v0.1.0-specification-separation"
+      when: manual
+    - if: $CI_COMMIT_BRANCH == "development"
+      when: manual
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
   environment:
     name: specification-standard
     url: https://ossa.dev
@@ -317,10 +343,10 @@ pages:
     paths:
       - public
     expire_in: 30 days
-  only:
-    - main
-    - development
-    - pages
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "development"
+    - if: $CI_COMMIT_BRANCH == "pages"
 
 # Release and tagging job
 release:version:
@@ -379,12 +405,19 @@ release:version:
       when: manual
   allow_failure: false
 
-# Only run on specific branches during TDD phases
+# Workflow configuration with merge train support
 workflow:
   rules:
+    # Merge request pipelines (required for merge trains)
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    # Merge train pipelines
+    - if: $CI_MERGE_REQUEST_EVENT_TYPE == "merge_train"
+    # Regular branch pipelines
     - if: $CI_COMMIT_BRANCH == "__REBUILD"
     - if: $CI_COMMIT_BRANCH =~ /^feature\//
     - if: $CI_COMMIT_BRANCH =~ /^fix\//
+    - if: $CI_COMMIT_BRANCH =~ /^bug\//
+    - if: $CI_COMMIT_BRANCH =~ /^hotfix\//
     - if: $CI_COMMIT_BRANCH == "development"
     - if: $CI_COMMIT_BRANCH == "main"
     - if: $CI_COMMIT_BRANCH == "pages"
