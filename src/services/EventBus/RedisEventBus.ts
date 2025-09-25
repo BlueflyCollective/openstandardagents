@@ -6,7 +6,8 @@
 
 import { EventEmitter } from 'events';
 import { v4 as uuidv4 } from 'uuid';
-import * as Redis from 'ioredis';
+import Redis from 'ioredis';
+import type { Cluster } from 'ioredis';
 import {
   EventBusConfig,
   EventPayload,
@@ -101,9 +102,9 @@ export class RedisEventBus extends EventEmitter {
       });
     } else {
       // Single Redis instance
-      this.redis = new (Redis as any)(redisOptions);
-      this.publisher = new (Redis as any)(redisOptions);
-      this.subscriber = new (Redis as any)(redisOptions);
+      this.redis = new Redis(redisOptions);
+      this.publisher = new Redis(redisOptions);
+      this.subscriber = new Redis(redisOptions);
     }
 
     this.setupRedisEventHandlers();
@@ -114,7 +115,7 @@ export class RedisEventBus extends EventEmitter {
    */
   private setupRedisEventHandlers(): void {
     [this.redis, this.publisher, this.subscriber].forEach(client => {
-      client.on('error', (error) => {
+      client.on('error', (error: Error) => {
         this.emit('error', new Error(`Redis connection error: ${error.message}`));
       });
 
