@@ -6,7 +6,7 @@
 
 import { EventEmitter } from 'events';
 import { v4 as uuidv4 } from 'uuid';
-import Redis, { Cluster } from 'ioredis';
+import * as Redis from 'ioredis';
 import {
   EventBusConfig,
   EventPayload,
@@ -101,9 +101,9 @@ export class RedisEventBus extends EventEmitter {
       });
     } else {
       // Single Redis instance
-      this.redis = new Redis(redisOptions);
-      this.publisher = new Redis(redisOptions);
-      this.subscriber = new Redis(redisOptions);
+      this.redis = new (Redis as any)(redisOptions);
+      this.publisher = new (Redis as any)(redisOptions);
+      this.subscriber = new (Redis as any)(redisOptions);
     }
 
     this.setupRedisEventHandlers();
