@@ -329,10 +329,10 @@ class OSSACli {
       .option('--output <format>', 'Output format (json, yaml, table)', 'table')
       .action(this.discover.bind(this));
 
-    // PROJECT STANDARDIZATION Operations
+    // PROJECT STANDARDIZATION Operations [DEPRECATED - moved to agent-buildkit]
     this.program
       .command('standardize')
-      .description('Standardize project directory structure and organization')
+      .description('[DEPRECATED] Use "buildkit standardize" instead - moved to agent-buildkit for proper tool separation')
       .argument('<project-path>', 'Path to project directory to standardize')
       .option('--dry-run', 'Show planned changes without executing them')
       .option('--infrastructure', 'Focus on infrastructure directory consolidation')
@@ -340,7 +340,7 @@ class OSSACli {
       .option('--force', 'Force changes without confirmation prompts')
       .option('--backup', 'Create backup before making changes')
       .option('-v, --verbose', 'Show detailed output')
-      .action(this.standardizeProject.bind(this));
+      .action(this.deprecatedStandardizeProject.bind(this));
   }
 
   // SPECIFICATION CRUD Operations
@@ -1220,7 +1220,29 @@ class OSSACli {
     }
   }
 
-  // PROJECT STANDARDIZATION Operations
+  // DEPRECATED PROJECT STANDARDIZATION - Use agent-buildkit instead
+  private async deprecatedStandardizeProject(projectPath: string, options: any): Promise<void> {
+    console.log(chalk.yellow('⚠️  DEPRECATION NOTICE'));
+    console.log(chalk.yellow('=================='));
+    console.log(chalk.yellow('The "standardize" command has been moved to agent-buildkit for proper tool separation.'));
+    console.log('');
+    console.log(chalk.green('Please use instead:'));
+    console.log(chalk.green('  buildkit standardize directories --path ' + projectPath + (options.dryRun ? ' --dry-run' : '')));
+    console.log('');
+    console.log(chalk.blue('Why this change?'));
+    console.log('- OSSA focuses on OpenAPI specifications and agent standards');
+    console.log('- agent-buildkit is the proper tool for project standardization and cleanup');
+    console.log('- This separation provides better tool specialization');
+    console.log('');
+    console.log(chalk.red('This command will be removed in a future version.'));
+    console.log('');
+
+    // Still provide the functionality for now, but with deprecation warnings
+    console.log(chalk.gray('Falling back to deprecated implementation...'));
+    return this.standardizeProject(projectPath, options);
+  }
+
+  // PROJECT STANDARDIZATION Operations [DEPRECATED]
   private async standardizeProject(projectPath: string, options: any): Promise<void> {
     try {
       const resolvedPath = resolve(projectPath);

@@ -587,3 +587,26 @@ The OSSA specification is licensed under the MIT License. Implementations may us
 ---
 
 **OSSA v0.1.9** - Enabling enterprise-grade AI agent interoperability through open standards.
+
+
+## 🚀 Platform Evolution
+
+This project is part of a comprehensive platform evolution roadmap. See [Platform Evolution Roadmap](docs/platform-evolution-roadmap.md) for detailed implementation plan.
+
+**Key Upcoming Enhancements:**
+- Advanced AI observability with Phoenix integration
+- Multi-agent coordination capabilities
+- Enhanced model serving and optimization
+- Enterprise-grade security and compliance
+
+**Quick Commands:**
+```bash
+# View roadmap
+buildkit platform-evolution show
+
+# Sync latest updates
+buildkit platform-evolution sync ossa
+
+# Show implementation timeline
+buildkit platform-evolution timeline
+```
