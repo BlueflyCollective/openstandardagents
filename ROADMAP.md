@@ -420,6 +420,137 @@ class OSSAMonitor:
 
 ---
 
+## 🔧 Phase 6: Agent Structure Compliance (Weeks 9-12)
+
+### OSSA Agent Structure Gap Analysis
+
+**Current Compliance: ~5%** - Critical gaps identified across all agent implementations.
+
+### Implementation Priority Matrix
+
+#### Phase 6A: Critical OSSA Compliance (Week 9)
+```bash
+For each agent:
+1. Create openapi.yml - API specifications
+2. Create behaviors/ directory with behavior definitions
+3. Create schemas/ directory with I/O schemas
+4. Update agent.yml with missing metadata
+```
+
+#### Phase 6B: Core Implementation (Week 10)
+```bash
+For each agent:
+1. Create handlers/ with TypeScript implementations
+2. Create integrations/ for service connections
+3. Create data/ for configuration and state
+4. Create src/ with business logic
+```
+
+#### Phase 6C: Production Readiness (Week 11)
+```bash
+For each agent:
+1. Create tests/ with unit/integration tests
+2. Create deployments/ with K8s/Docker configs
+3. Create config/ for environment management
+4. Add CI/CD pipeline integration
+```
+
+#### Phase 6D: Validation & Automation (Week 12)
+```bash
+1. Implement structure validation scripts
+2. Create agent generation templates
+3. Add compliance monitoring
+4. Automate agent scaffolding
+```
+
+### Complete OSSA Agent Directory Structure (Target State)
+
+Each agent requires this structure for full OSSA v0.1.9 compliance:
+
+```
+[agent_name]/
+├── agent.yml                         # ✅ REQUIRED - Agent manifest
+├── openapi.yml                       # ✅ REQUIRED - API specification
+├── README.md                         # 📖 Documentation
+├── behaviors/                        # 🎯 Behavior definitions
+│   ├── [agent-name].behavior.yml
+│   ├── tdd-enforcement.behavior.yml
+│   └── custom.behavior.yml
+├── data/                            # 💾 Agent-specific data
+│   ├── [agent-name]-config.yml
+│   ├── current-tasks.yml
+│   ├── models/, cache/, state/
+├── handlers/                        # 🔧 Event/request handlers
+│   ├── [agent-name].handlers.ts
+│   ├── http.ts, events.ts, webhooks.ts
+├── integrations/                    # 🔌 External integrations
+│   ├── gitlab/, drupal/, aws/
+│   ├── testing-frameworks/
+│   └── code-analysis/
+├── schemas/                         # 📋 Input/output schemas
+│   ├── [agent-name].schema.json
+│   ├── input/*.json, output/*.json
+├── src/                            # 💻 Source code
+│   ├── index.ts, handlers.ts
+│   ├── types.ts, utils.ts, core/
+├── tests/                          # 🧪 Test files
+│   ├── unit/, integration/, fixtures/
+├── training-modules/               # 🎓 Training data
+│   ├── datasets/, models/, configs/
+├── config/                         # ⚙️ Configuration
+│   ├── default.json, development.json
+├── deployments/                    # 🚀 Deployment configs
+│   ├── k8s/, docker-compose.yml, helm/
+└── .agents-metadata.json           # OSSA metadata
+```
+
+### Gap Analysis by Project Type
+
+#### 1. NPM Packages (`/common_npm/*`)
+- **Completion: ~5%**
+- **Gap**: All OSSA agent internals missing
+- **Action**: Add complete agent structure to each agent directory
+
+#### 2. Drupal Modules (`/all_drupal_custom/modules/*`)
+- **Completion: ~5%**
+- **Gap**: OSSA agent definitions missing
+- **Action**: Create `.agents/` directories with full structure
+
+#### 3. LLM Models (`/models/*`)
+- **Completion: ~5%**
+- **Gap**: OSSA agent wrappers missing
+- **Action**: Add agent definitions for model operations
+
+#### 4. Agent BuildKit
+- **Completion: ~10%**
+- **Gap**: Complete OSSA compliance missing
+- **Action**: Full OSSA agent implementation
+
+### Automation Script for Agent Structure Creation
+
+```bash
+#!/bin/bash
+# create-ossa-agent.sh
+AGENT_NAME=$1
+AGENT_TYPE=${2:-worker}
+AGENT_PATH=".agents/$AGENT_TYPE/$AGENT_NAME"
+
+# Create full directory structure
+mkdir -p "$AGENT_PATH"/{behaviors,data/{models,cache,state},handlers,integrations/{gitlab,drupal,aws},schemas/{input,output},src/core,tests/{unit,integration,fixtures},training-modules/{datasets,models,configs},config,deployments/{k8s,helm}}
+
+# Create required files
+touch "$AGENT_PATH"/{agent.yml,openapi.yml,README.md}
+touch "$AGENT_PATH"/behaviors/{$AGENT_NAME.behavior.yml,tdd-enforcement.behavior.yml,custom.behavior.yml}
+touch "$AGENT_PATH"/handlers/{$AGENT_NAME.handlers.ts,http.ts,events.ts,webhooks.ts}
+touch "$AGENT_PATH"/schemas/$AGENT_NAME.schema.json
+touch "$AGENT_PATH"/src/{index.ts,handlers.ts,types.ts,utils.ts}
+touch "$AGENT_PATH"/{package.json,tsconfig.json,Dockerfile,.gitlab-ci.yml,.env.example,.agents-metadata.json}
+
+echo "✅ Created OSSA-compliant structure for $AGENT_NAME"
+```
+
+---
+
 ## 🗓️ Milestones
 
 ### Week 2
@@ -436,6 +567,26 @@ class OSSAMonitor:
 - [ ] Cross-agent knowledge sharing operational
 - [ ] Complex DAG workflows executable
 - [ ] Performance monitoring dashboard live
+
+### Week 9
+- [ ] All critical agents have openapi.yml specifications
+- [ ] Behavior definitions created for 50+ agents
+- [ ] I/O schemas implemented across agent ecosystem
+
+### Week 10
+- [ ] Handler implementations completed for all agents
+- [ ] Service integrations operational (GitLab, Drupal, AWS)
+- [ ] Agent configuration management standardized
+
+### Week 11
+- [ ] Test coverage >90% across all agents
+- [ ] Production deployment configs ready
+- [ ] CI/CD integration for all agent types
+
+### Week 12
+- [ ] Agent structure validation automated
+- [ ] Compliance monitoring dashboard operational
+- [ ] Agent scaffolding automation completed
 
 ---
 
