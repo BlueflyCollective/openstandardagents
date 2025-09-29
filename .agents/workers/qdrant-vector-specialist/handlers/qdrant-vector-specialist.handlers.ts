@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
  * qdrant-vector-specialist Agent Handler
  * OSSA v0.1.9 compliant handler implementation
  */
-export class qdrant-vector-specialistHandler {
+export class QdrantVectorSpecialistHandler {
 
   /**
    * Health check endpoint

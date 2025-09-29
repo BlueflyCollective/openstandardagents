@@ -1,10 +1,10 @@
-import { qdrant-vectorspecialistHandler } from '../../handlers/qdrant-vector-specialist.handlers';
+import { QdrantVectorSpecialistHandler } from '../../handlers/qdrant-vector-specialist.handlers';
 
-describe('qdrant-vector-specialistHandler', () => {
-  let handler: qdrant-vectorspecialistHandler;
+describe('QdrantVectorSpecialistHandler', () => {
+  let handler: QdrantVectorSpecialistHandler;
 
   beforeEach(() => {
-    handler = new qdrant-vectorspecialistHandler();
+    handler = new QdrantVectorSpecialistHandler();
   });
 
   test('should create handler instance', () => {

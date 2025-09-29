@@ -8,7 +8,7 @@ describe('EndpointTesterHandler', () => {
   });
 
   test('should create handler instance', () => {
-    expect(handler).toBeInstanceOf(endpoint-testerHandler);
+    expect(handler).toBeInstanceOf(EndpointTesterHandler);
   });
 
   test('should handle health check', async () => {
