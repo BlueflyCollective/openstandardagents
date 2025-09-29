@@ -1,255 +1,344 @@
-# OSSA Agent Examples
+# OSSA Examples
 
-This directory contains comprehensive examples demonstrating the OSSA v0.1.9 specification across all agent categories and patterns.
+**Comprehensive examples and implementations for the Open Standards for Scalable Agents (OSSA) v0.1.2**
 
-## Agent Network Overview
+This directory contains organized, production-ready examples demonstrating every aspect of OSSA's capabilities, from basic agent manifests to complex multi-agent orchestration patterns.
 
-The OSSA specification defines a comprehensive network of 65+ AI agents across 7 core categories:
+## 📁 Directory Structure
 
-| Category | Count | Purpose | Examples |
-|----------|-------|---------|----------|
-| **Workers** | 33 | Task execution and data processing | data-processing-worker |
-| **Integrators** | 14 | System connections and protocol translation | multi-system-integrator |
-| **Orchestrators** | 6 | Workflow coordination and agent management | multi-workflow-orchestrator |
-| **Monitors** | 6 | System observation and performance tracking | system-performance-monitor |
-| **Governors** | 3 | Policy enforcement and compliance | policy-compliance-governor |
-| **Critics** | 2 | Quality assurance and review | code-quality-critic |
-| **Judges** | 1 | Final arbitration and decision-making | decision-arbitration-judge |
-
-## Example Files
-
-### Core Agent Categories
-
-1. **[orchestrator-agent.yaml](orchestrator-agent.yaml)** - Enterprise workflow orchestrator
-   - Multi-agent coordination
-   - Complex workflow management
-   - Failure recovery and compensation
-   - Event sourcing and saga patterns
-
-2. **[worker-agent.yaml](worker-agent.yaml)** - Data processing worker
-   - High-throughput data processing
-   - Pipeline and batch operations
-   - Error recovery and checkpointing
-   - Rate limiting and resource management
-
-3. **[integrator-agent.yaml](integrator-agent.yaml)** - Multi-system integration
-   - API and protocol connectivity
-   - Schema mapping and transformation
-   - Message routing and translation
-   - Circuit breaker and retry patterns
-
-4. **[monitor-agent.yaml](monitor-agent.yaml)** - System performance monitoring
-   - Real-time metrics collection
-   - Anomaly detection and alerting
-   - Health checking and trend analysis
-   - Multi-protocol monitoring support
-
-5. **[governor-agent.yaml](governor-agent.yaml)** - Policy and compliance governance
-   - Enterprise policy enforcement
-   - Compliance framework integration
-   - Risk assessment and audit trails
-   - Security and access control
-
-6. **[critic-agent.yaml](critic-agent.yaml)** - Code quality and review
-   - Automated code analysis
-   - Quality metrics and scoring
-   - Security and performance assessment
-   - Continuous feedback and improvement
-
-7. **[judge-agent.yaml](judge-agent.yaml)** - Decision arbitration and conflict resolution
-   - Consensus building algorithms
-   - Weighted decision making
-   - Conflict resolution strategies
-   - Resource allocation optimization
-
-## Agent Network Patterns
-
-### Hierarchical Coordination
 ```
-Judge (Final Arbitration)
-├── Orchestrators (Workflow Coordination)
-│   ├── Workers (Task Execution)
-│   ├── Integrators (System Connectivity)
-│   └── Monitors (Observation)
-├── Governors (Policy Enforcement)
-└── Critics (Quality Assurance)
+examples/
+├── 🏗️ agent-manifests/     # Complete agent manifest examples
+│   ├── workers/            # Task execution agents
+│   ├── orchestrators/      # Workflow coordination agents
+│   ├── critics/           # Quality assurance agents
+│   ├── monitors/          # System observation agents
+│   ├── governors/         # Policy enforcement agents
+│   ├── judges/            # Decision arbitration agents
+│   └── integrators/       # System connectivity agents
+├── 🏛️ architecture/        # Architecture patterns and designs
+│   ├── mcp/               # MCP-per-Agent examples
+│   └── model-configuration/ # Multi-provider model setups
+├── 🚀 quickstart/          # Getting started examples
+├── 🔧 advanced/            # Advanced implementation patterns
+│   ├── workflows/         # Complex workflow orchestrations
+│   ├── patterns/          # Enterprise design patterns
+│   └── integrations/      # Third-party integrations
+├── 💻 typescript/          # TypeScript implementation examples
+│   ├── basic/             # Basic TypeScript usage
+│   └── advanced/          # Advanced TypeScript patterns
+└── 🐳 deployment/          # Deployment configurations
+    ├── docker/            # Docker configurations
+    ├── kubernetes/        # K8s manifests
+    └── cloud/             # Cloud provider setups
 ```
 
-### Communication Patterns
+## 🚀 Quick Start
 
-1. **Command & Control** - Orchestrators directing workers
-2. **Event-Driven** - Monitors triggering responses
-3. **Request-Response** - Integrators mediating systems
-4. **Publish-Subscribe** - System-wide event distribution
-5. **Circuit Breaker** - Fault tolerance and recovery
-6. **Saga Pattern** - Distributed transaction management
-
-### Protocol Support Matrix
-
-| Agent Type | REST | gRPC | WebSocket | Message Queue | GraphQL |
-|------------|------|------|-----------|---------------|----------|
-| Orchestrator | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Worker | ✅ | ✅ | ❌ | ✅ | ❌ |
-| Integrator | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Monitor | ✅ | ❌ | ✅ | ❌ | ❌ |
-| Governor | ✅ | ✅ | ❌ | ❌ | ❌ |
-| Critic | ✅ | ✅ | ❌ | ❌ | ❌ |
-| Judge | ✅ | ✅ | ✅ | ❌ | ❌ |
-
-## Performance Characteristics
-
-### Latency Profiles (95th percentile)
-- **Workers**: 200ms (high throughput)
-- **Integrators**: 100ms (low latency integration)
-- **Orchestrators**: 2000ms (complex coordination)
-- **Monitors**: 50ms (real-time observation)
-- **Governors**: 200ms (policy evaluation)
-- **Critics**: 180000ms (comprehensive analysis)
-- **Judges**: 172800000ms (deliberative decision-making)
-
-### Throughput Capabilities
-- **Workers**: 1,000 records/second
-- **Integrators**: 500 messages/second
-- **Orchestrators**: 50 workflows/second
-- **Monitors**: 1,000 metrics/second
-- **Governors**: 100 policies/second
-- **Critics**: 50 reviews/hour
-- **Judges**: 20 decisions/day
-
-## Security & Compliance
-
-### Authentication Methods
-- **OAuth2** - Enterprise SSO integration
-- **Bearer Token** - API access control
-- **Mutual TLS** - High-security communications
-- **JWT** - Stateless authentication
-- **HMAC-SHA256** - Webhook verification
-
-### Compliance Frameworks
-- **SOC 2** - Security and availability
-- **PCI DSS** - Payment card industry
-- **GDPR** - Data protection regulation
-- **HIPAA** - Healthcare information privacy
-- **ISO 27001** - Information security management
-
-## Usage Examples
-
-### Creating an Agent from Template
+### 1. Basic Agent Creation
 ```bash
-# Copy and customize an example
-cp examples/worker-agent.yaml my-custom-worker.yaml
+# Copy a basic worker agent template
+cp agent-manifests/workers/worker-agent.yaml my-agent.yaml
 
-# Edit metadata and specifications
-vim my-custom-worker.yaml
+# Customize for your use case
+# Edit: metadata.name, spec.capabilities, spec.operations
+```
+
+### 2. MCP-per-Agent Setup
+```bash
+# Review MCP architecture examples
+cd architecture/mcp/
+cat mcp-agent-examples.md
+```
+
+### 3. Model Configuration
+```bash
+# See multi-provider model examples
+cd architecture/model-configuration/
+cat model-configuration-examples.md
+```
+
+## 📋 Example Categories
+
+### 🏗️ Agent Manifests
+
+Production-ready agent specifications following OSSA v0.1.2 standards:
+
+| Type | Example | Use Case | Complexity |
+|------|---------|----------|------------|
+| **Worker** | `workers/worker-agent.yaml` | Data processing, task execution | ⭐⭐ |
+| **Orchestrator** | `orchestrators/orchestrator-agent.yaml` | Workflow coordination | ⭐⭐⭐⭐ |
+| **Critic** | `critics/critic-agent.yaml` | Code review, quality assurance | ⭐⭐⭐ |
+| **Monitor** | `monitors/monitor-agent.yaml` | System monitoring | ⭐⭐ |
+| **Governor** | `governors/governor-agent.yaml` | Policy enforcement | ⭐⭐⭐⭐ |
+| **Judge** | `judges/judge-agent.yaml` | Decision arbitration | ⭐⭐⭐⭐⭐ |
+| **Integrator** | `integrators/integrator-agent.yaml` | System integration | ⭐⭐⭐ |
+
+### 🏛️ Architecture Examples
+
+**MCP-per-Agent (`architecture/mcp/`):**
+- Complete MCP server implementations
+- Multi-agent orchestration patterns
+- Registry and discovery systems
+- Composite agent architectures
+
+**Model Configuration (`architecture/model-configuration/`):**
+- Per-agent model selection
+- Multi-provider setups (Ollama, OpenAI, Anthropic, Google)
+- Cost optimization strategies
+- Dynamic model switching
+
+### 🔧 Advanced Patterns
+
+**Workflows (`advanced/workflows/`):**
+- Complex multi-agent workflows
+- Saga pattern implementations
+- Event-driven architectures
+- Failure recovery strategies
+
+**Enterprise Patterns (`advanced/patterns/`):**
+- Compliance frameworks
+- Security implementations
+- Audit logging patterns
+- Governance structures
+
+**Integrations (`advanced/integrations/`):**
+- Third-party service integrations
+- Protocol adapters
+- Legacy system connectors
+- API gateway patterns
+
+### 💻 TypeScript Examples
+
+**Basic (`typescript/basic/`):**
+- Simple agent implementations
+- Basic MCP server setup
+- Environment configuration
+- Health checks
+
+**Advanced (`typescript/advanced/`):**
+- Complex orchestration logic
+- Custom provider implementations
+- Performance optimizations
+- Testing strategies
+
+### 🐳 Deployment Examples
+
+**Docker (`deployment/docker/`):**
+- Multi-stage build configurations
+- Container orchestration
+- Environment-specific configs
+- Health check implementations
+
+**Kubernetes (`deployment/kubernetes/`):**
+- Agent deployment manifests
+- Service discovery configs
+- ConfigMaps and Secrets
+- Horizontal Pod Autoscaling
+
+**Cloud (`deployment/cloud/`):**
+- AWS/Azure/GCP configurations
+- Serverless deployments
+- Cloud-native patterns
+- Infrastructure as Code
+
+## 🎯 Usage Patterns
+
+### For Beginners
+1. Start with **`quickstart/`** examples
+2. Review **`agent-manifests/workers/`** for basic patterns
+3. Try **`typescript/basic/`** implementations
+
+### For Intermediate Users
+1. Explore **`architecture/mcp/`** for MCP patterns
+2. Study **`architecture/model-configuration/`** for model setups
+3. Review **`advanced/workflows/`** for orchestration
+
+### For Advanced Users
+1. Dive into **`advanced/patterns/`** for enterprise patterns
+2. Study **`typescript/advanced/`** for complex implementations
+3. Review **`deployment/`** for production setups
+
+## 🔍 Finding Examples
+
+### By Use Case
+```bash
+# Find all data processing examples
+find . -name "*.yaml" -exec grep -l "data-processing" {} \;
+
+# Find all MCP-related examples
+find . -name "*.md" -exec grep -l "MCP" {} \;
+
+# Find all model configuration examples
+find . -name "*.ts" -exec grep -l "model.*config" {} \;
+```
+
+### By Complexity
+- **⭐ Beginner**: `quickstart/`, `agent-manifests/workers/`
+- **⭐⭐ Intermediate**: `agent-manifests/monitors/`, `typescript/basic/`
+- **⭐⭐⭐ Advanced**: `architecture/`, `advanced/workflows/`
+- **⭐⭐⭐⭐ Expert**: `advanced/patterns/`, `typescript/advanced/`
+- **⭐⭐⭐⭐⭐ Master**: `deployment/kubernetes/`, complex orchestrations
+
+### By Technology
+- **YAML Manifests**: `agent-manifests/`
+- **TypeScript**: `typescript/`
+- **Docker**: `deployment/docker/`
+- **Kubernetes**: `deployment/kubernetes/`
+- **Documentation**: `architecture/`
+
+## 🛠️ Development Workflow
+
+### 1. Choose Your Starting Point
+```bash
+# For basic agent development
+cd agent-manifests/workers/
+
+# For MCP server development
+cd architecture/mcp/
+
+# For model configuration
+cd architecture/model-configuration/
+
+# For TypeScript implementation
+cd typescript/basic/
+```
+
+### 2. Customize and Extend
+```bash
+# Copy template
+cp template.yaml my-custom-agent.yaml
+
+# Edit configuration
+vim my-custom-agent.yaml
 
 # Validate against OSSA schema
-ossa validate my-custom-worker.yaml
+ossa validate my-custom-agent.yaml
 ```
 
-### Agent Deployment Patterns
-```yaml
-# Development environment
-metadata:
-  labels:
-    environment: development
-    classification: internal
+### 3. Test and Deploy
+```bash
+# Local testing
+npm run test:agent my-custom-agent.yaml
 
-# Production environment
-metadata:
-  labels:
-    environment: production
-    classification: restricted
+# Docker deployment
+docker build -f deployment/docker/Dockerfile .
+
+# Kubernetes deployment
+kubectl apply -f deployment/kubernetes/agent-deployment.yaml
 ```
 
-### Resource Configuration
-```yaml
-spec:
-  processing:
-    maxConcurrentTasks: 10
-    maxMemoryUsage: "2Gi"
-    maxCpuUsage: "1000m"
-    timeout: 300000
-```
+## 📚 Learning Path
 
-## Agent Lifecycle Management
+### Week 1: Foundations
+- [ ] Read all README files in each directory
+- [ ] Study `agent-manifests/workers/worker-agent.yaml`
+- [ ] Try `quickstart/` examples
+- [ ] Review OSSA specification basics
 
-### 1. Design Phase
-- Choose appropriate agent category
-- Define capabilities and operations
-- Specify protocols and interfaces
-- Configure performance requirements
+### Week 2: Architecture
+- [ ] Deep dive into `architecture/mcp/`
+- [ ] Study `architecture/model-configuration/`
+- [ ] Understand MCP-per-Agent patterns
+- [ ] Learn multi-provider model selection
 
-### 2. Development Phase
-- Implement agent logic
-- Add monitoring and health checks
-- Configure error handling
-- Write comprehensive tests
+### Week 3: Implementation
+- [ ] Work through `typescript/basic/` examples
+- [ ] Try `typescript/advanced/` patterns
+- [ ] Build your first custom agent
+- [ ] Implement MCP server
 
-### 3. Deployment Phase
-- Validate configuration
-- Deploy to target environment
-- Configure monitoring and alerting
-- Establish governance policies
+### Week 4: Production
+- [ ] Study `deployment/` configurations
+- [ ] Review `advanced/patterns/` for enterprise patterns
+- [ ] Implement monitoring and observability
+- [ ] Deploy to production environment
 
-### 4. Operation Phase
-- Monitor performance metrics
-- Handle scaling requirements
-- Manage configuration updates
-- Process governance compliance
+## 🤝 Contributing
 
-### 5. Evolution Phase
-- Analyze usage patterns
-- Optimize performance
-- Extend capabilities
-- Refactor for efficiency
+### Adding New Examples
 
-## Best Practices
+1. **Choose the Right Category**
+   ```bash
+   # Agent manifests go in agent-manifests/
+   # Architecture patterns go in architecture/
+   # Code examples go in typescript/
+   # Deployment configs go in deployment/
+   ```
 
-### Agent Design
-1. **Single Responsibility** - Each agent should have a clear, focused purpose
-2. **Loose Coupling** - Minimize dependencies between agents
-3. **High Cohesion** - Group related functionality within agents
-4. **Fault Tolerance** - Design for graceful degradation and recovery
-5. **Observability** - Include comprehensive monitoring and logging
+2. **Follow Naming Conventions**
+   ```bash
+   # Use kebab-case for files
+   my-example-agent.yaml
 
-### Performance Optimization
-1. **Async Processing** - Use non-blocking operations where possible
-2. **Resource Pooling** - Efficiently manage connections and threads
-3. **Caching Strategies** - Implement appropriate caching layers
-4. **Load Balancing** - Distribute work across multiple instances
-5. **Circuit Breakers** - Prevent cascade failures
+   # Use descriptive directory names
+   advanced/enterprise-patterns/
+   ```
 
-### Security Considerations
-1. **Principle of Least Privilege** - Grant minimal required permissions
-2. **Defense in Depth** - Layer multiple security controls
-3. **Encryption Everywhere** - Protect data in transit and at rest
-4. **Regular Audits** - Continuously assess security posture
-5. **Incident Response** - Prepare for security events
+3. **Include Documentation**
+   ```yaml
+   # Always include comprehensive metadata
+   metadata:
+     name: example-agent
+     description: "Clear description of what this example demonstrates"
+     labels:
+       category: "example-category"
+       complexity: "beginner|intermediate|advanced|expert|master"
+       use-case: "specific-use-case"
+   ```
 
-## Contributing
+4. **Validate Examples**
+   ```bash
+   # Ensure all examples are valid
+   ossa validate example-agent.yaml
+   npm run lint typescript-example.ts
+   ```
 
-When adding new agent examples:
+### Documentation Standards
 
-1. Follow the OSSA v0.1.9 specification
-2. Include comprehensive metadata and labels
-3. Define clear capabilities and operations
-4. Specify realistic performance characteristics
-5. Document security and compliance requirements
-6. Add appropriate monitoring and alerting
-7. Update this README with the new example
+1. **README per Directory**: Each subdirectory should have a README.md
+2. **Code Comments**: All TypeScript examples should be well-commented
+3. **YAML Comments**: Agent manifests should explain key configurations
+4. **Use Case Description**: Clearly explain when to use each example
 
-## References
+## 🔗 Related Resources
 
-- [OSSA Specification v0.1.9](../src/api/)
-- [Agent BuildKit Examples](../../agent_buildkit/examples/)
-- [OpenAPI Schemas](../src/api/schemas/)
-- [JSON Schema Definitions](../src/api/schemas/)
+### OSSA Specification
+- [Core Specification](../src/api/core/)
+- [Agent Schemas](../src/api/schemas/)
+- [OpenAPI Definitions](../src/api/)
 
-## Support
+### Development Tools
+- [OSSA CLI](../src/cli/)
+- [Validation Tools](../src/core/)
+- [Testing Framework](../tests/)
 
-For questions about OSSA agents or these examples:
+### External Resources
+- [MCP Protocol Specification](https://spec.modelcontextprotocol.io/)
+- [OpenAPI 3.1 Specification](https://spec.openapis.org/oas/v3.1.0)
+- [JSON Schema Draft 2020-12](https://json-schema.org/draft/2020-12/schema)
 
-1. Review the specification documentation
-2. Check existing agent examples
-3. Validate against JSON schemas
-4. Test with the OSSA CLI tools
+## 🆘 Support
+
+### Getting Help
+
+1. **Check Examples First**: Look for similar examples in this directory
+2. **Validate Configuration**: Use `ossa validate` to check syntax
+3. **Review Documentation**: Read the relevant architecture documentation
+4. **Check Logs**: Enable debug logging for troubleshooting
+
+### Common Issues
+
+| Issue | Solution | Example Location |
+|-------|----------|------------------|
+| Agent won't start | Check manifest validation | `agent-manifests/` |
+| MCP connection fails | Review MCP configuration | `architecture/mcp/` |
+| Model not found | Check provider setup | `architecture/model-configuration/` |
+| TypeScript errors | Review implementation examples | `typescript/` |
+| Deployment fails | Check resource requirements | `deployment/` |
+
+---
+
+**Happy Building with OSSA! 🚀**
+
+*These examples are designed to get you productive quickly while demonstrating the full power and flexibility of the OSSA specification.*

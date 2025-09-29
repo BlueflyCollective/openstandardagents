@@ -1,0 +1,53 @@
+# .infrastructure.yaml - Project Metadata Template
+# This file defines the project's infrastructure requirements and dependencies
+
+metadata:
+  name: "OSSA"
+  type: "orchestrator"  # core, service, model
+  port: 7000
+  cluster: "service-layer"  # core-infrastructure, service-layer, model-layer
+
+description:
+  summary: "Open Source Systems Architecture - Core orchestration framework for LLM ecosystem"
+  category: "service"  # orchestrator, api, ui, model, gateway
+
+dependencies:
+  infrastructure:
+    postgresql:
+      required: true
+      shared: true
+      host: "postgresql://localhost:5433"
+    redis:
+      required: true
+      shared: true
+      host: "redis://localhost:6380"
+    qdrant:
+      required: false
+      shared: true
+      host: "http://localhost:6333"
+    minio:
+      required: false
+      shared: true
+      host: "http://localhost:9001"
+
+deployment:
+  profiles:
+    - "services"  # minimal, development, full
+
+  replicas:
+    min: 1
+    max: 5
+
+  resources:
+    cpu: "500m"
+    memory: "512Mi"
+
+  health:
+    endpoint: "/health"
+
+networking:
+  internal_port: 3000
+  external_port: 7000
+
+security:
+  run_as_non_root: true

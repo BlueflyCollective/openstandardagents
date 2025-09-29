@@ -11,13 +11,15 @@ The **Open Standards for Scalable Agents (OSSA)** v0.1.9 is the industry's most 
 
 ## Key Features
 
-🚀 **OpenAPI 3.1 Complete Implementation** - Advanced features including discriminator mapping, webhooks, conditional schemas, and JSON Schema Draft 2020-12  
-🤖 **12 Production-Ready Specifications** - Core OSSA, MCP infrastructure, and project orchestration APIs  
-⚡ **Universal Agent Protocol (UAP)** - RASP, ACAP, UADP, CPC protocols for seamless agent communication  
-🏗️ **6 Agent Archetypes** - Worker, Orchestrator, Critic, Monitor, Governor, Judge with inheritance patterns  
-🔒 **Enterprise Security** - OAuth 2.1, mTLS, RBAC with OPA policies  
-📊 **OpenTelemetry Integration** - Comprehensive observability and monitoring  
-🛡️ **Multi-Tier Compliance** - Core → Governed → Advanced → Enterprise levels  
+🚀 **OpenAPI 3.1 Complete Implementation** - Advanced features including discriminator mapping, webhooks, conditional schemas, and JSON Schema Draft 2020-12
+🤖 **15 Production-Ready Specifications** - Core OSSA, MCP infrastructure, and project orchestration APIs
+⚡ **Universal Agent Protocol (UAP)** - RASP, ACAP, UADP, CPC protocols for seamless agent communication
+🏗️ **6 Agent Archetypes** - Worker, Orchestrator, Critic, Monitor, Governor, Judge with inheritance patterns
+🔗 **MCP-per-Agent Architecture** - Each agent can expose its own Model Context Protocol server for maximum modularity and interoperability
+🧠 **Model Context Switching** - Dynamic model selection and per-agent model configuration with multi-provider support
+🔒 **Enterprise Security** - OAuth 2.1, mTLS, RBAC with OPA policies
+📊 **OpenTelemetry Integration** - Comprehensive observability and monitoring
+🛡️ **Multi-Tier Compliance** - Core → Governed → Advanced → Enterprise levels
 🎯 **Custom OSSA Validator** - 400+ line TypeScript validator with comprehensive compliance checking
 
 ## Technology Stack
@@ -79,6 +81,150 @@ OSSA provides **12 comprehensive OpenAPI 3.1 specifications** across three domai
 
 ### Legacy/Testing
 - **`test-api.openapi.yml`** - Testing framework specification
+
+## MCP-per-Agent Architecture
+
+🔗 **Revolutionary Design**: Each OSSA agent can expose its own **Model Context Protocol (MCP) server**, enabling unprecedented modularity and interoperability in AI agent ecosystems.
+
+### Key Benefits
+
+- **🧩 Modularity**: Agents become self-contained, reusable building blocks
+- **🔄 Interoperability**: Any MCP-compatible client can utilize any agent's capabilities
+- **📈 Scalability**: Independent deployment and scaling of agent services
+- **🌐 Federation**: Agents can discover and orchestrate with each other automatically
+- **🛠️ Composability**: Mix and match agents from different vendors/teams seamlessly
+
+### Architecture Components
+
+```yaml
+Agent MCP Server:
+  - Tools: Agent-specific capabilities (functions, APIs)
+  - Resources: Data sources, knowledge bases, file systems
+  - Prompts: Agent-optimized prompt templates
+  - Sampling: Custom inference parameters
+```
+
+### MCP Registry & Discovery
+
+- **Central Registry**: `/mcp-infra/registry/servers` - tracks all agent MCP servers
+- **Service Categories**: `core`, `tier1`, `tier2`, `custom`, `experimental`
+- **Health Monitoring**: Real-time status and performance metrics
+- **Version Management**: Semantic versioning and compatibility tracking
+
+### Example: Web Evaluation Agent MCP
+
+```typescript
+// Agent exposes web evaluation tools via MCP
+const webEvalMCP = {
+  tools: [
+    "web_scrape", "html_analyze", "accessibility_audit",
+    "performance_test", "seo_analysis"
+  ],
+  resources: ["web_results", "audit_reports", "metrics"],
+  prompts: ["evaluation_expert", "accessibility_specialist"]
+};
+```
+
+### ADK Integration
+
+OSSA's Agent Development Kit (ADK) seamlessly converts agents into MCP tools:
+
+```typescript
+// Convert any OSSA agent to MCP tool
+createMCPTool(agentName: string) {
+  return {
+    name: `ossa_agent_${agentName}`,
+    description: agent.capabilities,
+    execute: agent.invoke
+  };
+}
+```
+
+### 📚 Learn More
+
+- **[Complete Architecture Guide](docs/ARCHITECTURE.md)** - Deep dive into MCP-per-Agent design
+- **[MCP Examples](examples/mcp-agent-examples.md)** - Concrete implementation examples
+- **[API Documentation](src/api/)** - Full OpenAPI 3.1 specifications
+
+## Model Context Switching & Multi-Provider Support
+
+🧠 **Revolutionary Flexibility**: OSSA enables dynamic model selection and per-agent model configuration, allowing each agent to use the optimal model for its specific tasks.
+
+### Key Capabilities
+
+- **🔄 Runtime Model Switching**: Change models dynamically via environment variables or API calls
+- **🎯 Per-Agent Models**: Each agent can specify its preferred model and provider
+- **🌐 Multi-Provider Support**: Ollama, OpenAI, Anthropic, Gemini, Azure OpenAI, and custom providers
+- **⚡ Performance Optimization**: Match models to workloads (coding, data analysis, creative tasks)
+- **💰 Cost Optimization**: Use cost-effective models for simple tasks, premium models for complex ones
+
+### Model Selection Examples
+
+```typescript
+// Per-agent model configuration
+const dataAgent = new OSSALlmAgent({
+  name: 'data-processor',
+  model: 'gpt-4o',              // Best for data processing
+  provider: 'openai'
+});
+
+const codeAgent = new OSSALlmAgent({
+  name: 'code-reviewer',
+  model: 'claude-3-5-sonnet',   // Best for code analysis
+  provider: 'anthropic'
+});
+
+const creativeAgent = new OSSALlmAgent({
+  name: 'content-creator',
+  model: 'gemini-2.0-flash',    // Best for creative tasks
+  provider: 'google'
+});
+```
+
+### Agent Manifest Configuration
+
+```yaml
+# Agent-specific model configuration
+spec:
+  configuration:
+    model: "claude-3-5-sonnet"
+    provider: "anthropic"
+    parameters:
+      temperature: 0.7
+      max_tokens: 4000
+      reasoning_mode: "explicit"
+```
+
+### Environment-Based Switching
+
+```bash
+# Global model switching
+export OLLAMA_MODEL="llama3.2:70b"
+export OPENAI_MODEL="gpt-4o"
+export ANTHROPIC_MODEL="claude-3-5-sonnet"
+
+# Per-agent environment variables
+export AGENT_MODEL_DATA_PROCESSOR="gpt-4o"
+export AGENT_MODEL_CODE_REVIEWER="claude-3-5-sonnet"
+export AGENT_MODEL_CREATIVE_WRITER="gemini-2.0-flash"
+```
+
+### Supported Providers
+
+| Provider | Models | Use Cases |
+|----------|--------|-----------|
+| **🦙 Ollama** | llama3.2, codellama, deepseek-coder | Local deployment, privacy |
+| **🤖 OpenAI** | gpt-4o, gpt-4o-mini, o1-preview | General purpose, reasoning |
+| **🧠 Anthropic** | claude-3-5-sonnet, claude-3-5-haiku | Code analysis, creative tasks |
+| **✨ Google** | gemini-2.0-flash, gemini-1.5-pro | Multimodal, fast inference |
+| **☁️ Azure OpenAI** | Enterprise GPT models | Enterprise security |
+| **🔧 Custom** | Hugging Face, local models | Specialized deployments |
+
+### 📚 Model Configuration Resources
+
+- **[Model Configuration Examples](examples/model-configuration-examples.md)** - Comprehensive implementation examples
+- **[Cost Optimization Guide](docs/ARCHITECTURE.md#cost-aware-model-selection)** - Smart model selection strategies
+- **[Provider Integration](docs/ARCHITECTURE.md#model-provider-integration)** - Multi-provider setup
 
 ## Advanced OpenAPI 3.1 Features Demonstrated
 
