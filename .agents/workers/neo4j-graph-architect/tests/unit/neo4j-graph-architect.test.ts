@@ -1,10 +1,10 @@
-import { neo4j-grapharchitectHandler } from '../../handlers/neo4j-graph-architect.handlers';
+import { Neo4jGraphArchitectHandler } from '../../handlers/neo4j-graph-architect.handlers';
 
 describe('Neo4jGraphArchitectHandler', () => {
-  let handler: neo4j-grapharchitectHandler;
+  let handler: Neo4jGraphArchitectHandler;
 
   beforeEach(() => {
-    handler = new neo4j-grapharchitectHandler();
+    handler = new Neo4jGraphArchitectHandler();
   });
 
   test('should create handler instance', () => {

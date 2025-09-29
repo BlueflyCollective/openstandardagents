@@ -1,10 +1,10 @@
-import { certmanagerHandler } from '../../handlers/cert-manager.handlers';
+import { CertManagerHandler } from '../../handlers/cert-manager.handlers';
 
 describe('CertManagerHandler', () => {
-  let handler: certmanagerHandler;
+  let handler: CertManagerHandler;
 
   beforeEach(() => {
-    handler = new certmanagerHandler();
+    handler = new CertManagerHandler();
   });
 
   test('should create handler instance', () => {

@@ -1,10 +1,10 @@
-import { securityscannerHandler } from '../../handlers/security-scanner.handlers';
+import { SecurityScannerHandler } from '../../handlers/security-scanner.handlers';
 
 describe('SecurityScannerHandler', () => {
-  let handler: securityscannerHandler;
+  let handler: SecurityScannerHandler;
 
   beforeEach(() => {
-    handler = new securityscannerHandler();
+    handler = new SecurityScannerHandler();
   });
 
   test('should create handler instance', () => {

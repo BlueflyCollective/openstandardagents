@@ -1,10 +1,10 @@
-import { inferenceoptimizerHandler } from '../../handlers/inference-optimizer.handlers';
+import { InferenceOptimizerHandler } from '../../handlers/inference-optimizer.handlers';
 
 describe('InferenceOptimizerHandler', () => {
-  let handler: inferenceoptimizerHandler;
+  let handler: InferenceOptimizerHandler;
 
   beforeEach(() => {
-    handler = new inferenceoptimizerHandler();
+    handler = new InferenceOptimizerHandler();
   });
 
   test('should create handler instance', () => {

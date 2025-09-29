@@ -1,10 +1,10 @@
-import { lora-trainingspecialistHandler } from '../../handlers/lora-training-specialist.handlers';
+import { LoraTrainingSpecialistHandler } from '../../handlers/lora-training-specialist.handlers';
 
 describe('LoraTrainingSpecialistHandler', () => {
-  let handler: lora-trainingspecialistHandler;
+  let handler: LoraTrainingSpecialistHandler;
 
   beforeEach(() => {
-    handler = new lora-trainingspecialistHandler();
+    handler = new LoraTrainingSpecialistHandler();
   });
 
   test('should create handler instance', () => {

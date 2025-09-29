@@ -1,14 +1,14 @@
-import { taskheavyHandler } from '../../handlers/task-heavy.handlers';
+import { TaskHeavyHandler } from '../../handlers/task-heavy.handlers';
 
-describe('task-heavyHandler', () => {
-  let handler: taskheavyHandler;
+describe('TaskHeavyHandler', () => {
+  let handler: TaskHeavyHandler;
 
   beforeEach(() => {
-    handler = new taskheavyHandler();
+    handler = new TaskHeavyHandler();
   });
 
   test('should create handler instance', () => {
-    expect(handler).toBeInstanceOf(task-heavyHandler);
+    expect(handler).toBeInstanceOf(TaskHeavyHandler);
   });
 
   test('should handle health check', async () => {

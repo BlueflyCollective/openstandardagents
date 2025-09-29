@@ -1,10 +1,10 @@
-import { analyticsagentHandler } from '../../handlers/analytics-agent.handlers';
+import { AnalyticsAgentHandler } from '../../handlers/analytics-agent.handlers';
 
 describe('AnalyticsAgentHandler', () => {
-  let handler: analyticsagentHandler;
+  let handler: AnalyticsAgentHandler;
 
   beforeEach(() => {
-    handler = new analyticsagentHandler();
+    handler = new AnalyticsAgentHandler();
   });
 
   test('should create handler instance', () => {

@@ -1,17 +1,28 @@
 /**
- * ADK LlmAgent implementation for OSSA
+ * ADK LlmAgent implementation for OSSA with Ollama integration
  */
 
 import { ADKAgent, ADKAgentConfig } from './index.js';
+
+interface OllamaResponse {
+  model: string;
+  response: string;
+  done: boolean;
+  thinking?: string;
+}
 
 export class OSSALlmAgent implements ADKAgent {
   type: 'LlmAgent' = 'LlmAgent';
   config: ADKAgentConfig;
   ossaType?: string;
+  private ollamaBaseUrl: string;
+  private ollamaModel: string;
 
   constructor(config: ADKAgentConfig, ossaType?: string) {
     this.config = config;
     this.ossaType = ossaType;
+    this.ollamaBaseUrl = process.env.OLLAMA_BASE_URL || 'http://localhost:11434';
+    this.ollamaModel = process.env.OLLAMA_MODEL || 'gpt-oss:20b';
   }
 
   /**
@@ -60,17 +71,54 @@ export class OSSALlmAgent implements ADKAgent {
   }
 
   /**
-   * Execute with model (placeholder for actual LLM call)
+   * Execute with Ollama model
    */
   private async executeWithModel(context: any): Promise<any> {
-    // TODO: Integrate with actual LLM provider
-    console.log(`Executing LlmAgent: ${this.config.name}`);
-    console.log(`Instruction: ${context.instruction}`);
+    try {
+      console.log(`Executing LlmAgent: ${this.config.name} with Ollama model: ${this.ollamaModel}`);
 
-    return {
-      success: true,
-      output: `Executed ${this.config.name} with input`,
-      timestamp: new Date().toISOString(),
-    };
+      const prompt = `${context.instruction}\n\nInput: ${JSON.stringify(context.input)}`;
+
+      const response = await this.callOllama(prompt);
+
+      return {
+        success: true,
+        output: response.response,
+        model: response.model,
+        thinking: response.thinking,
+        timestamp: new Date().toISOString(),
+      };
+    } catch (error) {
+      console.error('Ollama execution error:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        timestamp: new Date().toISOString(),
+      };
+    }
+  }
+
+  /**
+   * Call Ollama API
+   */
+  private async callOllama(prompt: string): Promise<OllamaResponse> {
+    const response = await fetch(`${this.ollamaBaseUrl}/api/generate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: this.ollamaModel,
+        prompt: prompt,
+        stream: false,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Ollama API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data as OllamaResponse;
   }
 }

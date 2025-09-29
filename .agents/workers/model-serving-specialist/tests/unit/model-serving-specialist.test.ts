@@ -1,10 +1,10 @@
-import { model-servingspecialistHandler } from '../../handlers/model-serving-specialist.handlers';
+import { ModelServingSpecialistHandler } from '../../handlers/model-serving-specialist.handlers';
 
 describe('ModelServingSpecialistHandler', () => {
-  let handler: model-servingspecialistHandler;
+  let handler: ModelServingSpecialistHandler;
 
   beforeEach(() => {
-    handler = new model-servingspecialistHandler();
+    handler = new ModelServingSpecialistHandler();
   });
 
   test('should create handler instance', () => {

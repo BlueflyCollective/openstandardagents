@@ -1,10 +1,10 @@
-import { dataagentHandler } from '../../handlers/data-agent.handlers';
+import { DataAgentHandler } from '../../handlers/data-agent.handlers';
 
 describe('DataAgentHandler', () => {
-  let handler: dataagentHandler;
+  let handler: DataAgentHandler;
 
   beforeEach(() => {
-    handler = new dataagentHandler();
+    handler = new DataAgentHandler();
   });
 
   test('should create handler instance', () => {

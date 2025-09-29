@@ -1,10 +1,10 @@
-import { training-datacuratorHandler } from '../../handlers/training-data-curator.handlers';
+import { TrainingDataCuratorHandler } from '../../handlers/training-data-curator.handlers';
 
 describe('TrainingDataCuratorHandler', () => {
-  let handler: training-datacuratorHandler;
+  let handler: TrainingDataCuratorHandler;
 
   beforeEach(() => {
-    handler = new training-datacuratorHandler();
+    handler = new TrainingDataCuratorHandler();
   });
 
   test('should create handler instance', () => {

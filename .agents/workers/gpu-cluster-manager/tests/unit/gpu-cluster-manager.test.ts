@@ -1,10 +1,10 @@
-import { gpu-clustermanagerHandler } from '../../handlers/gpu-cluster-manager.handlers';
+import { GpuClusterManagerHandler } from '../../handlers/gpu-cluster-manager.handlers';
 
 describe('GpuClusterManagerHandler', () => {
-  let handler: gpu-clustermanagerHandler;
+  let handler: GpuClusterManagerHandler;
 
   beforeEach(() => {
-    handler = new gpu-clustermanagerHandler();
+    handler = new GpuClusterManagerHandler();
   });
 
   test('should create handler instance', () => {

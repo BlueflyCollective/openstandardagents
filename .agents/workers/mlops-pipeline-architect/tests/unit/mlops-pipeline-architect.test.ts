@@ -1,10 +1,10 @@
-import { mlops-pipelinearchitectHandler } from '../../handlers/mlops-pipeline-architect.handlers';
+import { MlopsPipelineArchitectHandler } from '../../handlers/mlops-pipeline-architect.handlers';
 
 describe('MlopsPipelineArchitectHandler', () => {
-  let handler: mlops-pipelinearchitectHandler;
+  let handler: MlopsPipelineArchitectHandler;
 
   beforeEach(() => {
-    handler = new mlops-pipelinearchitectHandler();
+    handler = new MlopsPipelineArchitectHandler();
   });
 
   test('should create handler instance', () => {

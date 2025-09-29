@@ -1,10 +1,10 @@
-import { openapi-3-1generatorHandler } from '../../handlers/openapi-3-1-generator.handlers';
+import { Openapi31GeneratorHandler } from '../../handlers/openapi-3-1-generator.handlers';
 
 describe('Openapi31GeneratorHandler', () => {
-  let handler: openapi-3-1generatorHandler;
+  let handler: Openapi31GeneratorHandler;
 
   beforeEach(() => {
-    handler = new openapi-3-1generatorHandler();
+    handler = new Openapi31GeneratorHandler();
   });
 
   test('should create handler instance', () => {

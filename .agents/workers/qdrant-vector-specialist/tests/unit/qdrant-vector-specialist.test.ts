@@ -8,7 +8,7 @@ describe('QdrantVectorSpecialistHandler', () => {
   });
 
   test('should create handler instance', () => {
-    expect(handler).toBeInstanceOf(qdrant-vector-specialistHandler);
+    expect(handler).toBeInstanceOf(QdrantVectorSpecialistHandler);
   });
 
   test('should handle health check', async () => {

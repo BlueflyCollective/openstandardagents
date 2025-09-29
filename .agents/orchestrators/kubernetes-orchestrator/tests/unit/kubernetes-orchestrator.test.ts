@@ -1,10 +1,10 @@
-import { kubernetesorchestratorHandler } from '../../handlers/kubernetes-orchestrator.handlers';
+import { KubernetesOrchestratorHandler } from '../../handlers/kubernetes-orchestrator.handlers';
 
 describe('KubernetesOrchestratorHandler', () => {
-  let handler: kubernetesorchestratorHandler;
+  let handler: KubernetesOrchestratorHandler;
 
   beforeEach(() => {
-    handler = new kubernetesorchestratorHandler();
+    handler = new KubernetesOrchestratorHandler();
   });
 
   test('should create handler instance', () => {

@@ -1,10 +1,10 @@
-import { grafana-dashboardarchitectHandler } from '../../handlers/grafana-dashboard-architect.handlers';
+import { GrafanaDashboardArchitectHandler } from '../../handlers/grafana-dashboard-architect.handlers';
 
 describe('GrafanaDashboardArchitectHandler', () => {
-  let handler: grafana-dashboardarchitectHandler;
+  let handler: GrafanaDashboardArchitectHandler;
 
   beforeEach(() => {
-    handler = new grafana-dashboardarchitectHandler();
+    handler = new GrafanaDashboardArchitectHandler();
   });
 
   test('should create handler instance', () => {

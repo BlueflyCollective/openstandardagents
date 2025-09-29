@@ -1,10 +1,10 @@
-import { vault-secretsexpertHandler } from '../../handlers/vault-secrets-expert.handlers';
+import { VaultSecretsExpertHandler } from '../../handlers/vault-secrets-expert.handlers';
 
 describe('VaultSecretsExpertHandler', () => {
-  let handler: vault-secretsexpertHandler;
+  let handler: VaultSecretsExpertHandler;
 
   beforeEach(() => {
-    handler = new vault-secretsexpertHandler();
+    handler = new VaultSecretsExpertHandler();
   });
 
   test('should create handler instance', () => {

@@ -1,10 +1,10 @@
-import { roadmaporchestratorHandler } from '../../handlers/roadmap-orchestrator.handlers';
+import { RoadmapOrchestratorHandler } from '../../handlers/roadmap-orchestrator.handlers';
 
 describe('RoadmapOrchestratorHandler', () => {
-  let handler: roadmaporchestratorHandler;
+  let handler: RoadmapOrchestratorHandler;
 
   beforeEach(() => {
-    handler = new roadmaporchestratorHandler();
+    handler = new RoadmapOrchestratorHandler();
   });
 
   test('should create handler instance', () => {

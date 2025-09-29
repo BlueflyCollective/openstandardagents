@@ -1,10 +1,10 @@
-import { postgresql-ltreespecialistHandler } from '../../handlers/postgresql-ltree-specialist.handlers';
+import { PostgresqlLtreeSpecialistHandler } from '../../handlers/postgresql-ltree-specialist.handlers';
 
 describe('PostgresqlLtreeSpecialistHandler', () => {
-  let handler: postgresql-ltreespecialistHandler;
+  let handler: PostgresqlLtreeSpecialistHandler;
 
   beforeEach(() => {
-    handler = new postgresql-ltreespecialistHandler();
+    handler = new PostgresqlLtreeSpecialistHandler();
   });
 
   test('should create handler instance', () => {

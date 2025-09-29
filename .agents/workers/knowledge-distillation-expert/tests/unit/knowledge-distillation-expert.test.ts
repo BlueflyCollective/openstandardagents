@@ -1,10 +1,10 @@
-import { knowledge-distillationexpertHandler } from '../../handlers/knowledge-distillation-expert.handlers';
+import { KnowledgeDistillationExpertHandler } from '../../handlers/knowledge-distillation-expert.handlers';
 
 describe('KnowledgeDistillationExpertHandler', () => {
-  let handler: knowledge-distillationexpertHandler;
+  let handler: KnowledgeDistillationExpertHandler;
 
   beforeEach(() => {
-    handler = new knowledge-distillationexpertHandler();
+    handler = new KnowledgeDistillationExpertHandler();
   });
 
   test('should create handler instance', () => {

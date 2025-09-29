@@ -1,10 +1,10 @@
-import { exampleorchestratorHandler } from '../../handlers/example-orchestrator.handlers';
+import { ExampleOrchestratorHandler } from '../../handlers/example-orchestrator.handlers';
 
 describe('ExampleOrchestratorHandler', () => {
-  let handler: exampleorchestratorHandler;
+  let handler: ExampleOrchestratorHandler;
 
   beforeEach(() => {
-    handler = new exampleorchestratorHandler();
+    handler = new ExampleOrchestratorHandler();
   });
 
   test('should create handler instance', () => {

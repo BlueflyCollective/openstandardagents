@@ -1,10 +1,10 @@
-import { embeddings-modeltrainerHandler } from '../../handlers/embeddings-model-trainer.handlers';
+import { EmbeddingsModelTrainerHandler } from '../../handlers/embeddings-model-trainer.handlers';
 
 describe('EmbeddingsModelTrainerHandler', () => {
-  let handler: embeddings-modeltrainerHandler;
+  let handler: EmbeddingsModelTrainerHandler;
 
   beforeEach(() => {
-    handler = new embeddings-modeltrainerHandler();
+    handler = new EmbeddingsModelTrainerHandler();
   });
 
   test('should create handler instance', () => {

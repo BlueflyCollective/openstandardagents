@@ -1,10 +1,10 @@
-import { complianceauditorHandler } from '../../handlers/compliance-auditor.handlers';
+import { ComplianceAuditorHandler } from '../../handlers/compliance-auditor.handlers';
 
 describe('ComplianceAuditorHandler', () => {
-  let handler: complianceauditorHandler;
+  let handler: ComplianceAuditorHandler;
 
   beforeEach(() => {
-    handler = new complianceauditorHandler();
+    handler = new ComplianceAuditorHandler();
   });
 
   test('should create handler instance', () => {

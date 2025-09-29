@@ -6,10 +6,10 @@
 import { existsSync } from 'fs';
 import { resolve } from 'path';
 
-describe('OSSA v0.1.9 Specification Package', () => {
-  test('package.json version should be 0.1.9', () => {
+describe('OSSA v0.1.2 Specification Package', () => {
+  test('package.json version should be 0.1.2', () => {
     const packageJson = require('../package.json');
-    expect(packageJson.version).toBe('0.1.9');
+    expect(packageJson.version).toBe('0.1.2');
     expect(packageJson.name).toBe('@ossa/specification');
     expect(packageJson.description).toContain(
       'Open Standards for Scalable Agents Specification'
@@ -18,12 +18,13 @@ describe('OSSA v0.1.9 Specification Package', () => {
 
   test('specification files should exist', () => {
     const specFiles = [
-      '../src/api/acdl-specification.yml',
-      '../src/api/orchestration.openapi.yml',
-      '../src/api/specification.openapi.yml',
-      '../src/api/voice-agent-specification.yml',
-      '../src/api/agent-manifest.schema.json',
-      '../src/api/workflow.schema.json',
+      '../src/api/core/acdl-specification.openapi.yml',
+      '../src/api/core/ossa-complete.openapi.yml',
+      '../src/api/core/specification.openapi.yml',
+      '../src/api/core/voice-agent.openapi.yml',
+      '../src/api/project/orchestration.openapi.yml',
+      '../src/api/schemas/agent-manifest.schema.json',
+      '../src/api/schemas/workflow.schema.json',
     ];
 
     specFiles.forEach((file) => {

@@ -1,10 +1,10 @@
-import { schemavalidatorHandler } from '../../handlers/schema-validator.handlers';
+import { SchemaValidatorHandler } from '../../handlers/schema-validator.handlers';
 
 describe('SchemaValidatorHandler', () => {
-  let handler: schemavalidatorHandler;
+  let handler: SchemaValidatorHandler;
 
   beforeEach(() => {
-    handler = new schemavalidatorHandler();
+    handler = new SchemaValidatorHandler();
   });
 
   test('should create handler instance', () => {

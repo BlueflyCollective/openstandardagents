@@ -1,10 +1,10 @@
-import { apiconnectorHandler } from '../../handlers/api-connector.handlers';
+import { ApiConnectorHandler } from '../../handlers/api-connector.handlers';
 
 describe('ApiConnectorHandler', () => {
-  let handler: apiconnectorHandler;
+  let handler: ApiConnectorHandler;
 
   beforeEach(() => {
-    handler = new apiconnectorHandler();
+    handler = new ApiConnectorHandler();
   });
 
   test('should create handler instance', () => {

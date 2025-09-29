@@ -1,10 +1,10 @@
-import { middlewaredeveloperHandler } from '../../handlers/middleware-developer.handlers';
+import { MiddlewareDeveloperHandler } from '../../handlers/middleware-developer.handlers';
 
 describe('MiddlewareDeveloperHandler', () => {
-  let handler: middlewaredeveloperHandler;
+  let handler: MiddlewareDeveloperHandler;
 
   beforeEach(() => {
-    handler = new middlewaredeveloperHandler();
+    handler = new MiddlewareDeveloperHandler();
   });
 
   test('should create handler instance', () => {
