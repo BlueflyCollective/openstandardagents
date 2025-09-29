@@ -1,10 +1,10 @@
-import { prometheus-metrics-specialistHandler } from '../../handlers/prometheus-metrics-specialist.handlers';
+import { prometheus-metricsspecialistHandler } from '../../handlers/prometheus-metrics-specialist.handlers';
 
 describe('prometheus-metrics-specialistHandler', () => {
-  let handler: prometheus-metrics-specialistHandler;
+  let handler: prometheus-metricsspecialistHandler;
 
   beforeEach(() => {
-    handler = new prometheus-metrics-specialistHandler();
+    handler = new prometheus-metricsspecialistHandler();
   });
 
   test('should create handler instance', () => {

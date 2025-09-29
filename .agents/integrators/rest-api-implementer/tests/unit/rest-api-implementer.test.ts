@@ -1,10 +1,10 @@
-import { rest-api-implementerHandler } from '../../handlers/rest-api-implementer.handlers';
+import { rest-apiimplementerHandler } from '../../handlers/rest-api-implementer.handlers';
 
 describe('rest-api-implementerHandler', () => {
-  let handler: rest-api-implementerHandler;
+  let handler: rest-apiimplementerHandler;
 
   beforeEach(() => {
-    handler = new rest-api-implementerHandler();
+    handler = new rest-apiimplementerHandler();
   });
 
   test('should create handler instance', () => {

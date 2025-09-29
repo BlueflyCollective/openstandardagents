@@ -1,10 +1,10 @@
-import { rbac-configuratorHandler } from '../../handlers/rbac-configurator.handlers';
+import { rbacconfiguratorHandler } from '../../handlers/rbac-configurator.handlers';
 
 describe('rbac-configuratorHandler', () => {
-  let handler: rbac-configuratorHandler;
+  let handler: rbacconfiguratorHandler;
 
   beforeEach(() => {
-    handler = new rbac-configuratorHandler();
+    handler = new rbacconfiguratorHandler();
   });
 
   test('should create handler instance', () => {

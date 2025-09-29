@@ -1,10 +1,10 @@
-import { communication-multiprotocolHandler } from '../../handlers/communication-multiprotocol.handlers';
+import { communicationmultiprotocolHandler } from '../../handlers/communication-multiprotocol.handlers';
 
 describe('communication-multiprotocolHandler', () => {
-  let handler: communication-multiprotocolHandler;
+  let handler: communicationmultiprotocolHandler;
 
   beforeEach(() => {
-    handler = new communication-multiprotocolHandler();
+    handler = new communicationmultiprotocolHandler();
   });
 
   test('should create handler instance', () => {

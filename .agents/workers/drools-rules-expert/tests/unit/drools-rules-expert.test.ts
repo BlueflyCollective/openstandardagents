@@ -1,10 +1,10 @@
-import { drools-rules-expertHandler } from '../../handlers/drools-rules-expert.handlers';
+import { drools-rulesexpertHandler } from '../../handlers/drools-rules-expert.handlers';
 
 describe('drools-rules-expertHandler', () => {
-  let handler: drools-rules-expertHandler;
+  let handler: drools-rulesexpertHandler;
 
   beforeEach(() => {
-    handler = new drools-rules-expertHandler();
+    handler = new drools-rulesexpertHandler();
   });
 
   test('should create handler instance', () => {

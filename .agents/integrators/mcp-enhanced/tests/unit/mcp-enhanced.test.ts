@@ -1,10 +1,10 @@
-import { mcp-enhancedHandler } from '../../handlers/mcp-enhanced.handlers';
+import { mcpenhancedHandler } from '../../handlers/mcp-enhanced.handlers';
 
 describe('mcp-enhancedHandler', () => {
-  let handler: mcp-enhancedHandler;
+  let handler: mcpenhancedHandler;
 
   beforeEach(() => {
-    handler = new mcp-enhancedHandler();
+    handler = new mcpenhancedHandler();
   });
 
   test('should create handler instance', () => {

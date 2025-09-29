@@ -135,7 +135,7 @@ npm run typecheck                  # TypeScript compliance
 
 # 4. Use golden workflow commands
 ossa create agent-name --tier advanced  # Use existing patterns
-forge golden validate --comprehensive   # Don't create random scripts
+buildkit golden validate --comprehensive   # Don't create random scripts
 
 # 5. Commit with proper semantic messages
 git commit -m "feat(validation): add OpenAPI 3.1 strict validation engine

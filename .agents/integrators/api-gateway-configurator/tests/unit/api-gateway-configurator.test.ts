@@ -1,10 +1,10 @@
-import { api-gateway-configuratorHandler } from '../../handlers/api-gateway-configurator.handlers';
+import { api-gatewayconfiguratorHandler } from '../../handlers/api-gateway-configurator.handlers';
 
 describe('api-gateway-configuratorHandler', () => {
-  let handler: api-gateway-configuratorHandler;
+  let handler: api-gatewayconfiguratorHandler;
 
   beforeEach(() => {
-    handler = new api-gateway-configuratorHandler();
+    handler = new api-gatewayconfiguratorHandler();
   });
 
   test('should create handler instance', () => {

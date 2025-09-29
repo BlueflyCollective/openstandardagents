@@ -1,10 +1,10 @@
-import { graphql-schema-architectHandler } from '../../handlers/graphql-schema-architect.handlers';
+import { graphql-schemaarchitectHandler } from '../../handlers/graphql-schema-architect.handlers';
 
 describe('graphql-schema-architectHandler', () => {
-  let handler: graphql-schema-architectHandler;
+  let handler: graphql-schemaarchitectHandler;
 
   beforeEach(() => {
-    handler = new graphql-schema-architectHandler();
+    handler = new graphql-schemaarchitectHandler();
   });
 
   test('should create handler instance', () => {

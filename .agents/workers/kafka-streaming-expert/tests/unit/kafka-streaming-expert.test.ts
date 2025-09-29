@@ -1,10 +1,10 @@
-import { kafka-streaming-expertHandler } from '../../handlers/kafka-streaming-expert.handlers';
+import { kafka-streamingexpertHandler } from '../../handlers/kafka-streaming-expert.handlers';
 
 describe('kafka-streaming-expertHandler', () => {
-  let handler: kafka-streaming-expertHandler;
+  let handler: kafka-streamingexpertHandler;
 
   beforeEach(() => {
-    handler = new kafka-streaming-expertHandler();
+    handler = new kafka-streamingexpertHandler();
   });
 
   test('should create handler instance', () => {

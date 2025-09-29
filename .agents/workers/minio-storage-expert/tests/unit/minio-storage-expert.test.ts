@@ -1,10 +1,10 @@
-import { minio-storage-expertHandler } from '../../handlers/minio-storage-expert.handlers';
+import { minio-storageexpertHandler } from '../../handlers/minio-storage-expert.handlers';
 
 describe('minio-storage-expertHandler', () => {
-  let handler: minio-storage-expertHandler;
+  let handler: minio-storageexpertHandler;
 
   beforeEach(() => {
-    handler = new minio-storage-expertHandler();
+    handler = new minio-storageexpertHandler();
   });
 
   test('should create handler instance', () => {

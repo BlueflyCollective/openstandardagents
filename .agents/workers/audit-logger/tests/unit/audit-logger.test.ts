@@ -1,10 +1,10 @@
-import { audit-loggerHandler } from '../../handlers/audit-logger.handlers';
+import { auditloggerHandler } from '../../handlers/audit-logger.handlers';
 
 describe('audit-loggerHandler', () => {
-  let handler: audit-loggerHandler;
+  let handler: auditloggerHandler;
 
   beforeEach(() => {
-    handler = new audit-loggerHandler();
+    handler = new auditloggerHandler();
   });
 
   test('should create handler instance', () => {

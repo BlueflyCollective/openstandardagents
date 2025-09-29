@@ -32,7 +32,7 @@ All projects in the common_npm workspace have been updated to follow the OSSA fo
 | agent-brain | ✅ | ✅ | ⏳ | ✅ |
 | agent-chat | ✅ | ✅ | ⏳ | ✅ |
 | agent-docker | ✅ | ✅ | ⏳ | ✅ |
-| agent-forge | ✅ | ✅ | ✅ | ✅ |
+| agent-buildkit | ✅ | ✅ | ✅ | ✅ |
 | agent-mesh | ✅ | ✅ | ⏳ | ✅ |
 | agent-ops | ✅ | ✅ | ⏳ | ✅ |
 | agent-protocol | ✅ | ✅ | ✅ | ✅ |
@@ -69,7 +69,7 @@ Legend:
 - Government compliance (FAR/DFARS)
 - Multi-agent document processing
 
-### 5. agent-forge
+### 5. agent-buildkit
 - Golden workflow orchestration
 - Development and deployment automation
 

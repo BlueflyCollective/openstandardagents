@@ -1,10 +1,10 @@
-import { llama2-fine-tuning-expertHandler } from '../../handlers/llama2-fine-tuning-expert.handlers';
+import { llama2-fine-tuningexpertHandler } from '../../handlers/llama2-fine-tuning-expert.handlers';
 
 describe('llama2-fine-tuning-expertHandler', () => {
-  let handler: llama2-fine-tuning-expertHandler;
+  let handler: llama2-fine-tuningexpertHandler;
 
   beforeEach(() => {
-    handler = new llama2-fine-tuning-expertHandler();
+    handler = new llama2-fine-tuningexpertHandler();
   });
 
   test('should create handler instance', () => {

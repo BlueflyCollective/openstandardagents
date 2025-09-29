@@ -1,10 +1,10 @@
-import { redis-cluster-architectHandler } from '../../handlers/redis-cluster-architect.handlers';
+import { redis-clusterarchitectHandler } from '../../handlers/redis-cluster-architect.handlers';
 
 describe('redis-cluster-architectHandler', () => {
-  let handler: redis-cluster-architectHandler;
+  let handler: redis-clusterarchitectHandler;
 
   beforeEach(() => {
-    handler = new redis-cluster-architectHandler();
+    handler = new redis-clusterarchitectHandler();
   });
 
   test('should create handler instance', () => {

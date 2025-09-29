@@ -1,10 +1,10 @@
-import { auth-security-specialistHandler } from '../../handlers/auth-security-specialist.handlers';
+import { auth-securityspecialistHandler } from '../../handlers/auth-security-specialist.handlers';
 
 describe('auth-security-specialistHandler', () => {
-  let handler: auth-security-specialistHandler;
+  let handler: auth-securityspecialistHandler;
 
   beforeEach(() => {
-    handler = new auth-security-specialistHandler();
+    handler = new auth-securityspecialistHandler();
   });
 
   test('should create handler instance', () => {

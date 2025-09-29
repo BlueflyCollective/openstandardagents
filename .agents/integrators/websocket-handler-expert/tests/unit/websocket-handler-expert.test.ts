@@ -1,10 +1,10 @@
-import { websocket-handler-expertHandler } from '../../handlers/websocket-handler-expert.handlers';
+import { websocket-handlerexpertHandler } from '../../handlers/websocket-handler-expert.handlers';
 
 describe('websocket-handler-expertHandler', () => {
-  let handler: websocket-handler-expertHandler;
+  let handler: websocket-handlerexpertHandler;
 
   beforeEach(() => {
-    handler = new websocket-handler-expertHandler();
+    handler = new websocket-handlerexpertHandler();
   });
 
   test('should create handler instance', () => {

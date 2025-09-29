@@ -1,10 +1,10 @@
-import { system-monitorHandler } from '../../handlers/system-monitor.handlers';
+import { systemmonitorHandler } from '../../handlers/system-monitor.handlers';
 
 describe('system-monitorHandler', () => {
-  let handler: system-monitorHandler;
+  let handler: systemmonitorHandler;
 
   beforeEach(() => {
-    handler = new system-monitorHandler();
+    handler = new systemmonitorHandler();
   });
 
   test('should create handler instance', () => {

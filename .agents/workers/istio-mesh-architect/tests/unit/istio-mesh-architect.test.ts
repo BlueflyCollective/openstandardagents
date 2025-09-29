@@ -1,10 +1,10 @@
-import { istio-mesh-architectHandler } from '../../handlers/istio-mesh-architect.handlers';
+import { istio-mesharchitectHandler } from '../../handlers/istio-mesh-architect.handlers';
 
 describe('istio-mesh-architectHandler', () => {
-  let handler: istio-mesh-architectHandler;
+  let handler: istio-mesharchitectHandler;
 
   beforeEach(() => {
-    handler = new istio-mesh-architectHandler();
+    handler = new istio-mesharchitectHandler();
   });
 
   test('should create handler instance', () => {

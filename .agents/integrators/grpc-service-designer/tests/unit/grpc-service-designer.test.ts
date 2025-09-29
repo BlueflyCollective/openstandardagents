@@ -1,10 +1,10 @@
-import { grpc-service-designerHandler } from '../../handlers/grpc-service-designer.handlers';
+import { grpc-servicedesignerHandler } from '../../handlers/grpc-service-designer.handlers';
 
 describe('grpc-service-designerHandler', () => {
-  let handler: grpc-service-designerHandler;
+  let handler: grpc-servicedesignerHandler;
 
   beforeEach(() => {
-    handler = new grpc-service-designerHandler();
+    handler = new grpc-servicedesignerHandler();
   });
 
   test('should create handler instance', () => {

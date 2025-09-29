@@ -1,10 +1,10 @@
-import { quality-assessorHandler } from '../../handlers/quality-assessor.handlers';
+import { qualityassessorHandler } from '../../handlers/quality-assessor.handlers';
 
 describe('quality-assessorHandler', () => {
-  let handler: quality-assessorHandler;
+  let handler: qualityassessorHandler;
 
   beforeEach(() => {
-    handler = new quality-assessorHandler();
+    handler = new qualityassessorHandler();
   });
 
   test('should create handler instance', () => {

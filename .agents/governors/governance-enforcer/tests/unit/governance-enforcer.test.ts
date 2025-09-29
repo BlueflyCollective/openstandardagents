@@ -1,10 +1,10 @@
-import { governance-enforcerHandler } from '../../handlers/governance-enforcer.handlers';
+import { governanceenforcerHandler } from '../../handlers/governance-enforcer.handlers';
 
 describe('governance-enforcerHandler', () => {
-  let handler: governance-enforcerHandler;
+  let handler: governanceenforcerHandler;
 
   beforeEach(() => {
-    handler = new governance-enforcerHandler();
+    handler = new governanceenforcerHandler();
   });
 
   test('should create handler instance', () => {

@@ -1,10 +1,10 @@
-import { task-heavyHandler } from '../../handlers/task-heavy.handlers';
+import { taskheavyHandler } from '../../handlers/task-heavy.handlers';
 
 describe('task-heavyHandler', () => {
-  let handler: task-heavyHandler;
+  let handler: taskheavyHandler;
 
   beforeEach(() => {
-    handler = new task-heavyHandler();
+    handler = new taskheavyHandler();
   });
 
   test('should create handler instance', () => {

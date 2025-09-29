@@ -1,10 +1,10 @@
-import { ppo-optimization-agentHandler } from '../../handlers/ppo-optimization-agent.handlers';
+import { ppo-optimizationagentHandler } from '../../handlers/ppo-optimization-agent.handlers';
 
 describe('ppo-optimization-agentHandler', () => {
-  let handler: ppo-optimization-agentHandler;
+  let handler: ppo-optimizationagentHandler;
 
   beforeEach(() => {
-    handler = new ppo-optimization-agentHandler();
+    handler = new ppo-optimizationagentHandler();
   });
 
   test('should create handler instance', () => {

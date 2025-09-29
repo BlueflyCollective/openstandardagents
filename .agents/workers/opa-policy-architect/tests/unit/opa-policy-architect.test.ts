@@ -1,10 +1,10 @@
-import { opa-policy-architectHandler } from '../../handlers/opa-policy-architect.handlers';
+import { opa-policyarchitectHandler } from '../../handlers/opa-policy-architect.handlers';
 
 describe('opa-policy-architectHandler', () => {
-  let handler: opa-policy-architectHandler;
+  let handler: opa-policyarchitectHandler;
 
   beforeEach(() => {
-    handler = new opa-policy-architectHandler();
+    handler = new opa-policyarchitectHandler();
   });
 
   test('should create handler instance', () => {

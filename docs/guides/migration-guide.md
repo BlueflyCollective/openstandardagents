@@ -88,7 +88,7 @@ ossa discovery health              # Check discovery service health
 @bluefly/agent-studio validate      # Enhanced validation with TDD
 @bluefly/agent-ops deploy          # Agent deployment operations
 @bluefly/agent-ops monitor         # Agent monitoring and health
-@bluefly/agent-forge docs          # Documentation generation
+@bluefly/agent-buildkit docs          # Documentation generation
 ```
 
 ---
@@ -135,7 +135,7 @@ All CLI packages follow this versioning scheme:
 | `@bluefly/open-standards-scalable-agents` | 0.1.6 | ✅ Stable |
 | `@bluefly/agent-studio` | 0.1.0 | 🚧 Development |
 | `@bluefly/agent-ops` | 0.1.0 | 🚧 Development |
-| `@bluefly/agent-forge` | 0.1.0 | 🚧 Development |
+| `@bluefly/agent-buildkit` | 0.1.0 | 🚧 Development |
 | `@bluefly/agent-cli` | 0.1.0 | 🚧 Development |
 
 ---

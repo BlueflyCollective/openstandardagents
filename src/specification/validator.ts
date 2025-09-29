@@ -430,7 +430,7 @@ export class SpecificationValidator {
     const conformance = spec.conformance || {};
     
     // Start with declared level
-    let declaredLevel = conformance.level || 'bronze';
+    const declaredLevel = conformance.level || 'bronze';
     
     // Check if the agent actually meets the requirements for the declared level
     const requirements = this.conformanceLevels[declaredLevel as keyof typeof this.conformanceLevels];
