@@ -282,7 +282,7 @@ export class ValidationService extends EventEmitter {
         const validate = ajv.compile(schema);
 
         if (!validate(agent)) {
-          validate.errors?.forEach(error => {
+          validate.errors?.forEach((error: any) => {
             result.errors.push({
               code: 'SCHEMA_VALIDATION_ERROR',
               message: `${error.instancePath}: ${error.message}`,

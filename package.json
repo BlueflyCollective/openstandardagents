@@ -6,8 +6,8 @@
   "main": "dist/types/index.js",
   "types": "dist/types/index.d.ts",
   "bin": {
-    "ossa": "dist/cli/ossa-cli.js",
-    "ossa-deploy": "dist/cli/agent-deployment.js"
+    "ossa": "./bin/ossa",
+    "ossa-deploy": "./bin/ossa-deploy"
   },
   "scripts": {
     "test": "jest",
