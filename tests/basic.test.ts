@@ -10,7 +10,7 @@ describe('OSSA v0.1.2 Specification Package', () => {
   test('package.json version should be 0.1.2', () => {
     const packageJson = require('../package.json');
     expect(packageJson.version).toBe('0.1.2');
-    expect(packageJson.name).toBe('@ossa/specification');
+    expect(packageJson.name).toBe('@bluefly/open-standards-scalable-agents');
     expect(packageJson.description).toContain(
       'Open Standards for Scalable Agents Specification'
     );
