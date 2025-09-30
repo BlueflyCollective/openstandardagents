@@ -4,6 +4,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-0.1.2-blue.svg)](package.json)
+[![Pipeline](https://img.shields.io/badge/Pipeline-Testing-yellow.svg)](https://gitlab.bluefly.io/llm/openapi-ai-agents-standard/-/pipelines)
 
 ## Overview
 
