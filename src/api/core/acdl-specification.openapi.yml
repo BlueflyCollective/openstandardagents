@@ -15,6 +15,20 @@ info:
     - Define performance characteristics
     - Register with the OSSA platform
     - Discover and match with other agents
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.ossa.dev/v1
+    description: Production OSSA Platform
+  - url: https://staging-api.ossa.dev/v1
+    description: Staging Environment
+  - url: http://localhost:3001/v1
+    description: Local Development Server
+
+security:
+  - BearerAuth: []
 
 paths:
   /acdl/register:
@@ -34,6 +48,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RegistrationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /acdl/discover:
     post:
@@ -52,6 +70,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DiscoveryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /acdl/match:
     post:
@@ -70,6 +92,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MatchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
 components:
   schemas:
@@ -529,3 +555,40 @@ components:
         expiresAt:
           type: string
           format: date-time
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: string
+    
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "unauthorized"
+              message:
+                type: string
+                example: "Authentication required"

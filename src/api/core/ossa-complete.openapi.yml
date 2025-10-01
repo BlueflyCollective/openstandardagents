@@ -782,6 +782,7 @@ paths:
 webhooks:
   agentCreated:
     post:
+      operationId: handleAgentCreated
       summary: Agent created notification
       description: Triggered when a new agent is successfully created
       requestBody:
@@ -795,6 +796,7 @@ webhooks:
 
   agentStatusChanged:
     post:
+      operationId: handleAgentStatusChanged
       summary: Agent status change notification
       description: Triggered when an agent's status changes
       requestBody:
@@ -808,6 +810,7 @@ webhooks:
 
   executionCompleted:
     post:
+      operationId: handleExecutionCompleted
       summary: Execution completed notification
       description: Triggered when an agent execution completes
       requestBody:
