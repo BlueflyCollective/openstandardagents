@@ -1,6 +1,6 @@
 {
   "name": "@bluefly/open-standards-scalable-agents",
-  "version": "0.1.2",
+  "version": "0.1.9",
   "description": "OSSA v0.1.9 - Open Standards for Scalable Agents Specification",
   "type": "module",
   "main": "dist/types/index.js",
