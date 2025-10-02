@@ -278,10 +278,7 @@ class OSSACli {
       .argument('<spec-name>', 'Specification name or path')
       .action(readSpecCommand);
 
-    openapiCommand
-      .command('list')
-      .description('List all OpenAPI specifications')
-      .action(listSpecsCommand);
+    openapiCommand.command('list').description('List all OpenAPI specifications').action(listSpecsCommand);
 
     openapiCommand
       .command('validate')

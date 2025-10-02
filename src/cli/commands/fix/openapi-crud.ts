@@ -16,17 +16,23 @@ const OpenAPISchema = z.object({
   info: z.object({
     title: z.string(),
     version: z.string(),
-    description: z.string().optional(),
+    description: z.string().optional()
   }),
-  servers: z.array(z.object({
-    url: z.string(),
-    description: z.string().optional(),
-  })).optional(),
+  servers: z
+    .array(
+      z.object({
+        url: z.string(),
+        description: z.string().optional()
+      })
+    )
+    .optional(),
   paths: z.record(z.string(), z.any()),
-  components: z.object({
-    schemas: z.record(z.string(), z.any()).optional(),
-    securitySchemes: z.record(z.string(), z.any()).optional(),
-  }).optional(),
+  components: z
+    .object({
+      schemas: z.record(z.string(), z.any()).optional(),
+      securitySchemes: z.record(z.string(), z.any()).optional()
+    })
+    .optional()
 });
 
 export type OpenAPISpec = z.infer<typeof OpenAPISchema>;
@@ -105,20 +111,20 @@ export class OpenAPICRUD {
       ...updates,
       info: {
         ...existing.info,
-        ...(updates.info || {}),
+        ...(updates.info || {})
       },
       paths: {
         ...existing.paths,
-        ...(updates.paths || {}),
+        ...(updates.paths || {})
       },
       components: {
         ...(existing.components || {}),
         ...(updates.components || {}),
         schemas: {
           ...(existing.components?.schemas || {}),
-          ...(updates.components?.schemas || {}),
-        },
-      },
+          ...(updates.components?.schemas || {})
+        }
+      }
     };
 
     // Validate merged spec
@@ -217,12 +223,12 @@ export class OpenAPICRUD {
       info: {
         title: `Merged API: ${specNames.join(', ')}`,
         version: '1.0.0',
-        description: `Merged from ${specNames.length} specifications`,
+        description: `Merged from ${specNames.length} specifications`
       },
       paths: {},
       components: {
-        schemas: {},
-      },
+        schemas: {}
+      }
     };
 
     for (const spec of specs) {
@@ -240,7 +246,7 @@ export class OpenAPICRUD {
       name: outputName,
       title: merged.info.title,
       version: merged.info.version,
-      description: merged.info.description,
+      description: merged.info.description
     });
   }
 
@@ -276,9 +282,9 @@ export class OpenAPICRUD {
       info: {
         title: options.title || options.name,
         version: options.version || '1.0.0',
-        description: options.description || `API specification for ${options.name}`,
+        description: options.description || `API specification for ${options.name}`
       },
-      paths: {},
+      paths: {}
     };
 
     switch (options.template) {
@@ -288,8 +294,8 @@ export class OpenAPICRUD {
           servers: [
             {
               url: 'http://localhost:3000',
-              description: 'Development server',
-            },
+              description: 'Development server'
+            }
           ],
           paths: {
             '/health': {
@@ -304,15 +310,15 @@ export class OpenAPICRUD {
                           type: 'object',
                           properties: {
                             status: { type: 'string' },
-                            timestamp: { type: 'string', format: 'date-time' },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
+                            timestamp: { type: 'string', format: 'date-time' }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           components: {
             schemas: {
@@ -320,12 +326,12 @@ export class OpenAPICRUD {
                 type: 'object',
                 properties: {
                   code: { type: 'string' },
-                  message: { type: 'string' },
+                  message: { type: 'string' }
                 },
-                required: ['code', 'message'],
-              },
-            },
-          },
+                required: ['code', 'message']
+              }
+            }
+          }
         };
 
       case 'microservice':
@@ -334,12 +340,12 @@ export class OpenAPICRUD {
           servers: [
             {
               url: 'http://localhost:3000',
-              description: 'Development',
+              description: 'Development'
             },
             {
               url: 'https://api.example.com',
-              description: 'Production',
-            },
+              description: 'Production'
+            }
           ],
           paths: {
             '/health': {
@@ -349,10 +355,10 @@ export class OpenAPICRUD {
                 tags: ['System'],
                 responses: {
                   '200': {
-                    description: 'Service is healthy',
-                  },
-                },
-              },
+                    description: 'Service is healthy'
+                  }
+                }
+              }
             },
             '/metrics': {
               get: {
@@ -361,11 +367,11 @@ export class OpenAPICRUD {
                 tags: ['System'],
                 responses: {
                   '200': {
-                    description: 'Metrics data',
-                  },
-                },
-              },
-            },
+                    description: 'Metrics data'
+                  }
+                }
+              }
+            }
           },
           components: {
             schemas: {
@@ -374,18 +380,18 @@ export class OpenAPICRUD {
                 properties: {
                   code: { type: 'string' },
                   message: { type: 'string' },
-                  details: { type: 'object' },
-                },
-              },
+                  details: { type: 'object' }
+                }
+              }
             },
             securitySchemes: {
               bearerAuth: {
                 type: 'http',
                 scheme: 'bearer',
-                bearerFormat: 'JWT',
-              },
-            },
-          },
+                bearerFormat: 'JWT'
+              }
+            }
+          }
         };
 
       default:
@@ -407,7 +413,7 @@ export async function createSpecCommand(options: any): Promise<void> {
       title: options.title,
       version: options.version,
       description: options.description,
-      template: options.template || 'minimal',
+      template: options.template || 'minimal'
     });
   } catch (error) {
     console.error(chalk.red(`❌ Failed to create spec: ${error instanceof Error ? error.message : String(error)}`));

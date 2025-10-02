@@ -107,7 +107,7 @@ export class ImportFixer {
       file: path.relative(this.rootDir, filePath),
       originalImports: [],
       fixedImports: [],
-      errors: [],
+      errors: []
     };
 
     try {
@@ -216,7 +216,7 @@ export class ImportFixer {
       importsFix: totalImports,
       errors: this.results.filter((r) => r.errors.length > 0).length,
       results: this.results,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     };
 
     // Save report
@@ -280,7 +280,7 @@ export class ImportFixer {
         }),
       '',
       'echo "✓ Reverted all changes"',
-      `echo "Backups remain in: $BACKUP_DIR"`,
+      `echo "Backups remain in: $BACKUP_DIR"`
     ].join('\n');
 
     fs.writeFileSync(scriptPath, script, { mode: 0o755 });
