@@ -20,6 +20,7 @@ import {
   listSpecsCommand,
   validateSpecCommand
 } from './commands/fix/openapi-crud.js';
+import { registerCommand as registerObservabilityCommand } from './commands/observability/deploy.js';
 
 // OpenAPI 3.1 Schema Definitions
 const OpenAPISchema = z.object({
@@ -285,6 +286,9 @@ class OSSACli {
       .description('Validate an OpenAPI specification')
       .argument('<spec-name>', 'Specification name or path')
       .action(validateSpecCommand);
+
+    // OBSERVABILITY Operations - NEW: Replace bash scripts with OpenAPI
+    registerObservabilityCommand(this.program);
 
     // TESTING Operations
     this.program
