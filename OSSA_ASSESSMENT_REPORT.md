@@ -219,7 +219,7 @@ The OSSA system demonstrates sophisticated architectural design with:
 ```bash
 # Fix container image issues
 kubectl delete deployment ossa-74b69b66fb -n default
-kubectl apply -f infrastructure/k8s/deployment.yaml
+kubectl apply -f infrastructure/kubernetes/deployment.yaml
 
 # Initialize database schema
 kubectl exec -n ossa-agents postgres-6ccf8747c-6w8tv -- psql -U ossa_admin -d ossa_agents -f /init/schema.sql

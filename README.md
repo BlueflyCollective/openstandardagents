@@ -414,11 +414,12 @@ console.log(validator.generateReport(result));
 │   │   └── schemas/           # JSON schemas
 │   ├── cli/                   # OSSA CLI implementation
 │   ├── core/                  # Core libraries and validation
+│   ├── runtime/               # Service registry, port management
 │   ├── server/                # Express server implementation
 │   └── types/                 # TypeScript type definitions
 ├── docs/                      # Generated documentation
 ├── examples/                  # Example implementations
-├── infrastructure/            # Kubernetes manifests
+├── infrastructure/            # Docker, K8s, monitoring configs
 ├── tests/                     # Test suites
 ├── .redocly.yaml             # Redocly configuration
 ├── package.json              # Node.js dependencies
