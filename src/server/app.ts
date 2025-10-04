@@ -22,6 +22,7 @@ import { agentsRouter } from './routes/agents';
 import { specificationsRouter } from './routes/specifications';
 import { orchestrationRouter } from './routes/orchestration';
 import { monitoringRouter } from './routes/monitoring';
+import dashboardRouter from './routes/dashboard';
 
 // Import middleware
 import { authMiddleware } from './middleware/auth';
@@ -190,6 +191,9 @@ export class OSSAServer {
     this.app.use('/api/v1/specifications', authMiddleware, specificationsRouter);
     this.app.use('/api/v1/orchestration', authMiddleware, orchestrationRouter);
     this.app.use('/api/v1/monitoring', authMiddleware, monitoringRouter);
+
+    // Dashboard API - real-time metrics (public for now, add auth later if needed)
+    this.app.use('/api/v1/dashboard', dashboardRouter);
 
     // Webhook endpoints (special auth handling)
     this.app.post('/webhooks/:webhook_id', validationMiddleware, async (req: Request, res: Response) => {
