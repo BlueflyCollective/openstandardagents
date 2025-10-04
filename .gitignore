@@ -76,4 +76,5 @@ jspm_packages/
 .node_repl_history
 
 # Temporary/Old files to ignore
-__DELETE_LATER/
+__DELETE_LATER/.build/
+*.o
