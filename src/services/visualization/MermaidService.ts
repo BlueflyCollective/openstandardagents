@@ -39,14 +39,10 @@ export interface AgentRelationship {
  * Main service class for generating Mermaid diagrams
  */
 export class MermaidService {
-
   /**
    * Generate flowchart diagram from OpenAPI specification
    */
-  async generateFlowchart(
-    spec: OpenAPIObject,
-    options: DiagramOptions = {}
-  ): Promise<string> {
+  async generateFlowchart(spec: OpenAPIObject, options: DiagramOptions = {}): Promise<string> {
     const { orientation = 'TB', title = 'Agent Flow' } = options;
 
     let diagram = `flowchart ${orientation}\n`;
@@ -100,10 +96,7 @@ export class MermaidService {
   /**
    * Generate sequence diagram for agent interactions
    */
-  async generateSequenceDiagram(
-    spec: OpenAPIObject,
-    workflow: string[]
-  ): Promise<string> {
+  async generateSequenceDiagram(spec: OpenAPIObject, workflow: string[]): Promise<string> {
     let diagram = 'sequenceDiagram\n';
     diagram += '  autonumber\n';
 
@@ -154,7 +147,7 @@ export class MermaidService {
         const properties = schema.properties || {};
         for (const [propName, propSchema] of Object.entries(properties)) {
           if (propSchema && typeof propSchema === 'object') {
-            const type = ('type' in propSchema) ? propSchema.type as string : 'object';
+            const type = 'type' in propSchema ? (propSchema.type as string) : 'object';
             const required = schema.required?.includes(propName) ? 'PK' : '';
             diagram += `    ${type} ${propName} ${required}\n`;
           }
@@ -176,10 +169,7 @@ export class MermaidService {
   /**
    * Generate architecture diagram (C4 model style)
    */
-  async generateArchitectureDiagram(
-    agents: AgentNode[],
-    relationships: AgentRelationship[]
-  ): Promise<string> {
+  async generateArchitectureDiagram(agents: AgentNode[], relationships: AgentRelationship[]): Promise<string> {
     let diagram = 'graph TB\n';
     diagram += '  subgraph "OSSA Agent Ecosystem"\n';
 
@@ -231,10 +221,7 @@ export class MermaidService {
     return agents;
   }
 
-  private extractRelationships(
-    spec: OpenAPIObject,
-    agents: AgentNode[]
-  ): AgentRelationship[] {
+  private extractRelationships(spec: OpenAPIObject, agents: AgentNode[]): AgentRelationship[] {
     const relationships: AgentRelationship[] = [];
 
     // Extract from OpenAPI callbacks and links
@@ -262,7 +249,7 @@ export class MermaidService {
       critic: '{',
       judge: '{{',
       governor: '[[',
-      monitor: '[(',
+      monitor: '[('
     };
 
     const close: Record<string, string> = {
@@ -271,7 +258,7 @@ export class MermaidService {
       critic: '}',
       judge: '}}',
       governor: ']]',
-      monitor: ')]',
+      monitor: ')]'
     };
 
     return shapes[agentType] || '[';
@@ -282,7 +269,7 @@ export class MermaidService {
       invokes: '-->',
       depends: '-.->',
       observes: '==>',
-      governs: '--o',
+      governs: '--o'
     };
 
     return arrows[relType] || '-->';
@@ -291,10 +278,7 @@ export class MermaidService {
   private isAgentSchema(schema: any): boolean {
     if (!schema || typeof schema !== 'object') return false;
 
-    return (
-      'properties' in schema &&
-      (schema.properties?.type || schema.properties?.capabilities)
-    );
+    return 'properties' in schema && (schema.properties?.type || schema.properties?.capabilities);
   }
 
   private generateClassNode(name: string, schema: any): string {
