@@ -1,7 +1,7 @@
 {
   "name": "@bluefly/open-standards-scalable-agents",
   "version": "0.1.9",
-  "description": "OSSA v0.1.9 - Open Standards for Scalable Agents Specification",
+  "description": "OSSA v0.1.9 - Open Standards for Scalable Agents Open Standard",
   "type": "module",
   "main": "dist/types/index.js",
   "types": "dist/types/index.d.ts",
@@ -59,7 +59,7 @@
     "dev:stop": "./scripts/dev-stop.sh",
     "graph:build": "node dist/cli/ossa-cli.js knowledge-graph --output knowledge-graph",
     "graph:init": "node dist/cli/ossa-cli.js init",
-    "hooks:install": "./hooks/install-hooks.sh"
+    "hooks:install": "./hooks/install-hooks.sh",
   },
   "keywords": [
     "ossa",
@@ -95,7 +95,9 @@
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1",
     "yaml": "^2.8.1",
-    "zod": "^4.1.5"
+    "zod": "^4.1.5",
+    "@llm/agent-protocol-mcp": "^0.2.0",
+    "@modelcontextprotocol/sdk": "^1.19.1"
   },
   "devDependencies": {
     "@redocly/cli": "^2.1.5",
