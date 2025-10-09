@@ -1,57 +1,82 @@
 # OSSA Roadmap
 
-**Project**: OSSA - Open Standards for Scalable Agents
-**Last Updated**: 2025-10-04
-**Current Phase**: 129-Agent Orchestration
-**Status**: ✅ All Agents Deployed
+> **Generated from OSSA Ecosystem Strategy**
 
----
+## Project Overview
 
-## 🎯 Current Sprint
+Canonical schema, test suite, and validator for all agent definitions
 
-### Priority: Master Orchestrator Deployment ⚡ P0
+**Layer:** Schema & Metadata
 
-**Status**: 129 agents ready, orchestrator deployment pending
+### Core Features
 
-#### Immediate Actions
-```bash
-# Deploy master orchestrator
-cd /Users/flux423/Sites/LLM/OSSA
-ossa deploy --agent ossa-master-orchestrator --environment dev
+- OpenAPI-First agent schema definition
+- Agent manifest versioning
+- Cryptographic signature support
+- Helm chart templates
+- Validation tools and test suite
+- Agent registry specifications
 
-# Execute security audit (first workflow)
-ossa-master-orchestrator coordinate \
-  --agents "opa-policy-architect,compliance-auditor,security-scanner" \
-  --workflow "security-audit" --pattern "parallel"
-```
+## Roadmap Items
 
-#### Agent Inventory (129 Total)
-- **92 Workers**: Infrastructure, AI/ML, Security, Documentation, DevOps
-- **8 Orchestrators**: Master coordinator, CLI, standards, K8s
-- **29 Additional**: Critics, governors, integrators, monitors
+### High Priority
 
----
+#### Extend OSSA Schema with Enhanced Attributes
 
-## 📦 Ready-to-Execute Workflows
+Add agent_roles, deployment_modes, mcp_policies, and llm_model_profile attributes
 
-1. **Security Audit** (9 agents, parallel, CRITICAL)
-2. **Nx Optimization** (16 agents, parallel, target 95% cache rate)
-3. **Documentation** (10 agents, parallel)
-4. **Infrastructure** (9 agents, parallel)
-5. **DevOps Automation** (10 agents, parallel)
-6. **Observability** (9 agents, parallel)
+- **Category:** Schema Evolution
 
----
+#### Implement MCP Integration
 
-## 🚀 Q1 2025 Roadmap
+Support scoped Multi-Cloud Policy Profiles per agent class
 
-**January**: Agent orchestration, first workflows
-**February**: DevOps automation, observability  
-**March**: AI/ML optimization, continuous improvement
+- **Category:** Schema Evolution
+- **Dependencies:** Extend OSSA Schema
 
-See full workflow details in `/Users/flux423/Sites/LLM/PROJECT_ROADMAP.md`
+#### Build Agent Registry v2
 
----
+Manifest versioning, cryptographic signatures, artifact URL resolution
 
+<<<<<<< HEAD
 **Status**: 🟢 **READY FOR ORCHESTRATION**  
 129 agents deployed. All workflows prepared.
+=======
+- **Category:** Schema Evolution
+
+#### Create OSSA Helm Chart Templates
+
+Public Helm repo with standardized templates
+
+- **Category:** Adoption
+
+#### Stand Up OSSA Registry
+
+Docker Hub-like registry for sharing agents & blueprints
+
+- **Category:** Adoption
+- **Dependencies:** Build Agent Registry v2
+
+### Medium Priority
+
+#### Launch OSSA Certification Program
+
+3rd-party provider certification and compliance validation
+
+- **Category:** Adoption
+- **Dependencies:** Stand Up OSSA Registry
+
+## Integration Points
+
+This project integrates with the broader OSSA ecosystem:
+
+- **Layer:** Schema & Metadata
+- **Direct Dependencies:** None (foundation layer)
+
+## Next Steps
+
+1. Review roadmap items with stakeholders
+2. Create GitLab issues for high-priority items
+3. Establish milestones and sprint planning
+4. Begin implementation following OSSA standards
+>>>>>>> e246cf490 (Auto-commit: Push uncommitted changes from feature/architecture-visualization)
