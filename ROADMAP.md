@@ -1,134 +1,77 @@
 # OSSA Roadmap
 
-**Project**: OSSA - Open Standards for Scalable Agents
-**Last Updated**: 2025-10-04
-**Current Phase**: 129-Agent Orchestration
-**Status**: ✅ All Agents Deployed
+> **Generated from OSSA Ecosystem Strategy**
 
----
+## Project Overview
 
-## 🎯 Current Sprint
+Canonical schema, test suite, and validator for all agent definitions
 
-### Priority: Master Orchestrator Deployment ⚡ P0
+**Layer:** Schema & Metadata
 
-**Status**: 129 agents ready, orchestrator deployment pending
+### Core Features
 
-#### Immediate Actions
-```bash
-# Deploy master orchestrator
-cd /Users/flux423/Sites/LLM/OSSA
-ossa deploy --agent ossa-master-orchestrator --environment dev
+- OpenAPI-First agent schema definition
+- Agent manifest versioning
+- Cryptographic signature support
+- Helm chart templates
+- Validation tools and test suite
+- Agent registry specifications
 
-# Execute security audit (first workflow)
-ossa-master-orchestrator coordinate \
-  --agents "opa-policy-architect,compliance-auditor,security-scanner" \
-  --workflow "security-audit" --pattern "parallel"
-```
+## Roadmap Items
 
-#### Agent Inventory (129 Total)
-- **92 Workers**: Infrastructure, AI/ML, Security, Documentation, DevOps
-- **8 Orchestrators**: Master coordinator, CLI, standards, K8s
-- **29 Additional**: Critics, governors, integrators, monitors
+### High Priority
 
----
+#### Extend OSSA Schema with Enhanced Attributes
 
-## 📦 Ready-to-Execute Workflows
+Add agent_roles, deployment_modes, mcp_policies, and llm_model_profile attributes
 
-1. **Security Audit** (9 agents, parallel, CRITICAL)
-2. **Nx Optimization** (16 agents, parallel, target 95% cache rate)
-3. **Documentation** (10 agents, parallel)
-4. **Infrastructure** (9 agents, parallel)
-5. **DevOps Automation** (10 agents, parallel)
-6. **Observability** (9 agents, parallel)
+- **Category:** Schema Evolution
 
----
+#### Implement MCP Integration
 
-## 🚀 Q1 2025 Roadmap
+Support scoped Multi-Cloud Policy Profiles per agent class
 
-**January**: Agent orchestration, first workflows
-**February**: DevOps automation, observability  
-**March**: AI/ML optimization, continuous improvement
+- **Category:** Schema Evolution
+- **Dependencies:** Extend OSSA Schema
 
-See full workflow details in `/Users/flux423/Sites/LLM/PROJECT_ROADMAP.md`
+#### Build Agent Registry v2
 
----
+Manifest versioning, cryptographic signatures, artifact URL resolution
 
-**Status**: 🟢 **READY FOR ORCHESTRATION**  
-129 agents deployed. All workflows prepared.
+- **Category:** Schema Evolution
 
+#### Create OSSA Helm Chart Templates
 
-## OSSA Standard Development (v0.1.9)
+Public Helm repo with standardized templates
 
-### AI Agent Standard Specification
+- **Category:** Adoption
 
-**Status**: 📋 **STANDARD DEFINITION**
+#### Stand Up OSSA Registry
 
-#### Core Standard Components
-- [ ] **Agent Schema Definition**
-  - Agent capabilities and constraints specification
-  - Workflow orchestration patterns
-  - Inter-agent communication protocols
-  - Security and compliance requirements
+Docker Hub-like registry for sharing agents & blueprints
 
-- [ ] **OpenAPI Extensions**
-  - OSSA-specific OpenAPI extensions for agent services
-  - Standardized agent endpoint definitions
-  - Workflow trigger specifications
-  - Device integration patterns
+- **Category:** Adoption
+- **Dependencies:** Build Agent Registry v2
 
-#### Standard Compliance
-- [ ] **Validation Framework**
-  - OSSA compliance checker
-  - Agent capability validation
-  - Workflow pattern verification
-  - Security requirement auditing
+### Medium Priority
 
-- [ ] **Reference Implementations**
-  - Minimal compliant agent example
-  - Standard workflow patterns
-  - Security implementation guide
-  - Device integration examples
+#### Launch OSSA Certification Program
 
-## Remote MCP Integration (v0.1.0)
+3rd-party provider certification and compliance validation
 
-### Integration Tasks
+- **Category:** Adoption
+- **Dependencies:** Stand Up OSSA Registry
 
-- [ ] **🚨 🔌 Remote MCP Bridge Server Implementation**
-  - **Priority**: critical
-  - **Effort**: 3-4 days
-  - **Connectors**: all
-  - **Description**: Implement the core Remote MCP Bridge Server to connect all external MCP connectors.
-  - **Dependencies**: None
+## Integration Points
 
-### Remote MCP Connectors
-- **Linear**: Project management and issue tracking
-- **GitLab**: Enhanced issue synchronization
-- **Atlassian**: Documentation management
-- **Sentry**: Error monitoring and debugging
-- **Zapier**: Workflow automation
+This project integrates with the broader OSSA ecosystem:
 
-### Integration Status
-- [ ] Remote MCP Bridge Server configured
-- [ ] Connectors authenticated and tested
-- [ ] Cross-platform sync working
-- [ ] Monitoring and alerting setup
-- [ ] Security audit completed
+- **Layer:** Schema & Metadata
+- **Direct Dependencies:** None (foundation layer)
 
----
+## Next Steps
 
-## 🔧 Technical Improvements
-
-### Universal Type Generator Migration (v0.1.10)
-**Priority**: P2 (Medium)  
-**Effort**: 1 week  
-**Status**: Design complete
-
-- [ ] Migrate OSSA to use universal type generator from `common_npm/type-generator/`
-- [ ] Replace existing CLI type generation
-- [ ] Verify all OSSA schemas generate correctly
-- [ ] Update build process
-- [ ] Delete old type generation code
-
-**Dependencies**: Universal generator must be created first (see agent_buildkit roadmap)  
-**Benefits**: Consistent types across all OSSA tools
-
+1. Review roadmap items with stakeholders
+2. Create GitLab issues for high-priority items
+3. Establish milestones and sprint planning
+4. Begin implementation following OSSA standards
