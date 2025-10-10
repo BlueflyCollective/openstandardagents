@@ -77,10 +77,10 @@ agentkit git-management audit --format markdown > git-audit.md
 ```
 
 ## Safety Rules
-- ✅ Always checkpoint dirty branches before merging
-- ✅ Never delete branches automatically
-- ✅ Never force-push to `development` or `release/`
-- ✅ Report first, then apply changes only after approval
+-  Always checkpoint dirty branches before merging
+-  Never delete branches automatically
+-  Never force-push to `development` or `release/`
+-  Report first, then apply changes only after approval
 
 ## Compliance Check
 

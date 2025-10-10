@@ -9,7 +9,7 @@
 
 This document establishes standardized naming conventions for AI agents within the OSSA (Open Standards for Scalable Agents) ecosystem. These conventions ensure consistency, discoverability, and maintainability across all agent implementations while supporting the Universal Agent Discovery Protocol (UADP) and multi-framework interoperability.
 
-## 🎯 Core Principles
+##  Core Principles
 
 ### 1. Consistency & Predictability
 - Uniform naming patterns across all agent types and domains
@@ -31,7 +31,7 @@ This document establishes standardized naming conventions for AI agents within t
 - Hierarchical structure for efficient discovery queries
 - Capability inference from naming patterns
 
-## 📝 Naming Convention Structure
+##  Naming Convention Structure
 
 ### Standard Format
 
@@ -122,7 +122,7 @@ research-compliance-auditor      # Research with compliance checking
 workflow-security-orchestrator   # Secure workflow orchestration
 ```
 
-## 🏷️ Agent Metadata Integration
+## 🏷 Agent Metadata Integration
 
 ### YAML Configuration
 
@@ -161,7 +161,7 @@ info:
       - specification
 ```
 
-## 🔍 Discovery Protocol Support
+##  Discovery Protocol Support
 
 ### UADP Query Patterns
 
@@ -199,7 +199,7 @@ discovery:
     - capability_tags: ["validation", "generation", "analysis"]
 ```
 
-## ✅ Validation Rules
+##  Validation Rules
 
 ### Mandatory Requirements
 
@@ -259,7 +259,7 @@ research_agent_2024              # Underscores, dates
 5. **Implementation Details**: Technology stack references
 6. **Inconsistent Separators**: Mixing hyphens and underscores
 
-## 🔧 Implementation Guidelines
+##  Implementation Guidelines
 
 ### CLI Integration
 
@@ -296,27 +296,27 @@ agents:
     last_validated: "2025-09-06T10:30:00Z"
 ```
 
-## 📊 Conformance Levels
+##  Conformance Levels
 
 ### Bronze Level (Minimum Compliance)
-- ✅ Follows basic structure: `domain-role`
-- ✅ Uses lowercase and hyphens only
-- ✅ No generic names or anti-patterns
+-  Follows basic structure: `domain-role`
+-  Uses lowercase and hyphens only
+-  No generic names or anti-patterns
 
 ### Silver Level (Recommended)
-- ✅ Bronze requirements +
-- ✅ Includes appropriate scope when needed
-- ✅ Uses standardized domain/role vocabulary
-- ✅ Supports UADP discovery metadata
+-  Bronze requirements +
+-  Includes appropriate scope when needed
+-  Uses standardized domain/role vocabulary
+-  Supports UADP discovery metadata
 
 ### Gold Level (Enterprise)
-- ✅ Silver requirements +
-- ✅ Automated naming validation in CI/CD
-- ✅ Registry integration and conflict detection  
-- ✅ Organizational naming policy compliance
-- ✅ Audit trail for naming decisions
+-  Silver requirements +
+-  Automated naming validation in CI/CD
+-  Registry integration and conflict detection  
+-  Organizational naming policy compliance
+-  Audit trail for naming decisions
 
-## 🔄 Migration Guide
+##  Migration Guide
 
 ### From Existing Agents
 
@@ -359,7 +359,7 @@ discovery:
   deprecation_warnings: true
 ```
 
-## 🎯 Best Practices Summary
+##  Best Practices Summary
 
 1. **Start with Domain**: Identify the primary area of expertise
 2. **Define Role Clearly**: Specify the agent's function within that domain  
@@ -370,7 +370,7 @@ discovery:
 7. **Enable Migration**: Support backwards compatibility during transitions
 8. **Monitor Compliance**: Regular audits of naming conventions
 
-## 📚 Related Standards
+##  Related Standards
 
 - **[Agent Specification](../reference/agent-specification.md)** - Core agent format and fields
 - **[OSSA Golden Standard](../GOLDEN_STANDARD.md)** - Overall project standards

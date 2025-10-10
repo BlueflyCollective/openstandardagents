@@ -26,7 +26,7 @@ git commit -m "feat: AI-generated API implementation"
 git commit -m "feat: Add endpoint (generated)"
 ```
 
-## ✅ CORRECT Commit Format
+##  CORRECT Commit Format
 
 ### Professional commit messages ONLY:
 ```bash
@@ -58,7 +58,7 @@ Types:
 - perf: Performance
 - chore: Maintenance
 
-## 🛡️ Enforcement Mechanisms
+##  Enforcement Mechanisms
 
 ### Pre-commit Hook (.git/hooks/commit-msg):
 ```bash
@@ -83,14 +83,14 @@ validate-commits:
       fi
 ```
 
-## 🎯 Why This Matters
+##  Why This Matters
 
 1. **Professional Standards**: Enterprise code requires professional commit history
 2. **Legal Clarity**: Avoid confusion about code ownership
 3. **Audit Compliance**: Clean audit trails without AI references
 4. **Team Consistency**: All commits follow same standards
 
-## 🔧 Implementation
+##  Implementation
 
 ### Set up pre-commit hook:
 ```bash
@@ -101,12 +101,12 @@ if grep -iE "claude|anthropic|ai[- ]generated|generated with|co-authored|noreply
     echo "Remove: Claude, Anthropic, AI-generated, Co-authored references"
     exit 1
 fi
-echo "✅ Commit message validated"
+echo " Commit message validated"
 EOF
 chmod +x .git/hooks/commit-msg
 ```
 
-## 📝 Agent Instructions Override
+##  Agent Instructions Override
 
 When spawning ANY agent, include this directive:
 
@@ -119,7 +119,7 @@ CRITICAL OVERRIDE:
 - Violation of this rule invalidates all work
 ```
 
-## 🚨 Validation Command
+##  Validation Command
 
 Check recent commits for violations:
 ```bash

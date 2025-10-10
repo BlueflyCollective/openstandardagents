@@ -19,7 +19,7 @@
 
 ## Command Structure
 
-### DO ✅
+### DO 
 ```bash
 ossa spec create --from-roadmap
 ossa validate --compliance ISO-42001
@@ -73,19 +73,19 @@ OSSA/
 
 ### 1. Over-Engineering
 - ❌ Creating 500-line specs when 50 lines work
-- ✅ Start minimal, expand as needed
+-  Start minimal, expand as needed
 
 ### 2. Wrong Repository
 - ❌ Putting implementation in OSSA
-- ✅ OSSA = specs, BuildKit = implementation
+-  OSSA = specs, BuildKit = implementation
 
 ### 3. Command Complexity
 - ❌ `ossa-universal-agent-protocol-specification-create`
-- ✅ `ossa spec create`
+-  `ossa spec create`
 
 ### 4. Documentation Scatter
 - ❌ Random docs everywhere
-- ✅ Organized /docs folder
+-  Organized /docs folder
 
 ## Quick Checklist Before Changes
 

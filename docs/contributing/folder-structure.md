@@ -4,7 +4,7 @@
 
 The Open Semantic Service Architecture (OSSA) platform provides a comprehensive, standards-based framework for building, deploying, and managing AI agents and semantic services. This document details the complete directory structure, configuration requirements, and operational guidelines for OSSA-compliant implementations.
 
-**⚠️ UPDATED STRUCTURE**: This structure has been reorganized to follow the clean specification pattern with versioned schemas, centralized compliance mappings, and standalone validators.
+**⚠ UPDATED STRUCTURE**: This structure has been reorganized to follow the clean specification pattern with versioned schemas, centralized compliance mappings, and standalone validators.
 
 ## Directory Structure
 

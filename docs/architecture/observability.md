@@ -13,19 +13,19 @@ The OSSA Observability Integration provides complete visibility into agent perfo
 
 ## Features
 
-### 🔍 Distributed Tracing
+###  Distributed Tracing
 - **OpenTelemetry Integration** - Industry-standard distributed tracing
 - **LLM-Specific Traces** - Token usage, latency, and cost tracking
 - **Agent Execution Tracing** - Complete visibility into agent workflows
 - **MCP Operation Tracing** - Model Context Protocol operation monitoring
 
-### 📊 Metrics & Analytics
+###  Metrics & Analytics
 - **Real-time Metrics** - Agent performance and usage statistics
 - **Token Usage Tracking** - Cost analysis and optimization insights
 - **Error Rate Monitoring** - Automated error detection and alerting
 - **Performance Dashboards** - Visual monitoring and trend analysis
 
-### 🚨 Alerting & Monitoring
+###  Alerting & Monitoring
 - **Configurable Alerts** - Custom rules for performance and error thresholds
 - **Multiple Channels** - Email, webhook, and Slack notifications
 - **Health Checks** - Automated agent health monitoring

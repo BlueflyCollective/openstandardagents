@@ -108,7 +108,7 @@ rm -rf test unit api  # Remove duplicates
 grep -r "\[\s*\]|\[ \]|TODO|FIXME" *.md
 
 # Add new phase to ROADMAP.md:
-# Phase X: Technical Debt & Refactoring 🔧 PRIORITY
+# Phase X: Technical Debt & Refactoring  PRIORITY
 ```
 
 ### Step 7: Update Legacy References
@@ -134,13 +134,13 @@ ls -la | grep -v "^d" | wc -l  # Should be ~10-15 files
 
 ## Expected Results Per Project
 
-### ✅ Clean Root Directory (10-15 files)
+###  Clean Root Directory (10-15 files)
 - Only standard project files
 - No stray documentation
 - No duplicate configs
 - No old scripts/reports
 
-### 📁 Organized /docs/ Structure
+###  Organized /docs/ Structure
 - `/docs/specifications/` - API specs, JSON schemas
 - `/docs/reports/` - Status reports, audits  
 - `/docs/legacy/` - Historical documentation
@@ -150,7 +150,7 @@ ls -la | grep -v "^d" | wc -l  # Should be ~10-15 files
 - `/docs/testing/` - Test documentation
 - `/docs/api/` - OpenAPI specs, API docs
 
-### 🧪 Consolidated Tests  
+###  Consolidated Tests  
 - Single `/tests/` directory
 - `/tests/unit/`, `/tests/integration/`, `/tests/api/`, `/tests/e2e/`
 - No duplicate test directories
@@ -181,9 +181,9 @@ ls -la | grep -v "^d" | wc -l  # Should be ~10-15 files
 
 ## Success Metrics from agent-tracer
 
-✅ **32+ root files** → **12 clean files**  
-✅ **42 files** organized in /docs/  
-✅ **All duplicates** removed (/api, /test, /unit)  
-✅ **8 TODOs** extracted to ROADMAP Phase 7  
-✅ **Professional structure** achieved  
-✅ **Zero data loss** during cleanup
+ **32+ root files** → **12 clean files**  
+ **42 files** organized in /docs/  
+ **All duplicates** removed (/api, /test, /unit)  
+ **8 TODOs** extracted to ROADMAP Phase 7  
+ **Professional structure** achieved  
+ **Zero data loss** during cleanup

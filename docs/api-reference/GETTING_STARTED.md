@@ -336,7 +336,7 @@ Official SDKs are available for:
 
 ## Need Help?
 
-- 📚 [Full Documentation](https://docs.ossa.bluefly.io)
+-  [Full Documentation](https://docs.ossa.bluefly.io)
 - 💬 [Community Forum](https://forum.ossa.bluefly.io)
 - 🐛 [Report Issues](https://gitlab.bluefly.io/llm/ossa/issues)
 - 📧 [Email Support](mailto:ossa@bluefly.io)

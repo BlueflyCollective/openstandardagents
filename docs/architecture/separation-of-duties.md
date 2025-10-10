@@ -1,16 +1,16 @@
 # OSSA Platform vs Agent-BuildKit: Separation of Duties
 
-## 🏛️ OSSA Platform Responsibilities (THIS PROJECT)
+## 🏛 OSSA Platform Responsibilities (THIS PROJECT)
 **Focus**: Specification authority, runtime platform, compliance engine
 
 ### What OSSA Platform Handles:
-- ✅ **Specification Standards**: ACDL, OpenAPI schemas, agent taxonomy
-- ✅ **Runtime Orchestration**: Agent coordination, workflow execution
-- ✅ **Compliance Engine**: OSSA conformance validation, certification
-- ✅ **Agent Registry**: Global agent discovery, capability matching
-- ✅ **Production Platform**: Enterprise-grade agent orchestration
-- ✅ **Protocol Standards**: Multi-protocol agent communication
-- ✅ **Governance**: Budget enforcement, policy compliance
+-  **Specification Standards**: ACDL, OpenAPI schemas, agent taxonomy
+-  **Runtime Orchestration**: Agent coordination, workflow execution
+-  **Compliance Engine**: OSSA conformance validation, certification
+-  **Agent Registry**: Global agent discovery, capability matching
+-  **Production Platform**: Enterprise-grade agent orchestration
+-  **Protocol Standards**: Multi-protocol agent communication
+-  **Governance**: Budget enforcement, policy compliance
 
 ### OSSA Platform File Ownership:
 ```
@@ -22,7 +22,7 @@
 /standards/                  # OSSA conformance standards
 ```
 
-## 🛠️ Agent-BuildKit Responsibilities (OTHER PROJECT)
+## 🛠 Agent-BuildKit Responsibilities (OTHER PROJECT)
 **Focus**: Development toolkit, OSSA client integration, developer experience
 
 ### What Agent-BuildKit Handles:
@@ -50,7 +50,7 @@
 - ❌ `ossa optimize --tokens` (BuildKit handles this)
 - ❌ Local development servers (BuildKit handles this)
 
-## ✅ Corrected OSSA Agent Allocation
+##  Corrected OSSA Agent Allocation
 
 ### OSSA Platform Agents (Production Runtime):
 
@@ -104,7 +104,7 @@
 - **Focus**: Plan→Execute→Review→Judge→Learn→Govern cycles
 - **Command**: Production workflow execution
 
-### 🔄 Updated Agent Spin-Up Commands (OSSA Only):
+###  Updated Agent Spin-Up Commands (OSSA Only):
 
 ```bash
 # Production Runtime Agents Only
@@ -120,7 +120,7 @@ node dist/cli/commands/agents.js spawn --type platform --subtype monitor --runti
 node dist/cli/commands/agents.js spawn --type executor --subtype workflow --runtime production
 ```
 
-## 🎯 OSSA Platform Focus Areas:
+##  OSSA Platform Focus Areas:
 
 ### Specification Authority:
 - ACDL standard maintenance
@@ -157,7 +157,7 @@ node dist/cli/commands/agents.js spawn --type executor --subtype workflow --runt
 - Handle multi-tenant federation
 - Manage global agent registry
 
-## ✅ Coordination Points:
+##  Coordination Points:
 
 ### OSSA Platform Provides to BuildKit:
 - Specification standards (ACDL, OpenAPI)

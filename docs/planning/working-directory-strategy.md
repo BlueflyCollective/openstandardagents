@@ -31,7 +31,7 @@
 ## Migration Strategy
 
 ### Phase 1: Preparation (Current)
-1. ✅ Identify three working directories
+1.  Identify three working directories
 2. ⬜ Audit __DELETE_LATER for any valuable code
 3. ⬜ Extract reusable tests from Old_use_for_migration
 4. ⬜ Update __REBUILD OpenAPI to v0.1.9-alpha.1

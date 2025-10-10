@@ -19,19 +19,19 @@ The OSSA API provides comprehensive endpoints for:
 - Agent health and status monitoring
 - Agent capability discovery
 
-### 🔍 Discovery & Registry
+###  Discovery & Registry
 - Universal Agent Discovery Protocol (UADP)
 - Agent capability matching
 - Service mesh integration
 - Dynamic agent registration
 
-### 🎛️ Orchestration
+### 🎛 Orchestration
 - Task routing and delegation
 - Workflow coordination
 - Multi-agent collaboration
 - Event-driven orchestration
 
-### 📊 Monitoring & Observability
+###  Monitoring & Observability
 - Real-time agent metrics
 - Performance monitoring
 - Audit trail access

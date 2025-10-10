@@ -6,12 +6,12 @@ Welcome to the OSSA documentation. This comprehensive guide covers all aspects o
 
 ## Documentation Structure
 
-### 📚 Getting Started
+###  Getting Started
 - [Quickstart Guide](guides/quickstart/) - Get up and running quickly
 - [Overview](overview/) - Understand OSSA architecture and concepts
 - [Best Practices](guides/best-practices.md) - Recommended patterns and approaches
 
-### 🏗️ Architecture
+###  Architecture
 - [Project Structure](architecture/project-structure.md) - Repository organization
 - [Separation of Duties](architecture/separation-of-duties.md) - Role-based architecture
 - [Observability](architecture/observability.md) - Monitoring and telemetry
@@ -23,14 +23,14 @@ Welcome to the OSSA documentation. This comprehensive guide covers all aspects o
 - [Validator Updates](api-reference/validator-updates.md) - Validation rules
 - [Specifications](api-reference/specifications.md) - OpenAPI specifications
 
-### 👥 Contributing
+###  Contributing
 - [Contributing Guide](contributing/) - How to contribute to OSSA
 - [Code of Conduct](contributing/code-of-conduct.md) - Community standards
 - [Branching Strategy](contributing/branching-strategy.md) - Git workflow
 - [Commit Rules](contributing/commit-rules.md) - Commit message conventions
 - [Git Standards](contributing/git-standards.md) - Git best practices
 
-### 🚀 Deployment
+###  Deployment
 - [Deployment Guide](deployment/) - Production deployment
 - [GitLab Components](deployment/gitlab-components.md) - CI/CD configuration
 - [Migration Guide](migration/) - Upgrading from previous versions
@@ -39,11 +39,11 @@ Welcome to the OSSA documentation. This comprehensive guide covers all aspects o
 - [Technical Implementation](planning/technical-implementation.md) - Implementation roadmap
 - [OrbStack Roadmap](planning/orbstack-roadmap.md) - Container orchestration
 
-### ✅ Compliance
+###  Compliance
 - [OSSA Compliance](compliance/ossa-compliance.md) - Compliance requirements
 - [Enterprise Guide](overview/enterprise-guide.md) - Enterprise implementation
 
-### 📖 Reference
+###  Reference
 - [Standards](reference/standards/) - Technical standards
 - [Resources](resources/) - Additional resources
 - [Releases](releases/) - Version history

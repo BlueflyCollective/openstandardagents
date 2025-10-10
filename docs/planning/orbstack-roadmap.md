@@ -361,10 +361,10 @@ services:
 
 set -e
 
-echo "🚀 OSSA 0.1.9 OrbStack Deployment Starting..."
+echo " OSSA 0.1.9 OrbStack Deployment Starting..."
 
 # Phase 1: Data Layer
-echo "📊 Deploying Data Layer Services..."
+echo " Deploying Data Layer Services..."
 docker-compose -f orbstack-data-layer.yml up -d
 sleep 30
 
@@ -379,7 +379,7 @@ docker-compose -f docker-compose.0.1.9-autonomous.yml up -d
 sleep 30
 
 # Phase 4: Federation Services
-echo "🌐 Deploying Federation Services..."
+echo " Deploying Federation Services..."
 docker-compose -f docker-compose.0.1.9-federation.yml up -d
 sleep 30
 
@@ -396,10 +396,10 @@ docker-compose -f orbstack-monitoring.yml up -d
 echo "🏥 Running Health Checks..."
 ./health-check-0.1.9.sh
 
-echo "✅ OSSA 0.1.9 Deployment Complete!"
-echo "🌐 Service available at: https://ossa.ossa.orb.local"
-echo "📊 Monitoring: http://localhost:3000"
-echo "🔍 Tracing: http://localhost:16686"
+echo " OSSA 0.1.9 Deployment Complete!"
+echo " Service available at: https://ossa.ossa.orb.local"
+echo " Monitoring: http://localhost:3000"
+echo " Tracing: http://localhost:16686"
 ```
 
 #### Health Check Automation
@@ -428,7 +428,7 @@ for service in "${SERVICES[@]}"; do
   echo "Checking $container_name..."
   
   if curl -f "http://localhost:$port/health" > /dev/null 2>&1; then
-    echo "✅ $container_name healthy"
+    echo " $container_name healthy"
   else
     echo "❌ $container_name unhealthy"
     docker logs "$container_name" --tail 50
@@ -495,7 +495,7 @@ analytics_performance:
 #!/bin/bash
 # rollback-0.1.9.sh - Emergency Rollback to 0.1.8
 
-echo "🚨 OSSA 0.1.9 Emergency Rollback Starting..."
+echo " OSSA 0.1.9 Emergency Rollback Starting..."
 
 # Stop 0.1.9 Services
 docker-compose -f docker-compose.0.1.9-marketplace.yml down
@@ -505,7 +505,7 @@ docker-compose -f docker-compose.0.1.9-autonomous.yml down
 # Restore 0.1.8 Services
 docker-compose -f docker-compose.0.1.8.yml up -d
 
-echo "✅ Rollback to OSSA 0.1.8 Complete!"
+echo " Rollback to OSSA 0.1.8 Complete!"
 ```
 
 This OrbStack technical roadmap provides the complete container orchestration strategy for OSSA 0.1.9, leveraging the existing proven deployment at `ossa.ossa.orb.local` while enabling seamless evolution to advanced autonomous capabilities, federation, and marketplace features.

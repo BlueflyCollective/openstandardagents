@@ -1,12 +1,12 @@
 # OSSA Dual Registry Publishing Workflow
 
-## 🎯 Overview
+##  Overview
 
 OSSA uses a dual registry publishing strategy:
 - **Development versions** → `https://gitlab.bluefly.io/api/v4/projects/1553/packages/npm/` (GitLab Package Registry)
 - **Production releases** → `https://www.npmjs.com/` (public registry via CI)
 
-## 📦 Registry Configuration
+##  Registry Configuration
 
 ### Package Configuration (`package.json`)
 ```json
@@ -27,7 +27,7 @@ OSSA uses a dual registry publishing strategy:
 - `npm run publish:public` - Publish to npmjs.org public registry  
 - `npm run publish:safe` - Safe publish (defaults to private registry)
 
-## 🚀 Publishing Workflows
+##  Publishing Workflows
 
 ### 1. Development Publishing (Manual)
 
@@ -60,7 +60,7 @@ git push origin 0.1.9
 2. Manual approval required for public registry
 3. Publishes to `https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents`
 
-## 🔄 CI/CD Configuration
+##  CI/CD Configuration
 
 ### GitLab CI Publishing Jobs
 
@@ -102,7 +102,7 @@ publish:public:
 - [ ] Release notes prepared
 - [ ] NPM_TOKEN configured in GitLab CI
 
-## 🛠️ Manual Authentication Setup
+## 🛠 Manual Authentication Setup
 
 ### GitLab Package Registry
 ```bash
@@ -131,14 +131,14 @@ npm adduser --registry https://registry.npmjs.org/
 npm whoami --registry https://registry.npmjs.org/
 ```
 
-## 📊 Current Status
+##  Current Status
 
 | Version | Registry | Status | URL |
 |---------|----------|--------|-----|
-| 0.1.7 | npmjs.org | ✅ Published | https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents |
-| 0.1.8 | npm.bluefly.io | 🚀 Ready to publish | Awaiting authentication |
+| 0.1.7 | npmjs.org |  Published | https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents |
+| 0.1.8 | npm.bluefly.io |  Ready to publish | Awaiting authentication |
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### Authentication Issues
 ```bash
@@ -186,7 +186,7 @@ npm install @bluefly/open-standards-scalable-agents
 
 ---
 
-## 🎯 Next Steps
+##  Next Steps
 
 1. **Authenticate to private registry**: `npm adduser --registry https://npm.bluefly.io/`
 2. **Publish 0.1.8**: `npm run publish:private`

@@ -10,11 +10,11 @@ OSSA (Open Standard for Smart & Scalable Agents) is a formal specification for d
 
 **Key Benefits:**
 
-- ✅ Standard agent definition format
-- ✅ Cloud-agnostic (Docker, K8s, local, serverless)
-- ✅ Compliance-first (FedRAMP, SOC2, HIPAA, GDPR)
-- ✅ Discoverable and shareable
-- ✅ Type-safe with auto-generated code
+-  Standard agent definition format
+-  Cloud-agnostic (Docker, K8s, local, serverless)
+-  Compliance-first (FedRAMP, SOC2, HIPAA, GDPR)
+-  Discoverable and shareable
+-  Type-safe with auto-generated code
 
 ---
 

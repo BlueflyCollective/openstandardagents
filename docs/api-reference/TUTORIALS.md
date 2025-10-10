@@ -391,7 +391,7 @@ for event in client.events():
 
     # Check thresholds
     if metric.get('alert'):
-        print(f"⚠️  ALERT: {metric['alert']['message']}")
+        print(f"⚠  ALERT: {metric['alert']['message']}")
 ```
 
 ### Step 3: Query Historical Metrics

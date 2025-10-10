@@ -1,4 +1,4 @@
-# 🚀 Langflow Integration - Quick Start
+#  Langflow Integration - Quick Start
 
 ## Your Setup
 
@@ -20,10 +20,10 @@ npx tsx src/langflow/test-integration.ts
 ```
 
 This will:
-- ✅ Load your token from `/Users/flux423/.tokens/langflow.token`
-- ✅ Connect to Langflow at `http://localhost:7860`
-- ✅ Run your example flow (`ca6846ff-331e-4108-b5cb-886b5ac4da81`)
-- ✅ Show you the results
+-  Load your token from `/Users/flux423/.tokens/langflow.token`
+-  Connect to Langflow at `http://localhost:7860`
+-  Run your example flow (`ca6846ff-331e-4108-b5cb-886b5ac4da81`)
+-  Show you the results
 
 ## 3. Use in Your Code
 
@@ -167,13 +167,13 @@ Project-specific flows:
 ... etc
 ```
 
-## 🎯 That's It!
+##  That's It!
 
 You now have:
-- ✅ Full TypeScript/JavaScript version of your Python Langflow code
-- ✅ Automatic token loading from `/Users/flux423/.tokens/langflow.token`
-- ✅ Same API endpoints and authentication as your Python version
-- ✅ Integration in all npm projects
-- ✅ Production-ready flows for every service
+-  Full TypeScript/JavaScript version of your Python Langflow code
+-  Automatic token loading from `/Users/flux423/.tokens/langflow.token`
+-  Same API endpoints and authentication as your Python version
+-  Integration in all npm projects
+-  Production-ready flows for every service
 
-Just run flows exactly like your Python code, but in TypeScript! 🚀
+Just run flows exactly like your Python code, but in TypeScript! 

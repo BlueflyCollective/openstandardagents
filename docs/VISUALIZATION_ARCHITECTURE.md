@@ -6,11 +6,11 @@ Production-ready architecture visualization system for OSSA (Open Standards for 
 
 ## Architecture Principles Achieved
 
-✅ **API-First**: All services operate on OpenAPI 3.1 specifications
-✅ **DRY (Don't Repeat Yourself)**: Single source of truth with zero duplication
-✅ **CRUD**: Full Create/Read/Update/Delete operations via unified service
-✅ **SOLID**: Dependency injection, single responsibility, interface segregation
-✅ **Type-Safe**: TypeScript with auto-generated types + runtime validation (Zod)
+ **API-First**: All services operate on OpenAPI 3.1 specifications
+ **DRY (Don't Repeat Yourself)**: Single source of truth with zero duplication
+ **CRUD**: Full Create/Read/Update/Delete operations via unified service
+ **SOLID**: Dependency injection, single responsibility, interface segregation
+ **Type-Safe**: TypeScript with auto-generated types + runtime validation (Zod)
 
 ## System Components
 
@@ -129,10 +129,10 @@ ossa visualize suite --spec <path> --output-dir <dir>
 3. `VisualizationService.test.ts` - 10 test cases, integration tests
 
 **TDD Compliance**:
-- ✅ All tests passing (GREEN phase)
-- ✅ Comprehensive edge case coverage
-- ✅ Mock implementations for file I/O
-- ✅ Type safety validated
+-  All tests passing (GREEN phase)
+-  Comprehensive edge case coverage
+-  Mock implementations for file I/O
+-  Type safety validated
 
 ## Data Flow
 
@@ -362,12 +362,12 @@ constructor(
 
 When adding new visualization types:
 
-1. ✅ Follow SOLID principles
-2. ✅ Add TypeScript types
-3. ✅ Write comprehensive tests (TDD)
-4. ✅ Update CLI command
-5. ✅ Document in this file
-6. ✅ Add examples
+1.  Follow SOLID principles
+2.  Add TypeScript types
+3.  Write comprehensive tests (TDD)
+4.  Update CLI command
+5.  Document in this file
+6.  Add examples
 
 ## License
 
