@@ -13,19 +13,11 @@ include:
 
 # Override stages from golden template to include OSSA-specific stages
 stages:
-  - detect
   - validate
   - build
   - test
-  - test-red
-  - test-agents
-  - changelog
-  - security
   - deploy
-  - pages
-  - release
 
-# Override variables for OSSA-specific needs
 variables:
   NODE_VERSION: "20"
   OSSA_VERSION: "0.1.9-alpha.1"
@@ -63,8 +55,8 @@ test:unit:
     - if: $CI_COMMIT_BRANCH
     - if: $CI_MERGE_REQUEST_ID
 
-# OSSA-specific validation job
-validate:ossa-spec:
+# Validate specification structure
+validate:spec:
   stage: validate
   image: node:20
   cache:
@@ -462,7 +454,6 @@ release:version:
   before_script:
     - apk add --no-cache git curl jq || apt-get update && apt-get install -y git curl jq
   script:
-    - echo "🏷️ Creating release tag for OSSA v${PROJECT_VERSION}"
     - |
       # Determine tag name based on branch
       if [[ "$CI_COMMIT_BRANCH" == "main" ]]; then
