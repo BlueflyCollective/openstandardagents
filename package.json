@@ -1,6 +1,6 @@
 {
   "name": "@ossa/specification",
-  "version": "1.0.0",
+  "version": "0.1.2",
   "description": "OSSA (Open Standard for Smart & Scalable Agents) - The OpenAPI for AI Agents",
   "main": "spec/ossa-1.0.schema.json",
   "scripts": {
