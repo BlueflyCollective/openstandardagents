@@ -10,7 +10,7 @@ stages:
 
 variables:
   NODE_VERSION: "20"
-  OSSA_VERSION: "0.1.2"
+  OSSA_VERSION: "0.2.0"
 
 # Validate OpenAPI specifications
 validate:openapi:

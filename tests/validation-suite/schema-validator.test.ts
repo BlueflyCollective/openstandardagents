@@ -289,7 +289,7 @@ function createMinimalAgent(overrides: any = {}): any {
   if (overrides.role) defaults.agent.role = overrides.role;
   if (overrides.runtime) defaults.agent.runtime = overrides.runtime;
   if (overrides.capabilities !== undefined) defaults.agent.capabilities = overrides.capabilities;
-  if (overrides.policies) defaults.agent.policies = overrides.policies;
+  if (overrides.policies) (defaults.agent as any).policies = overrides.policies;
 
   return defaults;
 }
