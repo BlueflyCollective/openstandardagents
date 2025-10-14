@@ -1,34 +1,21 @@
-apiVersion: '@bluefly/ossa/v0.1.9'
-kind: Agent
-metadata:
-  name: knowledge-base-curator
-  uuid: project-knowledge-base-curator-worker-v1
-  type: worker
+ossaVersion: "1.0"
+agent:
+  id: knowledge-base-curator
+  name: Knowledge Base Curator
   version: 1.0.0
-  description: 'OSSA-compliant worker agent: knowledge-base-curator'
-spec:
+  description: "OSSA-compliant worker agent: knowledge-base-curator"
+  role: custom
+  tags: []
+  runtime:
+    type: docker
   capabilities:
-    - task_execution
-    - data_processing
-    - api_interaction
-  dependencies:
-    - '@ossa/core@0.1.9'
-    - express@^4.18.0
-  endpoints:
-    health: /health
-    execute: /execute
-    status: /status
-    metrics: /metrics
-  integrations:
-    workspace:
-      local: .agents-workspace
-      global: ../.agent-workspace
-    registry:
-      local: ../registry.yml
-      global: ../.agent-workspace/registry.yml
-  behaviors:
-    primary: knowledge-base-curator.behavior.yml
-    additional: []
-  validation:
-    schema: schemas/knowledge-base-curator.schema.json
-    openapi: openapi.yml
+    - name: process_request
+      description: Process incoming requests
+      input_schema:
+        type: object
+      output_schema:
+        type: object
+  monitoring:
+    traces: true
+    metrics: true
+    logs: true

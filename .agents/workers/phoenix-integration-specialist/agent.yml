@@ -1,34 +1,21 @@
-apiVersion: '@bluefly/ossa/v0.1.9'
-kind: Agent
-metadata:
-  name: phoenix-integration-specialist
-  uuid: project-phoenix-integration-specialist-worker-v1
-  type: worker
+ossaVersion: "1.0"
+agent:
+  id: phoenix-integration-specialist
+  name: Phoenix Integration Specialist
   version: 1.0.0
-  description: 'OSSA-compliant worker agent: phoenix-integration-specialist'
-spec:
+  description: "OSSA-compliant worker agent: phoenix-integration-specialist"
+  role: custom
+  tags: []
+  runtime:
+    type: docker
   capabilities:
-    - task_execution
-    - data_processing
-    - api_interaction
-  dependencies:
-    - '@ossa/core@0.1.9'
-    - express@^4.18.0
-  endpoints:
-    health: /health
-    execute: /execute
-    status: /status
-    metrics: /metrics
-  integrations:
-    workspace:
-      local: .agents-workspace
-      global: ../.agent-workspace
-    registry:
-      local: ../registry.yml
-      global: ../.agent-workspace/registry.yml
-  behaviors:
-    primary: phoenix-integration-specialist.behavior.yml
-    additional: []
-  validation:
-    schema: schemas/phoenix-integration-specialist.schema.json
-    openapi: openapi.yml
+    - name: process_request
+      description: Process incoming requests
+      input_schema:
+        type: object
+      output_schema:
+        type: object
+  monitoring:
+    traces: true
+    metrics: true
+    logs: true
