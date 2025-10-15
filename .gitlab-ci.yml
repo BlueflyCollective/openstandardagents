@@ -85,9 +85,10 @@ release:gitlab:
   release:
     tag_name: v${OSSA_VERSION}
     description: OSSA Specification v${OSSA_VERSION} - The OpenAPI for AI Agents
-  only:
-    - main
-  when: on_success
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
+    - when: never
 
 release:npm:
   stage: release
@@ -97,9 +98,10 @@ release:npm:
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
     - npm whoami
     - npm publish --access public
-  only:
-    - main
-  when: on_success
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
+    - when: never
   needs:
     - release:gitlab
   dependencies: []
