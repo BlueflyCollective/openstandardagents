@@ -77,17 +77,34 @@ pages:
   only:
     - main
     - development
-release:tag:
+release:gitlab:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   script:
-    - echo "Creating OSSA v${OSSA_VERSION} release..."
+    - echo "Creating OSSA v${OSSA_VERSION} GitLab release..."
   release:
     tag_name: v${OSSA_VERSION}
     description: OSSA Specification v${OSSA_VERSION} - The OpenAPI for AI Agents
   only:
     - main
-  when: manual
+  when: on_success
+
+release:npm:
+  stage: release
+  image: node:${NODE_VERSION}
+  script:
+    - echo "Publishing OSSA v${OSSA_VERSION} to npm..."
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+    - npm whoami
+    - npm publish --access public
+  only:
+    - main
+  when: on_success
+  needs:
+    - release:gitlab
+  dependencies: []
+  variables:
+    OSSA_VERSION: "1.0.0"
 lint:
   stage: validate
   image: node:${NODE_VERSION}

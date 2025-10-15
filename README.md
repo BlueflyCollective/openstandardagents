@@ -3,7 +3,8 @@
 **A Specification Standard for AI Agent Definition, Deployment, and Management**
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Version](https://img.shields.io/badge/OSSA-1.0.0-green.svg)](https://github.com/ossa-standard/ossa)
+[![npm version](https://img.shields.io/npm/v/@bluefly/open-standards-scalable-agents.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
+[![GitLab](https://img.shields.io/badge/GitLab-OSSA-orange.svg)](https://gitlab.bluefly.io/llm/openapi-ai-agents-standard)
 
 ---
 
@@ -36,7 +37,7 @@ OSSA is a **specification standard** for defining AI agents, similar to how Open
 ### Installation
 
 ```bash
-npm install -g @ossa/standard
+npm install -g @bluefly/open-standards-scalable-agents
 ```
 
 ### Create Agent
@@ -177,7 +178,7 @@ See: https://gitlab.bluefly.io/llm/npm/agent-buildkit
 ### As a Standard (Validation Only)
 
 ```bash
-npm install -g @ossa/standard
+npm install -g @bluefly/open-standards-scalable-agents
 ossa validate my-agent.yml
 ```
 
@@ -196,7 +197,7 @@ buildkit ossa sync-docs               # GitLab integration
 - **Specification**: [spec/ossa-1.0.schema.json](spec/ossa-1.0.schema.json)
 - **Examples**: [examples/](examples/)
 - **API Reference**: [docs/](docs/)
-- **GitLab Wiki**: https://gitlab.bluefly.io/llm/npm/agent-buildkit/-/wikis/ossa/architecture
+- **GitLab Wiki**: https://gitlab.bluefly.io/llm/openapi-ai-agents-standard/-/wikis/home
 
 ---
 

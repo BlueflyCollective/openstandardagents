@@ -5,6 +5,103 @@ All notable changes to OSSA (Open Standards Scalable Agents) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2025-10-14
+
+### 🎯 Enterprise-Ready Release - The OpenAPI for AI Agents
+
+This release represents a complete transformation of OSSA into an enterprise-grade specification standard, positioned for industry-wide adoption comparable to OpenAPI, Kubernetes, or Terraform.
+
+### Added
+- **Apache 2.0 LICENSE** - Full open source license for enterprise legal review
+- **.npmrc Configuration** - Proper npm registry configuration for publishing
+- **npm Publishing Pipeline** - Manual GitLab CI job for controlled releases to npmjs.org
+- **Enterprise Transformation Plan** - Comprehensive roadmap for industry adoption
+- **Streamlined Documentation** - Clean, professional docs structure (6 files vs 119)
+- **Getting Started Guide** - Clear, technical quick-start documentation
+
+### Changed
+- **Package Name Standardized** - Now `@bluefly/open-standards-scalable-agents` (consistent with npm)
+- **Version Unified to 1.0.0** - Aligned package.json, schema, and documentation versions
+- **Dependencies Minimized** - Reduced from 8 to 4 deps, removed runtime services (qdrant, redis, pg, zod)
+  - **Before**: 12MB+ with runtime dependencies
+  - **After**: ~1MB with validation-only dependencies
+  - **Impact**: Restored "lightweight standard" core value proposition
+- **Documentation Structure** - Moved 113 files to `docs-to-migrate/` for GitLab Wiki
+  - Removed branding, planning, marketing fluff
+  - Kept only specification-focused technical docs
+  - Professional, Google/GitLab/OpenAI documentation standards
+- **README Updated** - Fixed badges, links, and npm package references
+- **GitLab CI Enhanced** - Added separate `release:gitlab` and `release:npm` manual jobs
+
+### Fixed
+- **npm Publishing** - Can now publish to npmjs.org (requires NPM_TOKEN env var)
+- **Version Consistency** - No more confusion between 0.1.9, 0.2.0, and 1.0
+- **Package Identity** - Clear, consistent naming across all platforms
+- **Dependency Bloat** - Removed inappropriate runtime dependencies from specification package
+
+### Removed
+- 113 markdown files moved to `docs-to-migrate/` for GitLab Wiki migration
+  - Branding guides (6 files)
+  - Planning documents (10 files)
+  - Architecture guides (7 files → Wiki)
+  - Deployment guides (6 files → Wiki)
+  - Reference docs (10 files → Wiki)
+  - Integration docs (moved to Wiki)
+  - Marketing analysis (not needed)
+- Empty `__DELETE_LATER/` directory
+- YAML framework files (AUTOMATED_WORKFLOWS_FRAMEWORK.yaml, etc.)
+- Audit and bridge documentation
+
+### Technical Debt Addressed
+- ✅ Legal foundation (LICENSE)
+- ✅ Dependency hygiene (minimal deps)
+- ✅ Version alignment (1.0.0)
+- ✅ Package naming consistency
+- ✅ Documentation organization
+- ✅ Publishing pipeline
+- ⏳ CLI TypeScript migration (planned for v1.1.0)
+
+### Enterprise Readiness Checklist
+- ✅ Apache 2.0 License
+- ✅ Semantic Versioning
+- ✅ Minimal Dependencies
+- ✅ Clear Documentation
+- ✅ Publishing Pipeline
+- ✅ Professional Presentation
+- ⏳ Security Policy (SECURITY.md) - Planned
+- ⏳ Backwards Compatibility Guarantee - Planned
+- ⏳ Certification Program - Planned
+
+### Migration Notes
+
+**For npm users**:
+```bash
+# Old (not published)
+npm install -g @ossa/standard
+
+# New (v1.0.0+)
+npm install -g @bluefly/open-standards-scalable-agents
+```
+
+**For developers**:
+- CLI commands unchanged (`ossa validate`, `ossa init`, etc.)
+- Schema location unchanged (`spec/ossa-1.0.schema.json`)
+- Examples unchanged (`examples/`)
+
+**For documentation**:
+- Comprehensive guides → GitLab Wiki (https://gitlab.bluefly.io/llm/openapi-ai-agents-standard/-/wikis/home)
+- Core specification docs → `docs/` directory
+- API documentation → GitLab Pages (automated)
+
+### What's Next (v1.1.0)
+- CLI TypeScript migration
+- Enhanced validation error messages
+- VSCode extension
+- Python reference implementation
+- OSSA Certification Program
+
+---
+
 ## [0.2.0] - 2025-10-11
 
 ### 🎯 Major Consolidation & Standards Compliance Release
