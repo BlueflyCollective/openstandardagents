@@ -5,9 +5,9 @@ All notable changes to OSSA (Open Standards Scalable Agents) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.0] - 2025-10-14
+## [0.2.1] - 2025-10-14
 
-### 🧹 Major Cleanup Release
+### 🧹 Cleanup & Maintenance Release
 
 This release represents a complete transformation of OSSA into an enterprise-grade specification standard, positioned for industry-wide adoption comparable to OpenAPI, Kubernetes, or Terraform.
 
