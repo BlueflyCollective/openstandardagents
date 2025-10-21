@@ -120,7 +120,7 @@ vsa:collect-metrics:
 # Job: Analyze VSA metrics and generate insights
 vsa:analyze-metrics:
   stage: vsa-analyze
-  needs: ["vsa:collect-metrics"]
+  needs: ['vsa:collect-metrics']
   image: alpine:latest
   script:
     - |
@@ -233,7 +233,7 @@ vsa:analyze-metrics:
 # Job: Generate VSA dashboard/report
 vsa:generate-report:
   stage: vsa-report
-  needs: ["vsa:analyze-metrics"]
+  needs: ['vsa:analyze-metrics']
   image: alpine:latest
   script:
     - |

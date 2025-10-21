@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: user-guide-writer
   name: User Guide Writer
   version: 1.0.0
-  description: "OSSA-compliant worker agent: user-guide-writer"
+  description: 'OSSA-compliant worker agent: user-guide-writer'
   role: custom
   tags: []
   runtime:

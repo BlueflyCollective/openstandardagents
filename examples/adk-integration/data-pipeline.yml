@@ -1,16 +1,16 @@
 # Example: ADK Data Processing Pipeline with OSSA Agents
 # Demonstrates LoopAgent and ConditionalAgent patterns
 
-apiVersion: "@ossa/v0.1.9"
+apiVersion: '@ossa/v0.1.9'
 kind: Workflow
 metadata:
   name: data-processing-pipeline
-  description: "Iterative data processing with conditional branches"
-  
+  description: 'Iterative data processing with conditional branches'
+
 spec:
   # ADK Loop pattern for batch processing
   adk_pattern: loop
-  
+
   agents:
     - name: data-ingester
       type: LlmAgent
@@ -27,7 +27,7 @@ spec:
       tools:
         - api_call
         - file_operation
-        
+
     - name: data-validator
       type: LlmAgent
       ossa_type: critic
@@ -40,7 +40,7 @@ spec:
         Store validation results in {validation_status}
         Set {is_valid} flag
       output_key: validation_status
-      
+
     - name: data-transformer
       type: WorkflowAgent
       workflow_type: conditional
@@ -53,10 +53,10 @@ spec:
       output_key: transformed_data
       sub_agents:
         - name: standard-transformer
-          condition: "session.state.is_valid === true"
+          condition: 'session.state.is_valid === true'
         - name: error-corrector
-          condition: "session.state.is_valid === false"
-          
+          condition: 'session.state.is_valid === false'
+
     - name: data-enricher
       type: CustomAgent
       custom_type: specialized
@@ -71,7 +71,7 @@ spec:
         - Calculated metrics
         Store in {enriched_data}
       output_key: enriched_data
-      
+
     - name: data-loader
       type: LlmAgent
       ossa_type: worker
@@ -85,39 +85,39 @@ spec:
       output_key: load_status
       tools:
         - database_query
-        
+
   # Loop configuration
   execution:
     loop_config:
       # Continue while more data exists
-      condition: "session.state.has_more_data === true"
+      condition: 'session.state.has_more_data === true'
       max_iterations: 100
       batch_size: 1000
-      
+
       # Break conditions
       break_conditions:
-        - "session.state.error_count > 5"
-        - "session.state.batch_counter >= session.state.total_batches"
-      
+        - 'session.state.error_count > 5'
+        - 'session.state.batch_counter >= session.state.total_batches'
+
     # Conditional branches
     conditional_config:
       data-validator:
-        skip_if: "session.state.skip_validation === true"
-        
+        skip_if: 'session.state.skip_validation === true'
+
       data-enricher:
-        execute_if: "session.state.validation_status.quality_score > 0.8"
-        
+        execute_if: 'session.state.validation_status.quality_score > 0.8'
+
       error-corrector:
         execute_if: |
           session.state.validation_status.errors.length > 0 &&
           session.state.validation_status.errors.some(e => e.severity === 'critical')
-          
+
     # Parallel processing for sub-workflows
     parallel_config:
       enabled: true
       max_workers: 5
-      distribute_by: "session.state.raw_data.partition_key"
-      
+      distribute_by: 'session.state.raw_data.partition_key'
+
   # ADK state management
   adk_config:
     state:
@@ -127,26 +127,26 @@ spec:
         - total_processed
         - error_count
         - processing_metrics
-        
+
       # Temporary state (cleared each iteration)
       temp_keys:
         - raw_data
         - validation_status
         - transformed_data
         - enriched_data
-        
+
     # Performance optimization
     optimization:
       cache_transformations: true
       reuse_connections: true
       batch_database_writes: true
-      
+
     # Error recovery
     error_recovery:
-      checkpoint_frequency: 10  # Save state every 10 iterations
+      checkpoint_frequency: 10 # Save state every 10 iterations
       resume_on_failure: true
       dead_letter_queue: true
-      
+
     # Monitoring
     monitoring:
       metrics:
@@ -155,11 +155,10 @@ spec:
         - validation_failures
         - enrichment_success_rate
       alerts:
-        - condition: "metrics.validation_failures > 10"
+        - condition: 'metrics.validation_failures > 10'
           severity: warning
-        - condition: "metrics.enrichment_success_rate < 0.95"
+        - condition: 'metrics.enrichment_success_rate < 0.95'
           severity: critical
-          
 # Example usage:
 #
 # const result = await adapter.executeOrchestration(

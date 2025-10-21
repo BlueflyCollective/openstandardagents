@@ -3,8 +3,8 @@ kind: Agent
 metadata:
   name: multi-system-integrator
   version: v1.4.0
-  description: "Enterprise integration agent for connecting heterogeneous systems and APIs"
-  author: "integration-team"
+  description: 'Enterprise integration agent for connecting heterogeneous systems and APIs'
+  author: 'integration-team'
   labels:
     environment: production
     classification: internal
@@ -38,25 +38,25 @@ spec:
   protocols:
     supported:
       - name: rest
-        version: "1.1"
-        endpoint: "https://integrator.platform.com/api/v1"
+        version: '1.1'
+        endpoint: 'https://integrator.platform.com/api/v1'
         authentication:
           type: oauth2
-          scopes: ["integrator.execute", "systems.connect", "data.transform"]
+          scopes: ['integrator.execute', 'systems.connect', 'data.transform']
         tls: true
       - name: graphql
-        version: "1.0"
-        endpoint: "https://integrator.platform.com/graphql"
+        version: '1.0'
+        endpoint: 'https://integrator.platform.com/graphql'
         authentication:
           type: bearer-token
       - name: websocket
-        version: "1.0"
-        endpoint: "wss://events.platform.com/integrator"
+        version: '1.0'
+        endpoint: 'wss://events.platform.com/integrator'
         authentication:
           type: jwt
       - name: grpc
-        version: "1.0"
-        endpoint: "grpc://integrator.platform.com:9443/SystemIntegrator"
+        version: '1.0'
+        endpoint: 'grpc://integrator.platform.com:9443/SystemIntegrator'
         authentication:
           type: mutual-tls
   integration:

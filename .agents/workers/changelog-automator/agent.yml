@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: changelog-automator
   name: Changelog Automator
   version: 1.0.0
-  description: "OSSA-compliant worker agent: changelog-automator"
+  description: 'OSSA-compliant worker agent: changelog-automator'
   role: custom
   tags: []
   runtime:

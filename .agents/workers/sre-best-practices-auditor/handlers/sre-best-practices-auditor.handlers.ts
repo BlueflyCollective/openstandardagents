@@ -5,14 +5,13 @@ import { Request, Response } from 'express';
  * OSSA v0.1.9 compliant worker implementation
  */
 export class SreBestPracticesAuditorHandler {
-
   async health(req: Request, res: Response): Promise<void> {
     res.json({
       status: 'healthy',
       agent: 'sre-best-practices-auditor',
       type: 'worker',
       version: '1.0.0',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -25,13 +24,13 @@ export class SreBestPracticesAuditorHandler {
         status: 'success',
         result,
         execution_id: this.generateExecutionId(),
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       res.status(500).json({
         status: 'error',
         message: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
   }
@@ -45,7 +44,7 @@ export class SreBestPracticesAuditorHandler {
       processed: true,
       agent: 'sre-best-practices-auditor',
       type: 'worker',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 

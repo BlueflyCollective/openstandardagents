@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: nx-agent-brain
   name: Nx Agent Brain
   version: 1.0.0
-  description: "OSSA-compliant worker agent: nx-agent-brain"
+  description: 'OSSA-compliant worker agent: nx-agent-brain'
   role: custom
   tags: []
   runtime:

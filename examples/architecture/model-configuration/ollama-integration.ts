@@ -18,30 +18,35 @@ async function demonstrateOllamaIntegration() {
   // Create agent configuration
   const agentConfig: ADKAgentConfig = {
     name: 'OllamaTestAgent',
-    instruction: 'You are a helpful AI assistant. Provide clear, concise answers.',
+    instruction:
+      'You are a helpful AI assistant. Provide clear, concise answers.',
     tools: [],
   };
 
   // Create LLM agent
   const agent = new OSSALlmAgent(agentConfig);
 
-  console.log(`Using Ollama model: ${process.env.OLLAMA_MODEL || 'gpt-oss:20b'}`);
-  console.log(`Ollama URL: ${process.env.OLLAMA_BASE_URL || 'http://localhost:11434'}`);
+  console.log(
+    `Using Ollama model: ${process.env.OLLAMA_MODEL || 'gpt-oss:20b'}`
+  );
+  console.log(
+    `Ollama URL: ${process.env.OLLAMA_BASE_URL || 'http://localhost:11434'}`
+  );
 
   // Test cases
   const testCases = [
     {
       name: 'Basic Greeting',
-      input: 'Hello! Can you introduce yourself?'
+      input: 'Hello! Can you introduce yourself?',
     },
     {
       name: 'Code Question',
-      input: 'Explain what TypeScript interfaces are in one sentence.'
+      input: 'Explain what TypeScript interfaces are in one sentence.',
     },
     {
       name: 'OSSA Question',
-      input: 'What is OSSA and why is it useful for AI agents?'
-    }
+      input: 'What is OSSA and why is it useful for AI agents?',
+    },
   ];
 
   for (const testCase of testCases) {
@@ -69,7 +74,9 @@ async function demonstrateOllamaIntegration() {
     }
   }
 
-  console.log('\n🎉 Demo completed! You are now using free local AI with OSSA + Ollama');
+  console.log(
+    '\n🎉 Demo completed! You are now using free local AI with OSSA + Ollama'
+  );
 }
 
 // Check if Ollama is running

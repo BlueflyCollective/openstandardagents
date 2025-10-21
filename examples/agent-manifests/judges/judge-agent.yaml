@@ -3,8 +3,8 @@ kind: Agent
 metadata:
   name: decision-arbitration-judge
   version: v1.0.0
-  description: "Ultimate decision-making agent for conflict resolution and final arbitration"
-  author: "architecture-council"
+  description: 'Ultimate decision-making agent for conflict resolution and final arbitration'
+  author: 'architecture-council'
   labels:
     environment: production
     classification: internal
@@ -38,26 +38,26 @@ spec:
   protocols:
     supported:
       - name: rest
-        version: "1.1"
-        endpoint: "https://judge.platform.com/api/v1"
+        version: '1.1'
+        endpoint: 'https://judge.platform.com/api/v1'
         authentication:
           type: oauth2
-          scopes: ["judge.arbitrate", "decisions.make", "conflicts.resolve"]
+          scopes: ['judge.arbitrate', 'decisions.make', 'conflicts.resolve']
         tls: true
       - name: grpc
-        version: "1.0"
-        endpoint: "grpc://judge.platform.com:9443/DecisionJudge"
+        version: '1.0'
+        endpoint: 'grpc://judge.platform.com:9443/DecisionJudge'
         authentication:
           type: mutual-tls
       - name: event-stream
-        version: "1.0"
-        endpoint: "wss://events.platform.com/judge"
+        version: '1.0'
+        endpoint: 'wss://events.platform.com/judge'
         authentication:
           type: jwt
   arbitration:
     decisionMaking:
-      algorithm: "weighted-consensus"
-      votingSystem: "ranked-choice"
+      algorithm: 'weighted-consensus'
+      votingSystem: 'ranked-choice'
       quorumRequired: true
       minimumParticipants: 3
       timeoutPeriod: 300000
@@ -89,7 +89,7 @@ spec:
       - feasibility
       - alignment
     scoringModel:
-      scale: "1-10"
+      scale: '1-10'
       weights:
         strategic: 40
         operational: 30
@@ -103,9 +103,10 @@ spec:
       riskAssessment: true
   governance:
     authority:
-      scope: "platform-wide"
-      limitations: ["legal-compliance", "budget-constraints", "policy-boundaries"]
-      escalationPath: "executive-committee"
+      scope: 'platform-wide'
+      limitations:
+        ['legal-compliance', 'budget-constraints', 'policy-boundaries']
+      escalationPath: 'executive-committee'
     accountability:
       decisionAudit: true
       outcomeTracking: true

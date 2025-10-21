@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: nx-agent-ops
   name: Nx Agent Ops
   version: 1.0.0
-  description: "OSSA-compliant worker agent: nx-agent-ops"
+  description: 'OSSA-compliant worker agent: nx-agent-ops'
   role: custom
   tags: []
   runtime:

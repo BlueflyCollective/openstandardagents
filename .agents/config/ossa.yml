@@ -1,123 +1,123 @@
 # OSSA Taxonomy Configuration
 ossa:
-  version: "1.0.0"
-  specification_version: "0.1.9"
+  version: '1.0.0'
+  specification_version: '0.1.9'
 
 taxonomy:
   categories:
     critics:
-      description: "Code review, quality checks, security analysis"
+      description: 'Code review, quality checks, security analysis'
       capabilities:
-        - "code_analysis"
-        - "security_scanning"
-        - "quality_assessment"
-        - "compliance_checking"
+        - 'code_analysis'
+        - 'security_scanning'
+        - 'quality_assessment'
+        - 'compliance_checking'
       required_endpoints:
-        - "/analyze"
-        - "/review"
-        - "/health"
+        - '/analyze'
+        - '/review'
+        - '/health'
 
     governors:
-      description: "Rate limiting, policy enforcement, access control"
+      description: 'Rate limiting, policy enforcement, access control'
       capabilities:
-        - "rate_limiting"
-        - "policy_enforcement"
-        - "access_control"
-        - "audit_logging"
+        - 'rate_limiting'
+        - 'policy_enforcement'
+        - 'access_control'
+        - 'audit_logging'
       required_endpoints:
-        - "/enforce"
-        - "/validate"
-        - "/health"
+        - '/enforce'
+        - '/validate'
+        - '/health'
 
     integrators:
-      description: "External system connections, data transformation"
+      description: 'External system connections, data transformation'
       capabilities:
-        - "system_integration"
-        - "data_transformation"
-        - "protocol_bridging"
-        - "webhook_handling"
+        - 'system_integration'
+        - 'data_transformation'
+        - 'protocol_bridging'
+        - 'webhook_handling'
       required_endpoints:
-        - "/connect"
-        - "/transform"
-        - "/health"
+        - '/connect'
+        - '/transform'
+        - '/health'
 
     judges:
-      description: "Decision making, validation, scoring"
+      description: 'Decision making, validation, scoring'
       capabilities:
-        - "decision_making"
-        - "validation"
-        - "scoring"
-        - "recommendation"
+        - 'decision_making'
+        - 'validation'
+        - 'scoring'
+        - 'recommendation'
       required_endpoints:
-        - "/decide"
-        - "/validate"
-        - "/score"
-        - "/health"
+        - '/decide'
+        - '/validate'
+        - '/score'
+        - '/health'
 
     monitors:
-      description: "Observability, metrics collection, alerting"
+      description: 'Observability, metrics collection, alerting'
       capabilities:
-        - "metrics_collection"
-        - "log_aggregation"
-        - "alerting"
-        - "dashboard_generation"
+        - 'metrics_collection'
+        - 'log_aggregation'
+        - 'alerting'
+        - 'dashboard_generation'
       required_endpoints:
-        - "/metrics"
-        - "/logs"
-        - "/alerts"
-        - "/health"
+        - '/metrics'
+        - '/logs'
+        - '/alerts'
+        - '/health'
 
     orchestrators:
-      description: "Coordination, workflow management, task scheduling"
+      description: 'Coordination, workflow management, task scheduling'
       capabilities:
-        - "workflow_orchestration"
-        - "task_scheduling"
-        - "resource_coordination"
-        - "dependency_management"
+        - 'workflow_orchestration'
+        - 'task_scheduling'
+        - 'resource_coordination'
+        - 'dependency_management'
       required_endpoints:
-        - "/orchestrate"
-        - "/schedule"
-        - "/coordinate"
-        - "/health"
+        - '/orchestrate'
+        - '/schedule'
+        - '/coordinate'
+        - '/health'
 
     trainers:
-      description: "ML model training, fine-tuning, optimization"
+      description: 'ML model training, fine-tuning, optimization'
       capabilities:
-        - "model_training"
-        - "fine_tuning"
-        - "hyperparameter_optimization"
-        - "model_validation"
+        - 'model_training'
+        - 'fine_tuning'
+        - 'hyperparameter_optimization'
+        - 'model_validation'
       required_endpoints:
-        - "/train"
-        - "/finetune"
-        - "/optimize"
-        - "/health"
+        - '/train'
+        - '/finetune'
+        - '/optimize'
+        - '/health'
 
     voice:
-      description: "Voice/NLP interfaces, conversational AI"
+      description: 'Voice/NLP interfaces, conversational AI'
       capabilities:
-        - "speech_to_text"
-        - "text_to_speech"
-        - "conversation_management"
-        - "nlp_processing"
+        - 'speech_to_text'
+        - 'text_to_speech'
+        - 'conversation_management'
+        - 'nlp_processing'
       required_endpoints:
-        - "/process"
-        - "/converse"
-        - "/synthesize"
-        - "/health"
+        - '/process'
+        - '/converse'
+        - '/synthesize'
+        - '/health'
 
     workers:
-      description: "Data processing, file handling, computational tasks"
+      description: 'Data processing, file handling, computational tasks'
       capabilities:
-        - "data_processing"
-        - "file_manipulation"
-        - "batch_processing"
-        - "computational_tasks"
+        - 'data_processing'
+        - 'file_manipulation'
+        - 'batch_processing'
+        - 'computational_tasks'
       required_endpoints:
-        - "/process"
-        - "/execute"
-        - "/status"
-        - "/health"
+        - '/process'
+        - '/execute'
+        - '/status'
+        - '/health'
 
 compliance:
   validation:
@@ -134,8 +134,8 @@ compliance:
 
   performance:
     max_response_time: 30000
-    max_memory_usage: "512Mi"
-    max_cpu_usage: "500m"
+    max_memory_usage: '512Mi'
+    max_cpu_usage: '500m'
 
   documentation:
     require_readme: true

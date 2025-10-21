@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: dependency-update-manager
   name: Dependency Update Manager
   version: 1.0.0
-  description: "OSSA-compliant worker agent: dependency-update-manager"
+  description: 'OSSA-compliant worker agent: dependency-update-manager'
   role: custom
   tags: []
   runtime:

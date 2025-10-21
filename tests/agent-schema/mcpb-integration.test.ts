@@ -1,6 +1,9 @@
 import { describe, test, expect } from '@jest/globals';
 import type { Agent, CreateAgentRequest } from '../../src/server/types/agent';
-import type { BridgeConfig, MCPBridgeConfig } from '../../libs/packages/ossa-specification/dist/types/bridge';
+import type {
+  BridgeConfig,
+  MCPBridgeConfig,
+} from '../../libs/packages/ossa-specification/dist/types/bridge';
 
 /**
  * MCPB (Model Context Protocol Bridge) Integration Tests
@@ -34,13 +37,13 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
                 input_schema: {
                   type: 'object',
                   properties: {
-                    text: { type: 'string' }
-                  }
-                }
-              }
-            ]
-          }
-        }
+                    text: { type: 'string' },
+                  },
+                },
+              },
+            ],
+          },
+        },
       };
 
       expect(agent.bridge).toBeDefined();
@@ -64,18 +67,18 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
           mcp: {
             enabled: true,
             server_type: 'websocket',
-            tools: []
+            tools: [],
           },
           openapi: {
             enabled: true,
             spec_url: 'https://api.example.com/openapi.json',
-            spec_version: '3.1'
+            spec_version: '3.1',
           },
           langchain: {
             enabled: true,
-            chain_type: 'agent'
-          }
-        }
+            chain_type: 'agent',
+          },
+        },
       };
 
       expect(agent.bridge?.mcp?.enabled).toBe(true);
@@ -94,12 +97,12 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
             input_schema: {
               type: 'object',
               properties: {
-                path: { type: 'string' }
+                path: { type: 'string' },
               },
-              required: ['path']
+              required: ['path'],
             },
-            capability: 'file-operations'
-          }
+            capability: 'file-operations',
+          },
         ],
         resources: [
           {
@@ -107,8 +110,8 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
             name: 'File System',
             description: 'Access to file system',
             mimeType: 'application/json',
-            readonly: false
-          }
+            readonly: false,
+          },
         ],
         prompts: [
           {
@@ -119,16 +122,16 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
               {
                 name: 'code',
                 type: 'string',
-                required: true
-              }
-            ]
-          }
+                required: true,
+              },
+            ],
+          },
         ],
         config: {
           max_message_size: 1048576,
           timeout_ms: 30000,
-          retry_count: 3
-        }
+          retry_count: 3,
+        },
       };
 
       expect(mcpConfig.enabled).toBe(true);
@@ -156,11 +159,11 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
             tools: [
               {
                 name: 'process_data',
-                description: 'Process data using agent capabilities'
-              }
-            ]
-          }
-        }
+                description: 'Process data using agent capabilities',
+              },
+            ],
+          },
+        },
       };
 
       expect(createRequest.bridge).toBeDefined();
@@ -172,7 +175,7 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
         type: 'worker',
         name: 'Simple Agent',
         capabilities: ['basic-operations'],
-        configuration: {}
+        configuration: {},
       };
 
       // Bridge should be optional
@@ -185,7 +188,7 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
     test('should support stdio transport', () => {
       const mcpConfig: MCPBridgeConfig = {
         enabled: true,
-        server_type: 'stdio'
+        server_type: 'stdio',
       };
 
       expect(mcpConfig.server_type).toBe('stdio');
@@ -194,7 +197,7 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
     test('should support SSE transport', () => {
       const mcpConfig: MCPBridgeConfig = {
         enabled: true,
-        server_type: 'sse'
+        server_type: 'sse',
       };
 
       expect(mcpConfig.server_type).toBe('sse');
@@ -203,7 +206,7 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
     test('should support WebSocket transport', () => {
       const mcpConfig: MCPBridgeConfig = {
         enabled: true,
-        server_type: 'websocket'
+        server_type: 'websocket',
       };
 
       expect(mcpConfig.server_type).toBe('websocket');
@@ -219,11 +222,11 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
           type: 'object',
           properties: {
             query: { type: 'string' },
-            limit: { type: 'number' }
+            limit: { type: 'number' },
           },
-          required: ['query']
+          required: ['query'],
         },
-        capability: 'knowledge-search'
+        capability: 'knowledge-search',
       };
 
       expect(tool.capability).toBe('knowledge-search');
@@ -244,20 +247,23 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
                 type: 'object',
                 properties: {
                   action: { type: 'string' },
-                  params: { type: 'object' }
-                }
-              }
-            }
-          }
+                  params: { type: 'object' },
+                },
+              },
+            },
+          },
         },
         output_schema: {
           type: 'object',
           properties: {
             execution_id: { type: 'string' },
-            status: { type: 'string', enum: ['completed', 'failed', 'running'] },
-            results: { type: 'array' }
-          }
-        }
+            status: {
+              type: 'string',
+              enum: ['completed', 'failed', 'running'],
+            },
+            results: { type: 'array' },
+          },
+        },
       };
 
       expect(tool.input_schema.properties.steps).toBeDefined();
@@ -272,7 +278,7 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
         name: 'Agent Configuration',
         description: 'Read-only agent configuration',
         mimeType: 'application/json',
-        readonly: true
+        readonly: true,
       };
 
       expect(resource.readonly).toBe(true);
@@ -284,7 +290,7 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
         name: 'Agent Workspace',
         description: 'Read-write workspace',
         mimeType: 'application/json',
-        readonly: false
+        readonly: false,
       };
 
       expect(resource.readonly).toBe(false);
@@ -296,17 +302,20 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
       const prompt = {
         name: 'code_review',
         description: 'Review code changes',
-        template: 'Review the following {{language}} code:\n{{code}}\n\nFocus on: {{focus_areas}}',
+        template:
+          'Review the following {{language}} code:\n{{code}}\n\nFocus on: {{focus_areas}}',
         arguments: [
           { name: 'language', type: 'string', required: true },
           { name: 'code', type: 'string', required: true },
-          { name: 'focus_areas', type: 'string', required: false }
-        ]
+          { name: 'focus_areas', type: 'string', required: false },
+        ],
       };
 
       expect(prompt.template).toContain('{{language}}');
       expect(prompt.arguments).toHaveLength(3);
-      expect(prompt.arguments?.find((a) => a.name === 'language')?.required).toBe(true);
+      expect(
+        prompt.arguments?.find((a) => a.name === 'language')?.required
+      ).toBe(true);
     });
   });
 
@@ -318,8 +327,8 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
         config: {
           max_message_size: 2097152,
           timeout_ms: 60000,
-          retry_count: 5
-        }
+          retry_count: 5,
+        },
       };
 
       expect(mcpConfig.config?.max_message_size).toBe(2097152);
@@ -331,15 +340,15 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
       const bridgeConfig: BridgeConfig = {
         mcp: {
           enabled: true,
-          server_type: 'stdio'
+          server_type: 'stdio',
         },
         custom: {
           my_custom_bridge: {
             enabled: true,
             endpoint: 'https://custom.bridge.io',
-            api_key: 'sk-custom-key'
-          }
-        }
+            api_key: 'sk-custom-key',
+          },
+        },
       };
 
       expect(bridgeConfig.custom).toBeDefined();
@@ -361,15 +370,15 @@ describe('OSSA Agent Schema - MCPB Integration', () => {
         updated_at: new Date().toISOString(),
         metadata: {
           tags: ['mcp', 'bridge', 'integration'],
-          documentation_url: 'https://docs.example.com/mcp-agent'
+          documentation_url: 'https://docs.example.com/mcp-agent',
         },
         bridge: {
           mcp: {
             enabled: true,
             server_type: 'websocket',
-            tools: []
-          }
-        }
+            tools: [],
+          },
+        },
       };
 
       expect(agent.metadata?.tags).toContain('mcp');

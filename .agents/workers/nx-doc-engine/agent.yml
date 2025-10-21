@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: nx-doc-engine
   name: Nx Doc Engine
   version: 1.0.0
-  description: "OSSA-compliant worker agent: nx-doc-engine"
+  description: 'OSSA-compliant worker agent: nx-doc-engine'
   role: custom
   tags: []
   runtime:

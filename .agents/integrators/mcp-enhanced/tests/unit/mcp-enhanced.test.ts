@@ -14,7 +14,7 @@ describe('McpEnhancedHandler', () => {
   test('should handle health check', async () => {
     const req = {} as any;
     const res = {
-      json: jest.fn()
+      json: jest.fn(),
     } as any;
 
     await handler.health(req, res);
@@ -23,7 +23,7 @@ describe('McpEnhancedHandler', () => {
       expect.objectContaining({
         status: 'healthy',
         agent: 'mcp-enhanced',
-        version: '1.0.0'
+        version: '1.0.0',
       })
     );
   });

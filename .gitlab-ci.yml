@@ -5,8 +5,8 @@ stages:
   - deploy
   - release
 variables:
-  NODE_VERSION: "20"
-  OSSA_VERSION: "0.2.1"
+  NODE_VERSION: '20'
+  OSSA_VERSION: '0.2.1'
 validate:openapi:
   stage: validate
   image: node:${NODE_VERSION}

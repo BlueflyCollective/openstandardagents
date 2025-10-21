@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 
 agent:
   id: fedramp-compliance-scanner
@@ -6,28 +6,28 @@ agent:
   description: |
     Automated FedRAMP compliance scanning agent that validates
     infrastructure against FedRAMP Moderate controls.
-  version: "1.0.0"
+  version: '1.0.0'
   role: compliance
-  
+
   author:
     name: Bluefly Security Team
     email: security@bluefly.io
     organization: Bluefly.io
-  
+
   license: Apache-2.0
-  
+
   runtime:
     type: k8s
     image: registry.bluefly.io/agents/fedramp-scanner:1.0.0
-    command: ["/app/scanner"]
-    args: ["--mode=continuous"]
+    command: ['/app/scanner']
+    args: ['--mode=continuous']
     env:
       LOG_LEVEL: info
-      SCAN_INTERVAL: "3600"
+      SCAN_INTERVAL: '3600'
     resources:
-      cpu: "500m"
-      memory: "1Gi"
-  
+      cpu: '500m'
+      memory: '1Gi'
+
   capabilities:
     - name: scan_infrastructure
       description: Scan Kubernetes infrastructure for FedRAMP compliance
@@ -62,14 +62,14 @@ agent:
         - name: scan_production
           input:
             namespace: production
-            controls: ["AC-2", "AC-3", "AU-2"]
+            controls: ['AC-2', 'AC-3', 'AU-2']
           output:
             compliant: false
             violations:
-              - control: "AC-2"
-                severity: "high"
-                description: "Service account without expiration policy"
-    
+              - control: 'AC-2'
+                severity: 'high'
+                description: 'Service account without expiration policy'
+
     - name: remediate
       description: Automatically remediate compliance violations
       input_schema:
@@ -89,7 +89,7 @@ agent:
             type: array
             items:
               type: string
-    
+
     - name: generate_report
       description: Generate FedRAMP compliance report
       input_schema:
@@ -106,7 +106,7 @@ agent:
             type: string
           summary:
             type: object
-  
+
   policies:
     compliance:
       - fedramp
@@ -115,8 +115,8 @@ agent:
       - US
     encryption: true
     audit: true
-    retention: 2555  # 7 years (FedRAMP requirement)
-  
+    retention: 2555 # 7 years (FedRAMP requirement)
+
   integration:
     protocol: grpc
     endpoints:
@@ -134,14 +134,14 @@ agent:
       config:
         ca_cert: /etc/certs/ca.crt
         client_cert: /etc/certs/client.crt
-  
+
   monitoring:
     traces: true
     metrics: true
     logs: true
     health_check: http://localhost:8080/health
     readiness_check: http://localhost:8080/ready
-  
+
   metadata:
     tags:
       - compliance

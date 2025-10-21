@@ -5,11 +5,11 @@ info:
   description: |
     Reference implementation API for OSSA Master Orchestrator.
     Demonstrates OSSA v0.1.9 API-first design principles.
-    
+
 servers:
   - url: http://localhost:3000
     description: Development server
-    
+
 paths:
   /health:
     get:
@@ -23,7 +23,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthResponse'
-                
+
   /orchestrate:
     post:
       summary: Execute orchestration workflow
@@ -48,7 +48,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-                
+
   /status:
     get:
       summary: Get orchestrator status
@@ -61,7 +61,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatusResponse'
-                
+
   /metrics:
     get:
       summary: Get performance metrics
@@ -86,10 +86,10 @@ components:
           enum: [healthy, degraded, unhealthy]
         agent:
           type: string
-          example: "ossa-master-orchestrator"
+          example: 'ossa-master-orchestrator'
         version:
           type: string
-          example: "1.0.0"
+          example: '1.0.0'
         timestamp:
           type: string
           format: date-time
@@ -102,44 +102,44 @@ components:
               type: integer
             connected_agents:
               type: integer
-              
+
     OrchestrationRequest:
       type: object
       required: [workflow_id, agents]
       properties:
         workflow_id:
           type: string
-          description: "Unique workflow identifier"
+          description: 'Unique workflow identifier'
         agents:
           type: array
           items:
             type: string
-          description: "List of agent UUIDs to coordinate"
+          description: 'List of agent UUIDs to coordinate'
         parameters:
           type: object
-          description: "Workflow-specific parameters"
+          description: 'Workflow-specific parameters'
         priority:
           type: string
           enum: [low, normal, high, critical]
           default: normal
         timeout:
           type: integer
-          description: "Timeout in seconds"
+          description: 'Timeout in seconds'
           default: 300
-          
+
     OrchestrationResult:
       type: object
       required: [execution_id, status]
       properties:
         execution_id:
           type: string
-          description: "Unique execution identifier"
+          description: 'Unique execution identifier'
         status:
           type: string
           enum: [running, completed, failed, timeout]
         result:
           type: object
-          description: "Orchestration result data"
+          description: 'Orchestration result data'
         agents:
           type: array
           items:
@@ -159,8 +159,8 @@ components:
           type: array
           items:
             type: string
-          description: "Generated artifact paths"
-          
+          description: 'Generated artifact paths'
+
     StatusResponse:
       type: object
       properties:
@@ -191,7 +191,7 @@ components:
               type: integer
             failed:
               type: integer
-            
+
     MetricsResponse:
       type: object
       properties:
@@ -215,7 +215,7 @@ components:
               type: number
             disk_usage:
               type: number
-              
+
     ErrorResponse:
       type: object
       required: [error, message]

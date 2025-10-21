@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: license-compliance-checker
   name: License Compliance Checker
   version: 1.0.0
-  description: "OSSA-compliant worker agent: license-compliance-checker"
+  description: 'OSSA-compliant worker agent: license-compliance-checker'
   role: custom
   tags: []
   runtime:

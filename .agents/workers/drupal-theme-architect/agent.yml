@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: drupal-theme-architect
   name: Drupal Theme Architect
   version: 1.0.0
-  description: "OSSA-compliant worker agent: drupal-theme-architect"
+  description: 'OSSA-compliant worker agent: drupal-theme-architect'
   role: custom
   tags: []
   runtime:

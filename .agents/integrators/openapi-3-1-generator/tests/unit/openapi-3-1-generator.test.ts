@@ -14,7 +14,7 @@ describe('Openapi31GeneratorHandler', () => {
   test('should handle health check', async () => {
     const req = {} as any;
     const res = {
-      json: jest.fn()
+      json: jest.fn(),
     } as any;
 
     await handler.health(req, res);
@@ -23,7 +23,7 @@ describe('Openapi31GeneratorHandler', () => {
       expect.objectContaining({
         status: 'healthy',
         agent: 'openapi-3-1-generator',
-        version: '1.0.0'
+        version: '1.0.0',
       })
     );
   });

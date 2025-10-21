@@ -17,7 +17,7 @@ import {
   CapabilitiesResponse,
   AgentMetrics,
   ValidationError,
-  ProcessingError
+  ProcessingError,
 } from './types';
 import { SecurityScanner } from './security';
 import { QualityAnalyzer } from './quality';
@@ -43,31 +43,35 @@ export class ReviewHandler {
         this.checkMemoryUsage(),
         this.checkDiskSpace(),
         this.checkSecurityScanner(),
-        this.checkQualityAnalyzer()
+        this.checkQualityAnalyzer(),
       ]);
 
-      const allHealthy = healthChecks.every(check => check.status === 'pass');
-      const hasWarnings = healthChecks.some(check => check.status === 'warn');
+      const allHealthy = healthChecks.every((check) => check.status === 'pass');
+      const hasWarnings = healthChecks.some((check) => check.status === 'warn');
 
-      const status = allHealthy ? (hasWarnings ? 'degraded' : 'healthy') : 'unhealthy';
+      const status = allHealthy
+        ? hasWarnings
+          ? 'degraded'
+          : 'healthy'
+        : 'unhealthy';
 
       const response: HealthResponse = {
         status,
         timestamp: new Date().toISOString(),
         version: this.config.version,
         uptime: process.uptime(),
-        checks: healthChecks
+        checks: healthChecks,
       };
 
-      const statusCode = status === 'healthy' ? 200 : status === 'degraded' ? 200 : 503;
+      const statusCode =
+        status === 'healthy' ? 200 : status === 'degraded' ? 200 : 503;
       res.status(statusCode).json(response);
-
     } catch (error) {
       res.status(503).json({
         status: 'unhealthy',
         timestamp: new Date().toISOString(),
         version: this.config.version,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       });
     }
   }
@@ -82,54 +86,62 @@ export class ReviewHandler {
       category: 'critics',
       capabilities: this.config.capabilities,
       supportedLanguages: [
-        'typescript', 'javascript', 'python', 'java', 'go',
-        'rust', 'cpp', 'csharp', 'php', 'ruby'
+        'typescript',
+        'javascript',
+        'python',
+        'java',
+        'go',
+        'rust',
+        'cpp',
+        'csharp',
+        'php',
+        'ruby',
       ],
       endpoints: [
         {
           path: '/health',
           method: 'GET',
           description: 'Agent health status',
-          authentication_required: false
+          authentication_required: false,
         },
         {
           path: '/capabilities',
           method: 'GET',
           description: 'Agent capabilities',
-          authentication_required: false
+          authentication_required: false,
         },
         {
           path: '/analyze',
           method: 'POST',
           description: 'Comprehensive code analysis',
-          authentication_required: true
+          authentication_required: true,
         },
         {
           path: '/review',
           method: 'POST',
           description: 'Code review with suggestions',
-          authentication_required: true
+          authentication_required: true,
         },
         {
           path: '/security-scan',
           method: 'POST',
           description: 'Security vulnerability scanning',
-          authentication_required: true
+          authentication_required: true,
         },
         {
           path: '/quality-check',
           method: 'POST',
           description: 'Code quality assessment',
-          authentication_required: true
+          authentication_required: true,
         },
         {
           path: '/batch-review',
           method: 'POST',
           description: 'Batch review multiple files',
-          authentication_required: true
-        }
+          authentication_required: true,
+        },
       ],
-      integrations: ['gitlab', 'github', 'sonarqube', 'eslint', 'prettier']
+      integrations: ['gitlab', 'github', 'sonarqube', 'eslint', 'prettier'],
     };
 
     res.json(response);
@@ -149,35 +161,45 @@ export class ReviewHandler {
       // Parallel execution of analysis components
       const [securityResults, qualityResults] = await Promise.all([
         this.security.scanCode(request.code, request.language),
-        this.quality.analyzeCode(request.code, request.language)
+        this.quality.analyzeCode(request.code, request.language),
       ]);
 
       const response: ReviewResponse = {
         success: true,
         summary: {
-          totalIssues: securityResults.vulnerabilities.length + qualityResults.violations.length,
-          criticalIssues: securityResults.vulnerabilities.filter(v => v.severity === 'critical').length,
-          warningIssues: qualityResults.violations.filter(v => v.severity === 'warning').length,
-          infoIssues: qualityResults.violations.filter(v => v.severity === 'error').length,
-          overallScore: this.calculateOverallScore(securityResults, qualityResults),
-          status: this.determineStatus(securityResults, qualityResults)
+          totalIssues:
+            securityResults.vulnerabilities.length +
+            qualityResults.violations.length,
+          criticalIssues: securityResults.vulnerabilities.filter(
+            (v) => v.severity === 'critical'
+          ).length,
+          warningIssues: qualityResults.violations.filter(
+            (v) => v.severity === 'warning'
+          ).length,
+          infoIssues: qualityResults.violations.filter(
+            (v) => v.severity === 'error'
+          ).length,
+          overallScore: this.calculateOverallScore(
+            securityResults,
+            qualityResults
+          ),
+          status: this.determineStatus(securityResults, qualityResults),
         },
         issues: [
           ...this.convertSecurityToIssues(securityResults.vulnerabilities),
-          ...this.convertQualityToIssues(qualityResults.violations)
+          ...this.convertQualityToIssues(qualityResults.violations),
         ],
         metrics: qualityResults.metrics,
         recommendations: [
           ...securityResults.recommendations,
-          ...qualityResults.suggestions.map(s => s.description)
+          ...qualityResults.suggestions.map((s) => s.description),
         ],
         requestId,
-        duration: Date.now() - startTime
+        duration: Date.now() - startTime,
       };
 
       this.metrics.recordReview(response);
       res.json(response);
-
     } catch (error) {
       this.handleError(error, res, requestId);
     }
@@ -196,7 +218,7 @@ export class ReviewHandler {
 
       // Enhanced review includes context-aware analysis
       const analysisPromises = [
-        this.quality.analyzeCode(request.code, request.language)
+        this.quality.analyzeCode(request.code, request.language),
       ];
 
       if (request.options?.includeSecurityScan !== false) {
@@ -207,21 +229,35 @@ export class ReviewHandler {
 
       const results = await Promise.all(analysisPromises);
       const qualityResults = results[0];
-      const securityResults = results[1] || { vulnerabilities: [], recommendations: [] };
+      const securityResults = results[1] || {
+        vulnerabilities: [],
+        recommendations: [],
+      };
 
       const response: ReviewResponse = {
         success: true,
         summary: {
-          totalIssues: securityResults.vulnerabilities.length + qualityResults.violations.length,
-          criticalIssues: securityResults.vulnerabilities.filter(v => v.severity === 'critical').length,
-          warningIssues: qualityResults.violations.filter(v => v.severity === 'warning').length,
-          infoIssues: qualityResults.violations.filter(v => v.severity === 'error').length,
-          overallScore: this.calculateOverallScore(securityResults, qualityResults),
-          status: this.determineStatus(securityResults, qualityResults)
+          totalIssues:
+            securityResults.vulnerabilities.length +
+            qualityResults.violations.length,
+          criticalIssues: securityResults.vulnerabilities.filter(
+            (v) => v.severity === 'critical'
+          ).length,
+          warningIssues: qualityResults.violations.filter(
+            (v) => v.severity === 'warning'
+          ).length,
+          infoIssues: qualityResults.violations.filter(
+            (v) => v.severity === 'error'
+          ).length,
+          overallScore: this.calculateOverallScore(
+            securityResults,
+            qualityResults
+          ),
+          status: this.determineStatus(securityResults, qualityResults),
         },
         issues: [
           ...this.convertSecurityToIssues(securityResults.vulnerabilities),
-          ...this.convertQualityToIssues(qualityResults.violations)
+          ...this.convertQualityToIssues(qualityResults.violations),
         ],
         metrics: qualityResults.metrics,
         recommendations: this.generateEnhancedRecommendations(
@@ -230,12 +266,11 @@ export class ReviewHandler {
           request.context
         ),
         requestId,
-        duration: Date.now() - startTime
+        duration: Date.now() - startTime,
       };
 
       this.metrics.recordReview(response);
       res.json(response);
-
     } catch (error) {
       this.handleError(error, res, requestId);
     }
@@ -252,18 +287,20 @@ export class ReviewHandler {
       const request: SecurityScanRequest = req.body;
       this.validateSecurityScanRequest(request);
 
-      const results = await this.security.scanCode(request.code, request.language);
+      const results = await this.security.scanCode(
+        request.code,
+        request.language
+      );
 
       const response: SecurityScanResponse = {
         vulnerabilities: results.vulnerabilities,
         dependencyIssues: results.dependencyIssues || [],
         securityScore: results.securityScore,
-        recommendations: results.recommendations
+        recommendations: results.recommendations,
       };
 
       this.metrics.recordSecurityScan(response);
       res.json(response);
-
     } catch (error) {
       this.handleError(error, res, requestId);
     }
@@ -280,17 +317,19 @@ export class ReviewHandler {
       const request: QualityCheckRequest = req.body;
       this.validateQualityCheckRequest(request);
 
-      const results = await this.quality.analyzeCode(request.code, request.language);
+      const results = await this.quality.analyzeCode(
+        request.code,
+        request.language
+      );
 
       const response: QualityCheckResponse = {
         passed: results.violations.length === 0,
         metrics: results.metrics,
         violations: results.violations,
-        suggestions: results.suggestions
+        suggestions: results.suggestions,
       };
 
       res.json(response);
-
     } catch (error) {
       this.handleError(error, res, requestId);
     }
@@ -313,11 +352,10 @@ export class ReviewHandler {
         success: true,
         results,
         summary: this.calculateBatchSummary(results),
-        duration: Date.now() - startTime
+        duration: Date.now() - startTime,
       };
 
       res.json(response);
-
     } catch (error) {
       this.handleError(error, res, requestId);
     }
@@ -378,7 +416,9 @@ export class ReviewHandler {
     }
   }
 
-  private async processBatchReview(request: BatchReviewRequest): Promise<any[]> {
+  private async processBatchReview(
+    request: BatchReviewRequest
+  ): Promise<any[]> {
     // Implementation would process files either sequentially or in parallel
     // This is a simplified version
     const results = [];
@@ -388,14 +428,14 @@ export class ReviewHandler {
         const reviewRequest: ReviewRequest = {
           code: file.content,
           language: file.language,
-          options: request.options
+          options: request.options,
         };
 
         // Simplified review logic
         const result = {
           filePath: file.filePath,
           success: true,
-          review: await this.performSingleReview(reviewRequest)
+          review: await this.performSingleReview(reviewRequest),
         };
 
         results.push(result);
@@ -403,7 +443,7 @@ export class ReviewHandler {
         results.push({
           filePath: file.filePath,
           success: false,
-          error: error instanceof Error ? error.message : 'Unknown error'
+          error: error instanceof Error ? error.message : 'Unknown error',
         });
       }
     }
@@ -411,7 +451,9 @@ export class ReviewHandler {
     return results;
   }
 
-  private async performSingleReview(request: ReviewRequest): Promise<ReviewResponse> {
+  private async performSingleReview(
+    request: ReviewRequest
+  ): Promise<ReviewResponse> {
     // Simplified single review implementation
     return {
       success: true,
@@ -421,18 +463,18 @@ export class ReviewHandler {
         warningIssues: 0,
         infoIssues: 0,
         overallScore: 100,
-        status: 'passed'
+        status: 'passed',
       },
       issues: [],
       metrics: {} as any,
       recommendations: [],
       requestId: 'batch-item',
-      duration: 100
+      duration: 100,
     };
   }
 
   private calculateBatchSummary(results: any[]): any {
-    const successful = results.filter(r => r.success).length;
+    const successful = results.filter((r) => r.success).length;
     const failed = results.length - successful;
 
     return {
@@ -440,22 +482,31 @@ export class ReviewHandler {
       successfulReviews: successful,
       failedReviews: failed,
       totalIssues: 0,
-      averageScore: 100
+      averageScore: 100,
     };
   }
 
-  private calculateOverallScore(securityResults: any, qualityResults: any): number {
+  private calculateOverallScore(
+    securityResults: any,
+    qualityResults: any
+  ): number {
     // Simplified scoring algorithm
     const securityWeight = 0.6;
     const qualityWeight = 0.4;
 
     const securityScore = securityResults.securityScore || 100;
-    const qualityScore = 100 - (qualityResults.violations.length * 5);
+    const qualityScore = 100 - qualityResults.violations.length * 5;
 
-    return Math.max(0, securityWeight * securityScore + qualityWeight * qualityScore);
+    return Math.max(
+      0,
+      securityWeight * securityScore + qualityWeight * qualityScore
+    );
   }
 
-  private determineStatus(securityResults: any, qualityResults: any): 'passed' | 'failed' | 'warning' {
+  private determineStatus(
+    securityResults: any,
+    qualityResults: any
+  ): 'passed' | 'failed' | 'warning' {
     const criticalVulnerabilities = securityResults.vulnerabilities.filter(
       (v: any) => v.severity === 'critical'
     ).length;
@@ -464,7 +515,8 @@ export class ReviewHandler {
       return 'failed';
     }
 
-    const totalIssues = securityResults.vulnerabilities.length + qualityResults.violations.length;
+    const totalIssues =
+      securityResults.vulnerabilities.length + qualityResults.violations.length;
     if (totalIssues > 10) {
       return 'warning';
     }
@@ -473,7 +525,7 @@ export class ReviewHandler {
   }
 
   private convertSecurityToIssues(vulnerabilities: any[]): any[] {
-    return vulnerabilities.map(vuln => ({
+    return vulnerabilities.map((vuln) => ({
       id: vuln.id,
       severity: vuln.severity,
       category: 'security',
@@ -483,19 +535,19 @@ export class ReviewHandler {
       rule: vuln.cweId,
       ruleId: vuln.cweId,
       fixable: false,
-      suggestedFix: vuln.recommendation
+      suggestedFix: vuln.recommendation,
     }));
   }
 
   private convertQualityToIssues(violations: any[]): any[] {
-    return violations.map(violation => ({
+    return violations.map((violation) => ({
       id: `quality-${Math.random().toString(36).substr(2, 9)}`,
       severity: violation.severity,
       category: 'quality',
       message: violation.message,
       rule: violation.metric,
       ruleId: violation.metric,
-      fixable: true
+      fixable: true,
     }));
   }
 
@@ -506,7 +558,7 @@ export class ReviewHandler {
   ): string[] {
     const recommendations = [
       ...securityResults.recommendations,
-      ...qualityResults.suggestions.map((s: any) => s.description)
+      ...qualityResults.suggestions.map((s: any) => s.description),
     ];
 
     // Add context-specific recommendations
@@ -521,7 +573,7 @@ export class ReviewHandler {
     return {
       name: 'dependencies',
       status: 'pass',
-      message: 'All dependencies available'
+      message: 'All dependencies available',
     };
   }
 
@@ -532,7 +584,7 @@ export class ReviewHandler {
     return {
       name: 'memory',
       status: heapUsedMB > 1024 ? 'warn' : 'pass',
-      message: `Heap used: ${heapUsedMB.toFixed(2)}MB`
+      message: `Heap used: ${heapUsedMB.toFixed(2)}MB`,
     };
   }
 
@@ -540,7 +592,7 @@ export class ReviewHandler {
     return {
       name: 'disk',
       status: 'pass',
-      message: 'Sufficient disk space'
+      message: 'Sufficient disk space',
     };
   }
 
@@ -548,7 +600,7 @@ export class ReviewHandler {
     return {
       name: 'security_scanner',
       status: 'pass',
-      message: 'Security scanner operational'
+      message: 'Security scanner operational',
     };
   }
 
@@ -556,7 +608,7 @@ export class ReviewHandler {
     return {
       name: 'quality_analyzer',
       status: 'pass',
-      message: 'Quality analyzer operational'
+      message: 'Quality analyzer operational',
     };
   }
 
@@ -566,19 +618,19 @@ export class ReviewHandler {
         error: error.code,
         message: error.message,
         field: error.field,
-        requestId
+        requestId,
       });
     } else if (error instanceof ProcessingError) {
       res.status(error.statusCode).json({
         error: error.code,
         message: error.message,
-        requestId
+        requestId,
       });
     } else {
       res.status(500).json({
         error: 'INTERNAL_ERROR',
         message: 'An unexpected error occurred',
-        requestId
+        requestId,
       });
     }
   }

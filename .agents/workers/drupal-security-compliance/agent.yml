@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: drupal-security-compliance
   name: Drupal Security Compliance
@@ -18,7 +18,8 @@ agent:
       memory: 4Gi
   capabilities:
     - name: security_audit
-      description: Comprehensive security audit of Drupal site following NIST and
+      description:
+        Comprehensive security audit of Drupal site following NIST and
         FedRAMP guidelines
       input_schema:
         type: object
@@ -178,7 +179,8 @@ agent:
                   type: array
       timeout_seconds: 1800000
     - name: vulnerability_scan
-      description: Automated vulnerability scanning for Drupal core, modules, and
+      description:
+        Automated vulnerability scanning for Drupal core, modules, and
         custom code
       input_schema:
         type: object

@@ -5,14 +5,13 @@ import { Request, Response } from 'express';
  * OSSA v0.1.9 compliant worker implementation
  */
 export class NxWorkflowEngineHandler {
-
   async health(req: Request, res: Response): Promise<void> {
     res.json({
       status: 'healthy',
       agent: 'nx-workflow-engine',
       type: 'worker',
       version: '1.0.0',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -25,13 +24,13 @@ export class NxWorkflowEngineHandler {
         status: 'success',
         result,
         execution_id: this.generateExecutionId(),
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       res.status(500).json({
         status: 'error',
         message: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
   }
@@ -45,7 +44,7 @@ export class NxWorkflowEngineHandler {
       processed: true,
       agent: 'nx-workflow-engine',
       type: 'worker',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 

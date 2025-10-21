@@ -5,7 +5,6 @@ import { Request, Response } from 'express';
  * OSSA v0.1.9 compliant handler implementation
  */
 export class RbacConfiguratorHandler {
-
   /**
    * Health check endpoint
    */
@@ -14,7 +13,7 @@ export class RbacConfiguratorHandler {
       status: 'healthy',
       agent: 'rbac-configurator',
       version: '1.0.0',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -29,7 +28,7 @@ export class RbacConfiguratorHandler {
     } catch (error) {
       res.status(500).json({
         error: 'Agent processing failed',
-        message: error.message
+        message: error.message,
       });
     }
   }
@@ -42,7 +41,7 @@ export class RbacConfiguratorHandler {
     return {
       status: 'processed',
       agent: 'rbac-configurator',
-      result: input
+      result: input,
     };
   }
 }

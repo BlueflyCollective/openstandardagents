@@ -9,4 +9,4 @@ validate:ossa-specs:
   extends: .spec-validation
   variables:
     SPEC_DIRECTORY: src/api
-    NODE_VERSION: "20"
+    NODE_VERSION: '20'

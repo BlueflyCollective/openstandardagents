@@ -16,7 +16,7 @@ const TEMPLATES = {
   critic: 'critic',
   judge: 'judge',
   governor: 'governor',
-  minimal: 'minimal'
+  minimal: 'minimal',
 };
 
 module.exports = async function generate(type, options) {
@@ -25,7 +25,9 @@ module.exports = async function generate(type, options) {
 
     if (!TEMPLATES[type]) {
       console.error(`Error: Unknown template type "${type}"`);
-      console.error(`Available templates: ${Object.keys(TEMPLATES).join(', ')}`);
+      console.error(
+        `Available templates: ${Object.keys(TEMPLATES).join(', ')}`
+      );
       process.exit(1);
     }
 
@@ -40,8 +42,9 @@ module.exports = async function generate(type, options) {
     console.log('\nNext steps:');
     console.log(`  1. Review: cat ${outputPath}`);
     console.log(`  2. Validate: ossa validate ${outputPath}`);
-    console.log(`  3. Initialize full project: ossa init ${name} --type ${type}`);
-
+    console.log(
+      `  3. Initialize full project: ossa init ${name} --type ${type}`
+    );
   } catch (error) {
     console.error('Error during generation:', error.message);
     process.exit(1);
@@ -57,7 +60,7 @@ function loadTemplate(type, name) {
     monitor: createMonitorTemplate(name),
     critic: createCriticTemplate(name),
     judge: createJudgeTemplate(name),
-    governor: createGovernorTemplate(name)
+    governor: createGovernorTemplate(name),
   };
 
   return templates[type];
@@ -72,17 +75,17 @@ function createMinimalTemplate(name) {
       version: '1.0.0',
       role: 'custom',
       runtime: {
-        type: 'docker'
+        type: 'docker',
       },
       capabilities: [
         {
           name: 'process',
           description: 'Process requests',
           input_schema: { type: 'object' },
-          output_schema: { type: 'object' }
-        }
-      ]
-    }
+          output_schema: { type: 'object' },
+        },
+      ],
+    },
   };
 }
 
@@ -101,13 +104,13 @@ function createWorkerTemplate(name) {
         image: `ossa/${name}:1.0.0`,
         resources: {
           cpu: '1',
-          memory: '2Gi'
+          memory: '2Gi',
         },
         health_check: {
           type: 'http',
           endpoint: '/health',
-          port: 3000
-        }
+          port: 3000,
+        },
       },
       capabilities: [
         {
@@ -119,47 +122,47 @@ function createWorkerTemplate(name) {
             properties: {
               task_type: {
                 type: 'string',
-                description: 'Type of task to execute'
+                description: 'Type of task to execute',
               },
               parameters: {
                 type: 'object',
-                description: 'Task parameters'
-              }
-            }
+                description: 'Task parameters',
+              },
+            },
           },
           output_schema: {
             type: 'object',
             properties: {
               result: {
                 type: 'object',
-                description: 'Task execution result'
+                description: 'Task execution result',
               },
               execution_time: {
                 type: 'number',
-                description: 'Execution time in milliseconds'
-              }
-            }
+                description: 'Execution time in milliseconds',
+              },
+            },
           },
-          timeout_seconds: 600
-        }
+          timeout_seconds: 600,
+        },
       ],
       integration: {
         protocol: 'http',
         endpoints: {
           base_url: 'http://localhost:3000',
           health: '/health',
-          metrics: '/metrics'
+          metrics: '/metrics',
         },
         auth: {
-          type: 'jwt'
-        }
+          type: 'jwt',
+        },
       },
       monitoring: {
         traces: true,
         metrics: true,
-        logs: true
-      }
-    }
+        logs: true,
+      },
+    },
   };
 }
 
@@ -178,8 +181,8 @@ function createOrchestratorTemplate(name) {
         image: `ossa/${name}:1.0.0`,
         resources: {
           cpu: '2',
-          memory: '4Gi'
-        }
+          memory: '4Gi',
+        },
       },
       capabilities: [
         {
@@ -200,13 +203,13 @@ function createOrchestratorTemplate(name) {
                       properties: {
                         agent_id: { type: 'string' },
                         capability: { type: 'string' },
-                        inputs: { type: 'object' }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+                        inputs: { type: 'object' },
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
           output_schema: {
             type: 'object',
@@ -214,33 +217,33 @@ function createOrchestratorTemplate(name) {
               workflow_id: { type: 'string' },
               status: {
                 type: 'string',
-                enum: ['pending', 'running', 'completed', 'failed']
+                enum: ['pending', 'running', 'completed', 'failed'],
               },
               results: {
                 type: 'array',
-                items: { type: 'object' }
-              }
-            }
-          }
-        }
+                items: { type: 'object' },
+              },
+            },
+          },
+        },
       ],
       integration: {
         protocol: 'http',
         endpoints: {
           base_url: 'http://localhost:3000',
           health: '/health',
-          metrics: '/metrics'
+          metrics: '/metrics',
         },
         auth: {
-          type: 'jwt'
-        }
+          type: 'jwt',
+        },
       },
       monitoring: {
         traces: true,
         metrics: true,
-        logs: true
-      }
-    }
+        logs: true,
+      },
+    },
   };
 }
 
@@ -256,7 +259,7 @@ function createIntegratorTemplate(name) {
       tags: ['integrator', 'api'],
       runtime: {
         type: 'docker',
-        image: `ossa/${name}:1.0.0`
+        image: `ossa/${name}:1.0.0`,
       },
       capabilities: [
         {
@@ -267,37 +270,40 @@ function createIntegratorTemplate(name) {
             required: ['endpoint', 'method'],
             properties: {
               endpoint: { type: 'string' },
-              method: { type: 'string', enum: ['GET', 'POST', 'PUT', 'DELETE'] },
+              method: {
+                type: 'string',
+                enum: ['GET', 'POST', 'PUT', 'DELETE'],
+              },
               headers: { type: 'object' },
-              body: { type: 'object' }
-            }
+              body: { type: 'object' },
+            },
           },
           output_schema: {
             type: 'object',
             properties: {
               status: { type: 'integer' },
-              data: { type: 'object' }
-            }
-          }
-        }
+              data: { type: 'object' },
+            },
+          },
+        },
       ],
       integration: {
         protocol: 'http',
         endpoints: {
           base_url: 'http://localhost:3000',
           health: '/health',
-          metrics: '/metrics'
+          metrics: '/metrics',
         },
         auth: {
-          type: 'api_key'
-        }
+          type: 'api_key',
+        },
       },
       monitoring: {
         traces: true,
         metrics: true,
-        logs: true
-      }
-    }
+        logs: true,
+      },
+    },
   };
 }
 
@@ -313,7 +319,7 @@ function createMonitorTemplate(name) {
       tags: ['monitor', 'observability'],
       runtime: {
         type: 'k8s',
-        image: `ossa/${name}:1.0.0`
+        image: `ossa/${name}:1.0.0`,
       },
       capabilities: [
         {
@@ -328,37 +334,37 @@ function createMonitorTemplate(name) {
                   type: 'object',
                   properties: {
                     endpoint: { type: 'string' },
-                    interval: { type: 'integer' }
-                  }
-                }
-              }
-            }
+                    interval: { type: 'integer' },
+                  },
+                },
+              },
+            },
           },
           output_schema: {
             type: 'object',
             properties: {
               metrics: {
                 type: 'array',
-                items: { type: 'object' }
-              }
-            }
-          }
-        }
+                items: { type: 'object' },
+              },
+            },
+          },
+        },
       ],
       integration: {
         protocol: 'http',
         endpoints: {
           base_url: 'http://localhost:3000',
           health: '/health',
-          metrics: '/metrics'
-        }
+          metrics: '/metrics',
+        },
       },
       monitoring: {
         traces: true,
         metrics: true,
-        logs: true
-      }
-    }
+        logs: true,
+      },
+    },
   };
 }
 
@@ -374,7 +380,7 @@ function createCriticTemplate(name) {
       tags: ['critic', 'quality'],
       runtime: {
         type: 'docker',
-        image: `ossa/${name}:1.0.0`
+        image: `ossa/${name}:1.0.0`,
       },
       capabilities: [
         {
@@ -385,8 +391,8 @@ function createCriticTemplate(name) {
             required: ['code', 'language'],
             properties: {
               code: { type: 'string' },
-              language: { type: 'string' }
-            }
+              language: { type: 'string' },
+            },
           },
           output_schema: {
             type: 'object',
@@ -394,29 +400,29 @@ function createCriticTemplate(name) {
               score: { type: 'number' },
               issues: {
                 type: 'array',
-                items: { type: 'object' }
-              }
-            }
-          }
-        }
+                items: { type: 'object' },
+              },
+            },
+          },
+        },
       ],
       integration: {
         protocol: 'http',
         endpoints: {
           base_url: 'http://localhost:3000',
           health: '/health',
-          metrics: '/metrics'
+          metrics: '/metrics',
         },
         auth: {
-          type: 'jwt'
-        }
+          type: 'jwt',
+        },
       },
       monitoring: {
         traces: true,
         metrics: true,
-        logs: true
-      }
-    }
+        logs: true,
+      },
+    },
   };
 }
 
@@ -432,7 +438,7 @@ function createJudgeTemplate(name) {
       tags: ['judge', 'decision'],
       runtime: {
         type: 'docker',
-        image: `ossa/${name}:1.0.0`
+        image: `ossa/${name}:1.0.0`,
       },
       capabilities: [
         {
@@ -444,41 +450,41 @@ function createJudgeTemplate(name) {
             properties: {
               options: {
                 type: 'array',
-                items: { type: 'object' }
+                items: { type: 'object' },
               },
               criteria: {
                 type: 'array',
-                items: { type: 'object' }
-              }
-            }
+                items: { type: 'object' },
+              },
+            },
           },
           output_schema: {
             type: 'object',
             properties: {
               decision: { type: 'string' },
               score: { type: 'number' },
-              reasoning: { type: 'string' }
-            }
-          }
-        }
+              reasoning: { type: 'string' },
+            },
+          },
+        },
       ],
       integration: {
         protocol: 'http',
         endpoints: {
           base_url: 'http://localhost:3000',
           health: '/health',
-          metrics: '/metrics'
+          metrics: '/metrics',
         },
         auth: {
-          type: 'jwt'
-        }
+          type: 'jwt',
+        },
       },
       monitoring: {
         traces: true,
         metrics: true,
-        logs: true
-      }
-    }
+        logs: true,
+      },
+    },
   };
 }
 
@@ -494,7 +500,7 @@ function createGovernorTemplate(name) {
       tags: ['governor', 'policy'],
       runtime: {
         type: 'k8s',
-        image: `ossa/${name}:1.0.0`
+        image: `ossa/${name}:1.0.0`,
       },
       capabilities: [
         {
@@ -505,8 +511,8 @@ function createGovernorTemplate(name) {
             required: ['action', 'context'],
             properties: {
               action: { type: 'string' },
-              context: { type: 'object' }
-            }
+              context: { type: 'object' },
+            },
           },
           output_schema: {
             type: 'object',
@@ -514,37 +520,40 @@ function createGovernorTemplate(name) {
               allowed: { type: 'boolean' },
               violations: {
                 type: 'array',
-                items: { type: 'string' }
-              }
-            }
-          }
-        }
+                items: { type: 'string' },
+              },
+            },
+          },
+        },
       ],
       policies: {
         compliance: ['fedramp-moderate', 'soc2-type2'],
         audit: true,
-        encryption: true
+        encryption: true,
       },
       integration: {
         protocol: 'http',
         endpoints: {
           base_url: 'http://localhost:3000',
           health: '/health',
-          metrics: '/metrics'
+          metrics: '/metrics',
         },
         auth: {
-          type: 'mtls'
-        }
+          type: 'mtls',
+        },
       },
       monitoring: {
         traces: true,
         metrics: true,
-        logs: true
-      }
-    }
+        logs: true,
+      },
+    },
   };
 }
 
 function formatName(id) {
-  return id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  return id
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
 }

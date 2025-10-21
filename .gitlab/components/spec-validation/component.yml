@@ -5,7 +5,7 @@ spec:
       default: src/api
     node_version:
       description: Node.js version to use
-      default: "20"
+      default: '20'
     validate_openapi:
       description: Whether to validate OpenAPI specifications
       type: boolean
@@ -14,9 +14,7 @@ spec:
       description: Whether to validate JSON schemas
       type: boolean
       default: true
-
 ---
-
 .spec-validation:
   image: node:$[[inputs.node_version]]
   stage: validate

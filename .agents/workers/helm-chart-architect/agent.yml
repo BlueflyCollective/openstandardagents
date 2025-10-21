@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: helm-chart-architect
   name: Helm Chart Architect
   version: 1.0.0
-  description: "OSSA-compliant worker agent: helm-chart-architect"
+  description: 'OSSA-compliant worker agent: helm-chart-architect'
   role: custom
   tags: []
   runtime:

@@ -1,9 +1,10 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: ossa-ecosystem-integrator
   name: Ossa Ecosystem Integrator
   version: 1.0.0
-  description: OSSA Ecosystem Integrator - Integrates OSSA with external systems,
+  description:
+    OSSA Ecosystem Integrator - Integrates OSSA with external systems,
     platforms, and the broader LLM ecosystem
   role: integration
   tags: []

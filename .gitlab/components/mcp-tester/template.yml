@@ -4,17 +4,16 @@
 spec:
   inputs:
     endpoint:
-      default: "http://localhost:3000"
-      description: "MCP endpoint to test"
+      default: 'http://localhost:3000'
+      description: 'MCP endpoint to test'
     test_suite:
-      default: "conformance"
-      description: "Test suite to run (conformance, performance, security)"
+      default: 'conformance'
+      description: 'Test suite to run (conformance, performance, security)'
     timeout:
       default: 300
-      description: "Test timeout in seconds"
+      description: 'Test timeout in seconds'
 
 ---
-
 .mcp-tester:
   image: node:20-alpine
   stage: test
@@ -22,8 +21,8 @@ spec:
     - name: redis:7-alpine
       alias: redis
   variables:
-    REDIS_URL: "redis://redis:6379"
-    MCP_ENDPOINT: "$[[ inputs.endpoint ]]"
+    REDIS_URL: 'redis://redis:6379'
+    MCP_ENDPOINT: '$[[ inputs.endpoint ]]'
   before_script:
     - npm install -g @ossa/mcp-tester@0.1.9
     - apk add --no-cache curl

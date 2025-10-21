@@ -3,8 +3,8 @@ kind: Agent
 metadata:
   name: policy-compliance-governor
   version: v1.1.0
-  description: "Governance agent enforcing policies, compliance, and security standards across systems"
-  author: "governance-team"
+  description: 'Governance agent enforcing policies, compliance, and security standards across systems'
+  author: 'governance-team'
   labels:
     environment: production
     classification: internal
@@ -38,24 +38,24 @@ spec:
   protocols:
     supported:
       - name: rest
-        version: "1.1"
-        endpoint: "https://governor.platform.com/api/v1"
+        version: '1.1'
+        endpoint: 'https://governor.platform.com/api/v1'
         authentication:
           type: oauth2
-          scopes: ["governor.enforce", "policies.validate", "compliance.audit"]
+          scopes: ['governor.enforce', 'policies.validate', 'compliance.audit']
         tls: true
       - name: grpc
-        version: "1.0"
-        endpoint: "grpc://governor.platform.com:9443/PolicyGovernor"
+        version: '1.0'
+        endpoint: 'grpc://governor.platform.com:9443/PolicyGovernor'
         authentication:
           type: mutual-tls
       - name: webhook
-        version: "1.0"
-        endpoint: "https://governor.platform.com/webhooks"
+        version: '1.0'
+        endpoint: 'https://governor.platform.com/webhooks'
         authentication:
           type: hmac-sha256
   governance:
-    policyEngine: "open-policy-agent"
+    policyEngine: 'open-policy-agent'
     complianceFrameworks:
       - soc2
       - pci-dss
@@ -66,11 +66,11 @@ spec:
       - advisory
       - blocking
       - logging
-    auditRetention: "7y"
+    auditRetention: '7y'
     riskAssessment:
-      frequency: "weekly"
-      severity: ["low", "medium", "high", "critical"]
-      impact: ["minimal", "moderate", "significant", "severe"]
+      frequency: 'weekly'
+      severity: ['low', 'medium', 'high', 'critical']
+      impact: ['minimal', 'moderate', 'significant', 'severe']
   policies:
     categories:
       - security
@@ -88,13 +88,13 @@ spec:
       rollbackCapable: true
   compliance:
     continuousMonitoring: true
-    reportingFrequency: "monthly"
+    reportingFrequency: 'monthly'
     evidenceCollection: true
     controlMapping: true
     attestation:
       required: true
-      frequency: "quarterly"
-      approvers: ["compliance-officer", "security-lead"]
+      frequency: 'quarterly'
+      approvers: ['compliance-officer', 'security-lead']
   security:
     accessControl:
       rbac: true
@@ -103,7 +103,7 @@ spec:
     encryption:
       atRest: true
       inTransit: true
-      keyRotation: "90d"
+      keyRotation: '90d'
     logging:
       auditLogs: true
       securityEvents: true
@@ -125,4 +125,4 @@ spec:
     alerting:
       policyViolationThreshold: 1
       complianceFailureThreshold: 1
-      riskEscalationThreshold: "high"
+      riskEscalationThreshold: 'high'

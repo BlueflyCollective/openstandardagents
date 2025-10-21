@@ -29,7 +29,9 @@ module.exports = async function migrate(sourcePath, options) {
 
     if (!source.apiVersion || !source.apiVersion.includes('0.1.9')) {
       console.error('Error: Source does not appear to be v0.1.9 format');
-      console.error('Expected: apiVersion: "@bluefly/open-standards-scalable-agents/v0.1.9"');
+      console.error(
+        'Expected: apiVersion: "@bluefly/open-standards-scalable-agents/v0.1.9"'
+      );
       process.exit(1);
     }
 
@@ -42,7 +44,8 @@ module.exports = async function migrate(sourcePath, options) {
       console.log(yaml.stringify(migrated));
       console.log('\nTo apply migration, run without --dry-run');
     } else {
-      const outputPath = options.output || sourcePath.replace('.yml', '-v1.0.yml');
+      const outputPath =
+        options.output || sourcePath.replace('.yml', '-v1.0.yml');
       fs.writeFileSync(outputPath, yaml.stringify(migrated), 'utf-8');
       console.log(`\n\u2713 Migrated manifest written to: ${outputPath}`);
       console.log('\nNext steps:');
@@ -50,7 +53,6 @@ module.exports = async function migrate(sourcePath, options) {
       console.log(`  2. Validate: ossa validate ${outputPath}`);
       console.log(`  3. Replace original if satisfied`);
     }
-
   } catch (error) {
     console.error('Error during migration:', error.message);
     process.exit(1);
@@ -63,18 +65,18 @@ function migrateManifest(source) {
 
   // Map role from type/subtype
   const roleMap = {
-    'worker': 'custom',
-    'orchestrator': 'orchestration',
-    'integrator': 'integration',
-    'monitor': 'monitoring',
-    'critic': 'development',
-    'judge': 'custom',
-    'governor': 'compliance',
-    'compliance': 'compliance',
-    'chat': 'chat',
-    'audit': 'audit',
-    'workflow': 'workflow',
-    'data_processing': 'data_processing'
+    worker: 'custom',
+    orchestrator: 'orchestration',
+    integrator: 'integration',
+    monitor: 'monitoring',
+    critic: 'development',
+    judge: 'custom',
+    governor: 'compliance',
+    compliance: 'compliance',
+    chat: 'chat',
+    audit: 'audit',
+    workflow: 'workflow',
+    data_processing: 'data_processing',
   };
 
   const agentType = spec.type || 'custom';
@@ -83,13 +85,13 @@ function migrateManifest(source) {
   // Extract capabilities
   const capabilities = [];
   if (spec.capabilities && spec.capabilities.operations) {
-    spec.capabilities.operations.forEach(op => {
+    spec.capabilities.operations.forEach((op) => {
       capabilities.push({
         name: op.name,
         description: op.description,
         input_schema: op.inputSchema || { type: 'object' },
         output_schema: op.outputSchema || { type: 'object' },
-        timeout_seconds: op.timeout || 300
+        timeout_seconds: op.timeout || 300,
       });
     });
   }
@@ -100,7 +102,7 @@ function migrateManifest(source) {
       name: 'process_request',
       description: 'Process incoming requests',
       input_schema: { type: 'object' },
-      output_schema: { type: 'object' }
+      output_schema: { type: 'object' },
     });
   }
 
@@ -109,23 +111,27 @@ function migrateManifest(source) {
     ossaVersion: '1.0',
     agent: {
       id: metadata.name || 'migrated-agent',
-      name: metadata.name?.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || 'Migrated Agent',
+      name:
+        metadata.name
+          ?.split('-')
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+          .join(' ') || 'Migrated Agent',
       version: metadata.version || '1.0.0',
       description: metadata.description || '',
       role: role,
-      tags: metadata.labels ? Object.values(metadata.labels) : []
-    }
+      tags: metadata.labels ? Object.values(metadata.labels) : [],
+    },
   };
 
   // Runtime
   migrated.agent.runtime = {
-    type: 'docker'
+    type: 'docker',
   };
 
   if (spec.resources) {
     migrated.agent.runtime.resources = {
       cpu: spec.resources.requests?.cpu || '500m',
-      memory: spec.resources.requests?.memory || '512Mi'
+      memory: spec.resources.requests?.memory || '512Mi',
     };
   }
 
@@ -141,15 +147,15 @@ function migrateManifest(source) {
       const complianceMap = {
         'ISO-42001': 'iso42001',
         'ISO-27001': 'iso27001',
-        'SOC2': 'soc2-type2',
-        'HIPAA': 'hipaa',
-        'FedRAMP': 'fedramp-moderate',
-        'OWASP-SAMM': 'nist-800-53'
+        SOC2: 'soc2-type2',
+        HIPAA: 'hipaa',
+        FedRAMP: 'fedramp-moderate',
+        'OWASP-SAMM': 'nist-800-53',
       };
 
       const compliance = spec.conformance.certifications
-        .map(cert => complianceMap[cert] || null)
-        .filter(c => c !== null);
+        .map((cert) => complianceMap[cert] || null)
+        .filter((c) => c !== null);
 
       if (compliance.length > 0) {
         migrated.agent.policies.compliance = compliance;
@@ -170,15 +176,17 @@ function migrateManifest(source) {
       endpoints: {
         base_url: 'http://localhost:3000',
         health: '/health',
-        metrics: '/metrics'
-      }
+        metrics: '/metrics',
+      },
     };
 
     // Auth
-    const protocolConfig = spec.protocols.supported?.find(p => p.name === primaryProtocol);
+    const protocolConfig = spec.protocols.supported?.find(
+      (p) => p.name === primaryProtocol
+    );
     if (protocolConfig?.authentication) {
       migrated.agent.integration.auth = {
-        type: protocolConfig.authentication.type || 'jwt'
+        type: protocolConfig.authentication.type || 'jwt',
       };
     } else {
       migrated.agent.integration.auth = { type: 'jwt' };
@@ -189,7 +197,7 @@ function migrateManifest(source) {
   migrated.agent.monitoring = {
     traces: true,
     metrics: true,
-    logs: true
+    logs: true,
   };
 
   // Metadata
@@ -197,7 +205,8 @@ function migrateManifest(source) {
     migrated.agent.metadata = {};
     if (metadata.author) migrated.agent.metadata.author = metadata.author;
     if (metadata.license) migrated.agent.metadata.license = metadata.license;
-    if (metadata.repository) migrated.agent.metadata.repository = metadata.repository;
+    if (metadata.repository)
+      migrated.agent.metadata.repository = metadata.repository;
   }
 
   return migrated;

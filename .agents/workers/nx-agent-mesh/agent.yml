@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: nx-agent-mesh
   name: Nx Agent Mesh
   version: 1.0.0
-  description: "OSSA-compliant worker agent: nx-agent-mesh"
+  description: 'OSSA-compliant worker agent: nx-agent-mesh'
   role: custom
   tags: []
   runtime:

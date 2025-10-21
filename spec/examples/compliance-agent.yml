@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 
 agent:
   # Identity
@@ -22,15 +22,15 @@ agent:
     type: k8s
     image: ossa/compliance-scanner:1.0.0
     requirements:
-      python: ">=3.11"
+      python: '>=3.11'
       packages:
         - bandit
         - safety
         - trivy
         - kube-bench
     resources:
-      cpu: "1000m"
-      memory: "1Gi"
+      cpu: '1000m'
+      memory: '1Gi'
       gpu: false
     health_check:
       type: http
@@ -181,9 +181,9 @@ agent:
   dependencies:
     required:
       - agent_id: agent-tracer
-        min_version: "1.0.0"
+        min_version: '1.0.0'
       - agent_id: compliance-engine
-        min_version: "1.0.0"
+        min_version: '1.0.0'
     optional:
       - agent_id: agent-brain
         fallback: Use local memory

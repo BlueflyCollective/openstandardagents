@@ -45,7 +45,9 @@ describe('OSSA Schema Validation', () => {
 });
 
 describe('Example Agent Validation', () => {
-  const exampleFiles = fs.readdirSync(EXAMPLES_PATH).filter((f) => f.endsWith('.yml'));
+  const exampleFiles = fs
+    .readdirSync(EXAMPLES_PATH)
+    .filter((f) => f.endsWith('.yml'));
 
   test.each(exampleFiles)('Example %s validates against schema', (filename) => {
     const filePath = path.join(EXAMPLES_PATH, filename);
@@ -67,7 +69,13 @@ describe('Field Validation', () => {
   test('Valid agent ID formats', () => {
     const validate = ajv.compile(schema);
 
-    const validIds = ['compliance-scanner', 'chat-bot-v1', 'agent-123', 'a', 'a-b-c-1-2-3'];
+    const validIds = [
+      'compliance-scanner',
+      'chat-bot-v1',
+      'agent-123',
+      'a',
+      'a-b-c-1-2-3',
+    ];
 
     validIds.forEach((id) => {
       const agent = createMinimalAgent({ id });
@@ -85,7 +93,7 @@ describe('Field Validation', () => {
       '-starts-with-dash',
       'ends-with-dash-',
       'has..dots',
-      ''
+      '',
     ];
 
     invalidIds.forEach((id) => {
@@ -97,7 +105,13 @@ describe('Field Validation', () => {
   test('Valid semver versions', () => {
     const validate = ajv.compile(schema);
 
-    const validVersions = ['1.0.0', '2.1.3', '0.0.1', '1.0.0-beta.1', '2.0.0-rc.1+build.123'];
+    const validVersions = [
+      '1.0.0',
+      '2.1.3',
+      '0.0.1',
+      '1.0.0-beta.1',
+      '2.0.0-rc.1+build.123',
+    ];
 
     validVersions.forEach((version) => {
       const agent = createMinimalAgent({ version });
@@ -129,7 +143,7 @@ describe('Field Validation', () => {
       'data_processing',
       'integration',
       'development',
-      'custom'
+      'custom',
     ];
 
     validRoles.forEach((role) => {
@@ -163,8 +177,8 @@ describe('Runtime Validation', () => {
     const agent = createMinimalAgent({
       runtime: {
         type: 'docker',
-        image: 'ossa/my-agent:1.0.0'
-      }
+        image: 'ossa/my-agent:1.0.0',
+      },
     });
 
     expect(validate(agent)).toBe(true);
@@ -179,9 +193,9 @@ describe('Runtime Validation', () => {
         image: 'ossa/my-agent:1.0.0',
         resources: {
           cpu: '500m',
-          memory: '512Mi'
-        }
-      }
+          memory: '512Mi',
+        },
+      },
     });
 
     expect(validate(agent)).toBe(true);
@@ -207,9 +221,9 @@ describe('Capabilities Validation', () => {
           name: 'test_capability',
           description: 'Test capability',
           input_schema: { type: 'object' },
-          output_schema: { type: 'object' }
-        }
-      ]
+          output_schema: { type: 'object' },
+        },
+      ],
     });
 
     expect(validate(agent)).toBe(true);
@@ -224,9 +238,9 @@ describe('Capabilities Validation', () => {
           name: 'api_call',
           description: 'API call',
           input_schema: 'openapi://api.yaml#/paths/~1users/get',
-          output_schema: 'openapi://api.yaml#/components/schemas/User'
-        }
-      ]
+          output_schema: 'openapi://api.yaml#/components/schemas/User',
+        },
+      ],
     });
 
     expect(validate(agent)).toBe(true);
@@ -239,8 +253,8 @@ describe('Compliance Validation', () => {
 
     const agent = createMinimalAgent({
       policies: {
-        compliance: ['fedramp-moderate', 'soc2-type2', 'hipaa']
-      }
+        compliance: ['fedramp-moderate', 'soc2-type2', 'hipaa'],
+      },
     });
 
     expect(validate(agent)).toBe(true);
@@ -252,8 +266,8 @@ describe('Compliance Validation', () => {
     const agent = createMinimalAgent({
       policies: {
         compliance: ['fedramp-moderate'],
-        encryption: true
-      }
+        encryption: true,
+      },
     });
 
     expect(validate(agent)).toBe(true);
@@ -270,17 +284,17 @@ function createMinimalAgent(overrides: any = {}): any {
       version: '1.0.0',
       role: 'custom',
       runtime: {
-        type: 'docker'
+        type: 'docker',
       },
       capabilities: [
         {
           name: 'test',
           description: 'Test',
           input_schema: { type: 'object' },
-          output_schema: { type: 'object' }
-        }
-      ]
-    }
+          output_schema: { type: 'object' },
+        },
+      ],
+    },
   };
 
   // Deep merge overrides
@@ -288,7 +302,8 @@ function createMinimalAgent(overrides: any = {}): any {
   if (overrides.version) defaults.agent.version = overrides.version;
   if (overrides.role) defaults.agent.role = overrides.role;
   if (overrides.runtime) defaults.agent.runtime = overrides.runtime;
-  if (overrides.capabilities !== undefined) defaults.agent.capabilities = overrides.capabilities;
+  if (overrides.capabilities !== undefined)
+    defaults.agent.capabilities = overrides.capabilities;
   if (overrides.policies) (defaults.agent as any).policies = overrides.policies;
 
   return defaults;

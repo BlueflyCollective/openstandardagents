@@ -9,12 +9,12 @@ import createRegistryApiRouter, {
   SimpleRedisClient,
   ApiError,
   RegisterServiceRequest,
-  UpdateServiceRequest
+  UpdateServiceRequest,
 } from '../../src/api/registry.js';
 import ServiceRegistry, {
   ServiceHealthStatus,
   ServiceRegistryConfig,
-  DEFAULT_SERVICE_REGISTRY_CONFIG
+  DEFAULT_SERVICE_REGISTRY_CONFIG,
 } from '../../src/services/ServiceRegistry.js';
 
 describe('Registry API', () => {
@@ -31,22 +31,31 @@ describe('Registry API', () => {
         intervalMs: 1000,
         timeoutMs: 500,
         failureThreshold: 2,
-        successThreshold: 1
+        successThreshold: 1,
       },
-      serviceTtlSeconds: 30
+      serviceTtlSeconds: 30,
     };
 
     serviceRegistry = new ServiceRegistry(config, redisClient);
-    
+
     // Create Express app with registry router
     app = express();
     app.use(express.json());
     app.use('/api/v1/registry', createRegistryApiRouter(serviceRegistry));
-    
+
     // Global error handler for testing
-    app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-      res.status(500).json({ success: false, error: { message: err.message } });
-    });
+    app.use(
+      (
+        err: Error,
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+      ) => {
+        res
+          .status(500)
+          .json({ success: false, error: { message: err.message } });
+      }
+    );
   });
 
   afterEach(async () => {
@@ -60,17 +69,19 @@ describe('Registry API', () => {
         name: 'test-api-service',
         endpoint: 'https://test-api.example.com',
         version: '1.0.0',
-        capabilities: [{
-          name: 'api-processing',
-          version: '1.0.0',
-          description: 'Test API processing capability'
-        }],
+        capabilities: [
+          {
+            name: 'api-processing',
+            version: '1.0.0',
+            description: 'Test API processing capability',
+          },
+        ],
         metadata: {
           description: 'Test API service',
           tags: ['api', 'test'],
           author: 'Test Team',
-          environment: 'test'
-        }
+          environment: 'test',
+        },
       };
 
       const response = await request(app)
@@ -88,7 +99,7 @@ describe('Registry API', () => {
     it('should return 400 for missing required fields', async () => {
       const invalidData = {
         endpoint: 'https://test.example.com',
-        capabilities: []
+        capabilities: [],
       };
 
       const response = await request(app)
@@ -98,7 +109,9 @@ describe('Registry API', () => {
 
       expect(response.body.success).toBe(false);
       expect(response.body.error.code).toBe('INVALID_REQUEST');
-      expect(response.body.error.message).toContain('name, endpoint, and version are required');
+      expect(response.body.error.message).toContain(
+        'name, endpoint, and version are required'
+      );
     });
 
     it('should return 400 for invalid capabilities', async () => {
@@ -106,7 +119,7 @@ describe('Registry API', () => {
         name: 'test-service',
         endpoint: 'https://test.example.com',
         version: '1.0.0',
-        capabilities: 'not-an-array'
+        capabilities: 'not-an-array',
       };
 
       const response = await request(app)
@@ -115,7 +128,9 @@ describe('Registry API', () => {
         .expect(400);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error.message).toContain('Capabilities must be an array');
+      expect(response.body.error.message).toContain(
+        'Capabilities must be an array'
+      );
     });
   });
 
@@ -126,38 +141,42 @@ describe('Registry API', () => {
         name: 'ai-service',
         endpoint: 'https://ai.example.com',
         version: '1.2.0',
-        capabilities: [{
-          name: 'text-processing',
-          version: '1.0.0',
-          description: 'AI text processing'
-        }],
+        capabilities: [
+          {
+            name: 'text-processing',
+            version: '1.0.0',
+            description: 'AI text processing',
+          },
+        ],
         health: {
           status: ServiceHealthStatus.HEALTHY,
-          lastCheck: new Date()
+          lastCheck: new Date(),
         },
         metadata: {
           tags: ['ai', 'nlp'],
-          environment: 'production'
-        }
+          environment: 'production',
+        },
       });
 
       await serviceRegistry.register({
         name: 'data-service',
         endpoint: 'https://data.example.com',
         version: '2.1.0',
-        capabilities: [{
-          name: 'data-processing',
-          version: '2.0.0',
-          description: 'Data transformation'
-        }],
+        capabilities: [
+          {
+            name: 'data-processing',
+            version: '2.0.0',
+            description: 'Data transformation',
+          },
+        ],
         health: {
           status: ServiceHealthStatus.UNHEALTHY,
-          lastCheck: new Date()
+          lastCheck: new Date(),
         },
         metadata: {
           tags: ['data', 'etl'],
-          environment: 'production'
-        }
+          environment: 'production',
+        },
       });
     });
 
@@ -195,7 +214,9 @@ describe('Registry API', () => {
         .expect(200);
 
       expect(response.body.data.services).toHaveLength(1);
-      expect(response.body.data.services[0].health.status).toBe(ServiceHealthStatus.HEALTHY);
+      expect(response.body.data.services[0].health.status).toBe(
+        ServiceHealthStatus.HEALTHY
+      );
     });
 
     it('should filter services by tags', async () => {
@@ -231,15 +252,17 @@ describe('Registry API', () => {
         name: 'specific-service',
         endpoint: 'https://specific.example.com',
         version: '1.0.0',
-        capabilities: [{
-          name: 'specific-capability',
-          version: '1.0.0',
-          description: 'Specific capability'
-        }],
+        capabilities: [
+          {
+            name: 'specific-capability',
+            version: '1.0.0',
+            description: 'Specific capability',
+          },
+        ],
         health: {
           status: ServiceHealthStatus.HEALTHY,
-          lastCheck: new Date()
-        }
+          lastCheck: new Date(),
+        },
       });
     });
 
@@ -269,15 +292,17 @@ describe('Registry API', () => {
         name: 'update-service',
         endpoint: 'https://update.example.com',
         version: '1.0.0',
-        capabilities: [{
-          name: 'update-capability',
-          version: '1.0.0',
-          description: 'Update capability'
-        }],
+        capabilities: [
+          {
+            name: 'update-capability',
+            version: '1.0.0',
+            description: 'Update capability',
+          },
+        ],
         health: {
           status: ServiceHealthStatus.HEALTHY,
-          lastCheck: new Date()
-        }
+          lastCheck: new Date(),
+        },
       });
     });
 
@@ -287,8 +312,8 @@ describe('Registry API', () => {
         endpoint: 'https://updated.example.com',
         metadata: {
           description: 'Updated service',
-          tags: ['updated']
-        }
+          tags: ['updated'],
+        },
       };
 
       const response = await request(app)
@@ -304,7 +329,7 @@ describe('Registry API', () => {
 
     it('should return 404 for non-existent service update', async () => {
       const updates: UpdateServiceRequest = {
-        version: '2.0.0'
+        version: '2.0.0',
       };
 
       const response = await request(app)
@@ -323,15 +348,17 @@ describe('Registry API', () => {
         name: 'delete-service',
         endpoint: 'https://delete.example.com',
         version: '1.0.0',
-        capabilities: [{
-          name: 'delete-capability',
-          version: '1.0.0',
-          description: 'Delete capability'
-        }],
+        capabilities: [
+          {
+            name: 'delete-capability',
+            version: '1.0.0',
+            description: 'Delete capability',
+          },
+        ],
         health: {
           status: ServiceHealthStatus.HEALTHY,
-          lastCheck: new Date()
-        }
+          lastCheck: new Date(),
+        },
       });
     });
 
@@ -365,17 +392,19 @@ describe('Registry API', () => {
         name: 'health-service',
         endpoint: 'https://health.example.com',
         version: '1.0.0',
-        capabilities: [{
-          name: 'health-capability',
-          version: '1.0.0',
-          description: 'Health capability'
-        }],
+        capabilities: [
+          {
+            name: 'health-capability',
+            version: '1.0.0',
+            description: 'Health capability',
+          },
+        ],
         health: {
           status: ServiceHealthStatus.DEGRADED,
           lastCheck: new Date(),
           responseTime: 250,
-          error: 'Slow response time'
-        }
+          error: 'Slow response time',
+        },
       });
     });
 
@@ -406,30 +435,34 @@ describe('Registry API', () => {
         name: 'healthy-service',
         endpoint: 'https://healthy.example.com',
         version: '1.0.0',
-        capabilities: [{
-          name: 'healthy-capability',
-          version: '1.0.0',
-          description: 'Healthy capability'
-        }],
+        capabilities: [
+          {
+            name: 'healthy-capability',
+            version: '1.0.0',
+            description: 'Healthy capability',
+          },
+        ],
         health: {
           status: ServiceHealthStatus.HEALTHY,
-          lastCheck: new Date()
-        }
+          lastCheck: new Date(),
+        },
       });
 
       await serviceRegistry.register({
         name: 'unhealthy-service',
         endpoint: 'https://unhealthy.example.com',
         version: '1.0.0',
-        capabilities: [{
-          name: 'unhealthy-capability',
-          version: '1.0.0',
-          description: 'Unhealthy capability'
-        }],
+        capabilities: [
+          {
+            name: 'unhealthy-capability',
+            version: '1.0.0',
+            description: 'Unhealthy capability',
+          },
+        ],
         health: {
           status: ServiceHealthStatus.UNHEALTHY,
-          lastCheck: new Date()
-        }
+          lastCheck: new Date(),
+        },
       });
     });
 
@@ -464,18 +497,20 @@ describe('Registry API', () => {
         name: 'stats-service-1',
         endpoint: 'https://stats1.example.com',
         version: '1.0.0',
-        capabilities: [{
-          name: 'stats-capability',
-          version: '1.0.0',
-          description: 'Stats capability'
-        }],
+        capabilities: [
+          {
+            name: 'stats-capability',
+            version: '1.0.0',
+            description: 'Stats capability',
+          },
+        ],
         health: {
           status: ServiceHealthStatus.HEALTHY,
-          lastCheck: new Date()
+          lastCheck: new Date(),
         },
         metadata: {
-          tags: ['stats', 'test']
-        }
+          tags: ['stats', 'test'],
+        },
       });
 
       await serviceRegistry.register({
@@ -486,21 +521,21 @@ describe('Registry API', () => {
           {
             name: 'stats-capability',
             version: '2.0.0',
-            description: 'Advanced stats capability'
+            description: 'Advanced stats capability',
           },
           {
             name: 'analytics-capability',
             version: '1.0.0',
-            description: 'Analytics capability'
-          }
+            description: 'Analytics capability',
+          },
         ],
         health: {
           status: ServiceHealthStatus.HEALTHY,
-          lastCheck: new Date()
+          lastCheck: new Date(),
         },
         metadata: {
-          tags: ['stats', 'analytics']
-        }
+          tags: ['stats', 'analytics'],
+        },
       });
     });
 
@@ -525,15 +560,17 @@ describe('Registry API', () => {
         name: 'cap-service-1',
         endpoint: 'https://cap1.example.com',
         version: '1.0.0',
-        capabilities: [{
-          name: 'shared-capability',
-          version: '1.0.0',
-          description: 'Shared capability v1'
-        }],
+        capabilities: [
+          {
+            name: 'shared-capability',
+            version: '1.0.0',
+            description: 'Shared capability v1',
+          },
+        ],
         health: {
           status: ServiceHealthStatus.HEALTHY,
-          lastCheck: new Date()
-        }
+          lastCheck: new Date(),
+        },
       });
 
       await serviceRegistry.register({
@@ -544,18 +581,18 @@ describe('Registry API', () => {
           {
             name: 'shared-capability',
             version: '2.0.0',
-            description: 'Shared capability v2'
+            description: 'Shared capability v2',
           },
           {
             name: 'unique-capability',
             version: '1.0.0',
-            description: 'Unique capability'
-          }
+            description: 'Unique capability',
+          },
         ],
         health: {
           status: ServiceHealthStatus.HEALTHY,
-          lastCheck: new Date()
-        }
+          lastCheck: new Date(),
+        },
       });
     });
 
@@ -592,7 +629,9 @@ describe('Registry API', () => {
         DEFAULT_SERVICE_REGISTRY_CONFIG,
         {
           ...redisClient,
-          get: jest.fn().mockRejectedValue(new Error('Redis connection failed'))
+          get: jest
+            .fn()
+            .mockRejectedValue(new Error('Redis connection failed')),
         }
       );
 
@@ -625,8 +664,10 @@ describe('Registry API', () => {
 
   describe('ApiError class', () => {
     it('should create ApiError with correct properties', () => {
-      const error = new ApiError(404, 'NOT_FOUND', 'Resource not found', { id: '123' });
-      
+      const error = new ApiError(404, 'NOT_FOUND', 'Resource not found', {
+        id: '123',
+      });
+
       expect(error.statusCode).toBe(404);
       expect(error.code).toBe('NOT_FOUND');
       expect(error.message).toBe('Resource not found');
@@ -654,14 +695,14 @@ describe('Registry API', () => {
 
     it('should handle TTL expiry', async () => {
       await client.set('ttl-key', 'ttl-value', 1); // 1 second TTL
-      
+
       // Should exist initially
       const exists = await client.exists('ttl-key');
       expect(exists).toBe(1);
-      
+
       // Wait for expiry
-      await new Promise(resolve => setTimeout(resolve, 1100));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1100));
+
       const expiredValue = await client.get('ttl-key');
       expect(expiredValue).toBeNull();
     });
@@ -670,7 +711,7 @@ describe('Registry API', () => {
       await client.set('prefix:key1', 'value1');
       await client.set('prefix:key2', 'value2');
       await client.set('other:key3', 'value3');
-      
+
       const keys = await client.keys('prefix:.*');
       expect(keys).toHaveLength(2);
       expect(keys).toContain('prefix:key1');
@@ -680,16 +721,16 @@ describe('Registry API', () => {
     it('should handle hash operations', async () => {
       await client.hset('hash:key', 'field1', 'value1');
       await client.hset('hash:key', 'field2', 'value2');
-      
+
       const hash = await client.hgetall('hash:key');
       expect(hash).toEqual({
         field1: 'value1',
-        field2: 'value2'
+        field2: 'value2',
       });
-      
+
       const deleted = await client.hdel('hash:key', 'field1');
       expect(deleted).toBe(1);
-      
+
       const updatedHash = await client.hgetall('hash:key');
       expect(updatedHash).toEqual({ field2: 'value2' });
     });

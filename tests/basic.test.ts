@@ -5,7 +5,9 @@ describe('OSSA v0.1.9 Specification Package', () => {
     const packageJson = require('../package.json');
     expect(packageJson.version).toBe('0.1.9');
     expect(packageJson.name).toBe('@bluefly/open-standards-scalable-agents');
-    expect(packageJson.description).toContain('Open Standards for Scalable Agents Specification');
+    expect(packageJson.description).toContain(
+      'Open Standards for Scalable Agents Specification'
+    );
   });
 
   test('should have required implementation directories', () => {
@@ -15,12 +17,14 @@ describe('OSSA v0.1.9 Specification Package', () => {
     const requiredDirs = [
       path.join(__dirname, '../src/cli'),
       path.join(__dirname, '../src/core'),
-      path.join(__dirname, '../src/mcp')
+      path.join(__dirname, '../src/mcp'),
     ];
 
     requiredDirs.forEach((dir) => {
       const exists = fs.existsSync(dir);
-      console.log(`${exists ? '✓' : '✗'} Implementation directory exists: ${dir.replace(process.cwd(), '')}`);
+      console.log(
+        `${exists ? '✓' : '✗'} Implementation directory exists: ${dir.replace(process.cwd(), '')}`
+      );
       expect(exists).toBe(true);
     });
   });

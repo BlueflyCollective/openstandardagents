@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
-import { VisualizationService, type VisualizationRequest } from '../../../../src/services/visualization/index.js';
+import {
+  VisualizationService,
+  type VisualizationRequest,
+} from '../../../../src/services/visualization/index.js';
 import * as path from 'path';
 
 /**
@@ -26,7 +29,7 @@ export class ArchitectureDiagramCreatorHandler {
         'mermaid-diagrams',
         'graphviz-graphs',
         'd3-data-preparation',
-        'suite-generation'
+        'suite-generation',
       ],
       supportedTypes: [
         'mermaid-flowchart',
@@ -42,9 +45,9 @@ export class ArchitectureDiagramCreatorHandler {
         'd3-force',
         'd3-hierarchy',
         'd3-network',
-        'd3-matrix'
+        'd3-matrix',
       ],
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -57,13 +60,13 @@ export class ArchitectureDiagramCreatorHandler {
         status: 'success',
         result,
         execution_id: this.generateExecutionId(),
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       res.status(500).json({
         status: 'error',
         message: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
   }
@@ -104,7 +107,7 @@ export class ArchitectureDiagramCreatorHandler {
       workflow: params.workflow,
       agents: params.agents,
       relationships: params.relationships,
-      outputFormat: params.outputFormat
+      outputFormat: params.outputFormat,
     };
 
     const result = await this.vizService.generate(request);
@@ -116,7 +119,7 @@ export class ArchitectureDiagramCreatorHandler {
       content: result.content,
       metadata: result.metadata,
       agent: 'architecture-diagram-creator',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -137,11 +140,12 @@ export class ArchitectureDiagramCreatorHandler {
         {
           format: result.format,
           hasContent: !!result.content,
-          contentLength: typeof result.content === 'string'
-            ? result.content.length
-            : JSON.stringify(result.content).length,
-          metadata: result.metadata
-        }
+          contentLength:
+            typeof result.content === 'string'
+              ? result.content.length
+              : JSON.stringify(result.content).length,
+          metadata: result.metadata,
+        },
       ])
     );
 
@@ -152,7 +156,7 @@ export class ArchitectureDiagramCreatorHandler {
       count: suite.size,
       suite: suiteObject,
       agent: 'architecture-diagram-creator',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -171,18 +175,21 @@ export class ArchitectureDiagramCreatorHandler {
         outputDir: params.outputDir,
         visualizationCount: suiteMap.size,
         agent: 'architecture-diagram-creator',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
     } else if (params.visualization && params.outputPath) {
       // Export single visualization
-      await this.vizService.exportToFile(params.visualization, params.outputPath);
+      await this.vizService.exportToFile(
+        params.visualization,
+        params.outputPath
+      );
 
       return {
         task: 'export',
         type: 'single',
         outputPath: params.outputPath,
         agent: 'architecture-diagram-creator',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
     } else {
       throw new Error('Invalid export parameters');
@@ -202,14 +209,14 @@ export class ArchitectureDiagramCreatorHandler {
     return {
       task: 'batch',
       count: results.length,
-      results: results.map(r => ({
+      results: results.map((r) => ({
         type: r.type,
         format: r.format,
         success: !!r.content,
-        metadata: r.metadata
+        metadata: r.metadata,
       })),
       agent: 'architecture-diagram-creator',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 

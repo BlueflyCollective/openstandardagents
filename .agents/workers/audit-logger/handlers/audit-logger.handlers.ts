@@ -5,7 +5,6 @@ import { Request, Response } from 'express';
  * OSSA v0.1.9 compliant handler implementation
  */
 export class AuditLoggerHandler {
-
   /**
    * Health check endpoint
    */
@@ -14,7 +13,7 @@ export class AuditLoggerHandler {
       status: 'healthy',
       agent: 'audit-logger',
       version: '1.0.0',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -29,7 +28,7 @@ export class AuditLoggerHandler {
     } catch (error) {
       res.status(500).json({
         error: 'Agent processing failed',
-        message: error.message
+        message: error.message,
       });
     }
   }
@@ -42,7 +41,7 @@ export class AuditLoggerHandler {
     return {
       status: 'processed',
       agent: 'audit-logger',
-      result: input
+      result: input,
     };
   }
 }

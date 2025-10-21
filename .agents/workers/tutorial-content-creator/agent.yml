@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: tutorial-content-creator
   name: Tutorial Content Creator
   version: 1.0.0
-  description: "OSSA-compliant worker agent: tutorial-content-creator"
+  description: 'OSSA-compliant worker agent: tutorial-content-creator'
   role: custom
   tags: []
   runtime:

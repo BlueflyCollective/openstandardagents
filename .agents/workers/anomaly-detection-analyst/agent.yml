@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: anomaly-detection-analyst
   name: Anomaly Detection Analyst
   version: 1.0.0
-  description: "OSSA-compliant worker agent: anomaly-detection-analyst"
+  description: 'OSSA-compliant worker agent: anomaly-detection-analyst'
   role: custom
   tags: []
   runtime:
