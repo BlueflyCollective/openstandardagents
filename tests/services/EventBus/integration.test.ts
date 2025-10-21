@@ -3,9 +3,18 @@
  * End-to-end testing of complete event bus system
  */
 
-import { OSSAEventBus, createOSSAEventBus } from '../../../src/services/EventBus/index.js';
-import { ServiceRegistry, DEFAULT_SERVICE_REGISTRY_CONFIG } from '../../../src/services/ServiceRegistry.js';
-import { EVENT_TYPES, EventPriority } from '../../../src/services/EventBus/types.js';
+import {
+  OSSAEventBus,
+  createOSSAEventBus,
+} from '../../../src/services/EventBus/index.js';
+import {
+  ServiceRegistry,
+  DEFAULT_SERVICE_REGISTRY_CONFIG,
+} from '../../../src/services/ServiceRegistry.js';
+import {
+  EVENT_TYPES,
+  EventPriority,
+} from '../../../src/services/EventBus/types.js';
 
 // Mock Redis for integration tests
 jest.mock('ioredis', () => {
@@ -19,7 +28,7 @@ jest.mock('ioredis', () => {
     xack: jest.fn().mockResolvedValue(1),
     pipeline: jest.fn().mockReturnValue({
       xack: jest.fn(),
-      exec: jest.fn().mockResolvedValue([])
+      exec: jest.fn().mockResolvedValue([]),
     }),
     set: jest.fn().mockResolvedValue('OK'),
     get: jest.fn().mockResolvedValue(null),
@@ -29,12 +38,12 @@ jest.mock('ioredis', () => {
     hget: jest.fn().mockResolvedValue(null),
     hgetall: jest.fn().mockResolvedValue({}),
     on: jest.fn(),
-    status: 'ready'
+    status: 'ready',
   };
 
   return {
     default: jest.fn().mockImplementation(() => mockRedis),
-    Cluster: jest.fn().mockImplementation(() => mockRedis)
+    Cluster: jest.fn().mockImplementation(() => mockRedis),
   };
 });
 
@@ -43,7 +52,7 @@ global.fetch = jest.fn().mockResolvedValue({
   ok: true,
   status: 200,
   statusText: 'OK',
-  json: jest.fn().mockResolvedValue({})
+  json: jest.fn().mockResolvedValue({}),
 });
 
 describe('OSSA Event Bus Integration Tests', () => {
@@ -63,10 +72,13 @@ describe('OSSA Event Bus Integration Tests', () => {
       hdel: jest.fn().mockResolvedValue(1),
       expire: jest.fn().mockResolvedValue(1),
       ping: jest.fn().mockResolvedValue('PONG'),
-      quit: jest.fn().mockResolvedValue(undefined)
+      quit: jest.fn().mockResolvedValue(undefined),
     };
 
-    serviceRegistry = new ServiceRegistry(DEFAULT_SERVICE_REGISTRY_CONFIG, mockRedisClient as any);
+    serviceRegistry = new ServiceRegistry(
+      DEFAULT_SERVICE_REGISTRY_CONFIG,
+      mockRedisClient as any
+    );
 
     // Initialize OSSA Event Bus
     eventBus = new OSSAEventBus(serviceRegistry, {
@@ -74,9 +86,9 @@ describe('OSSA Event Bus Integration Tests', () => {
         redis: {
           host: 'localhost',
           port: 6379,
-          keyPrefix: 'test:ossa:eventbus'
-        }
-      }
+          keyPrefix: 'test:ossa:eventbus',
+        },
+      },
     });
 
     await eventBus.initialize();
@@ -93,12 +105,12 @@ describe('OSSA Event Bus Integration Tests', () => {
 
       expect(status).toMatchObject({
         eventBus: expect.objectContaining({
-          status: expect.stringMatching(/healthy|degraded|unhealthy/)
+          status: expect.stringMatching(/healthy|degraded|unhealthy/),
         }),
         serviceRegistry: expect.any(Object),
         crossProject: expect.any(Object),
         orchestration: expect.any(Object),
-        monitoring: expect.any(Object)
+        monitoring: expect.any(Object),
       });
     });
 
@@ -110,9 +122,9 @@ describe('OSSA Event Bus Integration Tests', () => {
         timestamp: expect.any(Date),
         components: expect.objectContaining({
           eventBus: expect.objectContaining({
-            status: expect.any(String)
-          })
-        })
+            status: expect.any(String),
+          }),
+        }),
       });
     });
   });
@@ -124,14 +136,18 @@ describe('OSSA Event Bus Integration Tests', () => {
         timestamp: new Date(),
         metadata: {
           source: 'integration-test',
-          version: '1.0.0'
-        }
+          version: '1.0.0',
+        },
       };
 
       // Publish event
-      const eventId = await eventBus.publish('integration.test.event', testData, {
-        priority: EventPriority.HIGH
-      });
+      const eventId = await eventBus.publish(
+        'integration.test.event',
+        testData,
+        {
+          priority: EventPriority.HIGH,
+        }
+      );
 
       expect(eventId).toBeDefined();
       expect(typeof eventId).toBe('string');
@@ -141,13 +157,13 @@ describe('OSSA Event Bus Integration Tests', () => {
       const mockHandler = jest.fn().mockResolvedValue(undefined);
 
       await eventBus.subscribe('integration.subscription.test', mockHandler, {
-        group: 'integration-test-group'
+        group: 'integration-test-group',
       });
 
       // Publish event to trigger subscription
       await eventBus.publish('integration.subscription.test', {
         data: 'subscription test',
-        timestamp: new Date()
+        timestamp: new Date(),
       });
 
       // In a real scenario, the handler would be called
@@ -176,31 +192,31 @@ describe('OSSA Event Bus Integration Tests', () => {
           {
             name: 'data-processing',
             version: '1.0.0',
-            description: 'Process data events'
-          }
+            description: 'Process data events',
+          },
         ],
         health: {
           status: 'healthy' as const,
-          lastCheck: new Date()
+          lastCheck: new Date(),
         },
         metadata: {
           description: 'Test service for integration',
           tags: ['test', 'integration'],
-          environment: 'test'
-        }
+          environment: 'test',
+        },
       };
 
       const registered = await serviceRegistry.register(serviceDefinition);
 
       expect(registered).toMatchObject({
         name: 'test-integration-service',
-        endpoint: 'http://localhost:3000'
+        endpoint: 'http://localhost:3000',
       });
     });
 
     test('should discover services through event bus', async () => {
       const services = await serviceRegistry.discover({
-        namePattern: 'test-*'
+        namePattern: 'test-*',
       });
 
       expect(Array.isArray(services)).toBe(true);
@@ -214,18 +230,20 @@ describe('OSSA Event Bus Integration Tests', () => {
         name: 'Integration Test Project',
         namespace: 'integration',
         allowedEventTypes: ['integration.event', 'data.processed'],
-        allowedTargets: ['target-project']
+        allowedTargets: ['target-project'],
       };
 
       await eventBus.registerProject(projectConfig);
 
-      const validation = await eventBus.validateProjectSetup('integration-project');
+      const validation = await eventBus.validateProjectSetup(
+        'integration-project'
+      );
 
       expect(validation).toMatchObject({
         isValid: true,
         errors: [],
         warnings: expect.any(Array),
-        recommendations: expect.any(Array)
+        recommendations: expect.any(Array),
       });
     });
 
@@ -241,25 +259,26 @@ describe('OSSA Event Bus Integration Tests', () => {
           properties: {
             eventId: { type: 'string' },
             data: { type: 'object' },
-            timestamp: { type: 'string', format: 'date-time' }
+            timestamp: { type: 'string', format: 'date-time' },
           },
-          required: ['eventId', 'timestamp']
+          required: ['eventId', 'timestamp'],
         },
         metadata: {
           description: 'Integration test contract',
           author: 'Integration Test',
           createdAt: new Date(),
           updatedAt: new Date(),
-          tags: ['integration', 'test']
-        }
+          tags: ['integration', 'test'],
+        },
       };
 
       await eventBus.registerContract(contract);
 
-      const availableContracts = eventBus.getAvailableContracts('target-project');
+      const availableContracts =
+        eventBus.getAvailableContracts('target-project');
       expect(availableContracts).toContainEqual(
         expect.objectContaining({
-          name: 'integration-contract'
+          name: 'integration-contract',
         })
       );
     });
@@ -271,7 +290,7 @@ describe('OSSA Event Bus Integration Tests', () => {
         name: 'Source Integration Project',
         namespace: 'source',
         allowedEventTypes: ['cross.project.test'],
-        allowedTargets: ['target-integration']
+        allowedTargets: ['target-integration'],
       };
 
       const targetProject = {
@@ -279,7 +298,7 @@ describe('OSSA Event Bus Integration Tests', () => {
         name: 'Target Integration Project',
         namespace: 'target',
         allowedEventTypes: ['cross.project.test'],
-        allowedTargets: []
+        allowedTargets: [],
       };
 
       await eventBus.registerProject(sourceProject);
@@ -307,8 +326,8 @@ describe('OSSA Event Bus Integration Tests', () => {
         orchestratorId: 'integration-orchestrator',
         configuration: {
           maxTasks: 10,
-          timeout: 30000
-        }
+          timeout: 30000,
+        },
       };
 
       await eventBus.publish(EVENT_TYPES.AGENT.SPAWNED, agentSpawnedEvent);
@@ -323,7 +342,7 @@ describe('OSSA Event Bus Integration Tests', () => {
         totalThroughput: expect.any(Number),
         averageResponseTime: expect.any(Number),
         errorRate: expect.any(Number),
-        queueDepth: expect.any(Number)
+        queueDepth: expect.any(Number),
       });
     });
 
@@ -334,7 +353,7 @@ describe('OSSA Event Bus Integration Tests', () => {
         taskType: 'data-analysis',
         priority: 5,
         estimatedDuration: 15000,
-        dependencies: []
+        dependencies: [],
       };
 
       await eventBus.publish(EVENT_TYPES.TASK.ASSIGNED, taskAssignedEvent);
@@ -344,7 +363,7 @@ describe('OSSA Event Bus Integration Tests', () => {
         agentId: 'integration-agent-123',
         result: { processed: true, count: 100 },
         duration: 12000,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       await eventBus.publish(EVENT_TYPES.TASK.COMPLETED, taskCompletedEvent);
@@ -361,9 +380,9 @@ describe('OSSA Event Bus Integration Tests', () => {
           memory: 1024,
           responseTime: 200,
           throughput: 15.2,
-          errorRate: 0.01
+          errorRate: 0.01,
         },
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       await eventBus.publish(EVENT_TYPES.PERFORMANCE.METRICS, performanceEvent);
@@ -392,17 +411,17 @@ describe('OSSA Event Bus Integration Tests', () => {
           uptime: expect.any(Number),
           totalEvents: expect.any(Number),
           currentTPS: expect.any(Number),
-          errorRate: expect.any(Number)
+          errorRate: expect.any(Number),
         }),
         realtime: expect.objectContaining({
           eventsPerSecond: expect.any(Array),
           latency: expect.any(Array),
           errorRate: expect.any(Array),
           queueDepth: expect.any(Array),
-          timestamp: expect.any(Array)
+          timestamp: expect.any(Array),
         }),
         topMetrics: expect.any(Object),
-        activeAlerts: expect.any(Array)
+        activeAlerts: expect.any(Array),
       });
     });
 
@@ -419,7 +438,7 @@ describe('OSSA Event Bus Integration Tests', () => {
           activeTraces: expect.any(Number),
           activeAlerts: expect.any(Number),
           healthHistorySize: expect.any(Number),
-          uptimeSeconds: expect.any(Number)
+          uptimeSeconds: expect.any(Number),
         });
       }
     });
@@ -470,13 +489,13 @@ describe('OSSA Event Bus Integration Tests', () => {
           eventBus.publish(`integration.burst.${i}`, {
             index: i,
             data: `test-data-${i}`,
-            timestamp: new Date()
+            timestamp: new Date(),
           })
         );
       }
 
       const results = await Promise.allSettled(eventPromises);
-      const successful = results.filter(r => r.status === 'fulfilled');
+      const successful = results.filter((r) => r.status === 'fulfilled');
 
       // Should handle most events successfully
       expect(successful.length).toBeGreaterThan(eventCount * 0.8);
@@ -487,9 +506,7 @@ describe('OSSA Event Bus Integration Tests', () => {
 
       // Concurrent publish operations
       for (let i = 0; i < 10; i++) {
-        operations.push(
-          eventBus.publish(`concurrent.test.${i}`, { data: i })
-        );
+        operations.push(eventBus.publish(`concurrent.test.${i}`, { data: i }));
       }
 
       // Concurrent subscription operations
@@ -500,7 +517,7 @@ describe('OSSA Event Bus Integration Tests', () => {
       }
 
       const results = await Promise.allSettled(operations);
-      const successful = results.filter(r => r.status === 'fulfilled');
+      const successful = results.filter((r) => r.status === 'fulfilled');
 
       // Most operations should succeed
       expect(successful.length).toBeGreaterThan(operations.length * 0.8);
@@ -514,20 +531,20 @@ describe('OSSA Event Bus Integration Tests', () => {
           redis: {
             host: 'custom-host',
             port: 6380,
-            keyPrefix: 'custom:prefix'
+            keyPrefix: 'custom:prefix',
           },
           performance: {
             batchSize: 200,
             batchTimeout: 2000,
             connectionPoolSize: 20,
-            pipelineSize: 200
-          }
+            pipelineSize: 200,
+          },
         },
         monitoring: {
           metrics: {
             enabled: true,
             collectionInterval: 5000,
-            retentionPeriod: 43200000 // 12 hours
+            retentionPeriod: 43200000, // 12 hours
           },
           alerting: {
             enabled: true,
@@ -537,24 +554,24 @@ describe('OSSA Event Bus Integration Tests', () => {
               maxQueueDepth: 2000,
               minThroughput: 0.5,
               maxMemoryUsage: 90.0,
-              maxConnectionUtilization: 95.0
-            }
-          }
+              maxConnectionUtilization: 95.0,
+            },
+          },
         },
         serviceRegistry: {
           enabled: true,
           autoRegister: false,
-          healthMonitoring: false
+          healthMonitoring: false,
         },
         crossProject: {
           enabled: false,
           securityEnabled: false,
-          rateLimitingEnabled: false
+          rateLimitingEnabled: false,
         },
         orchestration: {
           enabled: false,
-          config: {}
-        }
+          config: {},
+        },
       });
 
       await customEventBus.initialize();
@@ -582,10 +599,13 @@ describe('OSSA Event Bus Factory Function', () => {
       hdel: jest.fn().mockResolvedValue(1),
       expire: jest.fn().mockResolvedValue(1),
       ping: jest.fn().mockResolvedValue('PONG'),
-      quit: jest.fn().mockResolvedValue(undefined)
+      quit: jest.fn().mockResolvedValue(undefined),
     };
 
-    serviceRegistry = new ServiceRegistry(DEFAULT_SERVICE_REGISTRY_CONFIG, mockRedisClient as any);
+    serviceRegistry = new ServiceRegistry(
+      DEFAULT_SERVICE_REGISTRY_CONFIG,
+      mockRedisClient as any
+    );
   });
 
   test('should create and initialize event bus with factory function', async () => {
@@ -604,12 +624,12 @@ describe('OSSA Event Bus Factory Function', () => {
       eventBus: {
         redis: {
           host: 'factory-test-host',
-          port: 6379
-        }
+          port: 6379,
+        },
       },
       monitoring: {
-        metrics: { enabled: false }
-      }
+        metrics: { enabled: false },
+      },
     });
 
     expect(eventBus).toBeInstanceOf(OSSAEventBus);

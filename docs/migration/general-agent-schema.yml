@@ -26,7 +26,15 @@ components:
           type: array
           items:
             type: string
-            enum: [code_generation, code_review, issue_analysis, documentation, testing, deployment]
+            enum:
+              [
+                code_generation,
+                code_review,
+                issue_analysis,
+                documentation,
+                testing,
+                deployment,
+              ]
         configuration:
           type: object
           properties:

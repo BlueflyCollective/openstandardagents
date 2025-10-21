@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 
 # OSSA (Open Standard for Smart & Scalable Agents) - Version 1.0
 # The OpenAPI for AI Agents
@@ -16,7 +16,7 @@ ossaVersion: "1.0"
 spec:
   title: OSSA 1.0 Specification
   description: Open Standard for Smart & Scalable Agents
-  version: "1.0.0"
+  version: '1.0.0'
   license: Apache-2.0
   maintainer: OSSA Working Group
   website: https://ossa.io
@@ -25,7 +25,7 @@ spec:
 schema:
   # Top-level structure
   root:
-    ossaVersion: "1.0" # Required
+    ossaVersion: '1.0' # Required
     agent: # Required
       # Core Identity
       id: string # DNS-1123 subdomain format (a-z0-9-)
@@ -168,8 +168,8 @@ schema:
           schema_version: string
           capabilities_mapping: object # Map OSSA caps to A2A actions
           metadata:
-            "@context": string
-            "@type": string
+            '@context': string
+            '@type': string
 
         # OpenAPI Bridge
         openapi:
@@ -243,22 +243,22 @@ validation:
 extensions:
   # Custom annotations (like Kubernetes)
   annotations:
-    "ossa.io/*": reserved for OSSA standard
-    "vendor.io/*": vendor-specific extensions
-    "*": custom extensions
+    'ossa.io/*': reserved for OSSA standard
+    'vendor.io/*': vendor-specific extensions
+    '*': custom extensions
 
   # Custom fields allowed at root level
   # Prefix with "x-" to avoid conflicts
   custom_fields:
-    pattern: "^x-[a-z0-9-]+$"
+    pattern: '^x-[a-z0-9-]+$'
 
 # Compatibility
 compatibility:
-  openapi: "Can reference OpenAPI specs for capability schemas"
-  kubernetes: "Agent manifest maps directly to K8s Agent CRD (kagent)"
-  mcp: "Integration.protocol = mcp enables MCP tool server support"
-  docker: "runtime.image maps to Docker image"
-  helm: "Can be packaged as Helm chart values"
+  openapi: 'Can reference OpenAPI specs for capability schemas'
+  kubernetes: 'Agent manifest maps directly to K8s Agent CRD (kagent)'
+  mcp: 'Integration.protocol = mcp enables MCP tool server support'
+  docker: 'runtime.image maps to Docker image'
+  helm: 'Can be packaged as Helm chart values'
 
 # Reserved Roles
 roles:
@@ -276,88 +276,88 @@ roles:
 # Protocol Support Matrix
 protocols:
   http:
-    use_case: "RESTful APIs, local-first development"
-    required_fields: ["integration.endpoints.base_url"]
+    use_case: 'RESTful APIs, local-first development'
+    required_fields: ['integration.endpoints.base_url']
   grpc:
-    use_case: "High-performance inter-agent communication"
-    required_fields: ["integration.endpoints.base_url", "proto file"]
+    use_case: 'High-performance inter-agent communication'
+    required_fields: ['integration.endpoints.base_url', 'proto file']
   mcp:
-    use_case: "MCP tool server integration, Claude Desktop"
-    required_fields: ["integration.protocol = mcp"]
+    use_case: 'MCP tool server integration, Claude Desktop'
+    required_fields: ['integration.protocol = mcp']
   websocket:
-    use_case: "Real-time streaming, bi-directional communication"
-    required_fields: ["integration.endpoints.base_url"]
+    use_case: 'Real-time streaming, bi-directional communication'
+    required_fields: ['integration.endpoints.base_url']
 
 # Compliance Framework Mapping
 compliance_frameworks:
   fedramp-low:
     encryption: required
     audit: required
-    data_residency: ["US"]
+    data_residency: ['US']
   fedramp-moderate:
     encryption: required
     audit: required
-    data_residency: ["US-GOV"]
-    pii_handling: "encrypt"
+    data_residency: ['US-GOV']
+    pii_handling: 'encrypt'
   fedramp-high:
     encryption: required
     audit: required
-    data_residency: ["US-GOV"]
-    pii_handling: "encrypt"
-    auth.type: "mtls"
+    data_residency: ['US-GOV']
+    pii_handling: 'encrypt'
+    auth.type: 'mtls'
   soc2-type2:
     encryption: required
     audit: required
   hipaa:
     encryption: required
     audit: required
-    pii_handling: "encrypt"
+    pii_handling: 'encrypt'
   gdpr:
     encryption: required
     audit: required
-    pii_handling: "anonymize"
-    data_residency: ["EU"]
+    pii_handling: 'anonymize'
+    data_residency: ['EU']
 
 # Versioning Strategy
 versioning:
-  semver: "OSSA agents MUST use semantic versioning"
-  breaking_changes: "Major version bump required for breaking changes"
-  deprecation: "Deprecate in N, remove in N+1"
+  semver: 'OSSA agents MUST use semantic versioning'
+  breaking_changes: 'Major version bump required for breaking changes'
+  deprecation: 'Deprecate in N, remove in N+1'
   compatibility_matrix:
-    - ossa_version: "1.0"
-      agent_versions: "1.x.x"
-    - ossa_version: "1.1"
-      agent_versions: "1.x.x || 2.x.x"
+    - ossa_version: '1.0'
+      agent_versions: '1.x.x'
+    - ossa_version: '1.1'
+      agent_versions: '1.x.x || 2.x.x'
 
 # Bridge Use Cases
 bridge_use_cases:
   mcp:
-    description: "Model Context Protocol - Claude Desktop, Langflow integration"
-    when_to_use: "Expose agent as MCP tool server for AI assistants"
+    description: 'Model Context Protocol - Claude Desktop, Langflow integration'
+    when_to_use: 'Expose agent as MCP tool server for AI assistants'
     transport_types:
-      stdio: "Local execution, Claude Desktop"
-      sse: "Server-sent events for web integration"
-      websocket: "Real-time bidirectional communication"
+      stdio: 'Local execution, Claude Desktop'
+      sse: 'Server-sent events for web integration'
+      websocket: 'Real-time bidirectional communication'
 
   a2a:
-    description: "Agent-to-Agent Protocol - Multi-agent coordination"
-    when_to_use: "Enable agent discovery and inter-agent communication"
+    description: 'Agent-to-Agent Protocol - Multi-agent coordination'
+    when_to_use: 'Enable agent discovery and inter-agent communication'
 
   openapi:
-    description: "REST API bridge - Standard HTTP/REST integration"
-    when_to_use: "Expose agent capabilities as REST API"
+    description: 'REST API bridge - Standard HTTP/REST integration'
+    when_to_use: 'Expose agent capabilities as REST API'
 
   langchain:
-    description: "LangChain framework integration"
-    when_to_use: "Use agent within LangChain workflows"
+    description: 'LangChain framework integration'
+    when_to_use: 'Use agent within LangChain workflows'
 
   crewai:
-    description: "CrewAI framework integration"
-    when_to_use: "Agent as part of CrewAI multi-agent system"
+    description: 'CrewAI framework integration'
+    when_to_use: 'Agent as part of CrewAI multi-agent system'
 
   autogen:
-    description: "AutoGen framework integration"
-    when_to_use: "Multi-agent conversations with AutoGen"
+    description: 'AutoGen framework integration'
+    when_to_use: 'Multi-agent conversations with AutoGen'
 
 # Best Practices
 best_practices:

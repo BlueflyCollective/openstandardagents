@@ -4,14 +4,14 @@ info:
   version: 0.1.9
   description: |
     **REVOLUTIONARY** OSSA Agent Registry - First-of-its-kind for AI agents
-    
+
     Production Architecture:
     - OpenAPI-First: Spec drives all implementation
     - DRY: Single source of truth for agent metadata
     - CRUD: Full agent lifecycle management
     - SOLID: Clean interfaces, dependency injection
     - Type-Safe: Zod validation + TypeScript
-    
+
     Features:
     - Agent discovery and registration
     - Version management with semantic versioning
@@ -19,7 +19,7 @@ info:
     - Compliance certification tracking
     - Multi-cloud deployment metadata
     - Performance metrics and health scoring
-    
+
     OSSA Compliance: v0.1.9
 
 servers:
@@ -74,7 +74,7 @@ paths:
                       $ref: '#/components/schemas/Agent'
                   pagination:
                     $ref: '#/components/schemas/Pagination'
-    
+
     post:
       operationId: registerAgent
       summary: Register a new agent
@@ -115,7 +115,7 @@ paths:
                 $ref: '#/components/schemas/Agent'
         '404':
           $ref: '#/components/responses/NotFound'
-    
+
     put:
       operationId: updateAgent
       summary: Update agent metadata
@@ -139,7 +139,7 @@ paths:
                 $ref: '#/components/schemas/Agent'
         '404':
           $ref: '#/components/responses/NotFound'
-    
+
     delete:
       operationId: deleteAgent
       summary: Deprecate an agent
@@ -173,7 +173,7 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/AgentVersion'
-    
+
     post:
       operationId: publishVersion
       summary: Publish new agent version
@@ -215,7 +215,7 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Certification'
-    
+
     post:
       operationId: addCertification
       summary: Add certification
@@ -766,14 +766,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    
+
     Unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    
+
     NotFound:
       description: Not found
       content:

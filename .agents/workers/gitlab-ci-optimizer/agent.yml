@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: gitlab-ci-optimizer
   name: Gitlab Ci Optimizer
   version: 1.0.0
-  description: "OSSA-compliant worker agent: gitlab-ci-optimizer"
+  description: 'OSSA-compliant worker agent: gitlab-ci-optimizer'
   role: custom
   tags: []
   runtime:

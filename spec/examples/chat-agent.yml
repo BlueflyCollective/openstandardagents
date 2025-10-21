@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 
 agent:
   # Identity
@@ -20,14 +20,14 @@ agent:
     type: docker
     image: ossa/chat-agent:1.2.0
     requirements:
-      node: ">=20.0.0"
+      node: '>=20.0.0'
       packages:
         - fastify
         - openai
         - langchain
     resources:
-      cpu: "500m"
-      memory: "512Mi"
+      cpu: '500m'
+      memory: '512Mi'
       gpu: false
     health_check:
       type: http
@@ -169,7 +169,7 @@ agent:
   dependencies:
     required:
       - agent_id: agent-brain
-        min_version: "1.0.0"
+        min_version: '1.0.0'
     optional:
       - agent_id: agent-tracer
         fallback: Log to local files

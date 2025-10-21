@@ -3,8 +3,8 @@ kind: Agent
 metadata:
   name: code-quality-critic
   version: v1.0.0
-  description: "Quality assurance agent for code review, testing, and continuous improvement"
-  author: "quality-engineering-team"
+  description: 'Quality assurance agent for code review, testing, and continuous improvement'
+  author: 'quality-engineering-team'
   labels:
     environment: production
     classification: internal
@@ -38,20 +38,20 @@ spec:
   protocols:
     supported:
       - name: rest
-        version: "1.1"
-        endpoint: "https://critic.platform.com/api/v1"
+        version: '1.1'
+        endpoint: 'https://critic.platform.com/api/v1'
         authentication:
           type: bearer-token
-          scopes: ["critic.review", "code.analyze", "quality.assess"]
+          scopes: ['critic.review', 'code.analyze', 'quality.assess']
         tls: true
       - name: webhook
-        version: "1.0"
-        endpoint: "https://critic.platform.com/webhooks/review"
+        version: '1.0'
+        endpoint: 'https://critic.platform.com/webhooks/review'
         authentication:
           type: hmac-sha256
       - name: grpc
-        version: "1.0"
-        endpoint: "grpc://critic.platform.com:9443/CodeCritic"
+        version: '1.0'
+        endpoint: 'grpc://critic.platform.com:9443/CodeCritic'
         authentication:
           type: mutual-tls
   analysis:
@@ -93,7 +93,7 @@ spec:
       security: true
       testCoverage: true
     scoring:
-      scale: "0-100"
+      scale: '0-100'
       passThreshold: 70
       categories:
         - functionality

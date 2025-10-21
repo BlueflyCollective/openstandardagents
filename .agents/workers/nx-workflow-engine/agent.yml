@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: nx-workflow-engine
   name: Nx Workflow Engine
   version: 1.0.0
-  description: "OSSA-compliant worker agent: nx-workflow-engine"
+  description: 'OSSA-compliant worker agent: nx-workflow-engine'
   role: custom
   tags: []
   runtime:

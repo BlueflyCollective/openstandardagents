@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: code-comment-analyzer
   name: Code Comment Analyzer
   version: 1.0.0
-  description: "OSSA-compliant worker agent: code-comment-analyzer"
+  description: 'OSSA-compliant worker agent: code-comment-analyzer'
   role: custom
   tags: []
   runtime:

@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 
 agent:
   # Identity
@@ -20,14 +20,14 @@ agent:
     type: k8s
     image: ossa/workflow-orchestrator:2.0.0
     requirements:
-      node: ">=20.0.0"
+      node: '>=20.0.0'
       packages:
         - temporal-sdk
         - bullmq
         - ioredis
     resources:
-      cpu: "2000m"
-      memory: "2Gi"
+      cpu: '2000m'
+      memory: '2Gi'
       gpu: false
     health_check:
       type: http
@@ -195,11 +195,11 @@ agent:
   dependencies:
     required:
       - agent_id: agent-router
-        min_version: "1.0.0"
+        min_version: '1.0.0'
       - agent_id: agent-protocol
-        min_version: "1.0.0"
+        min_version: '1.0.0'
       - agent_id: agent-tracer
-        min_version: "1.0.0"
+        min_version: '1.0.0'
     optional:
       - agent_id: agent-brain
         fallback: Workflows without context enrichment

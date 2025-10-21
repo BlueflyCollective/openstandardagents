@@ -1,9 +1,10 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: drupal-module-developer
   name: Drupal Module Developer
   version: 0.1.9
-  description: Advanced Drupal module development specialist with AI-powered code
+  description:
+    Advanced Drupal module development specialist with AI-powered code
     generation and best practices
   role: custom
   tags:

@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: quality-assessor-judge
   name: Quality Assessor Judge

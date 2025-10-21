@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: readme-optimizer
   name: Readme Optimizer
   version: 1.0.0
-  description: "OSSA-compliant worker agent: readme-optimizer"
+  description: 'OSSA-compliant worker agent: readme-optimizer'
   role: custom
   tags: []
   runtime:

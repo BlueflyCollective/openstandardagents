@@ -5,13 +5,13 @@ include:
   # Include Golden Workflow component
   - component: $CI_SERVER_FQDN/llm/openapi-ai-agents-standard/workflow/golden@v0.1.0
     inputs:
-      project_version: "1.0.0"
-      node-version: "20"
+      project_version: '1.0.0'
+      node-version: '20'
       enable-tdd: true
       enable-ossa-compliance: false
       enable_ai_ml_testing: false
       enable-auto-merge: false
-      changelog-preset: "angular"
+      changelog-preset: 'angular'
 
   # Include VSA component
   - component: $CI_SERVER_FQDN/llm/openapi-ai-agents-standard/vsa@v0.1.0
@@ -22,8 +22,8 @@ include:
       track_deployment_frequency: true
       track_mttr: true
       track_change_failure_rate: true
-      vsa_report_format: "json"
-      vsa_dashboard_url: "https://metrics.bluefly.io/vsa"
+      vsa_report_format: 'json'
+      vsa_dashboard_url: 'https://metrics.bluefly.io/vsa'
 
 # Override stages to include both Golden and VSA stages
 stages:
@@ -31,11 +31,11 @@ stages:
   - validate
   - build
   - test
-  - vsa-collect      # VSA stage
+  - vsa-collect # VSA stage
   - changelog
-  - vsa-analyze      # VSA stage
+  - vsa-analyze # VSA stage
   - release
-  - vsa-report       # VSA stage
+  - vsa-report # VSA stage
 
 # Integration verification job
 integration:verify:
@@ -68,7 +68,7 @@ integration:verify:
 dashboard:aggregate:
   stage: vsa-report
   needs:
-    - job: "vsa:generate-report"
+    - job: 'vsa:generate-report'
       optional: true
   image: alpine:latest
   script:

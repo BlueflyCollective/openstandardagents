@@ -5,18 +5,18 @@ include:
   # Include Golden Workflow component only
   - component: $CI_SERVER_FQDN/llm/openapi-ai-agents-standard/workflow/golden@v0.1.0
     inputs:
-      project_version: "1.0.0"
-      node-version: "20"
+      project_version: '1.0.0'
+      node-version: '20'
       enable-tdd: true
       enable-ossa-compliance: false
       enable_ai_ml_testing: false
       enable-auto-merge: false
-      changelog-preset: "angular"
+      changelog-preset: 'angular'
 
   # Include VSA component but DISABLED
   - component: $CI_SERVER_FQDN/llm/openapi-ai-agents-standard/vsa@v0.1.0
     inputs:
-      enable_vsa: false  # VSA DISABLED
+      enable_vsa: false # VSA DISABLED
       track_lead_time: false
       track_cycle_time: false
       track_deployment_frequency: false

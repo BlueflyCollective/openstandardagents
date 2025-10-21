@@ -1,16 +1,16 @@
 # Example: ADK Code Review Workflow with OSSA Agents
 # This demonstrates how OSSA agents work with ADK orchestration patterns
 
-apiVersion: "@ossa/v0.1.9"
+apiVersion: '@ossa/v0.1.9'
 kind: Workflow
 metadata:
   name: code-review-workflow
-  description: "Multi-agent code review using ADK patterns"
-  
+  description: 'Multi-agent code review using ADK patterns'
+
 spec:
   # ADK orchestration pattern
   adk_pattern: sequential
-  
+
   # Agents involved in workflow
   agents:
     - name: code-analyzer
@@ -27,7 +27,7 @@ spec:
         - Security vulnerabilities
         Store findings in {analysis_results}
       output_key: analysis_results
-      
+
     - name: style-checker
       type: LlmAgent
       ossa_type: critic
@@ -41,7 +41,7 @@ spec:
         - Documentation completeness
         Store style issues in {style_report}
       output_key: style_report
-      
+
     - name: security-auditor
       type: CustomAgent
       custom_type: governor
@@ -59,7 +59,7 @@ spec:
         Apply OWASP and CWE policies
         Store violations in {security_audit}
       output_key: security_audit
-      
+
     - name: review-aggregator
       type: WorkflowAgent
       workflow_type: parallel
@@ -75,12 +75,12 @@ spec:
         - {security_audit}
         Generate comprehensive review report
       output_key: final_review
-      
+
   # Execution configuration
   execution:
     # Use ADK state management
     state_management: adk_session
-    
+
     # Tool delegation
     tool_delegation:
       type: explicit
@@ -89,19 +89,19 @@ spec:
           capabilities: [version-control]
         - name: issue_tracker
           capabilities: [issue-management]
-    
+
     # Conditional execution based on findings
     conditions:
       - agent: security-auditor
         condition: "session.state.analysis_results.severity > 'medium'"
       - agent: style-checker
-        condition: "session.state.analysis_results.lines_of_code > 100"
-    
+        condition: 'session.state.analysis_results.lines_of_code > 100'
+
     # Loop configuration for iterative review
     loop_options:
       max_iterations: 3
-      break_condition: "session.state.security_audit.violations.length == 0"
-      
+      break_condition: 'session.state.security_audit.violations.length == 0'
+
   # ADK integration settings
   adk_config:
     # Model configuration
@@ -109,20 +109,19 @@ spec:
       default: gemini-2.0-flash
       specialized:
         security-auditor: gemini-2.0-pro
-    
+
     # Performance settings
     performance:
       parallel_execution: true
       cache_session_state: true
       state_persistence: redis
-    
+
     # Error handling
     error_handling:
       retry_count: 3
       fallback_pattern: sequential
-      
 # Example usage with ADK adapter:
-# 
+#
 # const adapter = new OSSAADKAdapter();
 # await adapter.loadAgent('.agents/code-analyzer');
 # await adapter.loadAgent('.agents/style-checker');

@@ -1,9 +1,10 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: communication-multiprotocol
   name: Communication Multiprotocol
   version: 0.1.9
-  description: Multi-protocol communication integrator supporting WebSocket, gRPC,
+  description:
+    Multi-protocol communication integrator supporting WebSocket, gRPC,
     REST, and GraphQL
   role: integration
   tags:

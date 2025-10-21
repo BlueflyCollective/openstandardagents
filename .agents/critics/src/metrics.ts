@@ -2,7 +2,12 @@
  * Metrics collection for Code Reviewer Agent
  */
 
-import { AgentMetrics, RequestMetrics, ReviewResponse, SecurityScanResponse } from './types';
+import {
+  AgentMetrics,
+  RequestMetrics,
+  ReviewResponse,
+  SecurityScanResponse,
+} from './types';
 import { RateLimiter } from './utils';
 
 export class MetricsCollector {
@@ -18,24 +23,24 @@ export class MetricsCollector {
         total: 0,
         successful: 0,
         failed: 0,
-        average_duration: 0
+        average_duration: 0,
       },
       reviews: {
         total: 0,
         passed: 0,
         failed: 0,
-        average_score: 0
+        average_score: 0,
       },
       security: {
         scans_performed: 0,
         vulnerabilities_found: 0,
-        critical_vulnerabilities: 0
+        critical_vulnerabilities: 0,
       },
       performance: {
         uptime: 0,
         memory_usage: 0,
-        cpu_usage: 0
-      }
+        cpu_usage: 0,
+      },
     };
 
     // Start periodic cleanup
@@ -74,14 +79,15 @@ export class MetricsCollector {
     const totalReviews = this.metrics.reviews.total;
     const currentAvg = this.metrics.reviews.average_score;
     this.metrics.reviews.average_score =
-      (currentAvg * (totalReviews - 1) + review.summary.overallScore) / totalReviews;
+      (currentAvg * (totalReviews - 1) + review.summary.overallScore) /
+      totalReviews;
   }
 
   recordSecurityScan(scan: SecurityScanResponse): void {
     this.metrics.security.scans_performed++;
     this.metrics.security.vulnerabilities_found += scan.vulnerabilities.length;
     this.metrics.security.critical_vulnerabilities +=
-      scan.vulnerabilities.filter(v => v.severity === 'critical').length;
+      scan.vulnerabilities.filter((v) => v.severity === 'critical').length;
   }
 
   checkRateLimit(clientId: string, limit: number = 1000): boolean {
@@ -107,8 +113,12 @@ export class MetricsCollector {
     this.metrics = {
       requests: { total: 0, successful: 0, failed: 0, average_duration: 0 },
       reviews: { total: 0, passed: 0, failed: 0, average_score: 0 },
-      security: { scans_performed: 0, vulnerabilities_found: 0, critical_vulnerabilities: 0 },
-      performance: { uptime: 0, memory_usage: 0, cpu_usage: 0 }
+      security: {
+        scans_performed: 0,
+        vulnerabilities_found: 0,
+        critical_vulnerabilities: 0,
+      },
+      performance: { uptime: 0, memory_usage: 0, cpu_usage: 0 },
     };
   }
 }

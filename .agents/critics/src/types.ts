@@ -90,7 +90,12 @@ export interface ReviewSummary {
 export interface Issue {
   id: string;
   severity: 'error' | 'warning' | 'info';
-  category: 'security' | 'quality' | 'performance' | 'maintainability' | 'style';
+  category:
+    | 'security'
+    | 'quality'
+    | 'performance'
+    | 'maintainability'
+    | 'style';
   line?: number;
   column?: number;
   endLine?: number;
@@ -356,7 +361,10 @@ export class ValidationError extends Error {
   public readonly code = 'VALIDATION_ERROR';
   public readonly statusCode = 400;
 
-  constructor(message: string, public readonly field?: string) {
+  constructor(
+    message: string,
+    public readonly field?: string
+  ) {
     super(message);
     this.name = 'ValidationError';
   }
@@ -376,7 +384,10 @@ export class ProcessingError extends Error {
   public readonly code = 'PROCESSING_ERROR';
   public readonly statusCode = 500;
 
-  constructor(message: string, public readonly cause?: Error) {
+  constructor(
+    message: string,
+    public readonly cause?: Error
+  ) {
     super(message);
     this.name = 'ProcessingError';
   }
@@ -386,7 +397,10 @@ export class RateLimitError extends Error {
   public readonly code = 'RATE_LIMIT_ERROR';
   public readonly statusCode = 429;
 
-  constructor(message: string, public readonly retryAfter: number) {
+  constructor(
+    message: string,
+    public readonly retryAfter: number
+  ) {
     super(message);
     this.name = 'RateLimitError';
   }

@@ -6,18 +6,16 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   roots: ['<rootDir>/tests/services/EventBus'],
-  testMatch: [
-    '**/tests/services/EventBus/**/*.test.ts'
-  ],
+  testMatch: ['**/tests/services/EventBus/**/*.test.ts'],
   transform: {
-    '^.+\\.ts$': 'ts-jest'
+    '^.+\\.ts$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'json'],
   collectCoverage: true,
   collectCoverageFrom: [
     'src/services/EventBus/**/*.ts',
     '!src/services/EventBus/**/*.d.ts',
-    '!src/services/EventBus/**/*.test.ts'
+    '!src/services/EventBus/**/*.test.ts',
   ],
   coverageDirectory: 'coverage/eventbus',
   coverageReporters: ['text', 'lcov', 'html', 'json'],
@@ -26,8 +24,8 @@ module.exports = {
       branches: 80,
       functions: 80,
       lines: 80,
-      statements: 80
-    }
+      statements: 80,
+    },
   },
   setupFilesAfterEnv: ['<rootDir>/tests/services/EventBus/setup.ts'],
   testTimeout: 30000,
@@ -35,6 +33,6 @@ module.exports = {
   detectOpenHandles: true,
   forceExit: true,
   moduleNameMapping: {
-    '^(\\.{1,2}/.*)\\.js$': '$1'
-  }
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+  },
 };

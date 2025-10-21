@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: drupal-module-analyzer
   name: Drupal Module Analyzer
   version: 1.0.0
-  description: "OSSA-compliant worker agent: drupal-module-analyzer"
+  description: 'OSSA-compliant worker agent: drupal-module-analyzer'
   role: custom
   tags: []
   runtime:

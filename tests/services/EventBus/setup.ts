@@ -10,7 +10,7 @@ global.fetch = jest.fn().mockImplementation(() =>
     statusText: 'OK',
     json: () => Promise.resolve({}),
     text: () => Promise.resolve(''),
-    headers: new Map()
+    headers: new Map(),
   })
 );
 
@@ -20,7 +20,9 @@ if (!global.crypto) {
 }
 
 if (!global.crypto.randomUUID) {
-  global.crypto.randomUUID = jest.fn(() => 'mock-uuid-' + Math.random().toString(36).substr(2, 9));
+  global.crypto.randomUUID = jest.fn(
+    () => 'mock-uuid-' + Math.random().toString(36).substr(2, 9)
+  );
 }
 
 // Setup console mocking for cleaner test output
@@ -34,7 +36,7 @@ beforeEach(() => {
     info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-    debug: jest.fn()
+    debug: jest.fn(),
   };
 });
 

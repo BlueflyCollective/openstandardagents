@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: code-reviewer-critic
   name: Code Reviewer Critic
@@ -16,7 +16,8 @@ agent:
       memory: 1Gi
   capabilities:
     - name: analyze_code
-      description: Comprehensive code quality analysis including style, security, and
+      description:
+        Comprehensive code quality analysis including style, security, and
         performance
       input_schema:
         type: object

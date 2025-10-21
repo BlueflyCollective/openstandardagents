@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: capacity-planning-analyst
   name: Capacity Planning Analyst
   version: 1.0.0
-  description: "OSSA-compliant worker agent: capacity-planning-analyst"
+  description: 'OSSA-compliant worker agent: capacity-planning-analyst'
   role: custom
   tags: []
   runtime:

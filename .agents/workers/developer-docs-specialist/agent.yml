@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: developer-docs-specialist
   name: Developer Docs Specialist
   version: 1.0.0
-  description: "OSSA-compliant worker agent: developer-docs-specialist"
+  description: 'OSSA-compliant worker agent: developer-docs-specialist'
   role: custom
   tags: []
   runtime:

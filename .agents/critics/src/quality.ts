@@ -2,12 +2,21 @@
  * Code quality analysis for Code Reviewer Agent
  */
 
-import { QualityConfig, QualityCheckResponse, QualityMetrics, QualityViolation, QualitySuggestion } from './types';
+import {
+  QualityConfig,
+  QualityCheckResponse,
+  QualityMetrics,
+  QualityViolation,
+  QualitySuggestion,
+} from './types';
 
 export class QualityAnalyzer {
   constructor(private config: QualityConfig) {}
 
-  async analyzeCode(code: string, language: string): Promise<QualityCheckResponse> {
+  async analyzeCode(
+    code: string,
+    language: string
+  ): Promise<QualityCheckResponse> {
     const metrics = this.calculateMetrics(code, language);
     const violations = this.checkViolations(metrics);
     const suggestions = this.generateSuggestions(metrics, violations, language);
@@ -16,7 +25,7 @@ export class QualityAnalyzer {
       passed: violations.length === 0,
       metrics,
       violations,
-      suggestions
+      suggestions,
     };
   }
 
@@ -29,22 +38,22 @@ export class QualityAnalyzer {
         vulnerabilities: [],
         securityScore: 100,
         cweViolations: [],
-        sensitiveDataExposure: 0
+        sensitiveDataExposure: 0,
       },
-      style: this.calculateStyleMetrics(code, language)
+      style: this.calculateStyleMetrics(code, language),
     };
   }
 
   private calculateComplexityMetrics(code: string): any {
     const lines = code.split('\n');
-    const nonEmptyLines = lines.filter(line => line.trim().length > 0);
+    const nonEmptyLines = lines.filter((line) => line.trim().length > 0);
 
     return {
       cyclomaticComplexity: this.calculateCyclomaticComplexity(code),
       cognitiveComplexity: this.calculateCognitiveComplexity(code),
       halsteadComplexity: this.calculateHalsteadComplexity(code),
       nesting_depth: this.calculateMaxNestingDepth(code),
-      class_coupling: this.calculateClassCoupling(code)
+      class_coupling: this.calculateClassCoupling(code),
     };
   }
 
@@ -60,12 +69,12 @@ export class QualityAnalyzer {
       /\bcatch\b/g,
       /\b\?\s*:/g, // Ternary operator
       /\b&&\b/g,
-      /\b\|\|\b/g
+      /\b\|\|\b/g,
     ];
 
     let complexity = 1; // Base complexity
 
-    decisionPoints.forEach(pattern => {
+    decisionPoints.forEach((pattern) => {
       const matches = code.match(pattern);
       if (matches) {
         complexity += matches.length;
@@ -98,11 +107,15 @@ export class QualityAnalyzer {
       }
 
       // Additional complexity for logical operators
-      const logicalOperators = (trimmedLine.match(/\b(&&|\|\|)\b/g) || []).length;
+      const logicalOperators = (trimmedLine.match(/\b(&&|\|\|)\b/g) || [])
+        .length;
       complexity += logicalOperators;
 
       // Complexity for recursion
-      if (/\brecursive\b/.test(trimmedLine) || trimmedLine.includes('function')) {
+      if (
+        /\brecursive\b/.test(trimmedLine) ||
+        trimmedLine.includes('function')
+      ) {
         const functionName = this.extractFunctionName(trimmedLine);
         if (functionName && code.includes(functionName + '(')) {
           complexity += 1;
@@ -152,11 +165,11 @@ export class QualityAnalyzer {
       /const\s+\w+\s+=\s+require\s*\(/g, // CommonJS requires
       /using\s+\w+/g, // C# using
       /include\s+<[^>]+>/g, // C++ includes
-      /#include\s+"[^"]+"/g // C includes
+      /#include\s+"[^"]+"/g, // C includes
     ];
 
     let coupling = 0;
-    importPatterns.forEach(pattern => {
+    importPatterns.forEach((pattern) => {
       const matches = code.match(pattern);
       if (matches) {
         coupling += matches.length;
@@ -168,26 +181,33 @@ export class QualityAnalyzer {
 
   private calculateMaintainabilityMetrics(code: string, language: string): any {
     const lines = code.split('\n');
-    const nonEmptyLines = lines.filter(line => line.trim().length > 0);
-    const commentLines = lines.filter(line => this.isCommentLine(line, language));
+    const nonEmptyLines = lines.filter((line) => line.trim().length > 0);
+    const commentLines = lines.filter((line) =>
+      this.isCommentLine(line, language)
+    );
 
     return {
       maintainabilityIndex: this.calculateMaintainabilityIndex(code),
       codeSmells: this.detectCodeSmells(code, language),
       technicalDebt: this.calculateTechnicalDebt(code),
       duplications: this.detectDuplicatedCode(code),
-      testCoverage: 0 // Would need test files to calculate
+      testCoverage: 0, // Would need test files to calculate
     };
   }
 
   private calculateMaintainabilityIndex(code: string): number {
     const cyclomaticComplexity = this.calculateCyclomaticComplexity(code);
-    const linesOfCode = code.split('\n').filter(line => line.trim().length > 0).length;
+    const linesOfCode = code
+      .split('\n')
+      .filter((line) => line.trim().length > 0).length;
     const halsteadVolume = this.calculateHalsteadComplexity(code);
 
     // Simplified maintainability index calculation
-    let maintainabilityIndex = 171 - 5.2 * Math.log(halsteadVolume) -
-      0.23 * cyclomaticComplexity - 16.2 * Math.log(linesOfCode);
+    let maintainabilityIndex =
+      171 -
+      5.2 * Math.log(halsteadVolume) -
+      0.23 * cyclomaticComplexity -
+      16.2 * Math.log(linesOfCode);
 
     return Math.max(0, Math.min(100, maintainabilityIndex));
   }
@@ -197,7 +217,7 @@ export class QualityAnalyzer {
 
     // Long method smell
     const methods = this.extractMethods(code, language);
-    methods.forEach(method => {
+    methods.forEach((method) => {
       if (method.split('\n').length > 50) {
         smells++;
       }
@@ -223,10 +243,12 @@ export class QualityAnalyzer {
 
   private calculateTechnicalDebt(code: string): string {
     const complexity = this.calculateCyclomaticComplexity(code);
-    const linesOfCode = code.split('\n').filter(line => line.trim().length > 0).length;
+    const linesOfCode = code
+      .split('\n')
+      .filter((line) => line.trim().length > 0).length;
 
     // Estimate in hours (simplified)
-    const debtHours = (complexity * 0.5) + (linesOfCode * 0.01);
+    const debtHours = complexity * 0.5 + linesOfCode * 0.01;
 
     if (debtHours < 1) return `${Math.round(debtHours * 60)} minutes`;
     if (debtHours < 8) return `${Math.round(debtHours)} hours`;
@@ -234,12 +256,19 @@ export class QualityAnalyzer {
   }
 
   private detectDuplicatedCode(code: string): number {
-    const lines = code.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+    const lines = code
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
     const duplicates = new Set<string>();
 
     for (let i = 0; i < lines.length - 2; i++) {
       for (let j = i + 3; j < lines.length; j++) {
-        if (lines[i] === lines[j] && lines[i + 1] === lines[j + 1] && lines[i + 2] === lines[j + 2]) {
+        if (
+          lines[i] === lines[j] &&
+          lines[i + 1] === lines[j + 1] &&
+          lines[i + 2] === lines[j + 2]
+        ) {
           duplicates.add(lines[i] + lines[i + 1] + lines[i + 2]);
         }
       }
@@ -263,10 +292,13 @@ export class QualityAnalyzer {
 
     // Detect unused variables (simplified)
     const variableDeclarations = code.match(/\b(let|const|var)\s+(\w+)/g) || [];
-    variableDeclarations.forEach(declaration => {
+    variableDeclarations.forEach((declaration) => {
       const variable = declaration.split(/\s+/)[1];
-      const usageCount = (code.match(new RegExp(`\\b${variable}\\b`, 'g')) || []).length;
-      if (usageCount === 1) { // Only the declaration
+      const usageCount = (
+        code.match(new RegExp(`\\b${variable}\\b`, 'g')) || []
+      ).length;
+      if (usageCount === 1) {
+        // Only the declaration
         deadCodeCount++;
       }
     });
@@ -279,7 +311,7 @@ export class QualityAnalyzer {
       potentialMemoryLeaks: this.detectMemoryLeaks(code, language),
       inefficientAlgorithms: this.detectInefficientAlgorithms(code),
       databaseQueries: this.countDatabaseQueries(code),
-      asyncPatterns: this.analyzeAsyncPatterns(code, language)
+      asyncPatterns: this.analyzeAsyncPatterns(code, language),
     };
   }
 
@@ -313,11 +345,13 @@ export class QualityAnalyzer {
     inefficiencies += nestedLoops.length;
 
     // Linear search in loops
-    const linearSearches = code.match(/for\s*\([^)]*\)\s*{[^}]*indexOf\(/g) || [];
+    const linearSearches =
+      code.match(/for\s*\([^)]*\)\s*{[^}]*indexOf\(/g) || [];
     inefficiencies += linearSearches.length;
 
     // Inefficient string concatenation in loops
-    const stringConcatInLoops = code.match(/for\s*\([^)]*\)\s*{[^}]*\+=/g) || [];
+    const stringConcatInLoops =
+      code.match(/for\s*\([^)]*\)\s*{[^}]*\+=/g) || [];
     inefficiencies += stringConcatInLoops.length;
 
     return inefficiencies;
@@ -334,11 +368,11 @@ export class QualityAnalyzer {
       /SELECT\s+/gi,
       /INSERT\s+INTO/gi,
       /UPDATE\s+/gi,
-      /DELETE\s+FROM/gi
+      /DELETE\s+FROM/gi,
     ];
 
     let queryCount = 0;
-    queryPatterns.forEach(pattern => {
+    queryPatterns.forEach((pattern) => {
       const matches = code.match(pattern);
       if (matches) {
         queryCount += matches.length;
@@ -399,7 +433,7 @@ export class QualityAnalyzer {
       styleViolations: this.countStyleViolations(code, language),
       formattingIssues: this.countFormattingIssues(code),
       namingConventions: this.checkNamingConventions(code, language),
-      documentation: this.analyzeDocumentation(code, language)
+      documentation: this.analyzeDocumentation(code, language),
     };
   }
 
@@ -408,7 +442,7 @@ export class QualityAnalyzer {
 
     // Long lines
     const lines = code.split('\n');
-    violations += lines.filter(line => line.length > 120).length;
+    violations += lines.filter((line) => line.length > 120).length;
 
     // Missing semicolons (for JavaScript/TypeScript)
     if (language === 'javascript' || language === 'typescript') {
@@ -446,11 +480,12 @@ export class QualityAnalyzer {
 
     if (language === 'javascript' || language === 'typescript') {
       // camelCase for variables and functions
-      const variables = code.match(/\b(let|const|var)\s+([a-z][a-zA-Z0-9]*)/g) || [];
+      const variables =
+        code.match(/\b(let|const|var)\s+([a-z][a-zA-Z0-9]*)/g) || [];
       const functions = code.match(/function\s+([a-z][a-zA-Z0-9]*)/g) || [];
 
       // Check for snake_case or PascalCase violations
-      variables.concat(functions).forEach(item => {
+      variables.concat(functions).forEach((item) => {
         if (/_/.test(item) || /^[A-Z]/.test(item.split(/\s+/)[1])) {
           violations++;
         }
@@ -458,7 +493,7 @@ export class QualityAnalyzer {
 
       // PascalCase for classes
       const classes = code.match(/class\s+([A-Z][a-zA-Z0-9]*)/g) || [];
-      classes.forEach(item => {
+      classes.forEach((item) => {
         const className = item.split(/\s+/)[1];
         if (!/^[A-Z]/.test(className)) {
           violations++;
@@ -471,15 +506,18 @@ export class QualityAnalyzer {
 
   private analyzeDocumentation(code: string, language: string): any {
     const lines = code.split('\n');
-    const commentLines = lines.filter(line => this.isCommentLine(line, language));
-    const nonEmptyLines = lines.filter(line => line.trim().length > 0);
+    const commentLines = lines.filter((line) =>
+      this.isCommentLine(line, language)
+    );
+    const nonEmptyLines = lines.filter((line) => line.trim().length > 0);
 
-    const commentRatio = nonEmptyLines.length > 0 ? commentLines.length / nonEmptyLines.length : 0;
+    const commentRatio =
+      nonEmptyLines.length > 0 ? commentLines.length / nonEmptyLines.length : 0;
 
     return {
       commentRatio: Math.round(commentRatio * 100),
       missingDocumentation: this.countMissingDocumentation(code, language),
-      outdatedComments: this.detectOutdatedComments(code)
+      outdatedComments: this.detectOutdatedComments(code),
     };
   }
 
@@ -488,7 +526,7 @@ export class QualityAnalyzer {
 
     // Functions without documentation
     const functions = this.extractMethods(code, language);
-    functions.forEach(func => {
+    functions.forEach((func) => {
       const funcLines = func.split('\n');
       const firstLine = funcLines[0];
       const prevLineIndex = code.split('\n').indexOf(firstLine) - 1;
@@ -523,35 +561,42 @@ export class QualityAnalyzer {
     const violations: QualityViolation[] = [];
 
     // Complexity violations
-    if (metrics.complexity.cyclomaticComplexity > this.config.complexity_threshold) {
+    if (
+      metrics.complexity.cyclomaticComplexity > this.config.complexity_threshold
+    ) {
       violations.push({
         metric: 'cyclomatic_complexity',
         threshold: this.config.complexity_threshold,
         actual: metrics.complexity.cyclomaticComplexity,
         severity: 'warning',
-        message: `Cyclomatic complexity (${metrics.complexity.cyclomaticComplexity}) exceeds threshold (${this.config.complexity_threshold})`
+        message: `Cyclomatic complexity (${metrics.complexity.cyclomaticComplexity}) exceeds threshold (${this.config.complexity_threshold})`,
       });
     }
 
     // Maintainability violations
-    if (metrics.maintainability.maintainabilityIndex < this.config.maintainability_threshold) {
+    if (
+      metrics.maintainability.maintainabilityIndex <
+      this.config.maintainability_threshold
+    ) {
       violations.push({
         metric: 'maintainability_index',
         threshold: this.config.maintainability_threshold,
         actual: metrics.maintainability.maintainabilityIndex,
         severity: 'warning',
-        message: `Maintainability index (${metrics.maintainability.maintainabilityIndex}) below threshold (${this.config.maintainability_threshold})`
+        message: `Maintainability index (${metrics.maintainability.maintainabilityIndex}) below threshold (${this.config.maintainability_threshold})`,
       });
     }
 
     // Duplication violations
-    if (metrics.maintainability.duplications > this.config.duplication_threshold) {
+    if (
+      metrics.maintainability.duplications > this.config.duplication_threshold
+    ) {
       violations.push({
         metric: 'code_duplication',
         threshold: this.config.duplication_threshold,
         actual: metrics.maintainability.duplications,
         severity: 'error',
-        message: `Code duplication (${metrics.maintainability.duplications}) exceeds threshold (${this.config.duplication_threshold})`
+        message: `Code duplication (${metrics.maintainability.duplications}) exceeds threshold (${this.config.duplication_threshold})`,
       });
     }
 
@@ -570,9 +615,10 @@ export class QualityAnalyzer {
       suggestions.push({
         category: 'complexity',
         title: 'Reduce Cyclomatic Complexity',
-        description: 'Break down complex methods into smaller, more focused functions',
+        description:
+          'Break down complex methods into smaller, more focused functions',
         impact: 'high',
-        effort: 'medium'
+        effort: 'medium',
       });
     }
 
@@ -581,9 +627,10 @@ export class QualityAnalyzer {
       suggestions.push({
         category: 'performance',
         title: 'Optimize Algorithm Efficiency',
-        description: 'Review nested loops and consider more efficient data structures',
+        description:
+          'Review nested loops and consider more efficient data structures',
         impact: 'high',
-        effort: 'medium'
+        effort: 'medium',
       });
     }
 
@@ -592,9 +639,10 @@ export class QualityAnalyzer {
       suggestions.push({
         category: 'maintainability',
         title: 'Address Code Smells',
-        description: 'Refactor methods that are too long or classes that are too large',
+        description:
+          'Refactor methods that are too long or classes that are too large',
         impact: 'medium',
-        effort: 'high'
+        effort: 'high',
       });
     }
 
@@ -603,9 +651,10 @@ export class QualityAnalyzer {
       suggestions.push({
         category: 'documentation',
         title: 'Improve Code Documentation',
-        description: 'Add comments and documentation for complex logic and public APIs',
+        description:
+          'Add comments and documentation for complex logic and public APIs',
         impact: 'medium',
-        effort: 'low'
+        effort: 'low',
       });
     }
 
@@ -624,14 +673,22 @@ export class QualityAnalyzer {
       case 'rust':
       case 'cpp':
       case 'csharp':
-        return trimmedLine.startsWith('//') || trimmedLine.startsWith('/*') || trimmedLine.startsWith('*');
+        return (
+          trimmedLine.startsWith('//') ||
+          trimmedLine.startsWith('/*') ||
+          trimmedLine.startsWith('*')
+        );
 
       case 'python':
       case 'ruby':
         return trimmedLine.startsWith('#');
 
       case 'php':
-        return trimmedLine.startsWith('//') || trimmedLine.startsWith('#') || trimmedLine.startsWith('/*');
+        return (
+          trimmedLine.startsWith('//') ||
+          trimmedLine.startsWith('#') ||
+          trimmedLine.startsWith('/*')
+        );
 
       default:
         return trimmedLine.startsWith('//') || trimmedLine.startsWith('#');
@@ -645,7 +702,8 @@ export class QualityAnalyzer {
       case 'javascript':
       case 'typescript':
         const jsFunctions = code.match(/function\s+\w+[^{]*{[^}]*}/g) || [];
-        const arrowFunctions = code.match(/\w+\s*=\s*\([^)]*\)\s*=>\s*{[^}]*}/g) || [];
+        const arrowFunctions =
+          code.match(/\w+\s*=\s*\([^)]*\)\s*=>\s*{[^}]*}/g) || [];
         methods.push(...jsFunctions, ...arrowFunctions);
         break;
 
@@ -656,7 +714,10 @@ export class QualityAnalyzer {
 
       case 'java':
       case 'csharp':
-        const javaMethods = code.match(/(public|private|protected)?\s*(static)?\s*\w+\s+\w+\s*\([^)]*\)\s*{[^}]*}/g) || [];
+        const javaMethods =
+          code.match(
+            /(public|private|protected)?\s*(static)?\s*\w+\s+\w+\s*\([^)]*\)\s*{[^}]*}/g
+          ) || [];
         methods.push(...javaMethods);
         break;
 
@@ -670,7 +731,8 @@ export class QualityAnalyzer {
   }
 
   private extractFunctionName(line: string): string | null {
-    const functionMatch = line.match(/function\s+(\w+)/) || line.match(/(\w+)\s*\(/);
+    const functionMatch =
+      line.match(/function\s+(\w+)/) || line.match(/(\w+)\s*\(/);
     return functionMatch ? functionMatch[1] : null;
   }
 

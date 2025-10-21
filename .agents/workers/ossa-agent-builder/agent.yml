@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: ossa-agent-builder
   name: Ossa Agent Builder

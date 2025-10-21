@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: cost-optimization-analyst
   name: Cost Optimization Analyst
   version: 1.0.0
-  description: "OSSA-compliant worker agent: cost-optimization-analyst"
+  description: 'OSSA-compliant worker agent: cost-optimization-analyst'
   role: custom
   tags: []
   runtime:

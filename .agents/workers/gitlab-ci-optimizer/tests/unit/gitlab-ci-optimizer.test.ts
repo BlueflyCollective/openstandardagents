@@ -14,7 +14,7 @@ describe('GitlabCiOptimizerHandler', () => {
   test('should handle health check', async () => {
     const req = {} as any;
     const res = {
-      json: jest.fn()
+      json: jest.fn(),
     } as any;
 
     await handler.health(req, res);
@@ -24,7 +24,7 @@ describe('GitlabCiOptimizerHandler', () => {
         status: 'healthy',
         agent: 'gitlab-ci-optimizer',
         type: 'worker',
-        version: '1.0.0'
+        version: '1.0.0',
       })
     );
   });
@@ -33,11 +33,11 @@ describe('GitlabCiOptimizerHandler', () => {
     const req = {
       body: {
         task: 'test-task',
-        parameters: { test: true }
-      }
+        parameters: { test: true },
+      },
     } as any;
     const res = {
-      json: jest.fn()
+      json: jest.fn(),
     } as any;
 
     await handler.execute(req, res);
@@ -45,7 +45,7 @@ describe('GitlabCiOptimizerHandler', () => {
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
         status: 'success',
-        result: expect.any(Object)
+        result: expect.any(Object),
       })
     );
   });

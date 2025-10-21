@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: terraform-iac-specialist
   name: Terraform Iac Specialist
   version: 1.0.0
-  description: "OSSA-compliant worker agent: terraform-iac-specialist"
+  description: 'OSSA-compliant worker agent: terraform-iac-specialist'
   role: custom
   tags: []
   runtime:

@@ -1,44 +1,44 @@
 # Agent Routing Configuration
 routing:
-  strategy: "capability_based"
+  strategy: 'capability_based'
 
   rules:
-    - name: "critics_routing"
-      category: "critics"
+    - name: 'critics_routing'
+      category: 'critics'
       priority: 100
-      load_balancing: "least_connections"
+      load_balancing: 'least_connections'
       sticky_sessions: false
 
-    - name: "governors_routing"
-      category: "governors"
+    - name: 'governors_routing'
+      category: 'governors'
       priority: 200
-      load_balancing: "round_robin"
+      load_balancing: 'round_robin'
       rate_limiting:
         requests_per_minute: 1000
 
-    - name: "integrators_routing"
-      category: "integrators"
+    - name: 'integrators_routing'
+      category: 'integrators'
       priority: 150
-      load_balancing: "weighted_round_robin"
+      load_balancing: 'weighted_round_robin'
       circuit_breaker:
         failure_threshold: 5
         timeout: 60000
 
-    - name: "orchestrators_routing"
-      category: "orchestrators"
+    - name: 'orchestrators_routing'
+      category: 'orchestrators'
       priority: 300
-      load_balancing: "consistent_hash"
+      load_balancing: 'consistent_hash'
       sticky_sessions: true
 
   failover:
     enabled: true
-    strategy: "fallback_to_default"
+    strategy: 'fallback_to_default'
     max_retries: 3
     retry_delay: 1000
 
   health_checks:
     enabled: true
-    endpoint: "/health"
+    endpoint: '/health'
     interval: 30000
     timeout: 5000
     healthy_threshold: 2
@@ -61,4 +61,4 @@ routing:
   observability:
     metrics_collection: true
     tracing_enabled: true
-    logging_level: "info"
+    logging_level: 'info'

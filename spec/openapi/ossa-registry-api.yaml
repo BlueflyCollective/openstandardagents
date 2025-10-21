@@ -54,9 +54,9 @@ paths:
       operationId: listAgents
       tags: [agents]
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/LimitParam"
-        - $ref: "#/components/parameters/SortParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortParam'
         - name: namespace
           in: query
           schema:
@@ -76,16 +76,16 @@ paths:
               enum: [fedramp, iso27001, soc2, hipaa]
           description: Filter by compliance frameworks
       responses:
-        "200":
+        '200':
           description: List of agents
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AgentListResponse"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "500":
-          $ref: "#/components/responses/InternalError"
+                $ref: '#/components/schemas/AgentListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     post:
       summary: Register new agent
@@ -98,22 +98,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AgentCreateRequest"
+              $ref: '#/components/schemas/AgentCreateRequest'
       responses:
-        "201":
+        '201':
           description: Agent created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Agent"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "409":
-          $ref: "#/components/responses/Conflict"
-        "500":
-          $ref: "#/components/responses/InternalError"
+                $ref: '#/components/schemas/Agent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /agents/{namespace}/{name}:
     get:
@@ -121,19 +121,19 @@ paths:
       operationId: getAgent
       tags: [agents]
       parameters:
-        - $ref: "#/components/parameters/NamespaceParam"
-        - $ref: "#/components/parameters/NameParam"
+        - $ref: '#/components/parameters/NamespaceParam'
+        - $ref: '#/components/parameters/NameParam'
       responses:
-        "200":
+        '200':
           description: Agent details
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Agent"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalError"
+                $ref: '#/components/schemas/Agent'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     put:
       summary: Update agent
@@ -142,31 +142,31 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/NamespaceParam"
-        - $ref: "#/components/parameters/NameParam"
+        - $ref: '#/components/parameters/NamespaceParam'
+        - $ref: '#/components/parameters/NameParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AgentUpdateRequest"
+              $ref: '#/components/schemas/AgentUpdateRequest'
       responses:
-        "200":
+        '200':
           description: Agent updated
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Agent"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalError"
+                $ref: '#/components/schemas/Agent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     delete:
       summary: Delete agent
@@ -175,19 +175,19 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/NamespaceParam"
-        - $ref: "#/components/parameters/NameParam"
+        - $ref: '#/components/parameters/NamespaceParam'
+        - $ref: '#/components/parameters/NameParam'
       responses:
-        "204":
+        '204':
           description: Agent deleted
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalError"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /agents/{namespace}/{name}/versions:
     get:
@@ -195,21 +195,21 @@ paths:
       operationId: listVersions
       tags: [versions]
       parameters:
-        - $ref: "#/components/parameters/NamespaceParam"
-        - $ref: "#/components/parameters/NameParam"
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/LimitParam"
+        - $ref: '#/components/parameters/NamespaceParam'
+        - $ref: '#/components/parameters/NameParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
       responses:
-        "200":
+        '200':
           description: List of versions
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/VersionListResponse"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalError"
+                $ref: '#/components/schemas/VersionListResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     post:
       summary: Publish new version
@@ -218,8 +218,8 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/NamespaceParam"
-        - $ref: "#/components/parameters/NameParam"
+        - $ref: '#/components/parameters/NamespaceParam'
+        - $ref: '#/components/parameters/NameParam'
       requestBody:
         required: true
         content:
@@ -246,22 +246,22 @@ paths:
                   format: binary
                   description: GPG signature
       responses:
-        "201":
+        '201':
           description: Version created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Version"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "409":
-          $ref: "#/components/responses/Conflict"
-        "500":
-          $ref: "#/components/responses/InternalError"
+                $ref: '#/components/schemas/Version'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /agents/{namespace}/{name}/versions/{version}:
     get:
@@ -269,20 +269,20 @@ paths:
       operationId: getVersion
       tags: [versions]
       parameters:
-        - $ref: "#/components/parameters/NamespaceParam"
-        - $ref: "#/components/parameters/NameParam"
-        - $ref: "#/components/parameters/VersionParam"
+        - $ref: '#/components/parameters/NamespaceParam'
+        - $ref: '#/components/parameters/NameParam'
+        - $ref: '#/components/parameters/VersionParam'
       responses:
-        "200":
+        '200':
           description: Version details
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Version"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalError"
+                $ref: '#/components/schemas/Version'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     delete:
       summary: Unpublish version
@@ -291,20 +291,20 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/NamespaceParam"
-        - $ref: "#/components/parameters/NameParam"
-        - $ref: "#/components/parameters/VersionParam"
+        - $ref: '#/components/parameters/NamespaceParam'
+        - $ref: '#/components/parameters/NameParam'
+        - $ref: '#/components/parameters/VersionParam'
       responses:
-        "204":
+        '204':
           description: Version deleted
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalError"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /agents/{namespace}/{name}/versions/{version}/manifest:
     get:
@@ -312,11 +312,11 @@ paths:
       operationId: downloadManifest
       tags: [versions]
       parameters:
-        - $ref: "#/components/parameters/NamespaceParam"
-        - $ref: "#/components/parameters/NameParam"
-        - $ref: "#/components/parameters/VersionParam"
+        - $ref: '#/components/parameters/NamespaceParam'
+        - $ref: '#/components/parameters/NameParam'
+        - $ref: '#/components/parameters/VersionParam'
       responses:
-        "200":
+        '200':
           description: OSSA manifest file
           content:
             application/x-yaml:
@@ -326,10 +326,10 @@ paths:
             application/json:
               schema:
                 type: object
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalError"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /search:
     get:
@@ -343,8 +343,8 @@ paths:
           schema:
             type: string
           description: Search query
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/LimitParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
         - name: filters
           in: query
           schema:
@@ -361,16 +361,16 @@ paths:
                 items:
                   type: string
       responses:
-        "200":
+        '200':
           description: Search results
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SearchResponse"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "500":
-          $ref: "#/components/responses/InternalError"
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /certifications:
     get:
@@ -378,17 +378,17 @@ paths:
       operationId: listCertifications
       tags: [certification]
       parameters:
-        - $ref: "#/components/parameters/PageParam"
-        - $ref: "#/components/parameters/LimitParam"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
       responses:
-        "200":
+        '200':
           description: List of certifications
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CertificationListResponse"
-        "500":
-          $ref: "#/components/responses/InternalError"
+                $ref: '#/components/schemas/CertificationListResponse'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /certifications/{namespace}/{name}/request:
     post:
@@ -398,29 +398,29 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/NamespaceParam"
-        - $ref: "#/components/parameters/NameParam"
+        - $ref: '#/components/parameters/NamespaceParam'
+        - $ref: '#/components/parameters/NameParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CertificationRequest"
+              $ref: '#/components/schemas/CertificationRequest'
       responses:
-        "201":
+        '201':
           description: Certification request created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Certification"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalError"
+                $ref: '#/components/schemas/Certification'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /analytics/{namespace}/{name}:
     get:
@@ -430,8 +430,8 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/NamespaceParam"
-        - $ref: "#/components/parameters/NameParam"
+        - $ref: '#/components/parameters/NamespaceParam'
+        - $ref: '#/components/parameters/NameParam'
         - name: from
           in: query
           schema:
@@ -443,20 +443,20 @@ paths:
             type: string
             format: date-time
       responses:
-        "200":
+        '200':
           description: Analytics data
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Analytics"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalError"
+                $ref: '#/components/schemas/Analytics'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
 components:
   securitySchemes:
@@ -473,7 +473,7 @@ components:
       required: true
       schema:
         type: string
-        pattern: "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+        pattern: '^[a-z0-9][a-z0-9-]*[a-z0-9]$'
       description: Agent namespace (e.g., 'ossa', 'my-org')
 
     NameParam:
@@ -482,7 +482,7 @@ components:
       required: true
       schema:
         type: string
-        pattern: "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+        pattern: '^[a-z0-9][a-z0-9-]*[a-z0-9]$'
       description: Agent name
 
     VersionParam:
@@ -587,7 +587,7 @@ components:
         maintainers:
           type: array
           items:
-            $ref: "#/components/schemas/Maintainer"
+            $ref: '#/components/schemas/Maintainer'
         created_at:
           type: string
           format: date-time
@@ -604,10 +604,10 @@ components:
       properties:
         namespace:
           type: string
-          pattern: "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          pattern: '^[a-z0-9][a-z0-9-]*[a-z0-9]$'
         name:
           type: string
-          pattern: "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          pattern: '^[a-z0-9][a-z0-9-]*[a-z0-9]$'
         description:
           type: string
           maxLength: 500
@@ -652,9 +652,9 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/Agent"
+            $ref: '#/components/schemas/Agent'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
 
     Version:
       type: object
@@ -707,9 +707,9 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/Version"
+            $ref: '#/components/schemas/Version'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
 
     SearchResponse:
       type: object
@@ -721,17 +721,17 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/SearchResult"
+            $ref: '#/components/schemas/SearchResult'
         total:
           type: integer
         query:
           type: string
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
 
     SearchResult:
       allOf:
-        - $ref: "#/components/schemas/Agent"
+        - $ref: '#/components/schemas/Agent'
         - type: object
           properties:
             score:
@@ -820,9 +820,9 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/Certification"
+            $ref: '#/components/schemas/Certification'
         pagination:
-          $ref: "#/components/schemas/Pagination"
+          $ref: '#/components/schemas/Pagination'
 
     Analytics:
       type: object
@@ -942,39 +942,39 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
 
     Unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
 
     Forbidden:
       description: Forbidden
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
 
     NotFound:
       description: Not found
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
 
     Conflict:
       description: Conflict (duplicate)
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
 
     InternalError:
       description: Internal server error
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'

@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: drupal-api-integrator
   name: Drupal Api Integrator
   version: 1.0.0
-  description: "OSSA-compliant worker agent: drupal-api-integrator"
+  description: 'OSSA-compliant worker agent: drupal-api-integrator'
   role: custom
   tags: []
   runtime:

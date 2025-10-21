@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: ppo-optimization-agent
   name: Ppo Optimization Agent
@@ -16,21 +16,21 @@ agent:
       memory: 512Mi
   capabilities:
     - name: cognitive-analysis
-      description: "Primary capability: cognitive analysis"
+      description: 'Primary capability: cognitive analysis'
       input_schema:
         type: object
       output_schema:
         type: object
       timeout_seconds: 300
     - name: multi-framework-integration
-      description: "Primary capability: multi framework integration"
+      description: 'Primary capability: multi framework integration'
       input_schema:
         type: object
       output_schema:
         type: object
       timeout_seconds: 300
     - name: compliance-monitoring
-      description: "Primary capability: compliance monitoring"
+      description: 'Primary capability: compliance monitoring'
       input_schema:
         type: object
       output_schema:

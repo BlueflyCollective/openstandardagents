@@ -1,7 +1,7 @@
-import { chromium, FullConfig } from "@playwright/test";
+import { chromium, FullConfig } from '@playwright/test';
 
 async function globalSetup(config: FullConfig) {
-  console.log("🚀 Starting OSSA E2E Global Setup");
+  console.log('🚀 Starting OSSA E2E Global Setup');
 
   // Start browser for setup tasks
   const browser = await chromium.launch();
@@ -9,7 +9,7 @@ async function globalSetup(config: FullConfig) {
 
   try {
     // Wait for the OSSA server to be ready
-    const baseURL = config.projects[0]?.use?.baseURL || "http://localhost:3001";
+    const baseURL = config.projects[0]?.use?.baseURL || 'http://localhost:3001';
     console.log(`⏳ Waiting for OSSA server at ${baseURL}`);
 
     // Try to connect to the server with retries
@@ -17,7 +17,7 @@ async function globalSetup(config: FullConfig) {
     while (retries > 0) {
       try {
         await page.goto(baseURL, { timeout: 5000 });
-        console.log("✅ OSSA server is ready");
+        console.log('✅ OSSA server is ready');
         break;
       } catch (error) {
         retries--;
@@ -37,9 +37,9 @@ async function globalSetup(config: FullConfig) {
       throw new Error(`Health check failed: ${healthResponse.status()}`);
     }
 
-    console.log("✅ OSSA E2E Global Setup completed successfully");
+    console.log('✅ OSSA E2E Global Setup completed successfully');
   } catch (error) {
-    console.error("❌ OSSA E2E Global Setup failed:", error);
+    console.error('❌ OSSA E2E Global Setup failed:', error);
     throw error;
   } finally {
     await browser.close();

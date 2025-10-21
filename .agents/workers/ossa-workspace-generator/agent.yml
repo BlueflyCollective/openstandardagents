@@ -1,9 +1,10 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: ossa-workspace-generator
   name: Ossa Workspace Generator
   version: 1.0.0
-  description: OSSA Workspace Generator - Creates and configures standardized OSSA
+  description:
+    OSSA Workspace Generator - Creates and configures standardized OSSA
     workspaces and project structures
   role: custom
   tags: []

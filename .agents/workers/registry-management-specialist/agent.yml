@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: registry-management-specialist
   name: Registry Management Specialist
   version: 1.0.0
-  description: "OSSA-compliant worker agent: registry-management-specialist"
+  description: 'OSSA-compliant worker agent: registry-management-specialist'
   role: custom
   tags: []
   runtime:

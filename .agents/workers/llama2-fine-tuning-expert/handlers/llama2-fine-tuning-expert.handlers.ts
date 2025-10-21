@@ -5,7 +5,6 @@ import { Request, Response } from 'express';
  * OSSA v0.1.9 compliant handler implementation
  */
 export class Llama2FineTuningExpertHandler {
-
   /**
    * Health check endpoint
    */
@@ -14,7 +13,7 @@ export class Llama2FineTuningExpertHandler {
       status: 'healthy',
       agent: 'llama2-fine-tuning-expert',
       version: '1.0.0',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -29,7 +28,7 @@ export class Llama2FineTuningExpertHandler {
     } catch (error) {
       res.status(500).json({
         error: 'Agent processing failed',
-        message: error.message
+        message: error.message,
       });
     }
   }
@@ -42,7 +41,7 @@ export class Llama2FineTuningExpertHandler {
     return {
       status: 'processed',
       agent: 'llama2-fine-tuning-expert',
-      result: input
+      result: input,
     };
   }
 }

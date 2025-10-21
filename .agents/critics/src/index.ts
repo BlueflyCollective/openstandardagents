@@ -58,22 +58,26 @@ export class CodeReviewerAgent {
     this.app.get('/health', this.handler.health.bind(this.handler));
 
     // Core critic capabilities
-    this.app.post('/analyze',
+    this.app.post(
+      '/analyze',
       validateInput('ReviewRequest'),
       this.handler.analyze.bind(this.handler)
     );
 
-    this.app.post('/review',
+    this.app.post(
+      '/review',
       validateInput('ReviewRequest'),
       this.handler.review.bind(this.handler)
     );
 
-    this.app.post('/security-scan',
+    this.app.post(
+      '/security-scan',
       validateInput('SecurityScanRequest'),
       this.handler.securityScan.bind(this.handler)
     );
 
-    this.app.post('/quality-check',
+    this.app.post(
+      '/quality-check',
       validateInput('QualityCheckRequest'),
       this.handler.qualityCheck.bind(this.handler)
     );
@@ -83,7 +87,8 @@ export class CodeReviewerAgent {
     this.app.get('/metrics', this.handler.metrics.bind(this.handler));
 
     // Batch operations
-    this.app.post('/batch-review',
+    this.app.post(
+      '/batch-review',
       validateInput('BatchReviewRequest'),
       this.handler.batchReview.bind(this.handler)
     );
@@ -98,16 +103,21 @@ export class CodeReviewerAgent {
         error: 'Not Found',
         message: `Endpoint ${req.originalUrl} not found`,
         agent: 'code-reviewer',
-        version: this.config.version
+        version: this.config.version,
       });
     });
   }
 
   // Middleware implementations
-  private corsMiddleware(req: Request, res: Response, next: NextFunction): void {
+  private corsMiddleware(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void {
     res.header('Access-Control-Allow-Origin', this.config.cors.origin || '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers',
+    res.header(
+      'Access-Control-Allow-Headers',
       'Content-Type, Authorization, Content-Length, X-Requested-With, X-Agent-ID'
     );
 
@@ -118,7 +128,11 @@ export class CodeReviewerAgent {
     }
   }
 
-  private authenticationMiddleware(req: Request, res: Response, next: NextFunction): void {
+  private authenticationMiddleware(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void {
     // Skip auth for health checks
     if (req.path === '/health' || req.path === '/capabilities') {
       return next();
@@ -129,7 +143,7 @@ export class CodeReviewerAgent {
     if (!token && this.config.security.require_authentication) {
       return res.status(401).json({
         error: 'Unauthorized',
-        message: 'Authentication token required'
+        message: 'Authentication token required',
       });
     }
 
@@ -137,14 +151,18 @@ export class CodeReviewerAgent {
     if (token && !this.validateToken(token)) {
       return res.status(401).json({
         error: 'Unauthorized',
-        message: 'Invalid authentication token'
+        message: 'Invalid authentication token',
       });
     }
 
     next();
   }
 
-  private rateLimitMiddleware(req: Request, res: Response, next: NextFunction): void {
+  private rateLimitMiddleware(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void {
     const clientId = req.ip || 'unknown';
     const isRateLimited = this.metrics.checkRateLimit(clientId);
 
@@ -152,14 +170,18 @@ export class CodeReviewerAgent {
       return res.status(429).json({
         error: 'Too Many Requests',
         message: 'Rate limit exceeded',
-        retryAfter: 60
+        retryAfter: 60,
       });
     }
 
     next();
   }
 
-  private loggingMiddleware(req: Request, res: Response, next: NextFunction): void {
+  private loggingMiddleware(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void {
     const startTime = Date.now();
     const requestId = this.generateRequestId();
 
@@ -167,35 +189,43 @@ export class CodeReviewerAgent {
     (req as any).requestId = requestId;
     (req as any).startTime = startTime;
 
-    console.log(JSON.stringify({
-      timestamp: new Date().toISOString(),
-      level: 'info',
-      message: 'Request received',
-      requestId,
-      method: req.method,
-      path: req.path,
-      userAgent: req.get('User-Agent'),
-      ip: req.ip
-    }));
-
-    res.on('finish', () => {
-      const duration = Date.now() - startTime;
-      console.log(JSON.stringify({
+    console.log(
+      JSON.stringify({
         timestamp: new Date().toISOString(),
         level: 'info',
-        message: 'Request completed',
+        message: 'Request received',
         requestId,
         method: req.method,
         path: req.path,
-        statusCode: res.statusCode,
-        duration
-      }));
+        userAgent: req.get('User-Agent'),
+        ip: req.ip,
+      })
+    );
+
+    res.on('finish', () => {
+      const duration = Date.now() - startTime;
+      console.log(
+        JSON.stringify({
+          timestamp: new Date().toISOString(),
+          level: 'info',
+          message: 'Request completed',
+          requestId,
+          method: req.method,
+          path: req.path,
+          statusCode: res.statusCode,
+          duration,
+        })
+      );
     });
 
     next();
   }
 
-  private metricsMiddleware(req: Request, res: Response, next: NextFunction): void {
+  private metricsMiddleware(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void {
     const startTime = Date.now();
 
     res.on('finish', () => {
@@ -206,14 +236,18 @@ export class CodeReviewerAgent {
         statusCode: res.statusCode,
         duration,
         userAgent: req.get('User-Agent'),
-        ip: req.ip
+        ip: req.ip,
       });
     });
 
     next();
   }
 
-  private tracingMiddleware(req: Request, res: Response, next: NextFunction): void {
+  private tracingMiddleware(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void {
     const traceId = req.headers['x-trace-id'] || this.generateTraceId();
     res.setHeader('X-Trace-ID', traceId);
     (req as any).traceId = traceId;
@@ -241,25 +275,35 @@ export class CodeReviewerAgent {
     return new Promise((resolve, reject) => {
       try {
         this.app.listen(port, () => {
-          console.log(JSON.stringify({
-            timestamp: new Date().toISOString(),
-            level: 'info',
-            message: 'Code Reviewer Agent started',
-            agent: 'code-reviewer',
-            version: this.config.version,
-            port,
-            capabilities: this.config.capabilities,
-            endpoints: ['/health', '/analyze', '/review', '/security-scan', '/quality-check']
-          }));
+          console.log(
+            JSON.stringify({
+              timestamp: new Date().toISOString(),
+              level: 'info',
+              message: 'Code Reviewer Agent started',
+              agent: 'code-reviewer',
+              version: this.config.version,
+              port,
+              capabilities: this.config.capabilities,
+              endpoints: [
+                '/health',
+                '/analyze',
+                '/review',
+                '/security-scan',
+                '/quality-check',
+              ],
+            })
+          );
           resolve();
         });
       } catch (error) {
-        console.error(JSON.stringify({
-          timestamp: new Date().toISOString(),
-          level: 'error',
-          message: 'Failed to start agent',
-          error: error instanceof Error ? error.message : String(error)
-        }));
+        console.error(
+          JSON.stringify({
+            timestamp: new Date().toISOString(),
+            level: 'error',
+            message: 'Failed to start agent',
+            error: error instanceof Error ? error.message : String(error),
+          })
+        );
         reject(error);
       }
     });
@@ -267,11 +311,13 @@ export class CodeReviewerAgent {
 
   public async stop(): Promise<void> {
     // Graceful shutdown logic
-    console.log(JSON.stringify({
-      timestamp: new Date().toISOString(),
-      level: 'info',
-      message: 'Shutting down Code Reviewer Agent'
-    }));
+    console.log(
+      JSON.stringify({
+        timestamp: new Date().toISOString(),
+        level: 'info',
+        message: 'Shutting down Code Reviewer Agent',
+      })
+    );
   }
 }
 
@@ -290,7 +336,7 @@ if (require.main === module) {
     process.exit(0);
   });
 
-  agent.start().catch(error => {
+  agent.start().catch((error) => {
     console.error('Failed to start agent:', error);
     process.exit(1);
   });

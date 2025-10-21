@@ -13,18 +13,18 @@ spec:
     spec_paths:
       type: array
       description: Array of OpenAPI spec file paths to validate
-      default: ["src/api/*.yml", "src/api/*.yaml", "openapi/*.yml"]
+      default: ['src/api/*.yml', 'src/api/*.yaml', 'openapi/*.yml']
 
     ossa_version:
       type: string
       description: OSSA version to validate against
-      default: "0.1.9"
+      default: '0.1.9'
 
     conformance_tier:
       type: string
       description: Required OSSA conformance tier
-      default: "core"
-      enum: ["core", "governed", "advanced", "enterprise"]
+      default: 'core'
+      enum: ['core', 'governed', 'advanced', 'enterprise']
 
     # Validation strictness
     fail_on_warnings:
@@ -56,11 +56,10 @@ spec:
     report_format:
       type: string
       description: Report output format
-      default: "markdown"
-      enum: ["markdown", "json", "junit"]
+      default: 'markdown'
+      enum: ['markdown', 'json', 'junit']
 
 ---
-
 # OSSA Validation Job Template
 ossa:validate:
   stage: validate
@@ -196,7 +195,7 @@ ossa:validate:
 ossa:validate:strict:
   extends: ossa:validate
   variables:
-    FAIL_ON_WARNINGS: "true"
+    FAIL_ON_WARNINGS: 'true'
   script:
     - !reference [ossa:validate, script]
     - |
@@ -214,15 +213,15 @@ ossa:validate:strict:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       variables:
-        CONFORMANCE_TIER: "governed"
+        CONFORMANCE_TIER: 'governed'
     - if: $CI_COMMIT_TAG
       variables:
-        CONFORMANCE_TIER: "enterprise"
+        CONFORMANCE_TIER: 'enterprise'
 
 ossa:validate:security:
   extends: ossa:validate
   variables:
-    ENFORCE_SECURITY: "true"
+    ENFORCE_SECURITY: 'true'
   script:
     - !reference [ossa:validate, script]
     - |
@@ -239,6 +238,6 @@ ossa:validate:security:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - "**/*.yml"
-        - "**/*.yaml"
-        - "**/security/**/*"
+        - '**/*.yml'
+        - '**/*.yaml'
+        - '**/security/**/*'

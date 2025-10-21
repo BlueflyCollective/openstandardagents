@@ -7,32 +7,32 @@ spec:
   inputs:
     # Core Configuration
     project_name:
-      description: "Name of the project"
+      description: 'Name of the project'
       type: string
-      default: "project"
+      default: 'project'
 
     project_version:
-      description: "Project version"
+      description: 'Project version'
       type: string
-      default: "1.0.0"
+      default: '1.0.0'
 
     enable_auto_flow:
-      description: "Enable auto-flow branching strategy"
+      description: 'Enable auto-flow branching strategy'
       type: boolean
       default: true
 
     enable_comprehensive_testing:
-      description: "Enable comprehensive testing suite"
+      description: 'Enable comprehensive testing suite'
       type: boolean
       default: true
 
     enable_security_scanning:
-      description: "Enable security scanning"
+      description: 'Enable security scanning'
       type: boolean
       default: true
 
     test_coverage_threshold:
-      description: "Test coverage threshold percentage"
+      description: 'Test coverage threshold percentage'
       type: number
       default: 80
 
@@ -43,28 +43,28 @@ workflow:
     # Main branch - production pipeline with releases
     - if: '$CI_COMMIT_BRANCH == "main"'
       variables:
-        PIPELINE_TYPE: "production"
-        TAG_PREFIX: "v"
+        PIPELINE_TYPE: 'production'
+        TAG_PREFIX: 'v'
     # Development branch - dev tags only
     - if: '$CI_COMMIT_BRANCH == "development"'
       variables:
-        PIPELINE_TYPE: "development"
-        TAG_PREFIX: "dev"
+        PIPELINE_TYPE: 'development'
+        TAG_PREFIX: 'dev'
     # Feature branches - feature tags only
     - if: '$CI_COMMIT_BRANCH =~ /^feature\/.*/'
       variables:
-        PIPELINE_TYPE: "feature"
-        TAG_PREFIX: "feat"
+        PIPELINE_TYPE: 'feature'
+        TAG_PREFIX: 'feat'
     # Bug fix branches
     - if: '$CI_COMMIT_BRANCH =~ /^(bug|fix|hotfix)\/.*/'
       variables:
-        PIPELINE_TYPE: "bugfix"
-        TAG_PREFIX: "fix"
+        PIPELINE_TYPE: 'bugfix'
+        TAG_PREFIX: 'fix'
     # Release branches
     - if: '$CI_COMMIT_BRANCH =~ /^release\/.*/'
       variables:
-        PIPELINE_TYPE: "release"
-        TAG_PREFIX: "rc"
+        PIPELINE_TYPE: 'release'
+        TAG_PREFIX: 'rc'
     # Default for other branches
     - if: $CI_COMMIT_BRANCH
 
@@ -78,44 +78,44 @@ variables:
   TEST_COVERAGE_THRESHOLD: $[[ inputs.test_coverage_threshold ]]
 
   # Technical Configuration
-  GOLDEN_WORKFLOW_VERSION: "${COMPONENT_VERSION:-auto}"  # Auto-detected
-  NODE_VERSION: "20"
-  PHP_VERSION: "8.3"
-  PYTHON_VERSION: "3.12"
+  GOLDEN_WORKFLOW_VERSION: '${COMPONENT_VERSION:-auto}' # Auto-detected
+  NODE_VERSION: '20'
+  PHP_VERSION: '8.3'
+  PYTHON_VERSION: '3.12'
 
   # Auto-detection flags (set by setup stage)
-  PROJECT_TYPE: ""           # nodejs, drupal, python, docker, mixed
+  PROJECT_TYPE: '' # nodejs, drupal, python, docker, mixed
 
   # Feature toggles (all enabled by default)
-  ENABLE_VISUAL_TESTING: "true"
-  ENABLE_PERFORMANCE_TESTING: "true"
-  ENABLE_AI_ML_TESTING: "true"
-  ENABLE_DEPLOYMENT: "true"
+  ENABLE_VISUAL_TESTING: 'true'
+  ENABLE_PERFORMANCE_TESTING: 'true'
+  ENABLE_AI_ML_TESTING: 'true'
+  ENABLE_DEPLOYMENT: 'true'
 
   # Documentation & Publishing
-  ENABLE_PAGES: "true"
-  ENABLE_NPM_PUBLISH: "true"
-  ENABLE_SWAGGER_DOCS: "true"
-  ENABLE_CHANGELOG: "true"
-  DOCS_GENERATOR: "auto"
-  NPM_REGISTRY: "https://registry.npmjs.org"
-  NPM_ACCESS: "public"
+  ENABLE_PAGES: 'true'
+  ENABLE_NPM_PUBLISH: 'true'
+  ENABLE_SWAGGER_DOCS: 'true'
+  ENABLE_CHANGELOG: 'true'
+  DOCS_GENERATOR: 'auto'
+  NPM_REGISTRY: 'https://registry.npmjs.org'
+  NPM_ACCESS: 'public'
 
   # Branch strategy
-  DEVELOPMENT_BRANCH: "development"
-  MAIN_BRANCH: "main"
+  DEVELOPMENT_BRANCH: 'development'
+  MAIN_BRANCH: 'main'
 
   # Testing configuration
-  PERFORMANCE_THRESHOLD_P95: "2000"  # milliseconds
-  PERFORMANCE_CONCURRENT_USERS: "10"
+  PERFORMANCE_THRESHOLD_P95: '2000' # milliseconds
+  PERFORMANCE_CONCURRENT_USERS: '10'
 
   # Security configuration
-  SECURITY_SCAN_SCOPE: "diff"
-  FAIL_ON_SECURITY_ISSUES: "true"
+  SECURITY_SCAN_SCOPE: 'diff'
+  FAIL_ON_SECURITY_ISSUES: 'true'
 
   # Deployment configuration
-  DEPLOY_TO_STAGING: "auto"     # auto, manual, disabled
-  DEPLOY_TO_PRODUCTION: "manual" # manual only for safety
+  DEPLOY_TO_STAGING: 'auto' # auto, manual, disabled
+  DEPLOY_TO_PRODUCTION: 'manual' # manual only for safety
 
 stages:
   - setup
@@ -245,7 +245,7 @@ setup:project-detection:
 validate:nodejs:
   stage: validate
   image: node:${NODE_VERSION}-alpine
-  needs: ["setup:project-detection"]
+  needs: ['setup:project-detection']
   script:
     - |
       if echo "$PROJECT_TYPES" | grep -q "nodejs"; then
@@ -268,7 +268,7 @@ validate:nodejs:
 validate:drupal:
   stage: validate
   image: php:${PHP_VERSION}-cli
-  needs: ["setup:project-detection"]
+  needs: ['setup:project-detection']
   before_script:
     - apt-get update && apt-get install -y git unzip libzip-dev
     - docker-php-ext-install zip
@@ -298,7 +298,7 @@ validate:drupal:
 validate:python:
   stage: validate
   image: python:${PYTHON_VERSION}-slim
-  needs: ["setup:project-detection"]
+  needs: ['setup:project-detection']
   script:
     - |
       if echo "$PROJECT_TYPES" | grep -q "python"; then
@@ -334,13 +334,13 @@ validate:python:
 test:nodejs:
   stage: test
   image: node:${NODE_VERSION}
-  needs: ["validate:nodejs"]
+  needs: ['validate:nodejs']
   services:
     - redis:latest
     - postgres:13
   variables:
-    DATABASE_URL: "postgresql://postgres:postgres@0.1.16postgres:5432/test_db"
-    REDIS_URL: "redis://redis:6379"
+    DATABASE_URL: 'postgresql://postgres:postgres@0.1.16postgres:5432/test_db'
+    REDIS_URL: 'redis://redis:6379'
   script:
     - |
       if echo "$PROJECT_TYPES" | grep -q "nodejs"; then
@@ -362,7 +362,7 @@ test:nodejs:
       fi
   coverage: '/Lines\s*:\s*(\d+\.\d+)%/'
   artifacts:
-    name: "nodejs-test-$CI_COMMIT_SHORT_SHA"
+    name: 'nodejs-test-$CI_COMMIT_SHORT_SHA'
     expire_in: 1 week
     paths:
       - coverage/
@@ -378,7 +378,7 @@ test:nodejs:
 test:drupal:
   stage: test
   image: php:${PHP_VERSION}-cli
-  needs: ["validate:drupal"]
+  needs: ['validate:drupal']
   services:
     - name: mysql:8.0
       alias: mysql
@@ -388,8 +388,8 @@ test:drupal:
         MYSQL_USER: drupal
         MYSQL_PASSWORD: drupal
   variables:
-    SIMPLETEST_DB: "mysql://drupal:drupal@0.1.16mysql/drupal_test"
-    SIMPLETEST_BASE_URL: "http://localhost:8080"
+    SIMPLETEST_DB: 'mysql://drupal:drupal@0.1.16mysql/drupal_test'
+    SIMPLETEST_BASE_URL: 'http://localhost:8080'
   before_script:
     - apt-get update && apt-get install -y git unzip libzip-dev mysql-client chromium-driver
     - docker-php-ext-install zip pdo pdo_mysql
@@ -426,7 +426,7 @@ test:drupal:
         fi
       fi
   artifacts:
-    name: "drupal-test-$CI_COMMIT_SHORT_SHA"
+    name: 'drupal-test-$CI_COMMIT_SHORT_SHA'
     expire_in: 1 week
     paths:
       - coverage-html/
@@ -451,13 +451,13 @@ test:drupal:
 test:python:
   stage: test
   image: python:${PYTHON_VERSION}
-  needs: ["validate:python"]
+  needs: ['validate:python']
   services:
     - redis:latest
     - postgres:13
   variables:
-    DATABASE_URL: "postgresql://postgres:postgres@0.1.16postgres:5432/test_db"
-    REDIS_URL: "redis://redis:6379"
+    DATABASE_URL: 'postgresql://postgres:postgres@0.1.16postgres:5432/test_db'
+    REDIS_URL: 'redis://redis:6379'
   script:
     - |
       if echo "$PROJECT_TYPES" | grep -q "python"; then
@@ -482,7 +482,7 @@ test:python:
       fi
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   artifacts:
-    name: "python-test-$CI_COMMIT_SHORT_SHA"
+    name: 'python-test-$CI_COMMIT_SHORT_SHA'
     expire_in: 1 week
     paths:
       - htmlcov/
@@ -503,9 +503,9 @@ test:python:
 test:visual:
   stage: test
   image: mcr.microsoft.com/playwright:v1.40.0-jammy
-  needs: ["setup:project-detection"]
+  needs: ['setup:project-detection']
   variables:
-    CI: "true"
+    CI: 'true'
   script:
     - |
       if echo "$TESTING_FRAMEWORKS" | grep -q "visual-test" && [ "$ENABLE_VISUAL_TESTING" = "true" ]; then
@@ -560,7 +560,7 @@ test:visual:
         fi
       fi
   artifacts:
-    name: "visual-tests-$CI_COMMIT_SHORT_SHA"
+    name: 'visual-tests-$CI_COMMIT_SHORT_SHA'
     expire_in: 1 week
     paths:
       - playwright-report/
@@ -581,8 +581,8 @@ security:secrets:
   stage: security
   image:
     name: zricethezav/gitleaks:latest
-    entrypoint: [""]
-  needs: ["setup:project-detection"]
+    entrypoint: ['']
+  needs: ['setup:project-detection']
   script:
     - |
       if [ "$ENABLE_SECURITY_SCANNING" = "true" ]; then
@@ -624,7 +624,7 @@ security:secrets:
         fi
       fi
   artifacts:
-    name: "security-secrets-$CI_COMMIT_SHORT_SHA"
+    name: 'security-secrets-$CI_COMMIT_SHORT_SHA'
     expire_in: 30 days
     paths:
       - gitleaks-report.json
@@ -636,11 +636,11 @@ security:secrets:
 security:container:
   stage: security
   image: docker:24.0.5
-  needs: ["setup:project-detection"]
+  needs: ['setup:project-detection']
   services:
     - docker:24.0.5-dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   script:
     - |
       if echo "$PROJECT_TYPES" | grep -q "docker" && [ "$ENABLE_SECURITY_SCANNING" = "true" ]; then
@@ -676,7 +676,7 @@ security:container:
         fi
       fi
   artifacts:
-    name: "security-container-$CI_COMMIT_SHORT_SHA"
+    name: 'security-container-$CI_COMMIT_SHORT_SHA'
     expire_in: 30 days
     paths:
       - container-security.json
@@ -688,7 +688,7 @@ security:container:
 security:dependency:
   stage: security
   image: alpine:latest
-  needs: ["setup:project-detection"]
+  needs: ['setup:project-detection']
   script:
     - |
       if [ "$ENABLE_SECURITY_SCANNING" = "true" ]; then
@@ -735,7 +735,7 @@ security:dependency:
         fi
       fi
   artifacts:
-    name: "security-dependencies-$CI_COMMIT_SHORT_SHA"
+    name: 'security-dependencies-$CI_COMMIT_SHORT_SHA'
     expire_in: 30 days
     paths:
       - npm-audit.json
@@ -753,7 +753,7 @@ security:dependency:
 performance:load-test:
   stage: performance
   image: grafana/k6:latest
-  needs: ["setup:project-detection"]
+  needs: ['setup:project-detection']
   script:
     - |
       if [ "$ENABLE_PERFORMANCE_TESTING" = "true" ]; then
@@ -824,7 +824,7 @@ performance:load-test:
         fi
       fi
   artifacts:
-    name: "performance-$CI_COMMIT_SHORT_SHA"
+    name: 'performance-$CI_COMMIT_SHORT_SHA'
     expire_in: 1 week
     paths:
       - k6-results.json
@@ -842,7 +842,7 @@ performance:load-test:
 build:nodejs:
   stage: build
   image: node:${NODE_VERSION}
-  needs: ["test:nodejs"]
+  needs: ['test:nodejs']
   script:
     - |
       if echo "$PROJECT_TYPES" | grep -q "nodejs"; then
@@ -856,7 +856,7 @@ build:nodejs:
         fi
       fi
   artifacts:
-    name: "nodejs-build-$CI_COMMIT_SHORT_SHA"
+    name: 'nodejs-build-$CI_COMMIT_SHORT_SHA'
     expire_in: 1 week
     paths:
       - dist/
@@ -868,11 +868,11 @@ build:nodejs:
 build:docker:
   stage: build
   image: docker:24.0.5
-  needs: ["security:container"]
+  needs: ['security:container']
   services:
     - docker:24.0.5-dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   script:
     - |
       if echo "$PROJECT_TYPES" | grep -q "docker"; then
@@ -908,19 +908,19 @@ quality:gates:
   stage: quality
   image: alpine:latest
   needs:
-    - job: "test:nodejs"
+    - job: 'test:nodejs'
       optional: false
       artifacts: false
-    - job: "test:drupal"
+    - job: 'test:drupal'
       optional: false
       artifacts: false
-    - job: "test:python"
+    - job: 'test:python'
       optional: false
       artifacts: false
-    - job: "security:secrets"
+    - job: 'security:secrets'
       optional: true
       artifacts: false
-    - job: "performance:load-test"
+    - job: 'performance:load-test'
       optional: true
       artifacts: false
   script:
@@ -1029,7 +1029,7 @@ create:merge-request:
     - if: $CI_COMMIT_BRANCH =~ /^feature\/.*/
       when: on_success
   needs:
-    - "quality:gates"
+    - 'quality:gates'
   allow_failure: true
 
 # ============================================================================
@@ -1095,7 +1095,7 @@ setup:semantic-release:
   stage: setup
   image: node:${NODE_VERSION:-20}-alpine
   dependencies:
-    - "setup:project-detection"
+    - 'setup:project-detection'
   script:
     - |
       echo "🔧 Setting up semantic-release..."
@@ -1190,7 +1190,7 @@ setup:semantic-release:
       - package.json
     expire_in: 1 hour
   cache:
-    key: "$CI_COMMIT_REF_SLUG-semantic-release"
+    key: '$CI_COMMIT_REF_SLUG-semantic-release'
     paths:
       - node_modules/
 
@@ -1243,8 +1243,8 @@ semantic-release:dry-run:
     - if: '$CI_COMMIT_BRANCH != "main"'
       when: on_success
   needs:
-    - "quality:gates"
-    - "setup:semantic-release"
+    - 'quality:gates'
+    - 'setup:semantic-release'
   allow_failure: true
 
 # Semantic Release (main branch only)
@@ -1304,8 +1304,8 @@ semantic-release:release:
     - if: '$CI_COMMIT_BRANCH == "main"'
       when: on_success
   needs:
-    - "quality:gates"
-    - "setup:semantic-release"
+    - 'quality:gates'
+    - 'setup:semantic-release'
   allow_failure: false
 
 # ============================================================================
@@ -1343,7 +1343,7 @@ release:summary:
     - if: '$CI_COMMIT_BRANCH == "main"'
       when: on_success
   needs:
-    - "semantic-release:release"
+    - 'semantic-release:release'
   allow_failure: true
 
 # ============================================================================
@@ -1575,7 +1575,7 @@ publish:npm:
 deploy:staging:
   stage: deploy
   image: alpine:latest
-  needs: ["quality:gates"]
+  needs: ['quality:gates']
   environment:
     name: staging
     url: https://staging.example.com
@@ -1609,7 +1609,7 @@ deploy:staging:
 deploy:production:
   stage: deploy
   image: alpine:latest
-  needs: ["quality:gates"]
+  needs: ['quality:gates']
   environment:
     name: production
     url: https://production.example.com
@@ -1637,7 +1637,7 @@ deploy:production:
       echo "✅ PRODUCTION DEPLOYMENT COMPLETED"
   rules:
     - if: $CI_COMMIT_BRANCH == $MAIN_BRANCH
-      when: manual  # Always manual for production
+      when: manual # Always manual for production
 
 # ============================================================================
 # PIPELINE SUMMARY

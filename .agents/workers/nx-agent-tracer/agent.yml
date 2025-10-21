@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: nx-agent-tracer
   name: Nx Agent Tracer
   version: 1.0.0
-  description: "OSSA-compliant worker agent: nx-agent-tracer"
+  description: 'OSSA-compliant worker agent: nx-agent-tracer'
   role: custom
   tags: []
   runtime:

@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: api-example-generator
   name: Api Example Generator
   version: 1.0.0
-  description: "OSSA-compliant worker agent: api-example-generator"
+  description: 'OSSA-compliant worker agent: api-example-generator'
   role: custom
   tags: []
   runtime:

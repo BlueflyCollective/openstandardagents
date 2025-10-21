@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: drupal-migration-specialist
   name: Drupal Migration Specialist
   version: 1.0.0
-  description: "OSSA-compliant worker agent: drupal-migration-specialist"
+  description: 'OSSA-compliant worker agent: drupal-migration-specialist'
   role: custom
   tags: []
   runtime:

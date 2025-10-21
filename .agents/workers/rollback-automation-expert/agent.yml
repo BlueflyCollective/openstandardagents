@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: rollback-automation-expert
   name: Rollback Automation Expert
   version: 1.0.0
-  description: "OSSA-compliant worker agent: rollback-automation-expert"
+  description: 'OSSA-compliant worker agent: rollback-automation-expert'
   role: custom
   tags: []
   runtime:

@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 
 agent:
   # Identity
@@ -20,13 +20,13 @@ agent:
     type: k8s
     image: ossa/health-monitor:1.0.0
     requirements:
-      node: ">=20.0.0"
+      node: '>=20.0.0'
       packages:
         - prom-client
         - node-fetch
     resources:
-      cpu: "250m"
-      memory: "256Mi"
+      cpu: '250m'
+      memory: '256Mi'
     health_check:
       type: http
       endpoint: /health

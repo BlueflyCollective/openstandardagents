@@ -1,9 +1,9 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: technical-debt-tracker
   name: Technical Debt Tracker
   version: 1.0.0
-  description: "OSSA-compliant worker agent: technical-debt-tracker"
+  description: 'OSSA-compliant worker agent: technical-debt-tracker'
   role: custom
   tags: []
   runtime:

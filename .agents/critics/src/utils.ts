@@ -19,34 +19,45 @@ export function loadConfig(): AgentConfig {
       'code_analysis',
       'security_scanning',
       'quality_assessment',
-      'compliance_checking'
+      'compliance_checking',
     ],
     security: {
       require_authentication: true,
       require_authorization: true,
       max_file_size: 10 * 1024 * 1024, // 10MB
-      allowed_file_types: ['.ts', '.js', '.py', '.java', '.go', '.rs', '.cpp', '.cs', '.php', '.rb'],
-      scan_timeout: 30000
+      allowed_file_types: [
+        '.ts',
+        '.js',
+        '.py',
+        '.java',
+        '.go',
+        '.rs',
+        '.cpp',
+        '.cs',
+        '.php',
+        '.rb',
+      ],
+      scan_timeout: 30000,
     },
     quality: {
       complexity_threshold: 10,
       maintainability_threshold: 70,
       coverage_threshold: 80,
-      duplication_threshold: 5
+      duplication_threshold: 5,
     },
     cors: {
       origin: '*',
-      credentials: false
+      credentials: false,
     },
     rateLimit: {
       requests_per_minute: 1000,
-      burst_size: 10
+      burst_size: 10,
     },
     observability: {
       metrics_enabled: true,
       tracing_enabled: true,
-      logging_level: 'info'
-    }
+      logging_level: 'info',
+    },
   };
 
   // Override with environment variables
@@ -58,7 +69,7 @@ export function loadConfig(): AgentConfig {
   return {
     ...defaultConfig,
     ...fileConfig,
-    ...envConfig
+    ...envConfig,
   };
 }
 
@@ -84,14 +95,14 @@ function loadEnvironmentConfig(): Partial<AgentConfig> {
   if (process.env.REQUIRE_AUTH !== undefined) {
     config.security = {
       ...config.security,
-      require_authentication: process.env.REQUIRE_AUTH === 'true'
+      require_authentication: process.env.REQUIRE_AUTH === 'true',
     };
   }
 
   if (process.env.MAX_FILE_SIZE) {
     config.security = {
       ...config.security,
-      max_file_size: parseInt(process.env.MAX_FILE_SIZE, 10)
+      max_file_size: parseInt(process.env.MAX_FILE_SIZE, 10),
     };
   }
 
@@ -99,7 +110,7 @@ function loadEnvironmentConfig(): Partial<AgentConfig> {
   if (process.env.CORS_ORIGIN) {
     config.cors = {
       ...config.cors,
-      origin: process.env.CORS_ORIGIN
+      origin: process.env.CORS_ORIGIN,
     };
   }
 
@@ -107,7 +118,7 @@ function loadEnvironmentConfig(): Partial<AgentConfig> {
   if (process.env.RATE_LIMIT_RPM) {
     config.rateLimit = {
       ...config.rateLimit,
-      requests_per_minute: parseInt(process.env.RATE_LIMIT_RPM, 10)
+      requests_per_minute: parseInt(process.env.RATE_LIMIT_RPM, 10),
     };
   }
 
@@ -115,7 +126,7 @@ function loadEnvironmentConfig(): Partial<AgentConfig> {
   if (process.env.LOG_LEVEL) {
     config.observability = {
       ...config.observability,
-      logging_level: process.env.LOG_LEVEL as any
+      logging_level: process.env.LOG_LEVEL as any,
     };
   }
 
@@ -128,8 +139,12 @@ function loadEnvironmentConfig(): Partial<AgentConfig> {
 function loadFileConfig(): Partial<AgentConfig> {
   const configPaths = [
     path.join(process.cwd(), 'config', 'default.json'),
-    path.join(process.cwd(), 'config', `${process.env.NODE_ENV || 'development'}.json`),
-    path.join(__dirname, '..', 'config', 'default.json')
+    path.join(
+      process.cwd(),
+      'config',
+      `${process.env.NODE_ENV || 'development'}.json`
+    ),
+    path.join(__dirname, '..', 'config', 'default.json'),
   ];
 
   for (const configPath of configPaths) {
@@ -188,20 +203,32 @@ function validateReviewRequest(body: any): void {
   }
 
   if (!body.language || typeof body.language !== 'string') {
-    throw new ValidationError('Language is required and must be a string', 'language');
+    throw new ValidationError(
+      'Language is required and must be a string',
+      'language'
+    );
   }
 
   if (body.code.length === 0) {
     throw new ValidationError('Code cannot be empty', 'code');
   }
 
-  if (body.code.length > 10 * 1024 * 1024) { // 10MB
+  if (body.code.length > 10 * 1024 * 1024) {
+    // 10MB
     throw new ValidationError('Code exceeds maximum size limit', 'code');
   }
 
   const supportedLanguages = [
-    'typescript', 'javascript', 'python', 'java', 'go',
-    'rust', 'cpp', 'csharp', 'php', 'ruby'
+    'typescript',
+    'javascript',
+    'python',
+    'java',
+    'go',
+    'rust',
+    'cpp',
+    'csharp',
+    'php',
+    'ruby',
   ];
 
   if (!supportedLanguages.includes(body.language.toLowerCase())) {
@@ -220,8 +247,14 @@ function validateReviewRequest(body: any): void {
     throw new ValidationError('Options must be an object', 'options');
   }
 
-  if (body.options?.severity && !['low', 'medium', 'high'].includes(body.options.severity)) {
-    throw new ValidationError('Severity must be low, medium, or high', 'options.severity');
+  if (
+    body.options?.severity &&
+    !['low', 'medium', 'high'].includes(body.options.severity)
+  ) {
+    throw new ValidationError(
+      'Severity must be low, medium, or high',
+      'options.severity'
+    );
   }
 }
 
@@ -238,7 +271,10 @@ function validateSecurityScanRequest(body: any): void {
   if (body.dependencies) {
     for (const dep of body.dependencies) {
       if (!dep.name || !dep.version) {
-        throw new ValidationError('Each dependency must have name and version', 'dependencies');
+        throw new ValidationError(
+          'Each dependency must have name and version',
+          'dependencies'
+        );
       }
     }
   }
@@ -259,13 +295,21 @@ function validateQualityCheckRequest(body: any): void {
   }
 
   if (body.thresholds) {
-    const validThresholds = ['complexity', 'maintainability', 'coverage', 'duplication'];
+    const validThresholds = [
+      'complexity',
+      'maintainability',
+      'coverage',
+      'duplication',
+    ];
     for (const [key, value] of Object.entries(body.thresholds)) {
       if (!validThresholds.includes(key)) {
         throw new ValidationError(`Invalid threshold: ${key}`, 'thresholds');
       }
       if (typeof value !== 'number' || value < 0 || value > 100) {
-        throw new ValidationError(`Threshold ${key} must be a number between 0 and 100`, 'thresholds');
+        throw new ValidationError(
+          `Threshold ${key} must be a number between 0 and 100`,
+          'thresholds'
+        );
       }
     }
   }
@@ -319,17 +363,22 @@ export function errorHandler(
   const timestamp = new Date().toISOString();
 
   // Log the error
-  console.error(JSON.stringify({
-    timestamp,
-    level: 'error',
-    message: 'Request error',
-    requestId,
-    error: error instanceof Error ? {
-      name: error.name,
-      message: error.message,
-      stack: error.stack
-    } : error
-  }));
+  console.error(
+    JSON.stringify({
+      timestamp,
+      level: 'error',
+      message: 'Request error',
+      requestId,
+      error:
+        error instanceof Error
+          ? {
+              name: error.name,
+              message: error.message,
+              stack: error.stack,
+            }
+          : error,
+    })
+  );
 
   if (error instanceof ValidationError) {
     res.status(error.statusCode).json({
@@ -337,21 +386,21 @@ export function errorHandler(
       message: error.message,
       field: error.field,
       requestId,
-      timestamp
+      timestamp,
     });
   } else if (error instanceof ProcessingError) {
     res.status(error.statusCode).json({
       error: error.code,
       message: error.message,
       requestId,
-      timestamp
+      timestamp,
     });
   } else {
     res.status(500).json({
       error: 'INTERNAL_ERROR',
       message: 'An unexpected error occurred',
       requestId,
-      timestamp
+      timestamp,
     });
   }
 }
@@ -368,7 +417,8 @@ export function sanitizeCode(code: string): string {
     .replace(/setInterval\s*\(/gi, 'SETINTERVAL_REMOVED(');
 
   // Limit code size
-  if (sanitized.length > 1024 * 1024) { // 1MB
+  if (sanitized.length > 1024 * 1024) {
+    // 1MB
     sanitized = sanitized.substring(0, 1024 * 1024) + '\n// ... truncated';
   }
 
@@ -394,7 +444,7 @@ export function detectLanguage(code: string, filename?: string): string {
       '.cc': 'cpp',
       '.cs': 'csharp',
       '.php': 'php',
-      '.rb': 'ruby'
+      '.rb': 'ruby',
     };
 
     if (extensionMap[ext]) {
@@ -404,20 +454,28 @@ export function detectLanguage(code: string, filename?: string): string {
 
   // Analyze code patterns
   const patterns = {
-    typescript: [/interface\s+\w+/, /type\s+\w+\s*=/, /: \w+(\[\])?(\s*\|\s*\w+)*\s*[=;]/],
+    typescript: [
+      /interface\s+\w+/,
+      /type\s+\w+\s*=/,
+      /: \w+(\[\])?(\s*\|\s*\w+)*\s*[=;]/,
+    ],
     javascript: [/var\s+\w+/, /function\s+\w+/, /console\.log/],
     python: [/def\s+\w+/, /import\s+\w+/, /print\s*\(/],
-    java: [/public\s+class/, /public\s+static\s+void\s+main/, /System\.out\.println/],
+    java: [
+      /public\s+class/,
+      /public\s+static\s+void\s+main/,
+      /System\.out\.println/,
+    ],
     go: [/package\s+\w+/, /func\s+\w+/, /fmt\.Println/],
     rust: [/fn\s+\w+/, /let\s+mut/, /println!/],
     cpp: [/#include\s*</, /std::/, /cout\s*<</],
     csharp: [/using\s+System/, /public\s+class/, /Console\.WriteLine/],
     php: [/<\?php/, /echo\s+/, /\$\w+/],
-    ruby: [/def\s+\w+/, /puts\s+/, /end\s*$/m]
+    ruby: [/def\s+\w+/, /puts\s+/, /end\s*$/m],
   };
 
   for (const [language, langPatterns] of Object.entries(patterns)) {
-    const matches = langPatterns.filter(pattern => pattern.test(code)).length;
+    const matches = langPatterns.filter((pattern) => pattern.test(code)).length;
     if (matches >= 2) {
       return language;
     }
@@ -474,10 +532,10 @@ export function containsSensitiveData(code: string): boolean {
     /token\s*[:=]\s*["'][^"']+["']/i,
     /private[_-]?key\s*[:=]/i,
     /\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b/, // Credit card
-    /\b\d{3}-?\d{2}-?\d{4}\b/ // SSN
+    /\b\d{3}-?\d{2}-?\d{4}\b/, // SSN
   ];
 
-  return sensitivePatterns.some(pattern => pattern.test(code));
+  return sensitivePatterns.some((pattern) => pattern.test(code));
 }
 
 /**
@@ -486,7 +544,11 @@ export function containsSensitiveData(code: string): boolean {
 export class RateLimiter {
   private requests: Map<string, number[]> = new Map();
 
-  isRateLimited(clientId: string, limit: number, windowMs: number = 60000): boolean {
+  isRateLimited(
+    clientId: string,
+    limit: number,
+    windowMs: number = 60000
+  ): boolean {
     const now = Date.now();
     const windowStart = now - windowMs;
 
@@ -497,7 +559,9 @@ export class RateLimiter {
     const clientRequests = this.requests.get(clientId)!;
 
     // Remove old requests outside the window
-    const validRequests = clientRequests.filter(timestamp => timestamp > windowStart);
+    const validRequests = clientRequests.filter(
+      (timestamp) => timestamp > windowStart
+    );
     this.requests.set(clientId, validRequests);
 
     // Check if limit exceeded
@@ -510,7 +574,11 @@ export class RateLimiter {
     return false;
   }
 
-  getRemainingRequests(clientId: string, limit: number, windowMs: number = 60000): number {
+  getRemainingRequests(
+    clientId: string,
+    limit: number,
+    windowMs: number = 60000
+  ): number {
     const now = Date.now();
     const windowStart = now - windowMs;
 
@@ -519,7 +587,9 @@ export class RateLimiter {
     }
 
     const clientRequests = this.requests.get(clientId)!;
-    const validRequests = clientRequests.filter(timestamp => timestamp > windowStart);
+    const validRequests = clientRequests.filter(
+      (timestamp) => timestamp > windowStart
+    );
 
     return Math.max(0, limit - validRequests.length);
   }
@@ -529,7 +599,9 @@ export class RateLimiter {
     const windowMs = 60000; // 1 minute
 
     for (const [clientId, requests] of this.requests.entries()) {
-      const validRequests = requests.filter(timestamp => timestamp > now - windowMs);
+      const validRequests = requests.filter(
+        (timestamp) => timestamp > now - windowMs
+      );
       if (validRequests.length === 0) {
         this.requests.delete(clientId);
       } else {

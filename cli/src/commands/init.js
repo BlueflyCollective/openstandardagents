@@ -8,7 +8,15 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('yaml');
 
-const AGENT_TYPES = ['worker', 'orchestrator', 'integrator', 'monitor', 'critic', 'judge', 'governor'];
+const AGENT_TYPES = [
+  'worker',
+  'orchestrator',
+  'integrator',
+  'monitor',
+  'critic',
+  'judge',
+  'governor',
+];
 
 module.exports = async function init(name, options) {
   try {
@@ -54,11 +62,7 @@ module.exports = async function init(name, options) {
 
     // Create README
     const readme = createReadme(name, type);
-    fs.writeFileSync(
-      path.join(agentDir, 'README.md'),
-      readme,
-      'utf-8'
-    );
+    fs.writeFileSync(path.join(agentDir, 'README.md'), readme, 'utf-8');
 
     // Create basic OpenAPI spec
     const openapi = createOpenAPI(name);
@@ -74,15 +78,18 @@ module.exports = async function init(name, options) {
     console.log('    \u251c\u2500\u2500 agent.yml         # OSSA manifest');
     console.log('    \u251c\u2500\u2500 openapi.yml       # API specification');
     console.log('    \u251c\u2500\u2500 README.md         # Documentation');
-    console.log('    \u251c\u2500\u2500 behaviors/        # Behavior definitions');
-    console.log('    \u251c\u2500\u2500 handlers/         # Implementation handlers');
+    console.log(
+      '    \u251c\u2500\u2500 behaviors/        # Behavior definitions'
+    );
+    console.log(
+      '    \u251c\u2500\u2500 handlers/         # Implementation handlers'
+    );
     console.log('    \u251c\u2500\u2500 schemas/          # JSON schemas');
     console.log('    \u2514\u2500\u2500 tests/            # Unit tests');
     console.log('\nNext steps:');
     console.log(`  1. Edit ${name}/agent.yml to define capabilities`);
     console.log(`  2. Run: ossa validate .agents/${name}/agent.yml`);
     console.log(`  3. Implement handlers in ${name}/handlers/`);
-
   } catch (error) {
     console.error('Error during initialization:', error.message);
     process.exit(1);
@@ -97,14 +104,17 @@ function createManifest(name, type) {
     monitor: 'monitoring',
     critic: 'development',
     judge: 'custom',
-    governor: 'compliance'
+    governor: 'compliance',
   };
 
   return {
     ossaVersion: '1.0',
     agent: {
       id: name,
-      name: name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+      name: name
+        .split('-')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' '),
       version: '1.0.0',
       description: `OSSA ${type} agent`,
       role: roleMap[type] || 'custom',
@@ -114,13 +124,13 @@ function createManifest(name, type) {
         image: `ossa/${name}:1.0.0`,
         resources: {
           cpu: '500m',
-          memory: '512Mi'
+          memory: '512Mi',
         },
         health_check: {
           type: 'http',
           endpoint: '/health',
-          port: 3000
-        }
+          port: 3000,
+        },
       },
       capabilities: [
         {
@@ -132,43 +142,43 @@ function createManifest(name, type) {
             properties: {
               input: {
                 type: 'string',
-                description: 'Input data'
-              }
-            }
+                description: 'Input data',
+              },
+            },
           },
           output_schema: {
             type: 'object',
             properties: {
               result: {
                 type: 'string',
-                description: 'Processing result'
-              }
-            }
+                description: 'Processing result',
+              },
+            },
           },
-          timeout_seconds: 300
-        }
+          timeout_seconds: 300,
+        },
       ],
       integration: {
         protocol: 'http',
         endpoints: {
           base_url: 'http://localhost:3000',
           health: '/health',
-          metrics: '/metrics'
+          metrics: '/metrics',
         },
         auth: {
-          type: 'jwt'
-        }
+          type: 'jwt',
+        },
       },
       monitoring: {
         traces: true,
         metrics: true,
-        logs: true
+        logs: true,
       },
       metadata: {
         author: 'OSSA Team',
-        license: 'Apache-2.0'
-      }
-    }
+        license: 'Apache-2.0',
+      },
+    },
   };
 }
 
@@ -222,13 +232,13 @@ function createOpenAPI(name) {
     info: {
       title: `${name} API`,
       version: '1.0.0',
-      description: `OSSA agent API for ${name}`
+      description: `OSSA agent API for ${name}`,
     },
     servers: [
       {
         url: 'http://localhost:3000',
-        description: 'Local development'
-      }
+        description: 'Local development',
+      },
     ],
     paths: {
       '/health': {
@@ -236,7 +246,7 @@ function createOpenAPI(name) {
           summary: 'Health check',
           operationId: 'healthCheck',
           responses: {
-            '200': {
+            200: {
               description: 'Health status',
               content: {
                 'application/json': {
@@ -245,19 +255,19 @@ function createOpenAPI(name) {
                     properties: {
                       status: {
                         type: 'string',
-                        enum: ['healthy', 'degraded', 'unhealthy']
+                        enum: ['healthy', 'degraded', 'unhealthy'],
                       },
                       timestamp: {
                         type: 'string',
-                        format: 'date-time'
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                        format: 'date-time',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       '/execute': {
         post: {
@@ -272,18 +282,18 @@ function createOpenAPI(name) {
                   required: ['capability', 'input'],
                   properties: {
                     capability: {
-                      type: 'string'
+                      type: 'string',
                     },
                     input: {
-                      type: 'object'
-                    }
-                  }
-                }
-              }
-            }
+                      type: 'object',
+                    },
+                  },
+                },
+              },
+            },
           },
           responses: {
-            '200': {
+            200: {
               description: 'Execution result',
               content: {
                 'application/json': {
@@ -291,16 +301,16 @@ function createOpenAPI(name) {
                     type: 'object',
                     properties: {
                       output: {
-                        type: 'object'
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                        type: 'object',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   };
 }

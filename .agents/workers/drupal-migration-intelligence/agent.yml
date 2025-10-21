@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 agent:
   id: drupal-migration-intelligence
   name: Drupal Migration Intelligence
@@ -18,7 +18,8 @@ agent:
       memory: 4Gi
   capabilities:
     - name: assess_drupal_site
-      description: Comprehensive assessment of existing Drupal 7 site for migration
+      description:
+        Comprehensive assessment of existing Drupal 7 site for migration
         readiness
       input_schema:
         type: object

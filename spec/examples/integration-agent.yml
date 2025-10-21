@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 
 agent:
   # Identity
@@ -20,14 +20,14 @@ agent:
     type: docker
     image: ossa/api-bridge:1.0.0
     requirements:
-      node: ">=20.0.0"
+      node: '>=20.0.0'
       packages:
         - axios
         - express
         - swagger-client
     resources:
-      cpu: "500m"
-      memory: "512Mi"
+      cpu: '500m'
+      memory: '512Mi'
     health_check:
       type: http
       endpoint: /health

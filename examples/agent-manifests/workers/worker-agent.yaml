@@ -3,8 +3,8 @@ kind: Agent
 metadata:
   name: data-processing-worker
   version: v1.2.0
-  description: "High-performance worker agent for distributed data processing tasks"
-  author: "data-engineering-team"
+  description: 'High-performance worker agent for distributed data processing tasks'
+  author: 'data-engineering-team'
   labels:
     environment: production
     classification: internal
@@ -36,26 +36,26 @@ spec:
   protocols:
     supported:
       - name: rest
-        version: "1.1"
-        endpoint: "https://worker.platform.com/api/v1"
+        version: '1.1'
+        endpoint: 'https://worker.platform.com/api/v1'
         authentication:
           type: bearer-token
-          scopes: ["worker.execute", "data.read", "data.write"]
+          scopes: ['worker.execute', 'data.read', 'data.write']
         tls: true
       - name: message-queue
-        version: "1.0"
-        endpoint: "amqp://queue.platform.com:5672/workers"
+        version: '1.0'
+        endpoint: 'amqp://queue.platform.com:5672/workers'
         authentication:
           type: sasl
       - name: grpc
-        version: "1.0"
-        endpoint: "grpc://worker.platform.com:9090/DataProcessor"
+        version: '1.0'
+        endpoint: 'grpc://worker.platform.com:9090/DataProcessor'
         authentication:
           type: mutual-tls
   processing:
     maxConcurrentTasks: 10
-    maxMemoryUsage: "2Gi"
-    maxCpuUsage: "1000m"
+    maxMemoryUsage: '2Gi'
+    maxCpuUsage: '1000m'
     timeout: 300000
     retryPolicy:
       maxAttempts: 3

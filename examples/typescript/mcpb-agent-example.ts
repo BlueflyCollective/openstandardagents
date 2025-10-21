@@ -39,7 +39,8 @@ export const createMCPAgent = (): CreateAgentRequest => {
         tools: [
           {
             name: 'analyze_code',
-            description: 'Analyze source code for issues, bugs, and security vulnerabilities',
+            description:
+              'Analyze source code for issues, bugs, and security vulnerabilities',
             input_schema: {
               type: 'object',
               properties: {
@@ -68,7 +69,10 @@ export const createMCPAgent = (): CreateAgentRequest => {
                   items: {
                     type: 'object',
                     properties: {
-                      severity: { type: 'string', enum: ['error', 'warning', 'info'] },
+                      severity: {
+                        type: 'string',
+                        enum: ['error', 'warning', 'info'],
+                      },
                       line: { type: 'number' },
                       message: { type: 'string' },
                       rule: { type: 'string' },
@@ -140,7 +144,8 @@ Provide specific, actionable feedback.`,
           {
             name: 'explain_issue',
             description: 'Explain a code issue in detail',
-            template: 'Explain the following code issue:\n\n{{issue}}\n\nInclude examples of how to fix it.',
+            template:
+              'Explain the following code issue:\n\n{{issue}}\n\nInclude examples of how to fix it.',
             arguments: [{ name: 'issue', type: 'string', required: true }],
           },
         ],
@@ -202,7 +207,9 @@ export const createMultiBridgeAgent = (): CreateAgentRequest => {
 };
 
 // Example 3: Helper function to create MCP tools from OSSA capabilities
-export const createMCPToolsFromCapabilities = (capabilities: string[]): MCPTool[] => {
+export const createMCPToolsFromCapabilities = (
+  capabilities: string[]
+): MCPTool[] => {
   return capabilities.map((capability) => ({
     name: capability.replace(/-/g, '_'),
     description: `Execute ${capability} capability`,
@@ -217,7 +224,10 @@ export const validateMCPConfig = (config: MCPBridgeConfig): boolean => {
   }
 
   // Check transport type
-  if (config.server_type && !['stdio', 'sse', 'websocket'].includes(config.server_type)) {
+  if (
+    config.server_type &&
+    !['stdio', 'sse', 'websocket'].includes(config.server_type)
+  ) {
     throw new Error(`Invalid MCP server type: ${config.server_type}`);
   }
 
@@ -314,11 +324,17 @@ export class AgentBridgeManager {
 export const exampleUsage = () => {
   // Create an MCP agent
   const mcpAgentRequest = createMCPAgent();
-  console.log('MCP Agent Configuration:', JSON.stringify(mcpAgentRequest, null, 2));
+  console.log(
+    'MCP Agent Configuration:',
+    JSON.stringify(mcpAgentRequest, null, 2)
+  );
 
   // Create a multi-bridge agent
   const multiBridgeRequest = createMultiBridgeAgent();
-  console.log('Multi-Bridge Agent:', JSON.stringify(multiBridgeRequest, null, 2));
+  console.log(
+    'Multi-Bridge Agent:',
+    JSON.stringify(multiBridgeRequest, null, 2)
+  );
 
   // Validate MCP configuration
   const mcpConfig: MCPBridgeConfig = {
