@@ -1,22 +1,20 @@
 #!/usr/bin/env node
 
 /**
- * TASK 1: Ecosystem Health Scan
- * Run TypeScript/lint checks across all common_npm repos
+ * Ecosystem Health Scan
+ * Task 1 of 5: Run TypeScript/lint checks across all common_npm repos
  */
 
 import { exec } from 'child_process';
-import { promisify } from 'util';
 import fs from 'fs';
 import path from 'path';
+import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-const COMMON_NPM_DIR = '/Users/flux423/Sites/LLM/common_npm';
-
-const repos = [
+const COMMON_NPM_REPOS = [
   'agent-brain',
-  'agent-chat', 
+  'agent-chat',
   'agent-docker',
   'agent-mesh',
   'agent-protocol',
@@ -29,114 +27,135 @@ const repos = [
   'foundation-bridge',
   'rfp-automation',
   'studio-ui',
-  'workflow-engine'
+  'workflow-engine',
 ];
 
-async function scanRepo(repoName) {
-  const repoPath = path.join(COMMON_NPM_DIR, repoName);
-  
-  if (!fs.existsSync(repoPath)) {
-    return { repo: repoName, status: 'NOT_FOUND', errors: [] };
-  }
-  
-  const result = {
-    repo: repoName,
-    status: 'UNKNOWN',
-    typescript: { errors: 0, warnings: 0 },
-    lint: { errors: 0, warnings: 0 },
-    tests: { passed: 0, failed: 0 },
-    errors: []
+const BASE_PATH = '/Users/flux423/Sites/LLM/common_npm';
+
+async function runHealthScan() {
+  console.log('🏥 ECOSYSTEM HEALTH SCAN\n');
+  console.log(`Scanning ${COMMON_NPM_REPOS.length} repositories...\n`);
+
+  const results = {
+    total: COMMON_NPM_REPOS.length,
+    passed: 0,
+    failed: 0,
+    errors: [],
   };
-  
-  try {
-    // TypeScript check
-    try {
-      await execAsync('npm run typecheck || npm run type-check || tsc --noEmit', { 
-        cwd: repoPath,
-        maxBuffer: 1024 * 1024 * 10 
+
+  for (const repo of COMMON_NPM_REPOS) {
+    const repoPath = path.join(BASE_PATH, repo);
+
+    if (!fs.existsSync(repoPath)) {
+      console.log(`⚠️  ${repo}: Directory not found`);
+      results.errors.push({
+        repo,
+        type: 'missing',
+        error: 'Directory not found',
       });
-      result.typescript.status = 'PASS';
-    } catch (err) {
-      result.typescript.status = 'FAIL';
-      const errors = (err.stdout || err.stderr || '').match(/error TS\d+/g) || [];
-      result.typescript.errors = errors.length;
-      result.errors.push(`TypeScript: ${errors.length} errors`);
+      results.failed++;
+      continue;
     }
-    
-    // Lint check
+
+    console.log(`🔍 Scanning ${repo}...`);
+
+    const repoResults = {
+      typescript: { pass: false, errors: 0 },
+      eslint: { pass: false, errors: 0 },
+    };
+
+    // Check TypeScript
     try {
-      await execAsync('npm run lint || npx eslint src', { 
-        cwd: repoPath,
-        maxBuffer: 1024 * 1024 * 10
-      });
-      result.lint.status = 'PASS';
-    } catch (err) {
-      result.lint.status = 'FAIL';
-      const errors = (err.stdout || err.stderr || '').match(/error/gi) || [];
-      result.lint.errors = errors.length;
-      result.errors.push(`Lint: ${errors.length} errors`);
-    }
-    
-    // Quick test
-    try {
-      const { stdout } = await execAsync('npm run test:quick || echo "No test:quick"', {
+      const { stdout, stderr } = await execAsync('npx tsc --noEmit', {
         cwd: repoPath,
         timeout: 30000,
-        maxBuffer: 1024 * 1024 * 10
       });
-      
-      if (stdout.includes('PASS') || stdout.includes('passed')) {
-        result.tests.status = 'PASS';
-      }
-    } catch (err) {
-      result.tests.status = 'FAIL';
-    }
-    
-    result.status = (result.typescript.errors + result.lint.errors) === 0 ? 'HEALTHY' : 'NEEDS_FIX';
-    
-  } catch (error) {
-    result.status = 'ERROR';
-    result.errors.push(error.message);
-  }
-  
-  return result;
-}
 
-async function main() {
-  console.log('🏥 TASK 1: Ecosystem Health Scan\n');
-  console.log('Scanning common_npm repositories...\n');
-  
-  const results = [];
-  
-  for (const repo of repos) {
-    process.stdout.write(`📦 Scanning ${repo}... `);
-    const result = await scanRepo(repo);
-    results.push(result);
-    
-    const icon = result.status === 'HEALTHY' ? '✅' : result.status === 'NEEDS_FIX' ? '⚠️' : '❌';
-    console.log(`${icon} ${result.status}`);
-    
-    if (result.errors.length > 0) {
-      result.errors.forEach(err => console.log(`     ${err}`));
+      if (stderr && stderr.includes('error TS')) {
+        const errorCount = (stderr.match(/error TS/g) || []).length;
+        repoResults.typescript.errors = errorCount;
+        console.log(`   ❌ TypeScript: ${errorCount} errors`);
+      } else {
+        repoResults.typescript.pass = true;
+        console.log(`   ✅ TypeScript: Clean`);
+      }
+    } catch (error) {
+      const errorOutput = error.stderr || error.stdout || '';
+      const errorCount = (errorOutput.match(/error TS/g) || []).length;
+      repoResults.typescript.errors = errorCount;
+      console.log(`   ❌ TypeScript: ${errorCount} errors`);
+    }
+
+    // Check ESLint
+    try {
+      const { stdout } = await execAsync(
+        'npx eslint . --ext .ts,.tsx,.js,.jsx',
+        {
+          cwd: repoPath,
+          timeout: 30000,
+        }
+      );
+
+      repoResults.eslint.pass = true;
+      console.log(`   ✅ ESLint: Clean`);
+    } catch (error) {
+      const errorOutput = error.stdout || '';
+      const errorCount = (errorOutput.match(/✖/g) || []).length;
+      repoResults.eslint.errors = errorCount;
+      console.log(`   ❌ ESLint: ${errorCount} problems`);
+    }
+
+    // Summary for repo
+    if (repoResults.typescript.pass && repoResults.eslint.pass) {
+      console.log(`   ✨ ${repo}: PASSED\n`);
+      results.passed++;
+    } else {
+      console.log(`   ⚠️  ${repo}: NEEDS FIXES\n`);
+      results.failed++;
+      results.errors.push({
+        repo,
+        typescript: repoResults.typescript,
+        eslint: repoResults.eslint,
+      });
     }
   }
-  
-  // Summary
-  console.log('\n📊 Health Summary:');
-  const healthy = results.filter(r => r.status === 'HEALTHY').length;
-  const needsFix = results.filter(r => r.status === 'NEEDS_FIX').length;
-  const errors = results.filter(r => r.status === 'ERROR' || r.status === 'NOT_FOUND').length;
-  
-  console.log(`   ✅ Healthy: ${healthy}/${repos.length}`);
-  console.log(`   ⚠️  Needs Fix: ${needsFix}/${repos.length}`);
-  console.log(`   ❌ Errors: ${errors}/${repos.length}`);
-  
-  // Save report
-  fs.writeFileSync('/tmp/ecosystem-health-report.json', JSON.stringify(results, null, 2));
-  console.log('\n📄 Full report saved: /tmp/ecosystem-health-report.json');
-  
+
+  console.log('\n📊 ECOSYSTEM HEALTH SUMMARY\n');
+  console.log(`Total Repos:    ${results.total}`);
+  console.log(
+    `✅ Passed:      ${results.passed} (${Math.round(
+      (results.passed / results.total) * 100
+    )}%)`
+  );
+  console.log(
+    `❌ Failed:      ${results.failed} (${Math.round(
+      (results.failed / results.total) * 100
+    )}%)`
+  );
+
+  if (results.errors.length > 0) {
+    console.log('\n🔧 REPOS NEEDING FIXES:\n');
+    results.errors.forEach((err) => {
+      if (err.type === 'missing') {
+        console.log(`   ${err.repo}: ${err.error}`);
+      } else {
+        console.log(`   ${err.repo}:`);
+        if (err.typescript && !err.typescript.pass) {
+          console.log(`      TypeScript: ${err.typescript.errors} errors`);
+        }
+        if (err.eslint && !err.eslint.pass) {
+          console.log(`      ESLint: ${err.eslint.errors} problems`);
+        }
+      }
+    });
+  }
+
+  console.log('\n💡 Next Steps:');
+  console.log('   1. Review failing repos above');
+  console.log('   2. Run systematic cleanup on each');
+  console.log('   3. Aim for 0 errors across ecosystem\n');
+
   return results;
 }
 
-main().catch(console.error);
-
+runHealthScan().catch(console.error);
