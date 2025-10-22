@@ -14,7 +14,7 @@ metadata:
     phoenix-project: "aiflow-social-agents"
     ossa-manifest: "social-agent-aiflow.ossa.yaml"
 spec:
-  replicas: 2
+  replicas: 1  # Single replica to conserve cluster resources
   revisionHistoryLimit: 3
   strategy:
     type: RollingUpdate
@@ -144,14 +144,14 @@ spec:
             fieldRef:
               fieldPath: spec.nodeName
         
-        # Resource Limits
+        # Resource Limits - LIGHTWEIGHT for shared clusters
         resources:
           requests:
-            cpu: 500m
-            memory: 512Mi
+            cpu: 50m      # Minimal CPU request
+            memory: 256Mi
           limits:
-            cpu: 1000m
-            memory: 1Gi
+            cpu: 200m     # Reasonable limit
+            memory: 512Mi
         
         # Health Checks
         livenessProbe:

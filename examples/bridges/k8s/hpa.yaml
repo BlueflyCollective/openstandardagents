@@ -13,8 +13,8 @@ spec:
     kind: Deployment
     name: aiflow-social-agent
   
-  minReplicas: 2
-  maxReplicas: 10
+  minReplicas: 1  # Start with just 1 replica to conserve resources
+  maxReplicas: 5  # Lower max to prevent resource exhaustion
   
   behavior:
     scaleDown:
