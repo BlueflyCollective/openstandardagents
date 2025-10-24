@@ -4,17 +4,28 @@
   "title": "OSSA v0.1.9 Agent Manifest Schema",
   "description": "Open Standard for Scalable Agents (OSSA) - The OpenAPI for AI Agents. Specification for declarative agent definition with framework-agnostic portability.",
   "type": "object",
-  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
   "properties": {
     "apiVersion": {
       "type": "string",
       "pattern": "^ossa/v\\d+(\\.\\d+)?(\\.\\d+)?(-[a-zA-Z0-9]+)?$",
       "description": "OSSA API version (semver format with 'ossa/' prefix)",
-      "examples": ["ossa/v1", "ossa/v0.1.9", "ossa/v0.1.9-alpha.1"]
+      "examples": [
+        "ossa/v1",
+        "ossa/v0.1.9",
+        "ossa/v0.1.9-alpha.1"
+      ]
     },
     "kind": {
       "type": "string",
-      "enum": ["Agent"],
+      "enum": [
+        "Agent"
+      ],
       "description": "Resource type - currently only 'Agent' is supported"
     },
     "metadata": {
@@ -45,7 +56,9 @@
   "definitions": {
     "Metadata": {
       "type": "object",
-      "required": ["name"],
+      "required": [
+        "name"
+      ],
       "properties": {
         "name": {
           "type": "string",
@@ -83,7 +96,9 @@
     },
     "AgentSpec": {
       "type": "object",
-      "required": ["role"],
+      "required": [
+        "role"
+      ],
       "properties": {
         "taxonomy": {
           "$ref": "#/definitions/Taxonomy"
@@ -113,43 +128,72 @@
           "$ref": "#/definitions/Observability"
         }
       },
-      "additionalProperties": false
+      "additionalProperties": true
     },
     "Taxonomy": {
       "type": "object",
-      "required": ["domain"],
+      "required": [
+        "domain"
+      ],
       "properties": {
         "domain": {
           "type": "string",
           "description": "Primary domain classification",
-          "examples": ["infrastructure", "security", "compliance", "documentation"]
+          "examples": [
+            "infrastructure",
+            "security",
+            "compliance",
+            "documentation"
+          ]
         },
         "subdomain": {
           "type": "string",
           "description": "Secondary classification within domain",
-          "examples": ["kubernetes", "vulnerability", "generation"]
+          "examples": [
+            "kubernetes",
+            "vulnerability",
+            "generation"
+          ]
         },
         "capability": {
           "type": "string",
           "description": "Specific capability or function",
-          "examples": ["troubleshooting", "scanning", "optimization"]
+          "examples": [
+            "troubleshooting",
+            "scanning",
+            "optimization"
+          ]
         }
       },
       "additionalProperties": false
     },
     "LLMConfig": {
       "type": "object",
-      "required": ["provider", "model"],
+      "required": [
+        "provider",
+        "model"
+      ],
       "properties": {
         "provider": {
           "type": "string",
-          "enum": ["openai", "anthropic", "google", "azure", "ollama", "custom"],
+          "enum": [
+            "openai",
+            "anthropic",
+            "google",
+            "azure",
+            "ollama",
+            "custom"
+          ],
           "description": "LLM provider"
         },
         "model": {
           "type": "string",
           "description": "Model identifier",
-          "examples": ["gpt-4", "claude-3-sonnet-20240229", "gemini-pro"]
+          "examples": [
+            "gpt-4",
+            "claude-3-sonnet-20240229",
+            "gemini-pro"
+          ]
         },
         "temperature": {
           "type": "number",
@@ -185,11 +229,20 @@
     },
     "Tool": {
       "type": "object",
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["mcp", "kubernetes", "http", "grpc", "function", "custom"],
+          "enum": [
+            "mcp",
+            "kubernetes",
+            "http",
+            "grpc",
+            "function",
+            "custom"
+          ],
           "description": "Tool integration type"
         },
         "name": {
@@ -226,7 +279,13 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": ["bearer", "oauth2", "mtls", "apikey", "none"]
+              "enum": [
+                "bearer",
+                "oauth2",
+                "mtls",
+                "apikey",
+                "none"
+              ]
             },
             "credentials": {
               "type": "string",
@@ -242,7 +301,11 @@
       "properties": {
         "level": {
           "type": "string",
-          "enum": ["supervised", "autonomous", "fully_autonomous"],
+          "enum": [
+            "supervised",
+            "autonomous",
+            "fully_autonomous"
+          ],
           "description": "Level of autonomy for agent decision-making"
         },
         "approval_required": {
@@ -344,7 +407,12 @@
             },
             "exporter": {
               "type": "string",
-              "enum": ["otlp", "jaeger", "zipkin", "custom"]
+              "enum": [
+                "otlp",
+                "jaeger",
+                "zipkin",
+                "custom"
+              ]
             },
             "endpoint": {
               "type": "string",
@@ -361,7 +429,11 @@
             },
             "exporter": {
               "type": "string",
-              "enum": ["prometheus", "otlp", "custom"]
+              "enum": [
+                "prometheus",
+                "otlp",
+                "custom"
+              ]
             },
             "endpoint": {
               "type": "string",
@@ -374,12 +446,20 @@
           "properties": {
             "level": {
               "type": "string",
-              "enum": ["debug", "info", "warn", "error"],
+              "enum": [
+                "debug",
+                "info",
+                "warn",
+                "error"
+              ],
               "default": "info"
             },
             "format": {
               "type": "string",
-              "enum": ["json", "text"],
+              "enum": [
+                "json",
+                "text"
+              ],
               "default": "json"
             }
           }
@@ -389,4 +469,3 @@
     }
   }
 }
-
