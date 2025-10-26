@@ -145,7 +145,7 @@ promote-to-main:
     - echo "Merging development to main and creating release tag..."
     - git fetch origin
     - git checkout main
-    - git merge origin/development --no-ff -m "chore: merge development to main for v${OSSA_VERSION} release"
+    - git merge origin/development --no-ff -m "chore merge development to main for v${OSSA_VERSION} release"
     - git tag -a "v${OSSA_VERSION}" -m "Release v${OSSA_VERSION} - OSSA Specification"
     - git push origin main
     - git push origin "v${OSSA_VERSION}"
