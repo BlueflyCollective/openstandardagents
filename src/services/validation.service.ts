@@ -11,8 +11,8 @@ import type {
   ValidationResult,
   SchemaVersion,
   OssaAgent,
-} from '../types/index';
-import { SchemaRepository } from '../repositories/schema.repository';
+} from '../types/index.js';
+import { SchemaRepository } from '../repositories/schema.repository.js';
 
 @injectable()
 export class ValidationService implements IValidationService {

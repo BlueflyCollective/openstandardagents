@@ -4,16 +4,16 @@
  */
 
 // Types
-export * from './types/index';
+export * from './types/index.js';
 
 // Repositories
-export { SchemaRepository } from './repositories/schema.repository';
-export { ManifestRepository } from './repositories/manifest.repository';
+export { SchemaRepository } from './repositories/schema.repository.js';
+export { ManifestRepository } from './repositories/manifest.repository.js';
 
 // Services
-export { ValidationService } from './services/validation.service';
-export { GenerationService } from './services/generation.service';
-export { MigrationService } from './services/migration.service';
+export { ValidationService } from './services/validation.service.js';
+export { GenerationService } from './services/generation.service.js';
+export { MigrationService } from './services/migration.service.js';
 
 // DI Container
-export { container, getService, resetContainer } from './di-container';
+export { container, getService, resetContainer } from './di-container.js';

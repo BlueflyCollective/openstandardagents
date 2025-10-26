@@ -2,6 +2,7 @@
   "name": "@bluefly/open-standards-scalable-agents",
   "version": "1.0.0",
   "description": "OSSA - Open Standard for Scalable Agents. A specification standard for AI agents (like OpenAPI for REST APIs). NOT a framework.",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {

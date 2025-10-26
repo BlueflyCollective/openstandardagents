@@ -5,10 +5,10 @@
 
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { container } from '../../di-container';
-import { ValidationService } from '../../services/validation.service';
-import { ManifestRepository } from '../../repositories/manifest.repository';
-import type { SchemaVersion } from '../../types/index';
+import { container } from '../../di-container.js';
+import { ValidationService } from '../../services/validation.service.js';
+import { ManifestRepository } from '../../repositories/manifest.repository.js';
+import type { SchemaVersion } from '../../types/index.js';
 
 export const validateCommand = new Command('validate')
   .argument('<path>', 'Path to OSSA manifest (YAML or JSON)')

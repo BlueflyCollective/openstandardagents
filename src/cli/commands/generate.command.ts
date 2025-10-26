@@ -5,10 +5,10 @@
 
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { container } from '../../di-container';
-import { GenerationService } from '../../services/generation.service';
-import { ManifestRepository } from '../../repositories/manifest.repository';
-import type { AgentTemplate } from '../../types/index';
+import { container } from '../../di-container.js';
+import { GenerationService } from '../../services/generation.service.js';
+import { ManifestRepository } from '../../repositories/manifest.repository.js';
+import type { AgentTemplate } from '../../types/index.js';
 
 export const generateCommand = new Command('generate')
   .argument(

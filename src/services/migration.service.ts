@@ -4,7 +4,7 @@
  */
 
 import { injectable } from 'inversify';
-import type { OssaAgent } from '../types/index';
+import type { OssaAgent } from '../types/index.js';
 
 /**
  * Legacy v0.1.9 manifest structure

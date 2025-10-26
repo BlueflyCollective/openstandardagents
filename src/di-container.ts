@@ -7,13 +7,13 @@ import { Container } from 'inversify';
 import 'reflect-metadata';
 
 // Repositories
-import { ManifestRepository } from './repositories/manifest.repository';
-import { SchemaRepository } from './repositories/schema.repository';
+import { ManifestRepository } from './repositories/manifest.repository.js';
+import { SchemaRepository } from './repositories/schema.repository.js';
 
 // Services
-import { GenerationService } from './services/generation.service';
-import { MigrationService } from './services/migration.service';
-import { ValidationService } from './services/validation.service';
+import { GenerationService } from './services/generation.service.js';
+import { MigrationService } from './services/migration.service.js';
+import { ValidationService } from './services/validation.service.js';
 
 // Create container
 export const container = new Container();

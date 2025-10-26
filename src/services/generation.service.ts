@@ -4,7 +4,7 @@
  */
 
 import { injectable } from 'inversify';
-import type { AgentTemplate, OssaAgent, Capability } from '../types/index';
+import type { AgentTemplate, OssaAgent, Capability } from '../types/index.js';
 
 @injectable()
 export class GenerationService {

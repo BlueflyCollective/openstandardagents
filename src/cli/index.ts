@@ -7,14 +7,17 @@
 
 import 'reflect-metadata';
 import { program } from 'commander';
-import { validateCommand } from './commands/validate.command';
-import { generateCommand } from './commands/generate.command';
-import { migrateCommand } from './commands/migrate.command';
+import { validateCommand } from './commands/validate.command.js';
+import { generateCommand } from './commands/generate.command.js';
+import { migrateCommand } from './commands/migrate.command.js';
 
 // Load package.json for version
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const packageJsonPath = path.join(__dirname, '../../package.json');
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 

@@ -5,10 +5,10 @@
 
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { container } from '../../di-container';
-import { MigrationService } from '../../services/migration.service';
-import { ManifestRepository } from '../../repositories/manifest.repository';
-import { ValidationService } from '../../services/validation.service';
+import { container } from '../../di-container.js';
+import { MigrationService } from '../../services/migration.service.js';
+import { ManifestRepository } from '../../repositories/manifest.repository.js';
+import { ValidationService } from '../../services/validation.service.js';
 
 export const migrateCommand = new Command('migrate')
   .argument('<source>', 'Path to v0.1.9 manifest to migrate')
