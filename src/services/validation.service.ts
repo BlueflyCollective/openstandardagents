@@ -5,14 +5,14 @@
 
 import Ajv, { ErrorObject } from 'ajv';
 import addFormats from 'ajv-formats';
-import { injectable, inject } from 'inversify';
+import { inject, injectable } from 'inversify';
+import { SchemaRepository } from '../repositories/schema.repository.js';
 import type {
   IValidationService,
-  ValidationResult,
-  SchemaVersion,
   OssaAgent,
+  SchemaVersion,
+  ValidationResult,
 } from '../types/index.js';
-import { SchemaRepository } from '../repositories/schema.repository.js';
 
 @injectable()
 export class ValidationService implements IValidationService {
@@ -31,12 +31,13 @@ export class ValidationService implements IValidationService {
 
   /**
    * Validate OSSA agent manifest
-   * @param manifest - OSSA version (e.g., '1.0', '0.2.2', '0.1.9')
+   * @param manifest - Manifest object to validate
+   * @param version - OSSA version (e.g., '0.2.2', '0.1.9', '1.0')
    * @returns Validation result with errors and warnings
    */
   async validate(
     manifest: unknown,
-    version: SchemaVersion = '1.0'
+    version: SchemaVersion = '0.2.2'
   ): Promise<ValidationResult> {
     try {
       // 1. Load schema for version
@@ -151,7 +152,7 @@ export class ValidationService implements IValidationService {
    */
   async validateMany(
     manifests: unknown[],
-    version: SchemaVersion = '1.0'
+    version: SchemaVersion = '0.2.2'
   ): Promise<ValidationResult[]> {
     return Promise.all(
       manifests.map((manifest) => this.validate(manifest, version))
