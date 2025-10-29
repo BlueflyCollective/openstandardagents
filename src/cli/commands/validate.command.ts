@@ -3,19 +3,19 @@
  * Validate OSSA agent manifest against JSON schema
  */
 
-import { Command } from 'commander';
 import chalk from 'chalk';
+import { Command } from 'commander';
 import { container } from '../../di-container.js';
-import { ValidationService } from '../../services/validation.service.js';
 import { ManifestRepository } from '../../repositories/manifest.repository.js';
+import { ValidationService } from '../../services/validation.service.js';
 import type { SchemaVersion } from '../../types/index.js';
 
 export const validateCommand = new Command('validate')
   .argument('<path>', 'Path to OSSA manifest (YAML or JSON)')
   .option(
     '-s, --schema <version>',
-    'Schema version (1.0, 0.2.2, or 0.1.9)',
-    '1.0'
+    'Schema version (0.2.2, 0.1.9, or 1.0)',
+    '0.2.2'
   )
   .option('-v, --verbose', 'Verbose output with detailed information')
   .description('Validate OSSA agent manifest against JSON schema')
