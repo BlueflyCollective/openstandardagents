@@ -1,196 +1,256 @@
 /**
  * Migration Service
- * Migrates OSSA manifests from v0.1.9 to v1.0
+ * Migrates OSSA manifests between versions (v0.1.9 to v0.2.2, v1.0 to v0.2.2)
  */
 
 import { injectable } from 'inversify';
-import type { OssaAgent } from '../types/index.js';
+import type { SchemaVersion } from '../types/index.js';
 
 /**
- * Legacy v0.1.9 manifest structure
+ * v1.0 manifest structure
  */
-interface LegacyManifest {
-  apiVersion: string;
-  kind: string;
-  metadata: {
+interface V1Manifest {
+  ossaVersion: '1.0';
+  agent: {
+    id: string;
     name: string;
-    version?: string;
+    version: string;
     description?: string;
-    labels?: Record<string, string>;
-    annotations?: Record<string, string>;
-  };
-  spec: {
-    taxonomy?: {
-      domain?: string;
-      subdomain?: string;
-      capability?: string;
-    };
     role: string;
-    llm?: Record<string, any>;
-    tools?: any[];
-    autonomy?: Record<string, any>;
-    constraints?: Record<string, any>;
-    observability?: Record<string, any>;
+    tags?: string[];
+    runtime?: any;
+    capabilities?: any[];
+    llm?: any;
+    tools?: any;
+    autonomy?: any;
+    constraints?: any;
+    observability?: any;
+    monitoring?: any;
+    integration?: any;
+    deployment?: any;
   };
-  extensions?: Record<string, any>;
+  metadata?: {
+    authors?: any;
+    license?: string;
+    repository?: string;
+  };
 }
 
 @injectable()
 export class MigrationService {
   /**
-   * Migrate v0.1.9 manifest to v1.0
-   * @param legacy - Legacy v0.1.9 manifest
-   * @returns Migrated v1.0 manifest
+   * Migrate manifest to target version
+   * @param manifest - Source manifest
+   * @param targetVersion - Target version
+   * @returns Migrated manifest
    */
-  async migrate(legacy: unknown): Promise<OssaAgent> {
-    const legacyManifest = legacy as LegacyManifest;
+  async migrate(manifest: unknown, targetVersion: SchemaVersion = '0.2.2'): Promise<any> {
+    const m = manifest as any;
 
-    // Validate it's a v0.1.9 manifest
-    if (!legacyManifest.apiVersion || !legacyManifest.kind) {
-      throw new Error('Not a valid v0.1.9 manifest');
+    // Detect source version
+    if (m.apiVersion === 'ossa/v1' && m.kind === 'Agent') {
+      // Already v0.2.2 format
+      return manifest;
     }
 
-    if (legacyManifest.kind !== 'Agent') {
-      throw new Error(`Unsupported kind: ${legacyManifest.kind}`);
+    if (m.ossaVersion === '1.0' && m.agent) {
+      // v1.0 to v0.2.2
+      return this.migrateV1ToV022(m as V1Manifest);
     }
 
-    // Convert to v1.0 format
-    const manifest: OssaAgent = {
-      ossaVersion: '1.0',
-      agent: {
-        id: this.normalizeId(legacyManifest.metadata.name),
-        name: legacyManifest.metadata.name,
-        version: legacyManifest.metadata.version || '1.0.0',
-        role: this.mapRole(legacyManifest.spec.role),
-        description: legacyManifest.metadata.description,
-        runtime: this.migrateRuntime(legacyManifest),
-        capabilities: this.migrateCapabilities(legacyManifest),
+    if (m.apiVersion && m.kind && m.metadata && m.spec) {
+      // Already in v0₁.9/v0.2.2 format, just return
+      return manifest;
+    }
+
+    throw new Error('Unsupported manifest format');
+  }
+
+  /**
+   * Migrate v1.0 manifest to v0.2.2
+   */
+  private migrateV1ToV022(v1: V1Manifest): any {
+    const migrated: any = {
+      apiVersion: 'ossa/v1',
+      kind: 'Agent',
+      metadata: {
+        name: v1.agent.id,
+        version: v1.agent.version || '0.1.0',
+        description: v1.agent.description || '',
+        labels: {} as Record<string, string>,
+        annotations: {
+          'ossa.io/migration': 'v1.0 to v0.2.2',
+          'ossa.io/migrated-date': new Date().toISOString().split('T')[0]
+        }
       },
+      spec: {
+        role: v1.agent.role
+      }
     };
 
-    // Migrate LLM config
-    if (legacyManifest.spec.llm) {
-      manifest.agent.llm = legacyManifest.spec.llm;
+    // Convert tags to labels
+    if (v1.agent.tags && Array.isArray(v1.agent.tags)) {
+      v1.agent.tags.forEach(tag => {
+        migrated.metadata.labels[tag] = 'true';
+      });
     }
 
-    // Migrate tools (if any)
-    if (legacyManifest.spec.tools && legacyManifest.spec.tools.length > 0) {
-      manifest.agent.tools = legacyManifest.spec.tools;
+    // Copy metadata
+    if (v1.metadata) {
+      if (v1.metadata.authors) {
+        migrated.metadata.annotations.author = Array.isArray(v1.metadata.authors) 
+          ? v1.metadata.authors.join(', ') 
+          : v1.metadata.authors;
+      }
+      if (v1.metadata.license) {
+        migrated.metadata.annotations.license = v1.metadata.license;
+      }
+      if (v1.metadata.repository) {
+        migrated.metadata.annotations.repository = v1.metadata.repository;
+      }
     }
 
-    // Migrate extensions (move from spec.extensions to root.extensions)
-    if (legacyManifest.extensions) {
-      manifest.extensions = legacyManifest.extensions;
-    }
-
-    return manifest;
-  }
-
-  /**
-   * Normalize ID to DNS-1123 format
-   */
-  private normalizeId(name: string): string {
-    return name
-      .toLowerCase()
-      .replace(/[^a-z0-9-]/g, '-')
-      .replace(/^-+|-+$/g, '')
-      .replace(/-+/g, '-')
-      .substring(0, 63);
-  }
-
-  /**
-   * Map v0.1.9 role to v1.0 role enum
-   */
-  private mapRole(role: string): string {
-    const roleMap: Record<string, string> = {
-      // Direct mappings
-      chat: 'chat',
-      compliance: 'compliance',
-      workflow: 'workflow',
-      audit: 'audit',
-      orchestration: 'orchestration',
-      monitoring: 'monitoring',
-      data_processing: 'data_processing',
-      integration: 'integration',
-      development: 'development',
-      // Legacy mappings
-      worker: 'custom',
-      orchestrator: 'orchestration',
-      integrator: 'integration',
-      monitor: 'monitoring',
-      critic: 'audit',
-      judge: 'audit',
-      governor: 'compliance',
+    // Detect taxonomy
+    migrated.spec.taxonomy = {
+      domain: this.detectDomain(v1.agent),
+      subdomain: this.detectSubdomain(v1.agent),
+      capability: this.detectCapability(v1.agent)
     };
 
-    return roleMap[role] || 'custom';
-  }
-
-  /**
-   * Migrate runtime configuration
-   */
-  private migrateRuntime(legacy: LegacyManifest): any {
-    // In v0.1.9, runtime wasn't explicit
-    // Infer from extensions or default to docker
-    const kagentExt = legacy.extensions?.kagent;
-
-    if (kagentExt && kagentExt.kubernetes) {
-      return {
-        type: 'k8s',
+    // Convert LLM config with normalization
+    if (v1.agent.llm) {
+      migrated.spec.llm = {
+        provider: v1.agent.llm.provider === 'auto' ? 'openai' : v1.agent.llm.provider,
+        model: v1.agent.llm.model,
+        temperature: v1.agent.llm.temperature,
+        maxTokens: v1.agent.llm.maxTokens,
+        topP: v1.agent.llm.topP,
+        frequencyPenalty: v1.agent.llm.frequencyPenalty,
+        presencePenalty: v1.agent.llm.presencePenalty
       };
     }
 
-    return {
-      type: 'docker',
-      image: `${this.normalizeId(legacy.metadata.name)}:${legacy.metadata.version || '1.0.0'}`,
-    };
+    // Convert capabilities to tools
+    if (v1.agent.capabilities && Array.isArray(v1.agent.capabilities)) {
+      migrated.spec.tools = v1.agent.capabilities.map(cap => ({
+        type: 'mcp',
+        name: cap.name || 'unnamed_tool',
+        server: v1.agent.integration?.mcp?.server_name || migrated.metadata.name
+      }));
+    }
+
+    // Convert autonomy, constraints
+    if (v1.agent.autonomy) migrated.spec.autonomy = v1.agent.autonomy;
+    if (v1.agent.constraints) migrated.spec.constraints = v1.agent.constraints;
+
+    // Handle observability with proper structure
+    if (v1.agent.observability || v1.agent.monitoring) {
+      const obs = v1.agent.observability || v1.agent.monitoring;
+      let normalizedMetrics: any = obs.metrics;
+      
+      if (normalizedMetrics === true) {
+        normalizedMetrics = { enabled: true };
+      } else if (!normalizedMetrics || typeof normalizedMetrics !== 'object') {
+        normalizedMetrics = { enabled: true };
+      }
+      
+      if (obs.tracing || normalizedMetrics || obs.logging) {
+        migrated.spec.observability = {
+          tracing: obs.tracing || { enabled: true },
+          metrics: normalizedMetrics,
+          logging: obs.logging || { level: 'info', format: 'json' }
+        };
+      }
+    }
+
+    // Create extensions section
+    migrated.spec.extensions = {};
+
+    // MCP extension
+    if (v1.agent.integration?.mcp) {
+      migrated.spec.extensions.mcp = {
+        enabled: v1.agent.integration.mcp.enabled !== false,
+        server_type: v1.agent.integration.mcp.protocol || v1.agent.integration.mcp.server_type || 'stdio'
+      };
+    }
+
+    // Buildkit extension
+    if (v1.agent.deployment || v1.agent.runtime) {
+      migrated.spec.extensions.buildkit = {
+        deployment: {
+          replicas: v1.agent.deployment?.replicas || { min: 1, max: 4 }
+        },
+        container: {
+          image: v1.agent.runtime?.image,
+          runtime: v1.agent.runtime?.type || 'docker',
+          resources: v1.agent.runtime?.resources || {}
+        }
+      };
+    }
+
+    // kagent extension
+    if (v1.agent.runtime?.type === 'k8s') {
+      migrated.spec.extensions.kagent = {
+        kubernetes: {
+          namespace: 'default',
+          labels: { app: migrated.metadata.name }
+        },
+        deployment: { replicas: 2, strategy: 'rolling-update' }
+      };
+    }
+
+    // Runtime extension
+    if (v1.agent.runtime) {
+      migrated.spec.extensions.runtime = v1.agent.runtime;
+    }
+
+    // Integration extension
+    if (v1.agent.integration) {
+      migrated.spec.extensions.integration = v1.agent.integration;
+    }
+
+    return migrated;
   }
 
-  /**
-   * Migrate capabilities
-   * In v0.1.9, capabilities were implied by tools/role
-   * In v1.0, capabilities are explicit OpenAPI-style operations
-   */
-  private migrateCapabilities(legacy: LegacyManifest): any[] {
-    // Generate basic capability from role
-    const role = legacy.spec.role || 'custom';
+  private detectDomain(agent: any): string {
+    const text = [agent.id, agent.name, agent.description, ...(agent.tags || [])].join(' ').toLowerCase();
+    if (text.includes('infrastructure') || text.includes('k8s')) return 'infrastructure';
+    if (text.includes('security') || text.includes('compliance')) return 'security';
+    if (text.includes('data') || text.includes('vector')) return 'data';
+    if (text.includes('chat')) return 'conversation';
+    if (text.includes('workflow')) return 'automation';
+    return 'integration';
+  }
 
-    return [
-      {
-        name: `${role}_operation`,
-        description: `Primary ${role} operation`,
-        input_schema: {
-          type: 'object',
-          properties: {
-            input: { type: 'string', description: 'Input data' },
-          },
-        },
-        output_schema: {
-          type: 'object',
-          properties: {
-            output: { type: 'string', description: 'Output result' },
-          },
-        },
-      },
-    ];
+  private detectSubdomain(agent: any): string {
+    const text = [agent.id, agent.name].join(' ').toLowerCase();
+    if (text.includes('kubernetes') || text.includes('k8s')) return 'kubernetes';
+    if (text.includes('protocol') || text.includes('mcp')) return 'protocol';
+    if (text.includes('workflow')) return 'workflow';
+    return 'general';
+  }
+
+  private detectCapability(agent: any): string {
+    const text = [agent.id, agent.name].join(' ').toLowerCase();
+    if (text.includes('troubleshoot')) return 'troubleshooting';
+    if (text.includes('monitor')) return 'monitoring';
+    if (text.includes('route')) return 'routing';
+    if (text.includes('search')) return 'search';
+    return 'general';
   }
 
   /**
    * Migrate multiple manifests
-   * @param legacyManifests - Array of legacy manifests
-   * @returns Array of migrated manifests
    */
-  async migrateMany(legacyManifests: unknown[]): Promise<OssaAgent[]> {
-    return Promise.all(legacyManifests.map((m) => this.migrate(m)));
+  async migrateMany(manifests: unknown[], targetVersion: SchemaVersion = '0.2.2'): Promise<any[]> {
+    return Promise.all(manifests.map(m => this.migrate(m, targetVersion)));
   }
 
   /**
    * Check if manifest needs migration
-   * @param manifest - Manifest to check
-   * @returns True if migration needed
    */
   needsMigration(manifest: unknown): boolean {
     const m = manifest as any;
-    return !!(m.apiVersion && m.kind && !m.ossaVersion);
+    return !!(m.ossaVersion === '1.0' && m.agent);
   }
 }
