@@ -157,29 +157,30 @@ lint:
     - npm run lint || true
   allow_failure: true
 
-# promote-to-main job disabled - use GitLab merge requests for main branch
-# Manual merges to main are the proper workflow
-#
-# promote-to-main:
-#   stage: promote
-#   image: node:${NODE_VERSION}
-#   before_script:
-#     - apt-get update && apt-get install -y git
-#     - git config --global user.email "ci@gitlab.bluefly.io"
-#     - git config --global user.name "GitLab CI"
-#   script:
-#     - echo "Merging development to main and creating release tag..."
-#     - git fetch origin
-#     - git checkout main
-#     - git merge origin/development --no-ff -m "chore merge development to main for v${OSSA_VERSION} release"
-#     - git tag -a "v${OSSA_VERSION}" -m "Release v${OSSA_VERSION} - OSSA Specification"
-#     - git push origin main
-#     - git push origin "v${OSSA_VERSION}"
-#   rules:
-#     - if: $CI_COMMIT_BRANCH == "development"
-#       when: manual
-#   needs:
-#     - validate:openapi
-#     - validate:schemas
-#     - test:unit
-#     - lint
+promote-to-main:
+  stage: promote
+  image: node:${NODE_VERSION}
+  before_script:
+    - apt-get update && apt-get install -y git
+    - git config --global user.email "thomas.scola@bluefly.io"
+    - git config --global user.name "Thomas Scola, Founder & CEO of Bluefly.io"
+  script:
+    - echo "🚀 Merging development to main branch..."
+    - git fetch origin
+    - git checkout main
+    - git pull origin main
+    - git merge origin/development --no-ff -m "chore: merge development to main [skip ci]"
+    - git push origin main
+    - echo "✅ Development merged to main successfully"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development"
+      when: manual
+      allow_failure: false
+  environment:
+    name: production
+    action: start
+  needs:
+    - validate:openapi
+    - validate:schemas
+    - test:unit
+    - semantic-release:development
