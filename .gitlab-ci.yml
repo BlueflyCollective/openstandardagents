@@ -11,7 +11,7 @@ variables:
 
 validate:openapi:
   stage: validate
-  image: node:${NODE_VERSION}
+  image: node:22
   script:
     - echo "Validating OSSA OpenAPI specifications..."
     - npm install -g @redocly/cli
@@ -19,7 +19,7 @@ validate:openapi:
   allow_failure: true
 validate:schemas:
   stage: validate
-  image: node:${NODE_VERSION}
+  image: node:22
   script:
     - echo "Validating OSSA JSON schemas..."
     - npm install
@@ -32,7 +32,7 @@ validate:schemas:
   allow_failure: true
 test:unit:
   stage: test
-  image: node:${NODE_VERSION}
+  image: node:22
   script:
     - echo "Running OSSA specification tests..."
     - npm install
@@ -49,7 +49,7 @@ test:unit:
   allow_failure: true
 build:docs:
   stage: build
-  image: node:${NODE_VERSION}
+  image: node:22
   script:
     - echo "Building OSSA documentation..."
     - npm install -g @redocly/cli
@@ -202,4 +202,3 @@ promote-to-main:
     - validate:openapi
     - validate:schemas
     - test:unit
-    - semantic-release:development
