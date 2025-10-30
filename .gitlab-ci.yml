@@ -8,7 +8,6 @@ stages:
 variables:
   NODE_VERSION: '22'
   OSSA_VERSION: '0.2.2'
- dred
 
 validate:openapi:
   stage: validate
@@ -85,8 +84,8 @@ semantic-release:development:
   image: node:${NODE_VERSION}
   before_script:
     - npm install
-    - git config --global user.email "ci@gitlab.bluefly.io"
-    - git config --global user.name "GitLab CI"
+    - git config --global user.email "thomas.scola@bluefly.io"
+    - git config --global user.name "Thomas Scola, Founder & CEO of Bluefly.io"
   script:
     - echo "Running semantic-release for development branch..."
     - npx semantic-release
