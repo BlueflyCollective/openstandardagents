@@ -3,7 +3,7 @@
 # All logic lives in gitlab_components project
 
 include:
-  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@v1.0.0
+  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@v0.2.3
     inputs:
       project_name: "OSSA"
       project_version: "0.1.0"

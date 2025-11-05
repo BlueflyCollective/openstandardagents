@@ -58,6 +58,9 @@
         },
         "crewai": {
           "$ref": "#/definitions/CrewAIExtension"
+        },
+        "openai_agents": {
+          "$ref": "#/definitions/OpenAIAgentsExtension"
         }
       },
       "additionalProperties": true
@@ -723,6 +726,178 @@
             "type": "string"
           },
           "description": "CrewAI tool names"
+        }
+      },
+      "additionalProperties": true
+    },
+    "OpenAIAgentsExtension": {
+      "type": "object",
+      "description": "OpenAI Agents SDK integration extension",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable OpenAI Agents SDK bridge"
+        },
+        "agent_id": {
+          "type": "string",
+          "description": "OpenAI agent ID (optional, auto-generated if not provided)"
+        },
+        "instructions": {
+          "type": "string",
+          "description": "Agent instructions/prompt (overrides spec.role if provided)"
+        },
+        "model": {
+          "type": "string",
+          "enum": [
+            "gpt-4o",
+            "gpt-4o-mini",
+            "gpt-4-turbo",
+            "gpt-3.5-turbo"
+          ],
+          "default": "gpt-4o-mini",
+          "description": "OpenAI model to use for the agent"
+        },
+        "tools_mapping": {
+          "type": "array",
+          "description": "Map OSSA capabilities to OpenAI tools",
+          "items": {
+            "type": "object",
+            "required": [
+              "ossa_capability"
+            ],
+            "properties": {
+              "ossa_capability": {
+                "type": "string",
+                "description": "OSSA capability name to map"
+              },
+              "openai_tool_name": {
+                "type": "string",
+                "description": "OpenAI tool name (defaults to ossa_capability if not provided)"
+              },
+              "description": {
+                "type": "string",
+                "description": "Tool description (defaults to OSSA capability description)"
+              },
+              "parameters": {
+                "type": "object",
+                "description": "OpenAI tool parameter schema (auto-generated from OSSA input_schema if not provided)"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "sub_agents": {
+          "type": "array",
+          "description": "Sub-agent handoffs configuration",
+          "items": {
+            "type": "object",
+            "required": [
+              "agent_id",
+              "ossa_agent_ref"
+            ],
+            "properties": {
+              "agent_id": {
+                "type": "string",
+                "description": "OpenAI sub-agent identifier"
+              },
+              "ossa_agent_ref": {
+                "type": "string",
+                "description": "Reference to OSSA agent (metadata.name or agent ID)"
+              },
+              "handoff_conditions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Conditions that trigger handoff to this sub-agent"
+              },
+              "instructions": {
+                "type": "string",
+                "description": "Sub-agent specific instructions"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "guardrails": {
+          "type": "object",
+          "description": "Safety guardrails configuration",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "policies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Guardrail policy names (maps to OSSA compliance frameworks)"
+            },
+            "max_tool_calls": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Maximum tool calls per agent execution"
+            },
+            "timeout_seconds": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Maximum execution time in seconds"
+            }
+          },
+          "additionalProperties": false
+        },
+        "memory": {
+          "type": "object",
+          "description": "Session memory configuration",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "session",
+                "persistent"
+              ],
+              "default": "session",
+              "description": "Memory storage type"
+            },
+            "max_messages": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Maximum messages to retain in memory"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tracing": {
+          "type": "object",
+          "description": "Observability and tracing configuration",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "provider": {
+              "type": "string",
+              "enum": [
+                "langfuse",
+                "langsmith",
+                "custom"
+              ],
+              "default": "langfuse",
+              "description": "Tracing provider"
+            },
+            "endpoint": {
+              "type": "string",
+              "format": "uri",
+              "description": "Custom tracing endpoint (for provider=custom)"
+            }
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": true
