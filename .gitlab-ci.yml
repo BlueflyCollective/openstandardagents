@@ -37,7 +37,7 @@ test:
   image: node:${NODE_VERSION}
   script:
     - npm ci
-    - npm test -- --coverage --coverageReporters=text --coverageReporters=lcov
+    - npm test -- --coverage
   coverage: '/All files\s+\|\s+(\d+\.\d+)%/'
   artifacts:
     reports:
