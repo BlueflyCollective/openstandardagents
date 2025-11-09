@@ -2,7 +2,7 @@
 # Uses GitLab CI Components from gitlab_components repository
 
 include:
-  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@v0.2.1
+  - component: gitlab.bluefly.io/llm/gitlab_components/templates/workflow/golden@v0.2.1
     inputs:
       project_name: "OSSA"
       project_version: "0.1.8"
