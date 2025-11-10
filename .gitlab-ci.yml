@@ -1,115 +1,22 @@
-stages:
-  - validate
-  - test
-  - build
-  - deploy
-  - release
-variables:
-  NODE_VERSION: "20"
-  OSSA_VERSION: "0.2.1"
-validate:openapi:
-  stage: validate
-  image: node:${NODE_VERSION}
-  script:
-    - echo "Validating OSSA OpenAPI specifications..."
-    - npm install -g @redocly/cli
-    - redocly lint openapi/**/*.yaml || true
-  allow_failure: true
-validate:schemas:
-  stage: validate
-  image: node:${NODE_VERSION}
-  script:
-    - echo "Validating OSSA JSON schemas..."
-    - npm install
-    - npm run validate:examples || true
-  artifacts:
-    reports:
-      junit: test-results.xml
-    paths:
-      - test-results.xml
-  allow_failure: true
-test:unit:
-  stage: test
-  image: node:${NODE_VERSION}
-  script:
-    - echo "Running OSSA specification tests..."
-    - npm install
-    - npm run test || true
-  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
-  artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage/cobertura-coverage.xml
-      junit: junit.xml
-    paths:
-      - coverage/
-  allow_failure: true
-build:docs:
-  stage: build
-  image: node:${NODE_VERSION}
-  script:
-    - echo "Building OSSA documentation..."
-    - npm install -g @redocly/cli
-    - mkdir -p public/api
-    - |
-      for spec in openapi/**/*.yaml; do
-        if [ -f "$spec" ]; then
-          filename=$(basename "$spec" .yaml)
-          echo "Generating docs for $filename..."
-          redocly build-docs "$spec" -o "public/api/${filename}.html" || true
-        fi
-      done
-  artifacts:
-    paths:
-      - public/
-    expire_in: 1 week
-pages:
-  stage: deploy
-  dependencies:
-    - build:docs
-  script:
-    - echo "Deploying OSSA documentation to GitLab Pages..."
-    - ls -la public/
-  artifacts:
-    paths:
-      - public
-  only:
-    - main
-    - development
-release:gitlab:
-  stage: release
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
-  script:
-    - echo "Creating OSSA v${OSSA_VERSION} GitLab release..."
-  release:
-    tag_name: v${OSSA_VERSION}
-    description: OSSA Specification v${OSSA_VERSION} - The OpenAPI for AI Agents
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: manual
-    - when: never
+---
+# Minimal GitLab CI/CD using Components
+# All logic lives in gitlab_components project
 
-release:npm:
-  stage: release
-  image: node:${NODE_VERSION}
-  script:
-    - echo "Publishing OSSA v${OSSA_VERSION} to npm..."
-    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-    - npm whoami
-    - npm publish --access public
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: manual
-    - when: never
-  needs:
-    - release:gitlab
-  dependencies: []
-lint:
-  stage: validate
-  image: node:${NODE_VERSION}
-  script:
-    - echo "Linting OSSA codebase..."
-    - npm install
-    - npm run lint || true
-  allow_failure: true
+include:
+  - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@v0.2.3
+    inputs:
+      project_name: "OSSA"
+      project_version: "0.1.0"
+      project_type: "application"
+      node_version: "20"
+      package_manager: "npm"
+      enable_comprehensive_testing: true
+      enable_security_scanning: true
+      fail_on_security_issues: false
+      deploy_to_staging: "manual"
+      deploy_to_production: "manual"
+
+variables:
+  DOCKER_BUILDKIT: "1"
+  GIT_STRATEGY: fetch
+  GIT_DEPTH: 1

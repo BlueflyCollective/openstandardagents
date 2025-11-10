@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 
 agent:
   # Identity
@@ -20,13 +20,13 @@ agent:
     type: edge
     image: ossa/edge-agent:1.0.0-arm64
     requirements:
-      python: ">=3.9"
+      python: '>=3.9'
       packages:
         - fastapi
         - uvicorn
     resources:
-      cpu: "100m"
-      memory: "128Mi"
+      cpu: '100m'
+      memory: '128Mi'
     health_check:
       type: http
       endpoint: /health

@@ -34,16 +34,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/GenerateRequest"
+              $ref: '#/components/schemas/GenerateRequest'
       responses:
-        "200":
+        '200':
           description: Helm chart generated
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GenerateResponse"
-        "400":
-          $ref: "#/components/responses/BadRequest"
+                $ref: '#/components/schemas/GenerateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
 
   /generate/batch:
     post:
@@ -55,14 +55,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BatchGenerateRequest"
+              $ref: '#/components/schemas/BatchGenerateRequest'
       responses:
-        "200":
+        '200':
           description: Batch generation complete
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BatchGenerateResponse"
+                $ref: '#/components/schemas/BatchGenerateResponse'
 
   /validate:
     post:
@@ -82,12 +82,12 @@ paths:
                   type: string
                   format: binary
       responses:
-        "200":
+        '200':
           description: Validation result
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ValidationResponse"
+                $ref: '#/components/schemas/ValidationResponse'
 
   /templates:
     get:
@@ -95,12 +95,12 @@ paths:
       operationId: listTemplates
       tags: [templates]
       responses:
-        "200":
+        '200':
           description: Template list
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TemplateListResponse"
+                $ref: '#/components/schemas/TemplateListResponse'
 
     post:
       summary: Create custom template
@@ -111,14 +111,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TemplateCreateRequest"
+              $ref: '#/components/schemas/TemplateCreateRequest'
       responses:
-        "201":
+        '201':
           description: Template created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Template"
+                $ref: '#/components/schemas/Template'
 
 components:
   schemas:
@@ -131,7 +131,7 @@ components:
           type: object
           description: OSSA agent manifest
         options:
-          $ref: "#/components/schemas/GenerationOptions"
+          $ref: '#/components/schemas/GenerationOptions'
 
     GenerationOptions:
       type: object
@@ -281,7 +281,7 @@ components:
               manifest:
                 type: object
               options:
-                $ref: "#/components/schemas/GenerationOptions"
+                $ref: '#/components/schemas/GenerationOptions'
 
     BatchGenerateResponse:
       type: object
@@ -350,7 +350,7 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/Template"
+            $ref: '#/components/schemas/Template'
 
     TemplateCreateRequest:
       type: object
@@ -386,4 +386,4 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'

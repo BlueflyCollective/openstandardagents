@@ -4,17 +4,16 @@
 spec:
   inputs:
     manifest_path:
-      default: ".agents"
-      description: "Path to agent manifests"
+      default: '.agents'
+      description: 'Path to agent manifests'
     schema_version:
-      default: "0.1.9"
-      description: "OSSA schema version to validate against"
+      default: '0.1.9'
+      description: 'OSSA schema version to validate against'
     strict_mode:
       default: true
-      description: "Enable strict validation mode"
+      description: 'Enable strict validation mode'
 
 ---
-
 .agent-validator:
   image: node:20-alpine
   stage: validate

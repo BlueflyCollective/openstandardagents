@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 
 agent:
   # Identity
@@ -18,16 +18,16 @@ agent:
   # Runtime
   runtime:
     type: local
-    command: ["npx", "tsx", "src/index.ts"]
+    command: ['npx', 'tsx', 'src/index.ts']
     requirements:
-      node: ">=20.0.0"
+      node: '>=20.0.0'
       packages:
         - typescript
         - openai
         - prettier
     resources:
-      cpu: "1000m"
-      memory: "1Gi"
+      cpu: '1000m'
+      memory: '1Gi'
     health_check:
       type: http
       endpoint: /health

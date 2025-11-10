@@ -38,7 +38,7 @@ pre-commit:
             npm run format
           fi
         fi
-      root: "."
+      root: '.'
       stage_fixed: true
       skip:
         - merge
@@ -50,7 +50,7 @@ pre-commit:
             npm run lint
           fi
         fi
-      root: "."
+      root: '.'
       files: git diff --cached --name-only --diff-filter=ACM
       skip:
         - merge
@@ -65,7 +65,7 @@ pre-push:
             npm test
           fi
         fi
-      root: "."
+      root: '.'
       skip:
         - merge
         - rebase
@@ -74,7 +74,7 @@ pre-push:
         if [ -f "package.json" ] && command -v npm >/dev/null 2>&1; then
           npm audit --audit-level=moderate || true
         fi
-      root: "."
+      root: '.'
       skip:
         - merge
         - rebase

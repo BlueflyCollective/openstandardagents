@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: OSSA Agent API Specification
-  version: "@bluefly/ossa/v0.1.9"
+  version: '@bluefly/ossa/v0.1.9'
   description: |
     Complete OpenAPI 3.1 specification for an OSSA-compliant agent.
     This specification defines the complete interface that every OSSA agent must implement,
@@ -158,7 +158,25 @@ paths:
           description: Filter operations by domain
           schema:
             type: string
-            enum: [nlp, vision, reasoning, data, documentation, api-design, validation, orchestration, monitoring, security, compliance, testing, deployment, audio, speech, interaction]
+            enum:
+              [
+                nlp,
+                vision,
+                reasoning,
+                data,
+                documentation,
+                api-design,
+                validation,
+                orchestration,
+                monitoring,
+                security,
+                compliance,
+                testing,
+                deployment,
+                audio,
+                speech,
+                interaction,
+              ]
       responses:
         '200':
           description: Available operations
@@ -451,7 +469,18 @@ components:
           type: string
         type:
           type: string
-          enum: [orchestrator, worker, critic, judge, trainer, governor, monitor, integrator, voice]
+          enum:
+            [
+              orchestrator,
+              worker,
+              critic,
+              judge,
+              trainer,
+              governor,
+              monitor,
+              integrator,
+              voice,
+            ]
         subtype:
           type: string
           pattern: '^[a-z]+\.[a-z]+$'
@@ -460,7 +489,25 @@ components:
           minItems: 1
           items:
             type: string
-            enum: [nlp, vision, reasoning, data, documentation, api-design, validation, orchestration, monitoring, security, compliance, testing, deployment, audio, speech, interaction]
+            enum:
+              [
+                nlp,
+                vision,
+                reasoning,
+                data,
+                documentation,
+                api-design,
+                validation,
+                orchestration,
+                monitoring,
+                security,
+                compliance,
+                testing,
+                deployment,
+                audio,
+                speech,
+                interaction,
+              ]
         operations:
           type: array
           items:
@@ -550,7 +597,19 @@ components:
           type: array
           items:
             type: string
-            enum: [key-based-context, delta-prompting, tiered-depth, output-only-critique, cacheable-capsules, vector-pre-filters, pre-llm-validation, compression-support, checkpoint-memos, early-exit-logic]
+            enum:
+              [
+                key-based-context,
+                delta-prompting,
+                tiered-depth,
+                output-only-critique,
+                cacheable-capsules,
+                vector-pre-filters,
+                pre-llm-validation,
+                compression-support,
+                checkpoint-memos,
+                early-exit-logic,
+              ]
         compression_ratio:
           type: number
           minimum: 0

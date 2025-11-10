@@ -1,4 +1,4 @@
-ossaVersion: "1.0"
+ossaVersion: '1.0'
 
 agent:
   # Identity
@@ -20,14 +20,14 @@ agent:
     type: k8s
     image: ossa/data-etl:1.0.0
     requirements:
-      python: ">=3.11"
+      python: '>=3.11'
       packages:
         - pandas
         - sqlalchemy
         - apache-airflow
     resources:
-      cpu: "2000m"
-      memory: "4Gi"
+      cpu: '2000m'
+      memory: '4Gi'
     health_check:
       type: http
       endpoint: /health

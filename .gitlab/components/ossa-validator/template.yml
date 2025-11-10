@@ -2,15 +2,15 @@
 # Use this template in your project's .gitlab-ci.yml
 
 include:
-  - component: gitlab.bluefly.io/llm/openapi-ai-agents-standard/ossa-validator@v0.1.9
+  - component: app-4001.cloud.bluefly.io/llm/openapi-ai-agents-standard/ossa-validator@v0.1.9
     inputs:
       project_name: $CI_PROJECT_NAME
-      ossa_version: "0.1.9"
-      conformance_tier: "core"
+      ossa_version: '0.1.9'
+      conformance_tier: 'core'
       spec_paths:
-        - "src/api/*.yml"
-        - "openapi/*.yml"
-        - "**/*openapi*.yml"
+        - 'src/api/*.yml'
+        - 'openapi/*.yml'
+        - '**/*openapi*.yml'
 
 # Example usage in your project
 stages:
@@ -38,5 +38,5 @@ validate:ossa:security:
   stage: validate
   only:
     changes:
-      - "**/*.yml"
-      - "**/*.yaml"
+      - '**/*.yml'
+      - '**/*.yaml'

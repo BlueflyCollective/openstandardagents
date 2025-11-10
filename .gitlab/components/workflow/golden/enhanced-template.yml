@@ -17,73 +17,73 @@ workflow:
     # Development branch - primary work branch
     - if: '$CI_COMMIT_BRANCH == "development"'
       variables:
-        PIPELINE_TYPE: "development"
-        ENABLE_AGENTS: "true"
-        ORCHESTRATION_MODE: "full"
-        
+        PIPELINE_TYPE: 'development'
+        ENABLE_AGENTS: 'true'
+        ORCHESTRATION_MODE: 'full'
+
     # Feature branches - auto-flow to development
     - if: '$CI_COMMIT_BRANCH =~ /^feature\/.*$/'
       variables:
-        PIPELINE_TYPE: "feature"
-        AUTO_MERGE_TO_DEV: "true"
-        TAG_TYPE: "pre-release"
-        
-    # Bug fix branches  
+        PIPELINE_TYPE: 'feature'
+        AUTO_MERGE_TO_DEV: 'true'
+        TAG_TYPE: 'pre-release'
+
+    # Bug fix branches
     - if: '$CI_COMMIT_BRANCH =~ /^bug\/.*$/'
       variables:
-        PIPELINE_TYPE: "bugfix"
-        PRIORITY: "high"
-        AUTO_MERGE_TO_DEV: "true"
-        
+        PIPELINE_TYPE: 'bugfix'
+        PRIORITY: 'high'
+        AUTO_MERGE_TO_DEV: 'true'
+
     # Hotfix branches - direct to main
     - if: '$CI_COMMIT_BRANCH =~ /^hotfix\/.*$/'
       variables:
-        PIPELINE_TYPE: "hotfix"
-        PRIORITY: "critical"
-        TARGET_BRANCH: "main"
-        
+        PIPELINE_TYPE: 'hotfix'
+        PRIORITY: 'critical'
+        TARGET_BRANCH: 'main'
+
     # Release branches
     - if: '$CI_COMMIT_BRANCH =~ /^release\/v\d+\.\d+\.\d+$/'
       variables:
-        PIPELINE_TYPE: "release"
-        ENABLE_FULL_VALIDATION: "true"
-        
+        PIPELINE_TYPE: 'release'
+        ENABLE_FULL_VALIDATION: 'true'
+
     # Main branch - production only
     - if: '$CI_COMMIT_BRANCH == "main"'
       variables:
-        PIPELINE_TYPE: "production"
-        MANUAL_RELEASE_REQUIRED: "true"
+        PIPELINE_TYPE: 'production'
+        MANUAL_RELEASE_REQUIRED: 'true'
 
 stages:
-  - orchestrate      # Agent orchestration & planning
-  - validate         # Branch & compliance validation
-  - build           # Build artifacts
-  - test            # Comprehensive testing
-  - security        # Security scanning
-  - quality         # Quality gates
-  - integrate       # Integration & merge
-  - release         # Release management
-  - deploy          # Deployment
-  - cleanup         # Branch & resource cleanup
+  - orchestrate # Agent orchestration & planning
+  - validate # Branch & compliance validation
+  - build # Build artifacts
+  - test # Comprehensive testing
+  - security # Security scanning
+  - quality # Quality gates
+  - integrate # Integration & merge
+  - release # Release management
+  - deploy # Deployment
+  - cleanup # Branch & resource cleanup
 
 variables:
   # Tool Configuration
-  BUILDKIT_CLI: "buildkit"  # Short form of agent-buildkit
-  AGENT_BUILDKIT_CLI: "agent-buildkit"  # Full form
-  OPS_CLI: "ops"
-  OSSA_CLI: "node /Users/flux423/Sites/LLM/OSSA/dist/cli/index.js"
-  
+  BUILDKIT_CLI: 'buildkit' # Short form of agent-buildkit
+  AGENT_BUILDKIT_CLI: 'agent-buildkit' # Full form
+  OPS_CLI: 'ops'
+  OSSA_CLI: 'node /Users/flux423/Sites/LLM/OSSA/dist/cli/index.js'
+
   # Agent Configuration
-  MAX_AGENTS: "5"
-  AGENT_TIMEOUT: "300"
-  
+  MAX_AGENTS: '5'
+  AGENT_TIMEOUT: '300'
+
   # Branch Limits
-  MAX_FEATURE_BRANCHES: "5"
-  MAX_BUG_BRANCHES: "3"
-  BRANCH_AGE_LIMIT: "30d"
-  
+  MAX_FEATURE_BRANCHES: '5'
+  MAX_BUG_BRANCHES: '3'
+  BRANCH_AGE_LIMIT: '30d'
+
   # Version Detection Priority
-  VERSION_SOURCES: "package.json,composer.json,pyproject.toml,.version"
+  VERSION_SOURCES: 'package.json,composer.json,pyproject.toml,.version'
 
 # ============================================
 # STAGE 1: ORCHESTRATION - Agent Coordination
@@ -98,7 +98,7 @@ orchestrate:agents:
   script:
     - |
       echo "🤖 Orchestrating agents for pipeline type: $PIPELINE_TYPE"
-      
+
       # Detect project type and requirements
       PROJECT_TYPE="unknown"
       if [ -f "package.json" ]; then
@@ -108,9 +108,9 @@ orchestrate:agents:
       elif [ -f "pyproject.toml" ]; then
         PROJECT_TYPE="python"
       fi
-      
+
       echo "PROJECT_TYPE=$PROJECT_TYPE" >> orchestration.env
-      
+
       # Spawn appropriate agents based on pipeline type
       case "$PIPELINE_TYPE" in
         "feature")
@@ -136,13 +136,13 @@ orchestrate:agents:
           $BUILDKIT_CLI agents spawn monitoring-observability-engineer --task "Setup monitoring"
           ;;
       esac
-      
+
       # Use OSSA orchestrator for complex workflows
       if [ "$ORCHESTRATION_MODE" = "full" ]; then
         echo "Launching OSSA orchestrator for comprehensive coordination..."
         $OSSA_CLI orchestrator spawn --workflow "$PIPELINE_TYPE" || true
       fi
-      
+
       echo "✅ Agent orchestration complete"
   artifacts:
     reports:
@@ -159,23 +159,23 @@ orchestrate:agents:
 validate:branch:
   stage: validate
   image: node:20-alpine
-  needs: ["orchestrate:agents"]
+  needs: ['orchestrate:agents']
   before_script:
     - apk add --no-cache git jq
     - npm install -g @bluefly/agent-build-kit@latest 2>/dev/null || true
   script:
     - |
       echo "🌿 Validating branch strategy..."
-      
+
       # Use buildkit branch management
       $AGENT_BUILDKIT_CLI branch validate --current "$CI_COMMIT_BRANCH" || true
-      
+
       # Count active branches by type
       FEATURE_COUNT=$(git ls-remote --heads origin 'refs/heads/feature/*' | wc -l)
       BUG_COUNT=$(git ls-remote --heads origin 'refs/heads/bug/*' | wc -l)
-      
+
       echo "Active branches: $FEATURE_COUNT features, $BUG_COUNT bugs"
-      
+
       # Enforce branch limits
       if [ "$FEATURE_COUNT" -gt "$MAX_FEATURE_BRANCHES" ]; then
         echo "⚠️ Too many feature branches ($FEATURE_COUNT > $MAX_FEATURE_BRANCHES)"
@@ -183,7 +183,7 @@ validate:branch:
         $BUILDKIT_CLI agents spawn git-branch-management-specialist \
           --task "Cleanup stale feature branches older than $BRANCH_AGE_LIMIT"
       fi
-      
+
       # Validate branch naming
       case "$CI_COMMIT_BRANCH" in
         feature/*|bug/*|hotfix/*|chore/*|docs/*|test/*|perf/*|ci/*)
@@ -203,14 +203,14 @@ validate:branch:
 validate:version:
   stage: validate
   image: node:20-alpine
-  needs: ["orchestrate:agents"]
+  needs: ['orchestrate:agents']
   script:
     - |
       echo "📦 Auto-detecting version..."
-      
+
       # Use buildkit version detection
       VERSION=$($AGENT_BUILDKIT_CLI version detect --sources "$VERSION_SOURCES" 2>/dev/null || echo "0.0.1")
-      
+
       # Fallback to manual detection
       if [ "$VERSION" = "0.0.1" ]; then
         for source in package.json composer.json pyproject.toml; do
@@ -230,7 +230,7 @@ validate:version:
           fi
         done
       fi
-      
+
       echo "PROJECT_VERSION=$VERSION" >> version.env
       echo "✅ Version detected: $VERSION"
   artifacts:
@@ -240,14 +240,14 @@ validate:version:
 validate:ossa:
   stage: validate
   image: node:20-alpine
-  needs: ["validate:version"]
+  needs: ['validate:version']
   script:
     - |
       echo "🔍 Validating OSSA compliance..."
-      
+
       # Run OSSA compliance check
       $OSSA_CLI compliance validate --version "$OSSA_VERSION" || true
-      
+
       # Check for required OSSA files
       REQUIRED_FILES=".agents/registry.yml specs/openapi/openapi.yml"
       for file in $REQUIRED_FILES; do
@@ -255,12 +255,12 @@ validate:ossa:
           echo "⚠️ Missing OSSA required file: $file"
         fi
       done
-      
+
       # Validate agent definitions
       if [ -d ".agents" ]; then
         $BUILDKIT_CLI agents validate --directory .agents || true
       fi
-      
+
       echo "✅ OSSA validation complete"
   rules:
     - if: '$ENABLE_OSSA_VALIDATION == "true"'
@@ -272,14 +272,14 @@ validate:ossa:
 build:project:
   stage: build
   image: node:20-alpine
-  needs: ["validate:version"]
+  needs: ['validate:version']
   script:
     - |
       echo "🔨 Building project..."
-      
+
       # Use ops for build orchestration
       $OPS_CLI build --type "$PROJECT_TYPE" --version "$PROJECT_VERSION" || true
-      
+
       # Fallback to standard build commands
       case "$PROJECT_TYPE" in
         nodejs)
@@ -293,7 +293,7 @@ build:project:
           pip install -e .
           ;;
       esac
-      
+
       echo "✅ Build complete"
   artifacts:
     paths:
@@ -308,14 +308,14 @@ build:project:
 test:tdd:
   stage: test
   image: node:20-alpine
-  needs: ["build:project"]
+  needs: ['build:project']
   script:
     - |
       echo "🧪 Running TDD validation..."
-      
+
       # Use buildkit TDD enforcer
       $BUILDKIT_CLI agents execute tdd-enforcer --validate || true
-      
+
       # Run tests
       case "$PROJECT_TYPE" in
         nodejs)
@@ -329,25 +329,25 @@ test:tdd:
           pytest
           ;;
       esac
-      
+
       echo "✅ TDD validation complete"
 
 test:integration:
   stage: test
   image: node:20-alpine
-  needs: ["build:project"]
+  needs: ['build:project']
   script:
     - |
       echo "🔗 Running integration tests..."
-      
+
       # Test agent integration
       $BUILDKIT_CLI agents test --integration || true
-      
+
       # Test cross-platform integration
       if [ "$PROJECT_TYPE" = "nodejs" ]; then
         npm run test:integration || true
       fi
-      
+
       echo "✅ Integration tests complete"
   rules:
     - if: '$ENABLE_COMPREHENSIVE_TESTING == "true"'
@@ -359,21 +359,21 @@ test:integration:
 security:scan:
   stage: security
   image: node:20-alpine
-  needs: ["test:tdd"]
+  needs: ['test:tdd']
   script:
     - |
       echo "🔒 Running security scans..."
-      
+
       # Use ops security scanning
       $OPS_CLI security scan --comprehensive || true
-      
+
       # Run OSSA security audit
       $OSSA_CLI security audit || true
-      
+
       # Agent-based security validation
       $BUILDKIT_CLI agents spawn security-audit-specialist \
         --task "Comprehensive security audit" || true
-      
+
       echo "✅ Security scanning complete"
   rules:
     - if: '$ENABLE_SECURITY_SCANNING == "true"'
@@ -385,18 +385,18 @@ security:scan:
 quality:gates:
   stage: quality
   image: node:20-alpine
-  needs: ["test:tdd", "security:scan"]
+  needs: ['test:tdd', 'security:scan']
   script:
     - |
       echo "📊 Checking quality gates..."
-      
+
       # Use buildkit quality checks
       $AGENT_BUILDKIT_CLI quality check --threshold "$QUALITY_GATE_THRESHOLD" || true
-      
+
       # Run code quality critic agent
       $BUILDKIT_CLI agents spawn code-quality-critic \
         --task "Review code quality and suggest improvements" || true
-      
+
       # Check coverage
       if [ -f "coverage/coverage-summary.json" ]; then
         COVERAGE=$(jq -r '.total.lines.pct' coverage/coverage-summary.json)
@@ -407,7 +407,7 @@ quality:gates:
           exit 1
         fi
       fi
-      
+
       echo "✅ Quality gates passed"
 
 # ============================================
@@ -417,7 +417,7 @@ quality:gates:
 integrate:feature:
   stage: integrate
   image: node:20-alpine
-  needs: ["quality:gates"]
+  needs: ['quality:gates']
   before_script:
     - apk add --no-cache git
     - git config user.email "ci@bluefly.io"
@@ -425,21 +425,21 @@ integrate:feature:
   script:
     - |
       echo "🔀 Auto-merging to development..."
-      
+
       # Use buildkit merge command
       $AGENT_BUILDKIT_CLI git merge-to-development \
         --branch "$CI_COMMIT_BRANCH" \
         --strategy "no-ff" || true
-      
+
       # Fallback to manual merge
       git fetch origin development:development
       git checkout development
       git merge --no-ff "$CI_COMMIT_BRANCH" \
         -m "Auto-merge: $CI_COMMIT_BRANCH → development"
-      
+
       # Try to push (may fail due to permissions)
       git push origin development || echo "⚠️ Push failed - manual merge required"
-      
+
       echo "✅ Feature integration complete"
   rules:
     - if: '$AUTO_MERGE_TO_DEV == "true" && $PIPELINE_TYPE == "feature"'
@@ -448,15 +448,15 @@ integrate:feature:
 integrate:sync:
   stage: integrate
   image: node:20-alpine
-  needs: ["integrate:feature"]
+  needs: ['integrate:feature']
   script:
     - |
       echo "🔄 Synchronizing across projects..."
-      
+
       # Use ops for cross-project sync
       $OPS_CLI sync --source "$CI_PROJECT_PATH" \
                --targets "agent_buildkit,common_npm/*" || true
-      
+
       # Trigger dependent pipelines
       if [ "$PIPELINE_TYPE" = "development" ]; then
         echo "Triggering dependent project pipelines..."
@@ -466,7 +466,7 @@ integrate:sync:
           -F "variables[UPSTREAM_PROJECT]=$CI_PROJECT_PATH" \
           "https://$CI_SERVER_HOST/api/v4/projects/$AGENT_BUILDKIT_PROJECT_ID/trigger/pipeline" || true
       fi
-      
+
       echo "✅ Cross-project sync complete"
   rules:
     - if: '$PIPELINE_TYPE == "development"'
@@ -478,13 +478,13 @@ integrate:sync:
 release:tag:
   stage: release
   image: node:20-alpine
-  needs: ["quality:gates"]
+  needs: ['quality:gates']
   before_script:
     - apk add --no-cache git
   script:
     - |
       echo "🏷️ Creating release tag..."
-      
+
       # Determine tag based on pipeline type
       case "$PIPELINE_TYPE" in
         feature)
@@ -503,17 +503,17 @@ release:tag:
           TAG="v$PROJECT_VERSION-dev.$(date +%Y%m%d)"
           ;;
       esac
-      
+
       echo "Creating tag: $TAG"
-      
+
       # Use buildkit tagging
       $AGENT_BUILDKIT_CLI git tag --name "$TAG" \
                        --message "Automated tag from $CI_COMMIT_BRANCH" || true
-      
+
       # Fallback to git
       git tag -a "$TAG" -m "Pipeline: $CI_PIPELINE_ID" || true
       git push origin "$TAG" || echo "⚠️ Tag push failed"
-      
+
       echo "RELEASE_TAG=$TAG" >> release.env
       echo "✅ Tag created: $TAG"
   artifacts:
@@ -523,20 +523,20 @@ release:tag:
 release:changelog:
   stage: release
   image: node:20-alpine
-  needs: ["release:tag"]
+  needs: ['release:tag']
   script:
     - |
       echo "📝 Generating changelog..."
-      
+
       # Use ops for changelog generation
       $OPS_CLI changelog generate --since "last-tag" \
                             --format "markdown" \
                             --output "CHANGELOG.md" || true
-      
+
       # Use documentation curator agent
       $BUILDKIT_CLI agents spawn documentation-curator \
         --task "Update changelog and release notes" || true
-      
+
       echo "✅ Changelog generated"
   artifacts:
     paths:
@@ -547,11 +547,11 @@ release:changelog:
 release:production:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
-  needs: ["release:tag", "release:changelog"]
+  needs: ['release:tag', 'release:changelog']
   script:
     - |
       echo "🚀 Creating production release..."
-      
+
       # This is the ONLY manual step
       echo "⚠️ Manual approval required for production release"
   release:
@@ -559,18 +559,18 @@ release:production:
     name: 'Release $RELEASE_TAG'
     description: |
       ## Release $RELEASE_TAG
-      
+
       ### Changes
       See CHANGELOG.md for details
-      
+
       ### Deployment
       - Production URL: $PRODUCTION_URL
       - Version: $PROJECT_VERSION
-      
+
       ### Usage
       ```yaml
       include:
-        - component: gitlab.bluefly.io/llm/gitlab_components/workflow/golden@$PROJECT_VERSION
+        - component: app-4001.cloud.bluefly.io/llm/gitlab_components/workflow/golden@$PROJECT_VERSION
       ```
   when: manual
   rules:
@@ -583,21 +583,21 @@ release:production:
 deploy:staging:
   stage: deploy
   image: node:20-alpine
-  needs: ["release:tag"]
+  needs: ['release:tag']
   script:
     - |
       echo "🚀 Deploying to staging..."
-      
+
       # Use ops deployment
       $OPS_CLI deploy --environment "staging" \
                  --version "$PROJECT_VERSION" \
                  --strategy "$DEPLOYMENT_STRATEGY" || true
-      
+
       # Health check
       if [ "$ENABLE_HEALTH_CHECKS" = "true" ]; then
         $OPS_CLI health check --url "$STAGING_URL" || true
       fi
-      
+
       echo "✅ Staging deployment complete"
   environment:
     name: staging
@@ -611,24 +611,24 @@ deploy:staging:
 deploy:production:
   stage: deploy
   image: node:20-alpine
-  needs: ["release:production"]
+  needs: ['release:production']
   script:
     - |
       echo "🚀 Deploying to production..."
-      
+
       # Use monitoring agent for deployment
       $BUILDKIT_CLI agents spawn monitoring-observability-engineer \
         --task "Monitor production deployment" || true
-      
+
       # Deploy using ops
       $OPS_CLI deploy --environment "production" \
                  --version "$PROJECT_VERSION" \
                  --strategy "$DEPLOYMENT_STRATEGY" || true
-      
+
       # Post-deployment validation
       $BUILDKIT_CLI agents spawn performance-optimizer \
         --task "Validate production performance" || true
-      
+
       echo "✅ Production deployment complete"
   environment:
     name: production
@@ -650,16 +650,16 @@ cleanup:branches:
   script:
     - |
       echo "🧹 Cleaning up branches..."
-      
+
       # Use git-branch-management-specialist agent
       $BUILDKIT_CLI agents spawn git-branch-management-specialist \
         --task "Clean up merged and stale branches" || true
-      
+
       # Use buildkit branch cleanup
       $AGENT_BUILDKIT_CLI branch cleanup --age "$BRANCH_AGE_LIMIT" \
                               --keep-recent 5 \
                               --dry-run false || true
-      
+
       # Manual cleanup for old branches
       for branch in $(git ls-remote --heads origin | grep -E 'refs/heads/(feature|bug|chore)/' | awk '{print $2}' | sed 's|refs/heads/||'); do
         LAST_COMMIT=$(git log -1 --format=%ct origin/$branch 2>/dev/null || echo 0)
@@ -671,7 +671,7 @@ cleanup:branches:
           git push origin --delete "$branch" || echo "⚠️ Could not delete $branch"
         fi
       done
-      
+
       echo "✅ Branch cleanup complete"
   rules:
     - if: '$CI_COMMIT_BRANCH == "development"'
@@ -686,15 +686,15 @@ cleanup:artifacts:
   script:
     - |
       echo "🧹 Cleaning up old artifacts..."
-      
+
       # Use ops for artifact cleanup
       $OPS_CLI cleanup artifacts --older-than "7d" || true
-      
+
       # Clean up old Docker images if applicable
       if [ "$PROJECT_TYPE" = "docker" ]; then
         $OPS_CLI cleanup docker --keep-recent 5 || true
       fi
-      
+
       echo "✅ Artifact cleanup complete"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
