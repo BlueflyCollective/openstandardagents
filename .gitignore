@@ -483,5 +483,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-# Local wiki clone (managed separately)
-.gitlab/wiki/
+# Wiki is now version controlled in .gitlab/wiki/
+# (was previously ignored, now tracked for v0.2.3)
