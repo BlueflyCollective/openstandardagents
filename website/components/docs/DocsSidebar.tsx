@@ -1,0 +1,98 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { DocsSearch } from './DocsSearch';
+import { VersionSelector } from './VersionSelector';
+
+const navigation = [
+  {
+    title: 'Getting Started',
+    items: [
+      { href: '/docs/getting-started/5-minute-overview', label: '5-Minute Overview' },
+      { href: '/docs/getting-started/installation', label: 'Installation' },
+      { href: '/docs/getting-started/hello-world', label: 'Hello World' },
+      { href: '/docs/getting-started/first-agent', label: 'First Agent' },
+    ],
+  },
+  {
+    title: 'For Audiences',
+    items: [
+      { href: '/docs/for-audiences/developers', label: 'Developers' },
+      { href: '/docs/for-audiences/architects', label: 'Architects' },
+      { href: '/docs/for-audiences/enterprises', label: 'Enterprises' },
+      { href: '/docs/for-audiences/students-researchers', label: 'Students & Researchers' },
+    ],
+  },
+  {
+    title: 'Examples',
+    items: [
+      { href: '/docs/examples/migration-guides', label: 'Migration Guides' },
+    ],
+  },
+];
+
+export function DocsSidebar(): JSX.Element {
+  const pathname = usePathname();
+  const [openSections, setOpenSections] = useState<string[]>(['Getting Started']);
+
+  const toggleSection = (title: string): void => {
+    setOpenSections((prev) =>
+      prev.includes(title)
+        ? prev.filter((t) => t !== title)
+        : [...prev, title]
+    );
+  };
+
+  return (
+    <aside className="w-64 bg-gray-100 border-r border-gray-300 p-4 overflow-y-auto h-screen sticky top-0">
+      <nav>
+        <Link href="/docs" className="block mb-6 font-semibold text-primary hover:text-primary-dark">
+          Documentation
+        </Link>
+        <div className="mb-6">
+          <DocsSearch />
+        </div>
+        <div className="mb-6">
+          <VersionSelector />
+        </div>
+        {navigation.map((section) => (
+          <div key={section.title} className="mb-4">
+            <button
+              onClick={() => toggleSection(section.title)}
+              className="w-full text-left font-semibold text-gray-900 mb-2 flex items-center justify-between"
+            >
+              <span>{section.title}</span>
+              <span className="text-gray-500">
+                {openSections.includes(section.title) ? '−' : '+'}
+              </span>
+            </button>
+            {openSections.includes(section.title) && (
+              <ul className="space-y-1 ml-2">
+                {section.items.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className={`block px-2 py-1 rounded text-sm transition-colors ${
+                          isActive
+                            ? 'bg-primary text-white'
+                            : 'text-gray-700 hover:bg-gray-200'
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        ))}
+      </nav>
+    </aside>
+  );
+}
+

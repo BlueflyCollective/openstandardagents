@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --ossa-primary: #2b3e96;
+    --ossa-secondary: #00c9a7;
+    --ossa-success: #28a745;
+    --ossa-warning: #ffc107;
+    --ossa-error: #dc3545;
+    --ossa-info: #17a2b8;
+    --ossa-dark: #212529;
+    --ossa-gray-900: #343a40;
+    --ossa-gray-700: #495057;
+    --ossa-gray-500: #6c757d;
+    --ossa-gray-300: #dee2e6;
+    --ossa-gray-100: #f8f9fa;
+    --ossa-white: #ffffff;
+    --code-bg: #1e1e1e;
+    --code-text: #d4d4d4;
+    --code-keyword: #569cd6;
+    --code-string: #ce9178;
+    --code-comment: #6a9955;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-body text-gray-900 bg-white antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold;
+  }
+
+  code {
+    @apply font-code;
+  }
+
+  pre {
+    @apply bg-code-bg text-code-text rounded-lg p-4 overflow-x-auto;
+  }
+
+  pre code {
+    @apply text-code-text;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2;
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary text-primary px-6 py-3 rounded-lg font-medium hover:bg-primary hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6 border border-gray-300;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-lg transition-shadow;
+  }
+}
+
