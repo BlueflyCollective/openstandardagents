@@ -4,7 +4,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![npm version](https://img.shields.io/npm/v/@bluefly/open-standards-scalable-agents.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
-[![GitLab](https://img.shields.io/badge/GitLab-OSSA-orange.svg)](https://app-4001.cloud.bluefly.io/llm/openapi-ai-agents-standard)
+[![GitLab](https://img.shields.io/badge/GitLab-OSSA-orange.svg)](https://gitlab.bluefly.io/llm/openapi-ai-agents-standard)
 
 ---
 
@@ -43,8 +43,8 @@ npm install -g @bluefly/open-standards-scalable-agents
 ### Create Agent
 
 ```bash
-ossa init my-agent --type worker
-cd .agents/my-agent
+ossa generate worker --name "My Agent" --id my-agent
+# Creates agent.ossa.yaml
 ```
 
 ### Validate
@@ -70,10 +70,9 @@ OSSA doesn't care - it's just a standard.
 The OSSA CLI provides basic tooling:
 
 ```bash
-ossa validate <path>    # Validate against OSSA 1.0 schema
-ossa init <name>        # Initialize new agent project
-ossa generate <type>    # Generate from template
-ossa migrate <source>   # Migrate v0.1.9 → 1.0
+ossa validate <path>    # Validate against OSSA schema
+ossa generate <type>    # Generate agent from template (chat, workflow, compliance, etc.)
+ossa migrate <source>   # Migrate v0.1.9 → v0.2.2
 ```
 
 **What OSSA CLI does:**
@@ -93,12 +92,12 @@ For production features, see [agent-buildkit](https://app-4001.cloud.bluefly.io/
 
 ## Specification
 
-OSSA 1.0 Schema: [`spec/ossa-1.0.schema.json`](spec/ossa-1.0.schema.json)
+OSSA v0.2.3 Schema: [`spec/v0.2.2/ossa-0.2.2.schema.json`](spec/v0.2.2/ossa-0.2.2.schema.json)
 
 ### Required Fields
 
 ```yaml
-ossaVersion: "1.0"
+ossaVersion: "0.2.3"
 
 agent:
   id: my-agent                    # DNS-1123 format
@@ -116,7 +115,7 @@ agent:
       output_schema: { ... }
 ```
 
-Full schema documentation: [`https://gitlab.bluefly.io/llm/openapi-ai-agents-standard/-/wikis/home/specification/`](docs/specification/)
+Full schema documentation: [`docs/specification/`](docs/specification/)
 
 ---
 
@@ -196,8 +195,9 @@ buildkit ossa sync-docs               # GitLab integration
 
 - **Specification**: [spec/ossa-1.0.schema.json](spec/ossa-1.0.schema.json)
 - **Examples**: [examples/](examples/)
-- **API Reference**: [https://gitlab.bluefly.io/llm/openapi-ai-agents-standard/-/wikis/home/](docs/)
-- **GitLab Wiki**: https://app-4001.cloud.bluefly.io/llm/openapi-ai-agents-standard/-/wikis/home
+- **API Reference**: [docs/](docs/)
+- **GitLab Wiki**: https://gitlab.bluefly.io/llm/openapi-ai-agents-standard/-/wikis/home
+- **Migration Guides**: 6 framework migration guides (LangChain, MCP, OpenAI, Langflow, Drupal ECA, CrewAI)
 
 ---
 
