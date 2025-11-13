@@ -19,7 +19,7 @@ spec:
   version: '1.0.0'
   license: Apache-2.0
   maintainer: OSSA Working Group
-  website: https://ossa.io
+  website: https://openstandardagents.org
   repository: https://github.com/ossa-standard/specification
 
 schema:
@@ -314,7 +314,7 @@ validation:
 extensions:
   # Custom annotations (like Kubernetes)
   annotations:
-    'ossa.io/*': reserved for OSSA standard
+    'openstandardagents.org/*': reserved for OSSA standard
     'vendor.io/*': vendor-specific extensions
     '*': custom extensions
 

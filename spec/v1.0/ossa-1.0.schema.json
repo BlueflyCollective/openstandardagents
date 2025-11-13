@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://ossa.io/schemas/1.0/agent.json",
+  "$id": "https://openstandardagents.org/schemas/1.0/agent.json",
   "title": "OSSA 1.0 Agent Schema",
   "description": "Formal JSON Schema for OSSA (Open Standard for Smart & Scalable Agents) version 1.0. The OpenAPI for AI Agents.",
   "type": "object",
