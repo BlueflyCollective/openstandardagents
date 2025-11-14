@@ -5,6 +5,7 @@ stages:
   - validate
   - test
   - build
+  - promote
   - release-dev
   - release-rc
   - release-prod
@@ -248,6 +249,77 @@ release:prod:
     - tags
   when: manual
   allow_failure: false
+
+# ============================================================================
+# STAGE: PROMOTE (development -> main)
+# Fast-forwards development to main, or creates MR if conflicts
+# ============================================================================
+
+promote-to-main:
+  stage: promote
+  image: node:${NODE_VERSION}-alpine
+  before_script:
+    - apk add --no-cache git curl
+    - git config --global user.email "thomas.scola@bluefly.io"
+    - git config --global user.name "Thomas Scola, Founder & CEO of Bluefly.io"
+    - git remote set-url origin https://oauth2:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
+  script:
+    - |
+      set -e
+      echo "🚀 Attempting fast-forward merge of development -> main..."
+      git fetch --all --prune --unshallow || true
+      git checkout -B main origin/main
+      # Try fast-forward only
+      if git merge --ff-only origin/development; then
+        git push origin main
+        echo "✅ Fast-forward merge completed."
+      else
+        echo "⚠️ Fast-forward not possible. Creating Merge Request instead."
+        # Create MR via GitLab API using job token
+        MR_TITLE="chore: merge development to main"
+        MR_DESC="Automated MR created by CI promote-to-main job when fast-forward was not possible. Please resolve conflicts and merge."
+        # First, check if an open MR already exists
+        EXISTING_MR_RESPONSE=$(curl -sS -G "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests" \
+          --header "PRIVATE-TOKEN: ${CI_JOB_TOKEN}" \
+          --data-urlencode "source_branch=development" \
+          --data-urlencode "target_branch=main" \
+          --data-urlencode "state=opened")
+        EXISTING_MR_URL=$(echo "$EXISTING_MR_RESPONSE" | node -e "process.stdin.on('data',d=>{try{const j=JSON.parse(d);if(Array.isArray(j)&&j.length){console.log(j[0].web_url||'');}else{console.log('');}}catch(e){}})")
+        if [ -n "$EXISTING_MR_URL" ]; then
+          echo "📬 Existing Merge Request found: $EXISTING_MR_URL"
+          exit 0
+        fi
+
+        # Create a new MR via GitLab API using CI job token as PRIVATE-TOKEN
+        CREATE_MR_RESPONSE=$(curl -sS -X POST "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests" \
+          --header "PRIVATE-TOKEN: ${CI_JOB_TOKEN}" \
+          --data-urlencode "source_branch=development" \
+          --data-urlencode "target_branch=main" \
+          --data-urlencode "title=${MR_TITLE}" \
+          --data-urlencode "remove_source_branch=false" \
+          --data-urlencode "squash=false" \
+          --data-urlencode "description=${MR_DESC}" \
+          --data-urlencode "allow_collaboration=true")
+        echo "MR create response: ${CREATE_MR_RESPONSE}"
+        MR_WEB_URL=$(echo "$CREATE_MR_RESPONSE" | node -e "process.stdin.on('data',d=>{try{const j=JSON.parse(d);console.log(j.web_url||'');}catch(e){}})")
+        if [ -n "$MR_WEB_URL" ]; then
+          echo "📬 Merge Request created: $MR_WEB_URL"
+          # Succeed the job; manual review will handle conflicts
+          exit 0
+        else
+          echo "❌ Failed to create Merge Request (unauthorized or permissions). Please create MR from development -> main manually."
+          exit 1
+        fi
+      fi
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development"
+      when: manual
+      allow_failure: false
+  environment:
+    name: production
+    action: start
+  needs:
+    - build:dist
 
 # ============================================================================
 # GLOBAL SETTINGS
