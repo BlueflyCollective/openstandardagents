@@ -19,16 +19,16 @@ info:
     - Type-safe throughout
   contact:
     name: OSSA Registry Team
-    url: https://registry.ossa.io
-    email: registry@ossa.io
+    url: https://registry.openstandardagents.org
+    email: registry@openstandardagents.org
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 
 servers:
-  - url: https://registry.ossa.io/api/v1
+  - url: https://registry.openstandardagents.org/api/v1
     description: Production
-  - url: https://staging.registry.ossa.io/api/v1
+  - url: https://staging.registry.openstandardagents.org/api/v1
     description: Staging
   - url: http://localhost:3100/api/v1
     description: Local development

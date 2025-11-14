@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://ossa.io/schemas/1.0/reasoning-compliance.json",
+  "$id": "https://openstandardagents.org/schemas/1.0/reasoning-compliance.json",
   "title": "OSSA 1.0 Reasoning Compliance Extension",
   "description": "OSSA extension for chain-of-thought reasoning compliance validation and auditing. Defines requirements for transparent, traceable, and auditable AI reasoning chains.",
   "version": "1.0.0",
