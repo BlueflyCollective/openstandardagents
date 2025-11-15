@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![npm version](https://img.shields.io/badge/npm-v0.2.3-blue.svg)](https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents)
 [![GitLab](https://img.shields.io/badge/GitLab-OSSA-orange.svg)](https://gitlab.bluefly.io/llm/openapi-ai-agents-standard)
+[![GitHub](https://img.shields.io/badge/GitHub-OSSA-black.svg)](https://github.com/BlueflyCollective/OSSA)
 [![OSSA Compliant](https://img.shields.io/badge/OSSA-Compliant-00B8D4.svg)](https://gitlab.bluefly.io/llm/openapi-ai-agents-standard)
 
 ---
@@ -225,11 +226,16 @@ buildkit ossa sync-docs               # GitLab integration
 
 OSSA is an open standard. Contributions welcome.
 
-1. Fork the repository
+**Primary Repository**: [GitLab](https://gitlab.bluefly.io/llm/openapi-ai-agents-standard)  
+**GitHub Mirror**: [GitHub](https://github.com/BlueflyCollective/OSSA) (read-only, automatically synced)
+
+1. Fork the repository (GitLab preferred)
 2. Create feature branch
-3. Submit pull request
+3. Submit merge request
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+> **Note**: This repository is automatically mirrored from GitLab to GitHub. The GitHub repository is read-only. All development happens on GitLab. See [GitHub Mirror Setup Guide](docs/GITHUB-MIRROR-SETUP.md) for details.
 
 ---
 

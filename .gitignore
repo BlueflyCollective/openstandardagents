@@ -331,6 +331,8 @@ mlruns/
 # Data files
 *.csv
 *.json
+!tsconfig*.json
+!package*.json
 *.parquet
 *.feather
 data/raw/

@@ -8,21 +8,29 @@ import addFormats from 'ajv-formats';
 import { inject, injectable } from 'inversify';
 import { SchemaRepository } from '../repositories/schema.repository.js';
 import { readFileSync, existsSync } from 'node:fs';
-import { join, dirname } from 'path';
+import { join } from 'path';
 import type {
   IValidationService,
   OssaAgent,
   SchemaVersion,
   ValidationResult,
 } from '../types/index.js';
-import type {
-  OpenAPISpecWithOssaExtensions,
-  OpenAPIOperationWithOssaExtensions,
-} from '../types/openapi-extensions.js';
+import type { OpenAPIOperationWithOssaExtensions } from '../types/openapi-extensions.js';
+import { CursorValidator } from './validators/cursor.validator.js';
+import { OpenAIValidator } from './validators/openai.validator.js';
+import { CrewAIValidator } from './validators/crewai.validator.js';
+import { LangChainValidator } from './validators/langchain.validator.js';
+import { AnthropicValidator } from './validators/anthropic.validator.js';
+import { LangflowValidator } from './validators/langflow.validator.js';
+import { AutoGenValidator } from './validators/autogen.validator.js';
+import { VercelAIValidator } from './validators/vercel-ai.validator.js';
+import { LlamaIndexValidator } from './validators/llamaindex.validator.js';
+import { LangGraphValidator } from './validators/langgraph.validator.js';
 
 @injectable()
 export class ValidationService implements IValidationService {
   private ajv: Ajv;
+  private platformValidators: Map<string, any>;
 
   constructor(
     @inject(SchemaRepository) private schemaRepository: SchemaRepository
@@ -33,6 +41,19 @@ export class ValidationService implements IValidationService {
       validateFormats: true,
     });
     addFormats(this.ajv);
+
+    // Initialize platform validators
+    this.platformValidators = new Map();
+    this.platformValidators.set('cursor', new CursorValidator());
+    this.platformValidators.set('openai_agents', new OpenAIValidator());
+    this.platformValidators.set('crewai', new CrewAIValidator());
+    this.platformValidators.set('langchain', new LangChainValidator());
+    this.platformValidators.set('anthropic', new AnthropicValidator());
+    this.platformValidators.set('langflow', new LangflowValidator());
+    this.platformValidators.set('autogen', new AutoGenValidator());
+    this.platformValidators.set('vercel_ai', new VercelAIValidator());
+    this.platformValidators.set('llamaindex', new LlamaIndexValidator());
+    this.platformValidators.set('langgraph', new LangGraphValidator());
   }
 
   /**
@@ -58,12 +79,21 @@ export class ValidationService implements IValidationService {
       // 4. Generate warnings (best practices)
       const warnings = this.generateWarnings(manifest);
 
-      // 5. Return structured result
+      // 5. Run platform-specific validators
+      const platformResults = this.validatePlatformExtensions(manifest);
+      const allErrors = [
+        ...(valid ? [] : validator.errors || []),
+        ...platformResults.errors,
+      ];
+      const allWarnings = [...warnings, ...platformResults.warnings];
+
+      // 6. Return structured result
       return {
-        valid,
-        errors: valid ? [] : validator.errors || [],
-        warnings,
-        manifest: valid ? (manifest as OssaAgent) : undefined,
+        valid: valid && platformResults.valid,
+        errors: allErrors,
+        warnings: allWarnings,
+        manifest:
+          valid && platformResults.valid ? (manifest as OssaAgent) : undefined,
       };
     } catch (error) {
       // Handle validation errors
@@ -98,56 +128,94 @@ export class ValidationService implements IValidationService {
       return warnings;
     }
 
-    const agent = (manifest as any).agent;
+    const m = manifest as any;
+    const spec = m.spec || m.agent;
+    const metadata = m.metadata || m.agent?.metadata;
 
-    if (!agent) {
+    if (!spec) {
       return warnings;
     }
 
     // Check for description
-    if (!agent.description || agent.description.trim().length === 0) {
+    if (!metadata?.description || metadata.description.trim().length === 0) {
       warnings.push(
         'Best practice: Add agent description for better documentation'
       );
     }
 
     // Check for LLM configuration
-    if (!agent.llm) {
+    if (!spec.llm && !m.agent?.llm) {
       warnings.push(
         'Best practice: Specify LLM configuration (provider, model, temperature)'
       );
     }
 
     // Check for tools/capabilities
-    if (!agent.tools || agent.tools.length === 0) {
+    if (
+      (!spec.tools || spec.tools.length === 0) &&
+      (!m.agent?.tools || m.agent.tools.length === 0)
+    ) {
       warnings.push(
         'Best practice: Define tools/capabilities for the agent to use'
       );
     }
 
     // Check for observability
-    const extensions = (manifest as any).extensions;
-    if (extensions && !extensions.observability) {
+    const extensions = m.extensions;
+    if (extensions && !spec.observability && !m.agent?.monitoring) {
       warnings.push(
         'Best practice: Configure observability (tracing, metrics, logging)'
       );
     }
 
     // Check for autonomy configuration
-    if (!agent.autonomy) {
+    if (!spec.autonomy && !m.agent?.autonomy) {
       warnings.push(
         'Best practice: Define autonomy level and approval requirements'
       );
     }
 
     // Check for constraints
-    if (!agent.constraints) {
+    if (!spec.constraints && !m.agent?.constraints) {
       warnings.push(
         'Best practice: Set cost and performance constraints for production use'
       );
     }
 
     return warnings;
+  }
+
+  /**
+   * Validate platform-specific extensions
+   * @param manifest - Manifest object to validate
+   * @returns Combined validation result from all platform validators
+   */
+  private validatePlatformExtensions(manifest: any): ValidationResult {
+    const errors: any[] = [];
+    const warnings: string[] = [];
+    let allValid = true;
+
+    if (!manifest.extensions || typeof manifest.extensions !== 'object') {
+      return { valid: true, errors: [], warnings: [] };
+    }
+
+    // Run each platform validator
+    for (const [platform, validator] of this.platformValidators.entries()) {
+      if (manifest.extensions[platform]) {
+        const result = validator.validate(manifest);
+        if (!result.valid) {
+          allValid = false;
+        }
+        errors.push(...result.errors);
+        warnings.push(...result.warnings);
+      }
+    }
+
+    return {
+      valid: allValid,
+      errors,
+      warnings,
+    };
   }
 
   /**

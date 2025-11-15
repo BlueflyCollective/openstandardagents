@@ -10,6 +10,10 @@ import { program } from 'commander';
 import { validateCommand } from './commands/validate.command.js';
 import { generateCommand } from './commands/generate.command.js';
 import { migrateCommand } from './commands/migrate.command.js';
+import { initCommand } from './commands/init.command.js';
+import { exportCommand } from './commands/export.command.js';
+import { importCommand } from './commands/import.command.js';
+import { schemaCommand } from './commands/schema.command.js';
 
 // Load package.json for version
 import * as fs from 'fs';
@@ -32,6 +36,10 @@ program
 program.addCommand(validateCommand);
 program.addCommand(generateCommand);
 program.addCommand(migrateCommand);
+program.addCommand(initCommand);
+program.addCommand(exportCommand);
+program.addCommand(importCommand);
+program.addCommand(schemaCommand);
 
 // Parse arguments
 program.parse();
