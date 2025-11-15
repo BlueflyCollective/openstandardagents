@@ -1,0 +1,34 @@
+{
+  "name": "ossa-website",
+  "version": "1.0.0",
+  "description": "Open Standard Agents - The OpenAPI for AI Agents",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "next build"
+  },
+  "keywords": ["ossa", "ai-agents", "standard", "specification"],
+  "author": "OSSA Community",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.3",
+    "autoprefixer": "^10.4.22",
+    "next": "^15.5.6",
+    "postcss": "^8.5.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^4.1.17",
+    "typescript": "^5.9.3",
+    "prism-react-renderer": "^2.3.1",
+    "lucide-react": "^0.294.0"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^18.3.1",
+    "eslint": "^9.18.0",
+    "eslint-config-next": "^15.5.6"
+  }
+}

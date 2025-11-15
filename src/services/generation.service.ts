@@ -144,4 +144,178 @@ export class GenerationService {
   async generateMany(templates: AgentTemplate[]): Promise<any[]> {
     return Promise.all(templates.map((t) => this.generate(t)));
   }
+
+  /**
+   * Export OSSA manifest to platform-specific format
+   * @param manifest - OSSA agent manifest
+   * @param platform - Target platform
+   * @returns Platform-specific agent configuration
+   */
+  async exportToPlatform(manifest: any, platform: string): Promise<any> {
+    const agent = manifest.agent || manifest;
+    const metadata = manifest.metadata || agent.metadata || {};
+    const spec = manifest.spec || agent;
+    const extensions = manifest.extensions || agent.extensions || {};
+
+    switch (platform) {
+      case 'cursor':
+        return {
+          agent_type: extensions.cursor?.agent_type || 'composer',
+          workspace_config: extensions.cursor?.workspace_config || {},
+          capabilities: extensions.cursor?.capabilities || {},
+          model: extensions.cursor?.model || spec.llm || {},
+        };
+
+      case 'openai':
+        return {
+          name: metadata.name || agent.id,
+          instructions: spec.role || agent.role,
+          model:
+            extensions.openai_agents?.model || spec.llm?.model || 'gpt-4o-mini',
+          tools: this.extractTools(spec.tools || agent.tools || []),
+        };
+
+      case 'crewai':
+        return {
+          role: extensions.crewai?.role || spec.role || agent.role,
+          goal:
+            extensions.crewai?.goal ||
+            metadata.description ||
+            agent.description,
+          backstory: extensions.crewai?.backstory || '',
+          tools: extensions.crewai?.tools || [],
+          agent_type: extensions.crewai?.agent_type || 'worker',
+        };
+
+      case 'langchain':
+        return {
+          type: 'agent',
+          chain_type: extensions.langchain?.chain_type || 'agent',
+          tools: this.extractTools(spec.tools || agent.tools || []),
+          llm: spec.llm || agent.llm || {},
+        };
+
+      case 'anthropic':
+        return {
+          name: metadata.name || agent.id,
+          system: extensions.anthropic?.system || spec.role || agent.role,
+          model: extensions.anthropic?.model || 'claude-3-5-sonnet-20241022',
+          tools: this.extractTools(spec.tools || agent.tools || []),
+        };
+
+      default:
+        throw new Error(`Unsupported platform: ${platform}`);
+    }
+  }
+
+  /**
+   * Import platform-specific format to OSSA manifest
+   * @param platformData - Platform-specific agent data
+   * @param platform - Source platform
+   * @returns OSSA agent manifest
+   */
+  async importFromPlatform(platformData: any, platform: string): Promise<any> {
+    const baseManifest: any = {
+      apiVersion: 'ossa/v0.2.3',
+      kind: 'Agent',
+      metadata: {
+        name: platformData.name || platformData.id || 'imported-agent',
+        version: platformData.version || '1.0.0',
+        description: platformData.description || '',
+      },
+      spec: {
+        role:
+          platformData.instructions ||
+          platformData.system ||
+          platformData.role ||
+          '',
+        llm: {
+          provider:
+            platform === 'openai'
+              ? 'openai'
+              : platform === 'anthropic'
+                ? 'anthropic'
+                : 'openai',
+          model: platformData.model || 'gpt-4',
+        },
+        tools: [],
+      },
+    };
+
+    switch (platform) {
+      case 'cursor':
+        baseManifest.extensions = {
+          cursor: {
+            enabled: true,
+            agent_type: platformData.agent_type || 'composer',
+            workspace_config: platformData.workspace_config || {},
+          },
+        };
+        break;
+
+      case 'openai':
+        baseManifest.extensions = {
+          openai_agents: {
+            enabled: true,
+            model: platformData.model || 'gpt-4o-mini',
+            instructions: platformData.instructions,
+          },
+        };
+        if (platformData.tools) {
+          baseManifest.spec.tools = this.convertToolsToOSSA(platformData.tools);
+        }
+        break;
+
+      case 'crewai':
+        baseManifest.extensions = {
+          crewai: {
+            enabled: true,
+            agent_type: platformData.agent_type || 'worker',
+            role: platformData.role,
+            goal: platformData.goal,
+            backstory: platformData.backstory,
+            tools: platformData.tools || [],
+          },
+        };
+        break;
+
+      case 'anthropic':
+        baseManifest.extensions = {
+          anthropic: {
+            enabled: true,
+            model: platformData.model || 'claude-3-5-sonnet-20241022',
+            system: platformData.system,
+          },
+        };
+        if (platformData.tools) {
+          baseManifest.spec.tools = this.convertToolsToOSSA(platformData.tools);
+        }
+        break;
+    }
+
+    return baseManifest;
+  }
+
+  private extractTools(tools: any[]): any[] {
+    return tools.map((tool) => ({
+      type: 'function',
+      function: {
+        name: tool.name,
+        description: tool.description || '',
+        parameters: tool.input_schema || tool.parameters || {},
+      },
+    }));
+  }
+
+  private convertToolsToOSSA(tools: any[]): any[] {
+    return tools.map((tool) => {
+      const func = tool.function || tool;
+      return {
+        type: 'function',
+        name: func.name,
+        description: func.description || '',
+        input_schema: func.parameters || func.input_schema || {},
+      };
+    });
+  }
 }
