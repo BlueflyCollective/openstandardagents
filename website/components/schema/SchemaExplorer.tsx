@@ -16,7 +16,7 @@ interface PropertyInfo {
   properties?: PropertyInfo[];
 }
 
-function extractProperties(schema: any, path: string = ''): PropertyInfo[] {
+function extractProperties(schema: any, path = ''): PropertyInfo[] {
   if (!schema || typeof schema !== 'object') {
     return [];
   }

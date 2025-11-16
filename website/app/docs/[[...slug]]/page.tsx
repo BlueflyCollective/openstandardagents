@@ -6,9 +6,9 @@ import { DocsSidebar } from '@/components/docs/DocsSidebar';
 import { MarkdownContent } from '@/components/docs/MarkdownContent';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug?: string[];
-  };
+  }>;
 }
 
 const docsDirectory = path.join(process.cwd(), '../../.gitlab/wiki-content');
@@ -73,8 +73,9 @@ export function generateStaticParams() {
   }));
 }
 
-export default function DocsPage({ params }: PageProps): JSX.Element {
-  const slug = params.slug || [];
+export default async function DocsPage({ params }: PageProps): Promise<JSX.Element> {
+  const { slug: slugParam } = await params;
+  const slug = slugParam || [];
   
   // Handle root /docs route
   if (slug.length === 0) {

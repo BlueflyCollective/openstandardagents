@@ -9,9 +9,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 function getPost(slug: string): {
@@ -69,7 +69,8 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const post = getPost(params.slug);
+  const { slug } = await params;
+  const post = getPost(slug);
 
   if (!post) {
     return {};
@@ -89,8 +90,9 @@ export async function generateMetadata({
   };
 }
 
-export default function BlogPostPage({ params }: PageProps): JSX.Element {
-  const post = getPost(params.slug);
+export default async function BlogPostPage({ params }: PageProps): Promise<JSX.Element> {
+  const { slug } = await params;
+  const post = getPost(slug);
 
   if (!post) {
     notFound();
