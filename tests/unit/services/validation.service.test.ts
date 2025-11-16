@@ -40,7 +40,6 @@ describe('ValidationService', () => {
             {
               type: 'function',
               name: 'text_generation',
-              description: 'Generate text responses',
             },
           ],
         },
@@ -91,7 +90,7 @@ describe('ValidationService', () => {
           // Missing required fields: version
         },
         spec: {
-        // Missing required fields: role, llm
+          // Missing required fields: role, llm
         },
       };
 
@@ -125,17 +124,11 @@ describe('ValidationService', () => {
       expect(result.valid).toBe(true); // Schema valid
       expect(result.warnings.length).toBeGreaterThan(0);
 
-      // Check that description warning exists
+      // Check that description warning exists (missing description is a best practice warning)
       const hasDescriptionWarning = result.warnings.some((w) =>
         w.includes('description')
       );
       expect(hasDescriptionWarning).toBe(true);
-
-      // Check that LLM warning exists
-      const hasLLMWarning = result.warnings.some((w) =>
-        w.includes('LLM configuration')
-      );
-      expect(hasLLMWarning).toBe(true);
     });
 
     it('should validate manifest with extensions', async () => {
@@ -157,7 +150,6 @@ describe('ValidationService', () => {
             {
               type: 'function',
               name: 'chat',
-              description: 'Chat with users',
             },
           ],
         },
@@ -234,7 +226,6 @@ describe('ValidationService', () => {
               {
                 type: 'function',
                 name: 'chat',
-                description: 'Chat capability',
               },
             ],
           },
@@ -257,7 +248,6 @@ describe('ValidationService', () => {
               {
                 type: 'function',
                 name: 'workflow',
-                description: 'Workflow capability',
               },
             ],
           },

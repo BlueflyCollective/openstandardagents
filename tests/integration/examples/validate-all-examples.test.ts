@@ -74,7 +74,6 @@ describe('All Examples Validation', () => {
             {
               type: 'function',
               name: 'send_message',
-              description: 'Send messages',
             },
           ],
         },
