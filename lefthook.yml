@@ -9,14 +9,17 @@ pre-commit:
     # Block .md files in root (except README.md)
     block-root-md:
       run: |
-        ROOT_MD=$(git diff --cached --name-only --diff-filter=A | grep -E '^[^/]+.md$' | grep -v '^README.md$' || true)
+        # Allow standard open source project files
+        ROOT_MD=$(git diff --cached --name-only --diff-filter=A | grep -E '^[^/]+.md$' | grep -v -E '^(README|CONTRIBUTING|CHANGELOG|LICENSE|CODE_OF_CONDUCT).md$' || true)
         if [ -n "$ROOT_MD" ]; then
           echo ""
-          echo "❌ ERROR: .md files in root are forbidden"
+          echo "❌ ERROR: .md files in root are forbidden (except standard OSS files)"
           echo "$ROOT_MD" | sed 's/^/  • /'
           echo ""
           echo "✅ Use GitLab Wiki instead:"
           echo "   buildkit gitlab wiki create --slug "page-name" --file file.md"
+          echo ""
+          echo "ℹ️  Allowed root .md files: README.md, CONTRIBUTING.md, CHANGELOG.md, LICENSE.md, CODE_OF_CONDUCT.md"
           echo ""
           exit 1
         fi
