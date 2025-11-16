@@ -49,7 +49,8 @@ describe('ValidationService', () => {
       expect(result.valid).toBe(true);
       expect(result.errors).toHaveLength(0);
       expect(result.manifest).toBeDefined();
-      expect(result.manifest?.metadata.name).toBe('test-agent');
+      expect(result.manifest?.metadata).toBeDefined();
+      expect(result.manifest?.metadata?.name).toBe('test-agent');
     });
 
     it('should reject invalid agent ID (uppercase)', async () => {
