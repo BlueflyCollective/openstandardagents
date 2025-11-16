@@ -495,3 +495,4 @@ pages:
       - public
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
+      when: always  # Run even if previous stages failed
