@@ -149,9 +149,13 @@ release:dev:
       # Update package.json version
       npm version ${DEV_VERSION} --no-git-tag-version
 
+      # Configure npm to use GitLab Package Registry
+      echo "@bluefly:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
+      echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+
       # Publish to GitLab Package Registry
       echo "Publishing to GitLab Package Registry..."
-      npm publish --registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/ --tag dev
+      npm publish --tag dev
 
       echo "Development release ${DEV_VERSION} published"
   only:
@@ -189,9 +193,13 @@ release:rc:
       # Update package.json version
       npm version ${RC_VERSION} --no-git-tag-version
 
+      # Configure npm to use GitLab Package Registry
+      echo "@bluefly:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
+      echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+
       # Publish to GitLab Package Registry
       echo "Publishing to GitLab Package Registry..."
-      npm publish --registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/ --tag rc
+      npm publish --tag rc
 
       echo "Release candidate ${RC_VERSION} published"
       echo "Ready for production release (manual trigger required)"
@@ -234,9 +242,13 @@ release:prod:
       git remote set-url origin "https://oauth2:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
       git push origin "v${CURRENT_VERSION}"
 
+      # Configure npm to use GitLab Package Registry
+      echo "@bluefly:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
+      echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+
       # Publish to GitLab Package Registry
       echo "Publishing to GitLab Package Registry..."
-      npm publish --registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/ --tag latest
+      npm publish --tag latest
 
       # Publish to npmjs.org (if NPM_TOKEN is configured)
       if [ -n "$NPM_TOKEN" ]; then
