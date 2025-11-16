@@ -54,7 +54,7 @@ export class SchemaRepository implements ISchemaRepository {
     const schemaMap: Record<SchemaVersion, string> = {
       '0.2.3': 'spec/v0.2.3/ossa-0.2.3.schema.json',
       '0.2.2': 'spec/v0.2.2/ossa-0.2.2.schema.json',
-      '0.1.9': 'spec/v0.1.9/ossa-v0.1.9.schema.json',
+      '0.1.9': 'spec/versions/v0.1.9/ossa-v0.1.9.schema.json',
     };
 
     const relativePath = schemaMap[version];

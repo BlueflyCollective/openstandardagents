@@ -24,11 +24,8 @@ describe('SchemaRepository', () => {
       expect(schema).toBeDefined();
       expect(schema.$schema).toBe('http://json-schema.org/draft-07/schema#');
       expect(schema.title).toContain('OSSA');
-      // v0.2.3 uses Kubernetes-style manifest format
-      expect((schema.properties as any).apiVersion).toBeDefined();
-      expect((schema.properties as any).kind).toBeDefined();
-      expect((schema.properties as any).metadata).toBeDefined();
-      expect((schema.properties as any).spec).toBeDefined();
+      expect((schema.properties as any).ossaVersion).toBeDefined();
+      expect((schema.properties as any).agent).toBeDefined();
     });
 
     it('should load v0.1.9 schema', async () => {

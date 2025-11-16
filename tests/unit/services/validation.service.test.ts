@@ -23,14 +23,11 @@ describe('ValidationService', () => {
   describe('validate()', () => {
     it('should validate a correct minimal manifest (v0.2.3)', async () => {
       const manifest: any = {
-        apiVersion: 'ossa/v0.2.3',
-        kind: 'Agent',
-        metadata: {
-          name: 'test-agent',
-          version: '0.2.3',
-        },
-        spec: {
+        ossaVersion: '0.2.3',
+        agent: {
+          id: 'test-agent',
           name: 'Test Agent',
+          version: '0.2.3',
           role: 'chat',
           description: 'A test agent',
           runtime: {
@@ -63,19 +60,16 @@ describe('ValidationService', () => {
       expect(result.valid).toBe(true);
       expect(result.errors).toHaveLength(0);
       expect(result.manifest).toBeDefined();
-      expect(result.manifest?.metadata.name).toBe('test-agent');
+      expect(result.manifest?.agent.id).toBe('test-agent');
     });
 
     it('should reject invalid agent ID (uppercase)', async () => {
       const manifest = {
-        apiVersion: 'ossa/v0.2.3',
-        kind: 'Agent',
-        metadata: {
-          name: 'INVALID_ID', // Must be lowercase DNS-1123 format
-          version: '0.2.3',
-        },
-        spec: {
+        ossaVersion: '0.2.3',
+        agent: {
+          id: 'INVALID_ID', // Must be lowercase DNS-1123 format
           name: 'Test',
+          version: '0.2.3',
           role: 'chat',
           runtime: { type: 'docker' },
           capabilities: [
@@ -98,9 +92,11 @@ describe('ValidationService', () => {
 
     it('should reject manifest missing required fields', async () => {
       const manifest = {
-        apiVersion: 'ossa/v0.2.3',
-        kind: 'Agent',
-        // Missing required fields: metadata, spec
+        ossaVersion: '0.2.3',
+        agent: {
+          id: 'test-agent',
+          // Missing required fields: name, version, role, runtime, capabilities
+        },
       };
 
       const result = await validationService.validate(manifest, '0.2.3');
@@ -111,14 +107,11 @@ describe('ValidationService', () => {
 
     it('should generate warnings for missing best practices', async () => {
       const manifest: any = {
-        apiVersion: 'ossa/v0.2.3',
-        kind: 'Agent',
-        metadata: {
-          name: 'test-agent',
-          version: '0.2.3',
-        },
-        spec: {
+        ossaVersion: '0.2.3',
+        agent: {
+          id: 'test-agent',
           name: 'Test Agent',
+          version: '0.2.3',
           role: 'chat',
           // Missing: description, llm, tools, autonomy, constraints
           runtime: { type: 'docker' },
@@ -153,14 +146,11 @@ describe('ValidationService', () => {
 
     it('should validate manifest with extensions', async () => {
       const manifest: any = {
-        apiVersion: 'ossa/v0.2.3',
-        kind: 'Agent',
-        metadata: {
-          name: 'test-agent',
-          version: '0.2.3',
-        },
-        spec: {
+        ossaVersion: '0.2.3',
+        agent: {
+          id: 'test-agent',
           name: 'Test Agent',
+          version: '0.2.3',
           role: 'chat',
           description: 'Test agent with extensions',
           runtime: { type: 'k8s' },
@@ -198,14 +188,11 @@ describe('ValidationService', () => {
 
     it('should reject manifest with invalid version string', async () => {
       const manifest = {
-        apiVersion: 'ossa/v0.2.3',
-        kind: 'Agent',
-        metadata: {
-          name: 'test-agent',
-          version: 'not-semver', // Invalid semver
-        },
-        spec: {
+        ossaVersion: '0.2.3',
+        agent: {
+          id: 'test-agent',
           name: 'Test',
+          version: 'not-semver', // Invalid semver
           role: 'chat',
           runtime: { type: 'docker' },
           capabilities: [],
@@ -233,14 +220,11 @@ describe('ValidationService', () => {
     it('should validate multiple manifests', async () => {
       const manifests: any[] = [
         {
-          apiVersion: 'ossa/v0.2.3',
-          kind: 'Agent',
-          metadata: {
-            name: 'agent-1',
-            version: '0.2.3',
-          },
-          spec: {
+          ossaVersion: '0.2.3',
+          agent: {
+            id: 'agent-1',
             name: 'Agent 1',
+            version: '0.2.3',
             role: 'chat',
             description: 'First agent',
             runtime: { type: 'docker' },
@@ -255,14 +239,11 @@ describe('ValidationService', () => {
           },
         },
         {
-          apiVersion: 'ossa/v0.2.3',
-          kind: 'Agent',
-          metadata: {
-            name: 'agent-2',
-            version: '0.2.3',
-          },
-          spec: {
+          ossaVersion: '0.2.3',
+          agent: {
+            id: 'agent-2',
             name: 'Agent 2',
+            version: '0.2.3',
             role: 'workflow',
             description: 'Second agent',
             runtime: { type: 'k8s' },
@@ -288,14 +269,11 @@ describe('ValidationService', () => {
     it('should identify invalid manifests in a batch', async () => {
       const manifests = [
         {
-          apiVersion: 'ossa/v0.2.3',
-          kind: 'Agent',
-          metadata: {
-            name: 'valid-agent',
-            version: '0.2.3',
-          },
-          spec: {
+          ossaVersion: '0.2.3',
+          agent: {
+            id: 'valid-agent',
             name: 'Valid',
+            version: '0.2.3',
             role: 'chat',
             runtime: { type: 'docker' },
             capabilities: [
@@ -309,14 +287,12 @@ describe('ValidationService', () => {
           },
         },
         {
-          apiVersion: 'ossa/v0.2.3',
-          kind: 'Agent',
-          metadata: {
-            name: 'INVALID', // Invalid ID - uppercase not allowed
-            version: '0.2.3',
-          },
-          spec: {
+          ossaVersion: '0.2.3',
+          agent: {
+            id: 'INVALID',
+            // Invalid ID - uppercase not allowed
             name: 'Invalid',
+            version: '0.2.3',
             role: 'chat',
             runtime: { type: 'docker' },
             capabilities: [
