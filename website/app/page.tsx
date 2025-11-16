@@ -76,7 +76,7 @@ export default function HomePage(): JSX.Element {
           
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div className="card-hover p-8">
-              <div className="text-5xl mb-4">📋</div>
+              
               <h3 className="text-2xl font-semibold mb-4 text-primary">Specification Standard</h3>
               <p className="text-gray-700 mb-4">
                 OSA is <strong>NOT a framework</strong> - it's a specification that defines the contract
@@ -88,7 +88,7 @@ export default function HomePage(): JSX.Element {
               </p>
             </div>
             <div className="card-hover p-8">
-              <div className="text-5xl mb-4">🔌</div>
+              
               <h3 className="text-2xl font-semibold mb-4 text-primary">Framework-Agnostic</h3>
               <p className="text-gray-700 mb-4">
                 Works seamlessly with any LLM framework or SDK - LangChain, Anthropic, OpenAI,
@@ -99,7 +99,7 @@ export default function HomePage(): JSX.Element {
               </p>
             </div>
             <div className="card-hover p-8">
-              <div className="text-5xl mb-4">🌐</div>
+              
               <h3 className="text-2xl font-semibold mb-4 text-primary">Vendor-Neutral</h3>
               <p className="text-gray-700 mb-4">
                 No vendor lock-in. Write once, deploy anywhere. Move agents between teams,
@@ -254,7 +254,7 @@ osa export --to langchain`}</code>
               </p>
             </div>
             <div className="card-hover p-6 text-center">
-              <div className="text-5xl mb-4">🚀</div>
+              
               <h3 className="text-xl font-semibold mb-3">Portable</h3>
               <p className="text-gray-700">
                 Move agents between teams, organizations, and infrastructures without rewriting code.
@@ -275,21 +275,21 @@ osa export --to langchain`}</code>
               </p>
             </div>
             <div className="card-hover p-6 text-center">
-              <div className="text-5xl mb-4">🌐</div>
+              
               <h3 className="text-xl font-semibold mb-3">Open Source</h3>
               <p className="text-gray-700">
                 Apache 2.0 licensed. Community-driven. Transparent development process.
               </p>
             </div>
             <div className="card-hover p-6 text-center">
-              <div className="text-5xl mb-4">⚡</div>
+              
               <h3 className="text-xl font-semibold mb-3">Fast Integration</h3>
               <p className="text-gray-700">
                 Export to any framework format. Import existing agents. Seamless migration paths.
               </p>
             </div>
             <div className="card-hover p-6 text-center">
-              <div className="text-5xl mb-4">🔒</div>
+              
               <h3 className="text-xl font-semibold mb-3">Secure by Design</h3>
               <p className="text-gray-700">
                 Built-in security patterns, authentication, and compliance features.

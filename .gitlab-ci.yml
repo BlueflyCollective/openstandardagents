@@ -479,3 +479,19 @@ workflow:
     - if: $CI_COMMIT_TAG
     # Default: run
     - when: always
+
+# GitLab Pages deployment
+pages:
+  stage: deploy
+  image: node:20-alpine
+  before_script:
+    - cd website
+    - npm ci
+  script:
+    - npm run build
+    - mv out ../public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
