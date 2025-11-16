@@ -23,33 +23,24 @@ describe('ValidationService', () => {
   describe('validate()', () => {
     it('should validate a correct minimal manifest (v0.2.3)', async () => {
       const manifest: any = {
-        ossaVersion: '0.2.3',
-        agent: {
-          id: 'test-agent',
-          name: 'Test Agent',
-          version: '0.2.3',
-          role: 'chat',
+        apiVersion: 'ossa/v0.2.3',
+        kind: 'Agent',
+        metadata: {
+          name: 'test-agent',
+          version: '1.0.0',
           description: 'A test agent',
-          runtime: {
-            type: 'docker',
-            image: 'test-agent:0.2.3',
+        },
+        spec: {
+          role: 'You are a helpful assistant',
+          llm: {
+            provider: 'openai',
+            model: 'gpt-4',
           },
-          capabilities: [
+          tools: [
             {
+              type: 'function',
               name: 'text_generation',
               description: 'Generate text responses',
-              input_schema: {
-                type: 'object',
-                properties: {
-                  prompt: { type: 'string' },
-                },
-              },
-              output_schema: {
-                type: 'object',
-                properties: {
-                  response: { type: 'string' },
-                },
-              },
             },
           ],
         },
@@ -60,18 +51,19 @@ describe('ValidationService', () => {
       expect(result.valid).toBe(true);
       expect(result.errors).toHaveLength(0);
       expect(result.manifest).toBeDefined();
-      expect(result.manifest?.agent.id).toBe('test-agent');
+      expect(result.manifest?.metadata.name).toBe('test-agent');
     });
 
     it('should reject invalid agent ID (uppercase)', async () => {
       const manifest = {
-        ossaVersion: '0.2.3',
-        agent: {
-          id: 'INVALID_ID', // Must be lowercase DNS-1123 format
-          name: 'Test',
-          version: '0.2.3',
-          role: 'chat',
-          runtime: { type: 'docker' },
+        apiVersion: 'ossa/v0.2.3',
+        kind: 'Agent',
+        metadata: {
+          name: 'INVALID_ID', // Must be lowercase DNS-1123 format
+          version: '1.0.0',
+        },
+        spec: {
+          role: 'You are a helpful assistant',
           capabilities: [
             {
               name: 'test',
@@ -92,10 +84,14 @@ describe('ValidationService', () => {
 
     it('should reject manifest missing required fields', async () => {
       const manifest = {
-        ossaVersion: '0.2.3',
-        agent: {
-          id: 'test-agent',
-          // Missing required fields: name, version, role, runtime, capabilities
+        apiVersion: 'ossa/v0.2.3',
+        kind: 'Agent',
+        metadata: {
+          name: 'test-agent',
+          // Missing required fields: version
+        },
+        spec: {
+        // Missing required fields: role, llm
         },
       };
 
@@ -107,22 +103,20 @@ describe('ValidationService', () => {
 
     it('should generate warnings for missing best practices', async () => {
       const manifest: any = {
-        ossaVersion: '0.2.3',
-        agent: {
-          id: 'test-agent',
-          name: 'Test Agent',
-          version: '0.2.3',
-          role: 'chat',
-          // Missing: description, llm, tools, autonomy, constraints
-          runtime: { type: 'docker' },
-          capabilities: [
-            {
-              name: 'basic_capability',
-              description: 'Basic capability',
-              input_schema: { type: 'object' },
-              output_schema: { type: 'object' },
-            },
-          ],
+        apiVersion: 'ossa/v0.2.3',
+        kind: 'Agent',
+        metadata: {
+          name: 'test-agent',
+          version: '1.0.0',
+          // Missing: description (best practice)
+        },
+        spec: {
+          role: 'You are a helpful assistant',
+          llm: {
+            provider: 'openai',
+            model: 'gpt-4',
+          },
+          tools: [],
         },
       };
 
@@ -146,26 +140,24 @@ describe('ValidationService', () => {
 
     it('should validate manifest with extensions', async () => {
       const manifest: any = {
-        ossaVersion: '0.2.3',
-        agent: {
-          id: 'test-agent',
-          name: 'Test Agent',
-          version: '0.2.3',
-          role: 'chat',
+        apiVersion: 'ossa/v0.2.3',
+        kind: 'Agent',
+        metadata: {
+          name: 'test-agent',
+          version: '1.0.0',
           description: 'Test agent with extensions',
-          runtime: { type: 'k8s' },
-          capabilities: [
+        },
+        spec: {
+          role: 'You are a helpful assistant',
+          llm: {
+            provider: 'openai',
+            model: 'gpt-4',
+          },
+          tools: [
             {
+              type: 'function',
               name: 'chat',
               description: 'Chat with users',
-              input_schema: {
-                type: 'object',
-                properties: { message: { type: 'string' } },
-              },
-              output_schema: {
-                type: 'object',
-                properties: { response: { type: 'string' } },
-              },
             },
           ],
         },
@@ -188,14 +180,19 @@ describe('ValidationService', () => {
 
     it('should reject manifest with invalid version string', async () => {
       const manifest = {
-        ossaVersion: '0.2.3',
-        agent: {
-          id: 'test-agent',
-          name: 'Test',
+        apiVersion: 'ossa/v0.2.3',
+        kind: 'Agent',
+        metadata: {
+          name: 'test-agent',
           version: 'not-semver', // Invalid semver
-          role: 'chat',
-          runtime: { type: 'docker' },
-          capabilities: [],
+        },
+        spec: {
+          role: 'You are a helpful assistant',
+          llm: {
+            provider: 'openai',
+            model: 'gpt-4',
+          },
+          tools: [],
         },
       };
 
@@ -220,39 +217,47 @@ describe('ValidationService', () => {
     it('should validate multiple manifests', async () => {
       const manifests: any[] = [
         {
-          ossaVersion: '0.2.3',
-          agent: {
-            id: 'agent-1',
-            name: 'Agent 1',
-            version: '0.2.3',
-            role: 'chat',
+          apiVersion: 'ossa/v0.2.3',
+          kind: 'Agent',
+          metadata: {
+            name: 'agent-1',
+            version: '1.0.0',
             description: 'First agent',
-            runtime: { type: 'docker' },
-            capabilities: [
+          },
+          spec: {
+            role: 'You are a helpful assistant',
+            llm: {
+              provider: 'openai',
+              model: 'gpt-4',
+            },
+            tools: [
               {
+                type: 'function',
                 name: 'chat',
                 description: 'Chat capability',
-                input_schema: { type: 'object' },
-                output_schema: { type: 'object' },
               },
             ],
           },
         },
         {
-          ossaVersion: '0.2.3',
-          agent: {
-            id: 'agent-2',
-            name: 'Agent 2',
-            version: '0.2.3',
-            role: 'workflow',
+          apiVersion: 'ossa/v0.2.3',
+          kind: 'Agent',
+          metadata: {
+            name: 'agent-2',
+            version: '1.0.0',
             description: 'Second agent',
-            runtime: { type: 'k8s' },
-            capabilities: [
+          },
+          spec: {
+            role: 'You are a workflow assistant',
+            llm: {
+              provider: 'openai',
+              model: 'gpt-4',
+            },
+            tools: [
               {
+                type: 'function',
                 name: 'workflow',
                 description: 'Workflow capability',
-                input_schema: { type: 'object' },
-                output_schema: { type: 'object' },
               },
             ],
           },
@@ -269,40 +274,31 @@ describe('ValidationService', () => {
     it('should identify invalid manifests in a batch', async () => {
       const manifests = [
         {
-          ossaVersion: '0.2.3',
-          agent: {
-            id: 'valid-agent',
-            name: 'Valid',
-            version: '0.2.3',
-            role: 'chat',
-            runtime: { type: 'docker' },
-            capabilities: [
-              {
-                name: 'test',
-                description: 'Test capability',
-                input_schema: { type: 'object' },
-                output_schema: { type: 'object' },
-              },
-            ],
+          apiVersion: 'ossa/v0.2.3',
+          kind: 'Agent',
+          metadata: {
+            name: 'valid-agent',
+            version: '1.0.0',
+          },
+          spec: {
+            role: 'You are a helpful assistant',
+            llm: {
+              provider: 'openai',
+              model: 'gpt-4',
+            },
+            tools: [],
           },
         },
         {
-          ossaVersion: '0.2.3',
-          agent: {
-            id: 'INVALID',
-            // Invalid ID - uppercase not allowed
-            name: 'Invalid',
-            version: '0.2.3',
-            role: 'chat',
-            runtime: { type: 'docker' },
-            capabilities: [
-              {
-                name: 'test',
-                description: 'Test capability',
-                input_schema: { type: 'object' },
-                output_schema: { type: 'object' },
-              },
-            ],
+          // Invalid manifest - missing required fields
+          apiVersion: 'ossa/v0.2.3',
+          kind: 'Agent',
+          metadata: {
+            name: 'invalid-agent',
+            // Missing version
+          },
+          spec: {
+            // Missing role and llm
           },
         },
       ];

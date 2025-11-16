@@ -57,26 +57,24 @@ describe('All Examples Validation', () => {
   describe('Generated manifests', () => {
     it('should validate generated chat agent', async () => {
       const manifest = {
-        ossaVersion: '0.2.3',
-        agent: {
-          id: 'test-chat',
-          name: 'Test Chat',
-          version: '0.2.3',
-          role: 'chat',
+        apiVersion: 'ossa/v0.2.3',
+        kind: 'Agent',
+        metadata: {
+          name: 'test-chat',
+          version: '1.0.0',
           description: 'Test chat agent',
-          runtime: { type: 'docker', image: 'test:0.2.3' },
-          capabilities: [
+        },
+        spec: {
+          role: 'You are a helpful chat assistant',
+          llm: {
+            provider: 'openai',
+            model: 'gpt-4',
+          },
+          tools: [
             {
+              type: 'function',
               name: 'send_message',
               description: 'Send messages',
-              input_schema: {
-                type: 'object',
-                properties: { message: { type: 'string' } },
-              },
-              output_schema: {
-                type: 'object',
-                properties: { response: { type: 'string' } },
-              },
             },
           ],
         },
