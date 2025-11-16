@@ -5,6 +5,7 @@
 
 import { SchemaRepository } from '../../../src/repositories/schema.repository.js';
 import { ValidationService } from '../../../src/services/validation.service.js';
+import type { OssaAgent } from '../../../src/types/index.js';
 
 describe('ValidationService', () => {
   let validationService: ValidationService;
@@ -21,7 +22,7 @@ describe('ValidationService', () => {
 
   describe('validate()', () => {
     it('should validate a correct minimal manifest (v0.2.3)', async () => {
-      const manifest: any = {
+      const manifest: OssaAgent = {
         apiVersion: 'ossa/v0.2.3',
         kind: 'Agent',
         metadata: {
@@ -101,7 +102,7 @@ describe('ValidationService', () => {
     });
 
     it('should generate warnings for missing best practices', async () => {
-      const manifest: any = {
+      const manifest: OssaAgent = {
         apiVersion: 'ossa/v0.2.3',
         kind: 'Agent',
         metadata: {
@@ -132,7 +133,7 @@ describe('ValidationService', () => {
     });
 
     it('should validate manifest with extensions', async () => {
-      const manifest: any = {
+      const manifest: OssaAgent = {
         apiVersion: 'ossa/v0.2.3',
         kind: 'Agent',
         metadata: {
@@ -207,7 +208,7 @@ describe('ValidationService', () => {
 
   describe('validateMany()', () => {
     it('should validate multiple manifests', async () => {
-      const manifests: any[] = [
+      const manifests: OssaAgent[] = [
         {
           apiVersion: 'ossa/v0.2.3',
           kind: 'Agent',
