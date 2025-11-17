@@ -63,13 +63,50 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Why OSSA - The Problem Section */}
+      <section className="py-16 px-4 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+        <div className="container mx-auto max-w-5xl">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl font-bold mb-6 text-gray-900">Why Does This Matter?</h2>
+          </div>
+          <div className="prose prose-lg max-w-none">
+            <p className="text-xl text-gray-700 mb-6 leading-relaxed">
+              In the world of AI agents, <strong className="text-gray-900">everyone calls an agent something different</strong>.
+              LangChain has "chains," CrewAI has "crews," OpenAI has "assistants," Anthropic has Claude with "tools."
+              Every framework invents its own terminology, its own configuration format, its own orchestration model.
+            </p>
+            <p className="text-xl text-gray-700 mb-6 leading-relaxed">
+              This fragmentation creates <strong className="text-red-600">vendor lock-in</strong>, makes agents impossible
+              to share between teams, and forces developers to rewrite everything when switching frameworks. Want to move
+              your LangChain agent to CrewAI? Complete rewrite. Need to deploy the same agent logic across multiple
+              frameworks? Maintain separate implementations.
+            </p>
+            <p className="text-xl text-gray-700 mb-6 leading-relaxed">
+              Imagine if every API framework required its own documentation format—that was the world before OpenAPI.
+              Every API provider wrote docs differently, integration was chaos, and tooling couldn't be shared.
+              <strong className="text-gray-900"> OpenAPI solved this by creating one standard that every API could follow</strong>.
+            </p>
+            <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-blue-200">
+              <p className="text-2xl text-gray-900 font-bold mb-4">
+                OSSA solves this for AI agents.
+              </p>
+              <p className="text-xl text-gray-700">
+                <strong>One standard. Any framework. True portability.</strong> Define your agent once in OSSA format,
+                then deploy it with LangChain, CrewAI, Anthropic, OpenAI, or any other framework. Just like OpenAPI
+                unified REST APIs, OSSA unifies AI agents.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* What is OSSA Section */}
       <section className="py-20 px-4 bg-white">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold mb-6">What is Open Standard Agents?</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Open Standard Agents (OSA) is an open, vendor-neutral specification for defining AI agents,
+              Open Standard Agents (OSSA) is an open, vendor-neutral specification for defining AI agents,
               similar to how OpenAPI standardizes REST APIs. It enables interoperability across frameworks,
               runtimes, and organizations.
             </p>
