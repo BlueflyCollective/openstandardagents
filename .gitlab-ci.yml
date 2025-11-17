@@ -178,35 +178,27 @@ release:rc:
     - npm ci --legacy-peer-deps
   script:
     - |
-      echo "Publishing release candidate..."
+      echo "Using semantic-release for version management..."
 
       # Configure git
       git config --global user.email "ci@gitlab.bluefly.io"
       git config --global user.name "GitLab CI"
 
-      # Get current version and increment RC
-      CURRENT_VERSION=$(node -p "require('./package.json').version")
-      RC_VERSION="${CURRENT_VERSION}-rc.${CI_PIPELINE_IID}"
-
-      echo "Version: ${RC_VERSION}"
-
-      # Update package.json version
-      npm version ${RC_VERSION} --no-git-tag-version
-
-      # Configure npm to use GitLab Package Registry
+      # Configure npm for GitLab Package Registry
       echo "@bluefly:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
       echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
 
-      # Publish to GitLab Package Registry
-      echo "Publishing to GitLab Package Registry..."
-      npm publish --tag rc
+      # Run semantic-release (dry-run on main to preview next version)
+      echo "Next version will be determined by conventional commits..."
+      npx semantic-release --dry-run || true
 
-      echo "Release candidate ${RC_VERSION} published"
-      echo "Ready for production release (manual trigger required)"
+      echo "Release candidates are managed via semantic-release in GitHub Actions"
+      echo "See: https://github.com/BlueflyCollective/openstandardagents/actions"
   only:
     - main
   except:
     - tags
+  allow_failure: true
 
 # ============================================================================
 # STAGE 6: RELEASE PROD (main branch - MANUAL TRIGGER)
@@ -225,22 +217,18 @@ release:prod:
     - npm ci --legacy-peer-deps
   script:
     - |
-      echo "Publishing PRODUCTION release..."
-
-      # Configure git
-      git config --global user.email "ci@gitlab.bluefly.io"
-      git config --global user.name "GitLab CI"
-
-      CURRENT_VERSION=$(node -p "require('./package.json').version")
-
-      echo "Production Version: ${CURRENT_VERSION}"
-
-      # Create git tag
-      git tag -a "v${CURRENT_VERSION}" -m "Release v${CURRENT_VERSION}"
-
-      # Push tag to GitLab
-      git remote set-url origin "https://oauth2:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-      git push origin "v${CURRENT_VERSION}"
+      echo "Production releases managed via semantic-release in GitHub Actions"
+      echo ""
+      echo "To create a production release:"
+      echo "1. Merge to main with conventional commit messages"
+      echo "2. GitHub Actions will automatically:"
+      echo "   - Determine version based on commits (feat=minor, fix=patch, BREAKING=major)"
+      echo "   - Update CHANGELOG.md"
+      echo "   - Create GitHub release"
+      echo "   - Publish to npm"
+      echo "   - Deploy website to GitHub Pages"
+      echo ""
+      echo "See: https://github.com/BlueflyCollective/openstandardagents/actions"
 
       # Configure npm to use GitLab Package Registry
       echo "@bluefly:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
