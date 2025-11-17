@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: 'Learn about the Open Standard Agents Initiative - the vendor-neutral specification for AI agent orchestration.',
 };
 
-export default function AboutPage(): JSX.Element {
+export default function AboutPage() {
   return (
     <div className="container mx-auto max-w-7xl px-4 py-12">
       <div className="max-w-4xl mx-auto">

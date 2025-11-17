@@ -10,7 +10,7 @@ interface ExampleFile {
 }
 
 function getAllExamples(): ExampleFile[] {
-  const examplesDir = path.join(process.cwd(), '../../examples');
+  const examplesDir = path.join(process.cwd(), '../examples');
   const examples: ExampleFile[] = [];
 
   if (!fs.existsSync(examplesDir)) {
@@ -52,7 +52,7 @@ function getAllExamples(): ExampleFile[] {
   return examples;
 }
 
-export default function ExamplesPage(): JSX.Element {
+export default function ExamplesPage() {
   const examples = getAllExamples();
 
   return (

@@ -21,7 +21,7 @@ const allDocs: SearchResult[] = [
   { title: 'Migration Guides', href: '/docs/examples/migration-guides', category: 'Examples' },
 ];
 
-export function DocsSearch(): JSX.Element {
+export function DocsSearch() {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 

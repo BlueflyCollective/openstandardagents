@@ -3,7 +3,7 @@ interface StructuredDataProps {
   data: Record<string, any>;
 }
 
-export function StructuredData({ type, data }: StructuredDataProps): JSX.Element {
+export function StructuredData({ type, data }: StructuredDataProps) {
   const baseUrl = 'https://gitlab.bluefly.io/llm/openapi-ai-agents-standard';
 
   const getStructuredData = (): object => {

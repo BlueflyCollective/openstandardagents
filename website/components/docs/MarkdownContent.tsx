@@ -8,23 +8,25 @@ interface MarkdownContentProps {
   content: string;
 }
 
-export function MarkdownContent({ content }: MarkdownContentProps): JSX.Element {
+export function MarkdownContent({ content }: MarkdownContentProps) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={{
-        code({ className, children }) {
+        code(props: any) {
+          const { node, inline, className, children, ...rest } = props;
           const match = /language-(\w+)/.exec(className || '');
-          return match ? (
+          return !inline && match ? (
             <SyntaxHighlighter
-              style={vscDarkPlus as any}
+              style={vscDarkPlus}
               language={match[1]}
               PreTag="div"
+              {...rest}
             >
               {String(children).replace(/\n$/, '')}
             </SyntaxHighlighter>
           ) : (
-            <code className={className}>
+            <code className={className} {...rest}>
               {children}
             </code>
           );

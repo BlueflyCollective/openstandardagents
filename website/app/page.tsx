@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import { Logo } from '@/components/Logo';
 
-export default function HomePage(): JSX.Element {
+export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -23,13 +24,13 @@ export default function HomePage(): JSX.Element {
             across frameworks, runtimes, and organizations.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Link href="/docs/getting-started/installation" className="btn-primary text-lg px-8 py-4">
+            <Link href="https://gitlab.bluefly.io/llm/ossa/-/wikis/home" className="btn-primary text-lg px-8 py-4" target="_blank" rel="noopener noreferrer">
               Get Started
             </Link>
-            <Link href="/playground" className="btn-outline border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-4">
-              Try Playground
+            <Link href="https://gitlab.bluefly.io/llm/ossa" className="btn-outline border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-4" target="_blank" rel="noopener noreferrer">
+              View on GitLab
             </Link>
-            <Link href="/schema" className="btn-outline border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-4">
+            <Link href="https://gitlab.bluefly.io/llm/ossa/-/blob/main/schema/ossa.schema.json" className="btn-outline border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-4" target="_blank" rel="noopener noreferrer">
               View Schema
             </Link>
           </div>
@@ -226,8 +227,46 @@ osa export --to langchain`}</code>
           </div>
           
           <div className="text-center">
-            <Link href="/docs/getting-started/installation" className="btn-primary text-lg px-8 py-4">
+            <Link href="https://gitlab.bluefly.io/llm/ossa/-/wikis/home" className="btn-primary text-lg px-8 py-4" target="_blank" rel="noopener noreferrer">
               Read Full Installation Guide
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Integrations & Adoption Section */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="container mx-auto max-w-7xl">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Works With Your Favorite Tools</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              OSSA integrates seamlessly with leading AI frameworks, platforms, and tools.
+              Build once, deploy anywhere.
+            </p>
+          </div>
+
+          {/* Logos Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center mb-12">
+            <Logo domain="openai.com" name="OpenAI" />
+            <Logo domain="anthropic.com" name="Anthropic" />
+            <Logo domain="google.com" name="Google" />
+            <Logo domain="microsoft.com" name="Microsoft" />
+            <Logo domain="langchain.com" name="LangChain" />
+            <Logo domain="huggingface.co" name="Hugging Face" />
+            <Logo domain="kagent.dev" name="Kagent" />
+            <Logo domain="docker.com" name="Docker" />
+            <Logo domain="kubernetes.io" name="Kubernetes" />
+            <Logo domain="aws.amazon.com" name="AWS" />
+            <Logo domain="cursor.sh" name="Cursor" />
+            <Logo domain="github.com" name="GitHub" />
+          </div>
+
+          <div className="text-center">
+            <p className="text-lg text-gray-600 mb-6">
+              And many more frameworks, platforms, and tools...
+            </p>
+            <Link href="https://gitlab.bluefly.io/llm/ossa/-/wikis/Integrations" className="btn-primary" target="_blank" rel="noopener noreferrer">
+              View All Integrations
             </Link>
           </div>
         </div>
@@ -246,7 +285,6 @@ osa export --to langchain`}</code>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="card-hover p-6 text-center">
-              <div className="text-5xl mb-4">🔧</div>
               <h3 className="text-xl font-semibold mb-3">Framework-Agnostic</h3>
               <p className="text-gray-700">
                 Works with LangChain, Anthropic, OpenAI, CrewAI, Langflow, AutoGen, and more.
@@ -261,14 +299,12 @@ osa export --to langchain`}</code>
               </p>
             </div>
             <div className="card-hover p-6 text-center">
-              <div className="text-5xl mb-4">✅</div>
               <h3 className="text-xl font-semibold mb-3">Validatable</h3>
               <p className="text-gray-700">
                 JSON Schema validation ensures correctness before deployment. Catch errors early.
               </p>
             </div>
             <div className="card-hover p-6 text-center">
-              <div className="text-5xl mb-4">📚</div>
               <h3 className="text-xl font-semibold mb-3">Well-Documented</h3>
               <p className="text-gray-700">
                 Comprehensive documentation, examples, and tooling. Built for developers, by developers.
@@ -296,7 +332,6 @@ osa export --to langchain`}</code>
               </p>
             </div>
             <div className="card-hover p-6 text-center">
-              <div className="text-5xl mb-4">📊</div>
               <h3 className="text-xl font-semibold mb-3">Observable</h3>
               <p className="text-gray-700">
                 Built-in observability, logging, and monitoring. Track agent performance and behavior.
@@ -314,11 +349,11 @@ osa export --to langchain`}</code>
             Join the community and start building with Open Standard Agents today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/playground" className="btn-secondary bg-white text-primary hover:bg-gray-100">
-              Try the Playground
-            </Link>
-            <Link href="/examples" className="btn-outline border-white text-white hover:bg-white hover:text-primary">
+            <Link href="https://gitlab.bluefly.io/llm/ossa/-/tree/main/examples" className="btn-secondary bg-white text-primary hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
               View Examples
+            </Link>
+            <Link href="https://gitlab.bluefly.io/llm/ossa/-/issues" className="btn-outline border-white text-white hover:bg-white hover:text-primary" target="_blank" rel="noopener noreferrer">
+              Report Issues
             </Link>
           </div>
         </div>

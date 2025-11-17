@@ -8,7 +8,7 @@ const versions = [
   { value: 'v1.0', label: 'v1.0 (Coming Soon)', disabled: true },
 ];
 
-export function VersionSelector(): JSX.Element {
+export function VersionSelector() {
   const [selectedVersion, setSelectedVersion] = useState('v0.2.2');
   const router = useRouter();
   const pathname = usePathname();

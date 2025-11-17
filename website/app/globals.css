@@ -29,15 +29,15 @@
   }
 
   body {
-    @apply font-body text-gray-900 bg-white antialiased;
+    @apply font-sans text-gray-900 bg-white antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-semibold;
+    @apply font-sans font-semibold;
   }
 
   code {
-    @apply font-code;
+    @apply font-mono;
   }
 
   pre {

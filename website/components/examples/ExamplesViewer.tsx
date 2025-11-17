@@ -15,7 +15,7 @@ interface ExamplesViewerProps {
   examples: ExampleFile[];
 }
 
-export function ExamplesViewer({ examples }: ExamplesViewerProps): JSX.Element {
+export function ExamplesViewer({ examples }: ExamplesViewerProps) {
   const [selectedExample, setSelectedExample] = useState<ExampleFile | null>(
     examples[0] || null
   );

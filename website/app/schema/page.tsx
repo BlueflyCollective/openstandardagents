@@ -20,7 +20,7 @@ function loadSchema(): any {
   return null;
 }
 
-export default function SchemaPage(): JSX.Element {
+export default function SchemaPage() {
   const schema = loadSchema();
 
   if (!schema) {

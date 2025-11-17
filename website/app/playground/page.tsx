@@ -23,7 +23,7 @@ spec:
   tools: []
 `;
 
-export default function PlaygroundPage(): JSX.Element {
+export default function PlaygroundPage() {
   const [code, setCode] = useState(exampleManifest);
   const [validationResult, setValidationResult] = useState<{
     valid: boolean;

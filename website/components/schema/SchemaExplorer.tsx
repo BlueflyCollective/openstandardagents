@@ -47,7 +47,7 @@ function extractProperties(schema: any, path = ''): PropertyInfo[] {
   return properties;
 }
 
-export function SchemaExplorer({ schema }: SchemaExplorerProps): JSX.Element {
+export function SchemaExplorer({ schema }: SchemaExplorerProps) {
   const [selectedPath, setSelectedPath] = useState<string>('');
   const [expandedPaths, setExpandedPaths] = useState<Set<string>>(
     new Set([''])

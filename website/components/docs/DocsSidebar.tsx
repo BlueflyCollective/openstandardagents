@@ -33,7 +33,7 @@ const navigation = [
   },
 ];
 
-export function DocsSidebar(): JSX.Element {
+export function DocsSidebar() {
   const pathname = usePathname();
   const [openSections, setOpenSections] = useState<string[]>(['Getting Started']);
 

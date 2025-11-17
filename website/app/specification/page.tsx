@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: 'The complete Open Standard Agents specification documentation.',
 };
 
-export default function SpecificationPage(): JSX.Element {
+export default function SpecificationPage() {
   return (
     <div className="container mx-auto max-w-7xl px-4 py-12">
       <div className="max-w-4xl mx-auto">
