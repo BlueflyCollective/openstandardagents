@@ -55,15 +55,71 @@ function getAllExamples(): ExampleFile[] {
 export default function ExamplesPage() {
   const examples = getAllExamples();
 
+  // Group examples by category with counts
+  const categoryStats = examples.reduce((acc, ex) => {
+    acc[ex.category] = (acc[ex.category] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
   return (
-    <div className="container mx-auto max-w-7xl px-4 py-8">
-      <h1 className="text-4xl font-bold mb-4">Open Standard Agents Examples</h1>
-      <p className="text-lg text-gray-600 mb-8">
-        Browse example Open Standard Agents manifests and learn from real-world
-        implementations across Cursor, OpenAI, CrewAI, LangChain, Anthropic, and more.
-      </p>
-      <ExamplesViewer examples={examples} />
-    </div>
+    <>
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-primary via-accent to-secondary text-white py-16 px-4">
+        <div className="container mx-auto max-w-6xl text-center">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full mb-6">
+            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h1 className="text-5xl font-bold mb-4">OSSA Examples Gallery</h1>
+          <p className="text-xl text-white/90 mb-2">
+            {examples.length}+ real-world Open Standard Agents manifests
+          </p>
+          <p className="text-base text-white/80">
+            Learn from production-ready implementations across multiple frameworks
+          </p>
+        </div>
+      </div>
+
+      {/* Stats Bar */}
+      <div className="bg-gradient-to-r from-primary/5 to-secondary/5 border-b border-primary/20">
+        <div className="container mx-auto max-w-7xl px-4 py-6">
+          <div className="flex flex-wrap gap-6 justify-center items-center">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary">{examples.length}</div>
+              <div className="text-sm text-gray-600">Total Examples</div>
+            </div>
+            <div className="w-px h-12 bg-gray-300"></div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-secondary">{Object.keys(categoryStats).length}</div>
+              <div className="text-sm text-gray-600">Categories</div>
+            </div>
+            <div className="w-px h-12 bg-gray-300"></div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary">15+</div>
+              <div className="text-sm text-gray-600">Frameworks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto max-w-7xl px-4 py-12">
+        {/* Category Overview */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold mb-4 text-gray-900">📚 Browse by Category</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {Object.entries(categoryStats).sort(([,a], [,b]) => b - a).map(([category, count]) => (
+              <div key={category} className="bg-white border-2 border-gray-200 rounded-lg p-3 text-center hover:border-primary hover:shadow-md transition-all">
+                <div className="text-2xl font-bold text-primary">{count}</div>
+                <div className="text-xs text-gray-600 mt-1 capitalize">{category}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <ExamplesViewer examples={examples} />
+      </div>
+    </>
   );
 }
 
