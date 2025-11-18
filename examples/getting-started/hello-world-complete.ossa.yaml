@@ -1,5 +1,5 @@
 # ============================================================================
-# OSSA v0.2.2 - Complete "Hello World" Agent Example
+# OSSA v0.2.x - Complete "Hello World" Agent Example
 # ============================================================================
 # 
 # PURPOSE:
@@ -32,7 +32,7 @@
 #
 # ============================================================================
 
-apiVersion: ossa/v0.2.2
+apiVersion: ossa/v0.2.x
 kind: Agent
 
 metadata:
@@ -249,7 +249,7 @@ spec:
 # After understanding this example:
 # 1. Review examples/intermediate/ for more complex patterns
 # 2. Check examples/advanced/ for enterprise patterns
-# 3. Read the full OSSA specification at spec/v0.2.2/ossa-0.2.2.schema.json
+# 3. Read the full OSSA specification at spec/v0.2.x/ossa-0.2.x.schema.json
 # 4. Explore integration examples in examples/bridges/
 # 5. See migration guides in examples/migration-guides/
 #
@@ -257,7 +257,7 @@ spec:
 # RELATED DOCUMENTATION
 # ============================================================================
 #
-# - OSSA Specification: spec/v0.2.2/ossa-0.2.2.schema.json
+# - OSSA Specification: spec/v0.2.x/ossa-0.2.x.schema.json
 # - Schema Reference: docs/schemas/
 # - API Reference: openapi/
 # - GitLab Wiki: https://gitlab.bluefly.io/llm/openapi-ai-agents-standard/-/wikis
