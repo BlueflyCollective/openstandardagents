@@ -43,7 +43,7 @@ function getAllPages(): string[] {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://github.com/BlueflyCollective/openstandardagents';
+  const baseUrl = 'https://ossa.dev';
   const pages = getAllPages();
 
   return pages.map((page) => ({

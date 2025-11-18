@@ -2,14 +2,15 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { OSSA_VERSION_TAG } from '@/lib/version';
 
 const versions = [
-  { value: 'v0.2.2', label: 'v0.2.2 (Current)', default: true },
+  { value: OSSA_VERSION_TAG, label: `${OSSA_VERSION_TAG} (Current)`, default: true },
   { value: 'v1.0', label: 'v1.0 (Coming Soon)', disabled: true },
 ];
 
 export function VersionSelector() {
-  const [selectedVersion, setSelectedVersion] = useState('v0.2.2');
+  const [selectedVersion, setSelectedVersion] = useState(OSSA_VERSION_TAG);
   const router = useRouter();
   const pathname = usePathname();
 

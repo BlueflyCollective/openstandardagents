@@ -18,7 +18,10 @@ export default function HomePage() {
             </span>
           </div>
           <h1 className="text-6xl md:text-7xl font-bold mb-6 leading-tight">
-            Open Standard Agents
+            Open Standard for{' '}
+            <span className="bg-gradient-to-r from-yellow-300 via-orange-300 to-pink-300 bg-clip-text text-transparent animate-pulse">
+              Scalable Agents
+            </span>
           </h1>
           <p className="text-3xl md:text-4xl mb-6 font-light">
             Industry Standard for Agent Orchestration
@@ -29,11 +32,11 @@ export default function HomePage() {
             across frameworks, runtimes, and organizations.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Link href="/docs" className="btn-primary text-lg px-8 py-4">
+            <a href="#get-started" className="btn-primary text-lg px-8 py-4">
               Get Started
-            </Link>
-            <Link href="https://github.com/BlueflyCollective/OSSA" className="btn-outline border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-4" target="_blank" rel="noopener noreferrer">
-              View on GitHub
+            </a>
+            <Link href="https://gitlab.bluefly.io/llm/ossa" className="btn-outline border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-4" target="_blank" rel="noopener noreferrer">
+              View on GitLab
             </Link>
             <Link href="/schema" className="btn-outline border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-4">
               View Schema
@@ -222,7 +225,7 @@ export default function HomePage() {
       </section>
 
       {/* Quick Start Section */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section id="get-started" className="py-20 px-4 bg-gray-50 scroll-mt-20">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-12">
             <h2 className="text-5xl font-bold mb-6">Get Started in Minutes</h2>
@@ -269,8 +272,8 @@ osa export --to langchain`}</code>
           </div>
           
           <div className="text-center">
-            <Link href="/docs/getting-started/5-minute-overview" className="btn-primary text-lg px-8 py-4">
-              Read Full Installation Guide
+            <Link href="/docs/getting-started/5-Minute-Overview" className="btn-primary text-lg px-8 py-4">
+              Read Full Getting Started Guide
             </Link>
           </div>
         </div>
@@ -307,7 +310,7 @@ osa export --to langchain`}</code>
             <p className="text-lg text-gray-600 mb-6">
               And many more frameworks, platforms, and tools...
             </p>
-            <Link href="https://github.com/BlueflyCollective/openstandardagents/wiki/Integrations" className="btn-primary" target="_blank" rel="noopener noreferrer">
+            <Link href="https://gitlab.bluefly.io/llm/ossa/-/wikis/Integrations" className="btn-primary" target="_blank" rel="noopener noreferrer">
               View All Integrations
             </Link>
           </div>
@@ -391,10 +394,10 @@ osa export --to langchain`}</code>
             Join the community and start building with Open Standard Agents today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="https://github.com/BlueflyCollective/openstandardagents/-/tree/main/examples" className="btn-secondary bg-white text-primary hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+            <Link href="/examples" className="btn-secondary bg-white text-primary hover:bg-gray-100">
               View Examples
             </Link>
-            <Link href="https://github.com/BlueflyCollective/openstandardagents/issues" className="btn-outline border-white text-white hover:bg-white hover:text-primary" target="_blank" rel="noopener noreferrer">
+            <Link href="https://gitlab.bluefly.io/llm/ossa/-/issues" className="btn-outline border-white text-white hover:bg-white hover:text-primary" target="_blank" rel="noopener noreferrer">
               Report Issues
             </Link>
           </div>

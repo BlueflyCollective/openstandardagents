@@ -1,28 +1,14 @@
-import fs from 'fs';
-import path from 'path';
 import Link from 'next/link';
 import { SchemaExplorer } from '@/components/schema/SchemaExplorer';
 import { OSSA_VERSION } from '@/lib/version';
 
+// Import schema directly - this is bundled at build time
+const schemaJson = require('../../public/schemas/ossa-0.2.3.schema.json');
+
 function loadSchema(): any {
-  // Load schema from website/public/ (Next.js convention) or fallback to spec/
-  // Version is pulled dynamically from package.json
-  const schemaPaths = [
-    path.join(process.cwd(), `public/schemas/ossa-${OSSA_VERSION}.schema.json`),
-    path.join(process.cwd(), `../../spec/v${OSSA_VERSION}/ossa-${OSSA_VERSION}.schema.json`),
-    // Fallback to older versions if current not found
-    path.join(process.cwd(), '../../spec/v0.2.3/ossa-0.2.3.schema.json'),
-    path.join(process.cwd(), '../../spec/v0.2.2/ossa-0.2.2.schema.json'),
-  ];
-
-  for (const schemaPath of schemaPaths) {
-    if (fs.existsSync(schemaPath)) {
-      const schemaContent = fs.readFileSync(schemaPath, 'utf8');
-      return JSON.parse(schemaContent);
-    }
-  }
-
-  return null;
+  // Return the imported schema directly
+  // This works in both development and production
+  return schemaJson;
 }
 
 export default function SchemaPage() {

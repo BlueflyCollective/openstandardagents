@@ -2046,7 +2046,7 @@ ossa-migrate validate \
 
 ### Documentation
 
-- **OSSA Specification**: https://github.com/BlueflyCollective/openstandardagents/wiki/home
+- **OSSA Specification**: https://github.com/blueflyio/openstandardagents/wiki/home
 - **OSSA Quick Reference**: [OSSA-QUICK-REFERENCE.md](../OSSA-QUICK-REFERENCE.md)
 - **BuildKit CLI**: https://gitlab.bluefly.io/llm/documentation/wiki/BuildKit-CLI-Reference
 - **Langflow Documentation**: https://docs.langflow.org/

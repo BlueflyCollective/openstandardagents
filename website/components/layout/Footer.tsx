@@ -56,7 +56,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href="https://github.com/BlueflyCollective/openstandardagents"
+                  href="https://github.com/blueflyio/openstandardagents"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white transition-colors flex items-center gap-2"
@@ -69,7 +69,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://github.com/BlueflyCollective/openstandardagents/issues"
+                  href="https://github.com/blueflyio/openstandardagents/issues"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white transition-colors"

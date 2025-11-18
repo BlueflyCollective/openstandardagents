@@ -71,7 +71,7 @@ export function SchemaExplorer({ schema }: SchemaExplorerProps) {
     prop: PropertyInfo,
     depth = 0,
     currentPath = ''
-  ): JSX.Element => {
+  ) => {
     const fullPath = currentPath ? `${currentPath}.${prop.name}` : prop.name;
     const isExpanded = expandedPaths.has(fullPath);
     const hasChildren = prop.properties && prop.properties.length > 0;

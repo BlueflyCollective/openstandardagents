@@ -1612,7 +1612,7 @@ Use feature flags or load balancer to control traffic split.
    ```
 
 5. **Join the community**
-   - [OSSA Specification](https://github.com/BlueflyCollective/openstandardagents/wiki/home)
+   - [OSSA Specification](https://github.com/blueflyio/openstandardagents/wiki/home)
    - [Agent BuildKit](https://gitlab.bluefly.io/llm/npm/agent-buildkit)
    - [Examples Repository](https://gitlab.bluefly.io/llm/npm/agent-buildkit/-/tree/main/examples)
    - [Issue Tracker](https://gitlab.bluefly.io/llm/npm/agent-buildkit/-/issues)

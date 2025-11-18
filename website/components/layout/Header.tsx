@@ -42,7 +42,7 @@ export function Header() {
               Examples
             </Link>
             <a
-              href="https://github.com/BlueflyCollective/openstandardagents"
+              href="https://github.com/blueflyio/openstandardagents"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-700 hover:text-primary transition-colors flex items-center gap-1"
@@ -139,7 +139,7 @@ export function Header() {
               Examples
             </Link>
             <a
-              href="https://github.com/BlueflyCollective/openstandardagents"
+              href="https://github.com/blueflyio/openstandardagents"
               target="_blank"
               rel="noopener noreferrer"
               className="block py-2 text-gray-700 hover:text-primary transition-colors flex items-center gap-2"

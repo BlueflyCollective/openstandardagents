@@ -11,7 +11,7 @@ interface PageProps {
   }>;
 }
 
-const docsDirectory = path.join(process.cwd(), 'content/wiki');
+const docsDirectory = path.join(process.cwd(), 'content/docs');
 
 function getDocContent(slug: string[]): { content: string; metadata: any } | null {
   // Convert URL slug to PascalCase (e.g., getting-started -> Getting-Started)
@@ -95,13 +95,17 @@ function getAllDocPaths(): string[][] {
 
 export async function generateStaticParams() {
   const paths = getAllDocPaths();
+  // Convert paths to lowercase for URL matching
   // Return root docs page as empty array (not undefined!), plus all other paths
-  return [{ slug: [] }, ...paths.map((slug) => ({
-    slug,
-  }))];
+  return [
+    { slug: [] },
+    ...paths.map((slugParts) => ({
+      slug: slugParts.map(part => part.toLowerCase()),
+    }))
+  ];
 }
 
-export default async function DocsPage({ params }: PageProps): Promise<JSX.Element> {
+export default async function DocsPage({ params }: PageProps) {
   const { slug: slugParam } = await params;
   const slug = slugParam || [];
   

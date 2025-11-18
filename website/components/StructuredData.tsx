@@ -4,7 +4,7 @@ interface StructuredDataProps {
 }
 
 export function StructuredData({ type, data }: StructuredDataProps) {
-  const baseUrl = 'https://github.com/BlueflyCollective/openstandardagents';
+  const baseUrl = 'https://ossa.dev';
 
   const getStructuredData = (): object => {
     switch (type) {
@@ -14,10 +14,10 @@ export function StructuredData({ type, data }: StructuredDataProps) {
           '@type': 'Organization',
           name: 'OSSA Standards Team',
           url: baseUrl,
-          logo: `${baseUrl}/logo.png`,
+          logo: `${baseUrl}/assets/brand/ossa-logo.svg`,
           sameAs: [
-            'https://github.com/BlueflyCollective/openstandardagents',
-            'https://www.npmjs.com/package/@bluefly/open-standards-scalable-agents',
+            'https://github.com/blueflyio/openstandardagents',
+            'https://www.npmjs.com/package/@openstandardagents/cli',
           ],
           ...data,
         };

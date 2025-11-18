@@ -96,7 +96,7 @@ This generates Kubernetes manifests and deploys the agent with:
 ## Resources
 
 - **AIFlow Repository**: https://github.com/AIFlow-agent/AIFlow-Agent
-- **OSSA Project**: [openapi-ai-agents-standard](https://github.com/BlueflyCollective/openstandardagents)
+- **OSSA Project**: [openapi-ai-agents-standard](https://github.com/blueflyio/openstandardagents)
 - **Integration Guide**: [agent-buildkit Wiki](https://gitlab.bluefly.io/llm/agent-buildkit/wiki/AIFlow-Integration-with-OSSA-BuildKit-and-K-Agent)
 - **OSSA Specification Schema**: [OSSA 1.0 Schema](https://gitlab.bluefly.io/llm/OSSA/blob/development/spec/v1.0/ossa-1.0.schema.json)
 - **Example Manifest**: [social-agent-aiflow.ossa.yaml](https://gitlab.bluefly.io/llm/agent-buildkit/blob/development/examples/aiflow-integration/social-agent-aiflow.ossa.yaml)

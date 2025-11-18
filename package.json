@@ -48,12 +48,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.bluefly.io/llm/openapi-ai-agents-standard.git"
+    "url": "https://github.com/blueflyio/openstandardagents.git"
   },
   "bugs": {
-    "url": "https://gitlab.bluefly.io/llm/openapi-ai-agents-standard/-/issues"
+    "url": "https://github.com/blueflyio/openstandardagents/issues"
   },
-  "homepage": "https://gitlab.bluefly.io/llm/openapi-ai-agents-standard",
+  "homepage": "https://ossa.bluefly.io",
   "scripts": {
     "build": "tsc && npm run copy-assets",
     "copy-assets": "cp -r spec dist/ && mkdir -p dist/docs/schemas && cp docs/schemas/*.json dist/docs/schemas/ 2>/dev/null || true",

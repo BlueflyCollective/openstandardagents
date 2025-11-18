@@ -1,14 +1,15 @@
 {
   "name": "ossa-website",
-  "version": "1.0.0",
+  "version": "0.2.3",
   "description": "Open Standard Agents - The OpenAPI for AI Agents",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "sync-version": "node scripts/sync-version.js",
+    "dev": "npm run sync-version && next dev",
+    "build": "npm run sync-version && next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next build"
+    "export": "npm run sync-version && next build"
   },
   "keywords": [
     "ossa",
