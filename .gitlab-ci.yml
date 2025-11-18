@@ -331,6 +331,69 @@ promote-to-main:
     - build:dist
 
 # ============================================================================
+# MANUAL: CREATE RELEASE TAG
+# Creates a new version tag (v0.2.4, v0.3.0, etc)
+# ============================================================================
+
+create-release-tag:
+  stage: release-prod
+  image: node:${NODE_VERSION}-alpine
+  dependencies:
+    - build:dist
+  before_script:
+    - apk add --no-cache git
+    - git config --global user.email "ci@gitlab.bluefly.io"
+    - git config --global user.name "GitLab CI"
+    - git remote set-url origin https://oauth2:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
+  script:
+    - |
+      echo "🏷️  Creating Release Tag"
+      echo "======================="
+
+      # Get current version from package.json
+      CURRENT_VERSION=$(node -p "require('./package.json').version")
+      TAG_NAME="v${CURRENT_VERSION}"
+
+      echo "Current version: ${CURRENT_VERSION}"
+      echo "Tag to create: ${TAG_NAME}"
+
+      # Check if tag already exists
+      if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+        echo "❌ ERROR: Tag $TAG_NAME already exists!"
+        echo "Please bump the version in package.json first:"
+        echo "  npm version patch  # 0.2.3 → 0.2.4"
+        echo "  npm version minor  # 0.2.3 → 0.3.0"
+        echo "  npm version major  # 0.2.3 → 1.0.0"
+        exit 1
+      fi
+
+      # Create annotated tag
+      git tag -a "$TAG_NAME" -m "Release $TAG_NAME
+
+      ## Changes in this release
+
+      See CHANGELOG.md for full details.
+
+      GitLab Release: ${CI_PROJECT_URL}/-/releases/${TAG_NAME}
+      Package Registry: ${CI_PROJECT_URL}/-/packages
+      "
+
+      # Push tag to GitLab
+      git push origin "$TAG_NAME"
+
+      echo "✅ Tag ${TAG_NAME} created and pushed!"
+      echo "📦 This will trigger:"
+      echo "   - GitLab Release creation"
+      echo "   - GitHub mirror sync"
+      echo "   - npm package publish (if configured)"
+      echo ""
+      echo "View release: ${CI_PROJECT_URL}/-/releases/${TAG_NAME}"
+  only:
+    - main
+  when: manual
+  allow_failure: false
+
+# ============================================================================
 # STAGE: MIRROR GITHUB
 # Syncs releases and tags to GitHub repository
 # ============================================================================
