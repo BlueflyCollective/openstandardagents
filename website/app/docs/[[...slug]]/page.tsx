@@ -89,8 +89,9 @@ function getAllDocPaths(): string[][] {
   return paths;
 }
 
-export const dynamic = 'force-static';
-export const dynamicParams = false;
+// Comment out for dev mode - re-enable for production build
+// export const dynamic = 'force-static';
+// export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const paths = getAllDocPaths();
