@@ -2,11 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
 import { SchemaExplorer } from '@/components/schema/SchemaExplorer';
+import { OSSA_VERSION } from '@/lib/version';
 
 function loadSchema(): any {
   // Load schema from website/public/ (Next.js convention) or fallback to spec/
+  // Version is pulled dynamically from package.json
   const schemaPaths = [
-    path.join(process.cwd(), 'public/schemas/ossa-0.2.3.schema.json'),
+    path.join(process.cwd(), `public/schemas/ossa-${OSSA_VERSION}.schema.json`),
+    path.join(process.cwd(), `../../spec/v${OSSA_VERSION}/ossa-${OSSA_VERSION}.schema.json`),
+    // Fallback to older versions if current not found
     path.join(process.cwd(), '../../spec/v0.2.3/ossa-0.2.3.schema.json'),
     path.join(process.cwd(), '../../spec/v0.2.2/ossa-0.2.2.schema.json'),
   ];
@@ -50,7 +54,7 @@ export default function SchemaPage() {
             Complete JSON Schema for defining portable, framework-agnostic AI agents
           </p>
           <p className="text-lg text-white/80">
-            Version 0.2.3 • The OpenAPI for AI Agents
+            Version v0.2.x • The OpenAPI for AI Agents
           </p>
         </div>
       </div>
