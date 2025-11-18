@@ -142,6 +142,42 @@ export default async function DocsPage({ params }: PageProps): Promise<JSX.Eleme
           {/* Primary Documentation Sections */}
           <section className="mb-16">
             <h2 className="text-3xl font-bold mb-8 text-gray-900">Core Documentation</h2>
+
+            {/* Featured: Core Concepts */}
+            <div className="mb-8 glass-card p-8 rounded-lg shadow-xl border-2 border-primary">
+              <div className="flex items-start gap-6">
+                <div className="text-primary flex-shrink-0">
+                  <svg className="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900">Core Concepts</h3>
+                  <p className="text-lg text-gray-700 mb-4">
+                    <strong>Essential reading!</strong> Understand how OSSA organizes agent projects with <code className="text-sm bg-gray-100 px-2 py-1 rounded">.agents/</code> and <code className="text-sm bg-gray-100 px-2 py-1 rounded">.agents-workspace/</code> folders, plus agent taxonomy for classification and routing.
+                  </p>
+                  <ul className="grid md:grid-cols-2 gap-3">
+                    <li>
+                      <a href="/docs/core-concepts/project-structure" className="text-primary hover:underline font-semibold flex items-center gap-2">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Project Structure (.agents/ & workspace)
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/docs/core-concepts/project-structure#agent-taxonomy" className="text-primary hover:underline font-semibold flex items-center gap-2">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                        </svg>
+                        Agent Taxonomy (roles & classification)
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <div className="grid md:grid-cols-3 gap-8">
               {/* Getting Started */}
               <div className="glass-card p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
