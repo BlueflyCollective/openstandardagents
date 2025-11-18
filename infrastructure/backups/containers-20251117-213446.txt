@@ -1,0 +1,144 @@
+fceaeeb197dd	k8s_litellm_litellm-proxy-7f46445f6c-l95tj_llm-inference_071985b1-a9c4-42ef-806e-bc39fa5001b8_45	94cab26ee6da	Up 2 seconds
+49be67f040f5	k8s_cleanup_pod-cleanup-29390550-wwvq7_pod-cleanup_88cc6cf0-0a56-446e-b71c-13c2ec0d78f7_0	bitnami/kubectl	Exited (0) 4 minutes ago
+18e57598d4cd	k8s_POD_pod-cleanup-29390550-wwvq7_pod-cleanup_88cc6cf0-0a56-446e-b71c-13c2ec0d78f7_0	rancher/mirrored-pause:3.6	Exited (0) 4 minutes ago
+67e5e5347cd9	k8s_POD_registry-sync-29390550-jvr5l_llm-platform_cad1d60f-c9b9-4204-bcdd-19751092c550_0	rancher/mirrored-pause:3.6	Up 4 minutes
+b48bfe6e644b	k8s_litellm_litellm-proxy-7f46445f6c-l95tj_llm-inference_071985b1-a9c4-42ef-806e-bc39fa5001b8_44	94cab26ee6da	Exited (0) 5 minutes ago
+e75970371375	ddev-router	ddev/ddev-traefik-router:v1.24.10	Up 23 minutes (healthy)
+a941bf0f1bd4	ddev-llm-platform-web	ddev/ddev-webserver:v1.24.10-llm-platform-built	Up 23 minutes (healthy)
+62b83dcae110	ddev-llm-platform-db	ddev/ddev-dbserver-mariadb-10.11:v1.24.10-llm-platform-built	Up 23 minutes (healthy)
+d22fb67ad4b8	ddev-ssh-agent	ddev/ddev-ssh-agent:v1.24.10-built	Up 24 minutes (healthy)
+b5ccfc7869e4	k8s_cleanup_pod-cleanup-29390520-shwxc_pod-cleanup_b81e62f6-dbc7-4ba6-976a-171ebe524ce6_0	bitnami/kubectl	Exited (0) 34 minutes ago
+aa267c80cb6f	k8s_POD_pod-cleanup-29390520-shwxc_pod-cleanup_b81e62f6-dbc7-4ba6-976a-171ebe524ce6_0	rancher/mirrored-pause:3.6	Exited (0) 34 minutes ago
+561f485440c3	k8s_pull-models_ollama-pull-models-8lfmz_llm-inference_ae0877bb-a124-416e-b2d2-c356f1a854f1_2	curlimages/curl	Up 57 minutes
+94f8fe99f48e	k8s_keda-operator-metrics-apiserver_keda-operator-metrics-apiserver-74bcc6f665-c6bpt_keda_863292c7-3eff-4ff5-aa09-3d008d379642_7	ghcr.io/kedacore/keda-metrics-apiserver	Up 57 minutes
+483cdaf4e614	k8s_keda-operator_keda-operator-6687649c57-jvp28_keda_13ea2b1e-83cf-4915-942d-170c6323b221_12	ghcr.io/kedacore/keda	Up 57 minutes
+899d7edc3da3	k8s_runner_apidog-runner-587c6b45b7-jcxt7_apidog_3e88c705-114c-4504-b295-fd35d70f0eb2_7	apidog/self-hosted-general-runner	Up 57 minutes
+a1caa3bdfdd3	k8s_keda-admission-webhooks_keda-admission-webhooks-6656fbbb89-sqv2x_keda_f4a65a35-8cd7-4713-b92b-6087ac0cfc37_7	ghcr.io/kedacore/keda-admission-webhooks	Up 57 minutes
+57282b7e4b4f	k8s_lb-tcp-4318_svclb-phoenix-378c73ce-q8bc8_kube-system_9d4a7379-fc27-4ca5-8f1f-315b3f7a28be_5	a399cf1b9d57	Up 57 minutes
+32490268bb2f	k8s_workflow-controller_workflow-controller-855c5bfc48-vs5mw_argo_9d2ae5d7-2da6-46ab-badf-071ff47c0490_13	c6ab42395b67	Up 57 minutes
+14313b02be60	k8s_redis_redis-replicas-0_llm-platform_229e3370-6ecd-480c-bc25-11988cfc91ea_14	ceae3ba229db	Up 57 minutes
+b42e24f7c353	k8s_local-path-provisioner_local-path-provisioner-777cb94f89-rvdmp_kube-system_50bf064d-4938-40ae-ad93-d9e7ff0cf297_5	b41714cf6249	Up 57 minutes
+1b26c03b2210	k8s_aiflow-agent_aiflow-social-agent-5fbbb8c656-qhnnd_agents-staging_520935fc-4036-44aa-b398-5a9e8323d37a_6	328367ee15f3	Up 57 minutes
+1c6831d2c9d8	k8s_drupal_drupal-frontend-7ccd54b7ff-454gc_agent-chat_78a275e2-45c6-41dd-bf63-cfb32602e596_96	ad736f4c1045	Up 57 minutes
+63bfab00fcf3	k8s_agent-gateway_agent-gateway-64d665d798-vtsjm_ossa-prod_e2c8bce8-b452-49b0-9dbb-93fddb1980ba_7	24e05bd00e3a	Up 57 minutes
+2c2b13684fe2	k8s_coredns_coredns-66cc6945cb-h5668_kube-system_ba2e4aa4-3105-4141-b3ab-35df59b6a0ce_6	97e04611ad43	Up 57 minutes
+cf32e151f7c7	k8s_gateway_gateway-c7c6db957-ntgcw_agent-studio_82e12fc4-5f38-4eba-82b2-d89d340df0c0_6	cbad6347cca2	Up 57 minutes
+6bf5c6193846	k8s_lb-tcp-443_svclb-ingress-nginx-controller-2227b54c-tn75l_kube-system_b73906a3-ef45-4e6b-a6f0-9b190154428e_5	a399cf1b9d57	Up 57 minutes
+e4f2a382b1f1	k8s_lb-tcp-6334_svclb-qdrant-service-e2ff5ec3-msf9j_kube-system_8d6f9f65-e246-4e80-99d3-5e3047394db9_5	a399cf1b9d57	Up 57 minutes
+4ddc25a326aa	k8s_lb-tcp-4001_svclb-litellm-66a5aca1-vb6c7_kube-system_e640cd3b-0d92-42dd-89d8-6a52b597c874_5	a399cf1b9d57	Up 57 minutes
+3c6e78150a6c	k8s_lb-tcp-4317_svclb-phoenix-378c73ce-q8bc8_kube-system_9d4a7379-fc27-4ca5-8f1f-315b3f7a28be_5	a399cf1b9d57	Up 57 minutes
+43638ebede37	k8s_tempo_tempo-0_ossa-agents_e4560fef-37c0-4985-b25c-eefb65f382a0_7	84944a387309	Up 57 minutes
+2b5dec0b4ac0	k8s_argo-server_argo-server-54467f6857-9bw5j_argo_1091115d-c3dc-4a4d-b41c-8be154e35fcd_6	63d4aaf8a6bf	Up 57 minutes
+552b92dca2d7	k8s_loki_loki-0_ossa-agents_83fab2b8-bad6-4f6e-94d9-82e83aa6cc98_8	2d68052f0587	Up 57 minutes
+5579c0d9def8	k8s_orchestrator_agent-orchestrator-7847c9cb8c-wpx5c_drupal-agents_7964df83-d686-47d1-8e2d-aafdcb9cb867_6	9fa4e0743ec2	Up 57 minutes
+511c2f9744a8	k8s_controller_ingress-nginx-controller-5b8bf5478-pkvgw_ingress-nginx_7ebb8c97-f7f6-4586-ae26-13f01eb8db3f_6	5ed383cb88c3	Up 57 minutes
+f242d645e879	k8s_promtail_promtail-hkn2m_ossa-agents_b7d74c7e-8d82-48b3-88f2-4bc5de010bb2_6	d38bda3086f0	Up 57 minutes
+eba3ca6e7fba	k8s_redis_redis-master-0_llm-platform_e9d84e6e-06f3-4110-b021-54b0a11a8793_13	ceae3ba229db	Up 57 minutes
+69c76c573444	k8s_lb-tcp-80_svclb-ingress-nginx-controller-2227b54c-tn75l_kube-system_b73906a3-ef45-4e6b-a6f0-9b190154428e_5	a399cf1b9d57	Up 57 minutes
+bec26c2d4dca	k8s_metrics-server_metrics-server-867d48dc9c-kjnvk_kube-system_08af9876-9fd9-422a-8e59-f77945b151d0_7	bc6c1e09a843	Up 57 minutes
+8e9f7976191f	k8s_lb-tcp-3000_svclb-frontend-42f5eca3-nqtnp_kube-system_d585920f-ea0b-4a2a-8249-4cef9fc796a7_5	a399cf1b9d57	Up 57 minutes
+052dd4184227	k8s_lb-tcp-6333_svclb-qdrant-service-e2ff5ec3-msf9j_kube-system_8d6f9f65-e246-4e80-99d3-5e3047394db9_5	a399cf1b9d57	Up 57 minutes
+d95c22fc7770	k8s_lb-tcp-4000_svclb-litellm-66a5aca1-vb6c7_kube-system_e640cd3b-0d92-42dd-89d8-6a52b597c874_5	a399cf1b9d57	Up 57 minutes
+f7e14a1224fe	k8s_lb-tcp-5000_svclb-mlflow-01455b95-z7rc8_kube-system_4601ae6a-667c-42df-9eae-00607270fe32_5	a399cf1b9d57	Up 57 minutes
+d897dc2bc368	k8s_lb-tcp-3080_svclb-librechat-251848e0-s782f_kube-system_f99e0d4b-d755-47b0-8724-0959852431db_5	a399cf1b9d57	Up 57 minutes
+2279e05519d3	k8s_lb-tcp-9090_svclb-prometheus-service-4117498d-zk5rp_kube-system_b301d335-9170-4f63-9640-551dd9c80cf3_5	a399cf1b9d57	Up 57 minutes
+ce7148676dd5	k8s_lb-tcp-6006_svclb-phoenix-378c73ce-q8bc8_kube-system_9d4a7379-fc27-4ca5-8f1f-315b3f7a28be_5	a399cf1b9d57	Up 57 minutes
+5779810c6912	k8s_POD_aiflow-social-agent-5fbbb8c656-qhnnd_agents-staging_520935fc-4036-44aa-b398-5a9e8323d37a_5	rancher/mirrored-pause:3.6	Up 57 minutes
+4df4ab8228e6	k8s_POD_redis-replicas-0_llm-platform_229e3370-6ecd-480c-bc25-11988cfc91ea_5	rancher/mirrored-pause:3.6	Up 57 minutes
+92c4990fabee	k8s_POD_promtail-hkn2m_ossa-agents_b7d74c7e-8d82-48b3-88f2-4bc5de010bb2_5	rancher/mirrored-pause:3.6	Up 57 minutes
+4daa4654bf49	k8s_POD_keda-operator-metrics-apiserver-74bcc6f665-c6bpt_keda_863292c7-3eff-4ff5-aa09-3d008d379642_5	rancher/mirrored-pause:3.6	Up 57 minutes
+55fc5c2790a2	k8s_POD_agent-gateway-64d665d798-vtsjm_ossa-prod_e2c8bce8-b452-49b0-9dbb-93fddb1980ba_5	rancher/mirrored-pause:3.6	Up 57 minutes
+5dffee18a8a2	k8s_POD_ingress-nginx-controller-5b8bf5478-pkvgw_ingress-nginx_7ebb8c97-f7f6-4586-ae26-13f01eb8db3f_5	rancher/mirrored-pause:3.6	Up 57 minutes
+fe99ef342888	k8s_POD_apidog-runner-587c6b45b7-jcxt7_apidog_3e88c705-114c-4504-b295-fd35d70f0eb2_5	rancher/mirrored-pause:3.6	Up 57 minutes
+24c3090763ad	k8s_POD_keda-admission-webhooks-6656fbbb89-sqv2x_keda_f4a65a35-8cd7-4713-b92b-6087ac0cfc37_5	rancher/mirrored-pause:3.6	Up 57 minutes
+a17ffb9e973d	k8s_POD_workflow-controller-855c5bfc48-vs5mw_argo_9d2ae5d7-2da6-46ab-badf-071ff47c0490_5	rancher/mirrored-pause:3.6	Up 57 minutes
+3cd1027c244f	k8s_POD_gateway-c7c6db957-ntgcw_agent-studio_82e12fc4-5f38-4eba-82b2-d89d340df0c0_5	rancher/mirrored-pause:3.6	Up 57 minutes
+feba3dbfd7d5	k8s_POD_coredns-66cc6945cb-h5668_kube-system_ba2e4aa4-3105-4141-b3ab-35df59b6a0ce_5	rancher/mirrored-pause:3.6	Up 57 minutes
+4469ae4a8923	k8s_POD_redis-master-0_llm-platform_e9d84e6e-06f3-4110-b021-54b0a11a8793_5	rancher/mirrored-pause:3.6	Up 57 minutes
+adcd164bae10	k8s_POD_agent-orchestrator-7847c9cb8c-wpx5c_drupal-agents_7964df83-d686-47d1-8e2d-aafdcb9cb867_5	rancher/mirrored-pause:3.6	Up 57 minutes
+df01324c78c1	k8s_POD_keda-operator-6687649c57-jvp28_keda_13ea2b1e-83cf-4915-942d-170c6323b221_5	rancher/mirrored-pause:3.6	Up 57 minutes
+ef6cef188bbb	k8s_POD_tempo-0_ossa-agents_e4560fef-37c0-4985-b25c-eefb65f382a0_5	rancher/mirrored-pause:3.6	Up 57 minutes
+3179b76d84ea	k8s_POD_metrics-server-867d48dc9c-kjnvk_kube-system_08af9876-9fd9-422a-8e59-f77945b151d0_5	rancher/mirrored-pause:3.6	Up 57 minutes
+ab3757e0f597	k8s_POD_ollama-pull-models-8lfmz_llm-inference_ae0877bb-a124-416e-b2d2-c356f1a854f1_2	rancher/mirrored-pause:3.6	Up 57 minutes
+a8992a712a33	k8s_POD_argo-server-54467f6857-9bw5j_argo_1091115d-c3dc-4a4d-b41c-8be154e35fcd_5	rancher/mirrored-pause:3.6	Up 57 minutes
+9890799a9703	k8s_POD_local-path-provisioner-777cb94f89-rvdmp_kube-system_50bf064d-4938-40ae-ad93-d9e7ff0cf297_5	rancher/mirrored-pause:3.6	Up 57 minutes
+8fd48c595f5c	k8s_POD_drupal-frontend-7ccd54b7ff-454gc_agent-chat_78a275e2-45c6-41dd-bf63-cfb32602e596_5	rancher/mirrored-pause:3.6	Up 57 minutes
+8299c978e63f	k8s_POD_kafka-0_ossa-agents_3ed70dee-8adf-423b-ae69-786d5d6965fb_5	rancher/mirrored-pause:3.6	Up 57 minutes
+92b79b95e3a7	k8s_POD_loki-0_ossa-agents_83fab2b8-bad6-4f6e-94d9-82e83aa6cc98_5	rancher/mirrored-pause:3.6	Up 57 minutes
+7eec431fdba9	k8s_POD_litellm-proxy-7f46445f6c-l95tj_llm-inference_071985b1-a9c4-42ef-806e-bc39fa5001b8_2	rancher/mirrored-pause:3.6	Up 57 minutes
+bf69917623b2	k8s_POD_svclb-litellm-66a5aca1-vb6c7_kube-system_e640cd3b-0d92-42dd-89d8-6a52b597c874_5	rancher/mirrored-pause:3.6	Up 57 minutes
+df3cb8498ac8	k8s_POD_svclb-phoenix-378c73ce-q8bc8_kube-system_9d4a7379-fc27-4ca5-8f1f-315b3f7a28be_5	rancher/mirrored-pause:3.6	Up 57 minutes
+af8783a1f502	k8s_POD_svclb-prometheus-service-4117498d-zk5rp_kube-system_b301d335-9170-4f63-9640-551dd9c80cf3_5	rancher/mirrored-pause:3.6	Up 57 minutes
+43a693b58e26	k8s_POD_svclb-frontend-42f5eca3-nqtnp_kube-system_d585920f-ea0b-4a2a-8249-4cef9fc796a7_5	rancher/mirrored-pause:3.6	Up 57 minutes
+371d24200742	k8s_POD_svclb-ingress-nginx-controller-2227b54c-tn75l_kube-system_b73906a3-ef45-4e6b-a6f0-9b190154428e_5	rancher/mirrored-pause:3.6	Up 57 minutes
+99e81615199b	k8s_POD_svclb-qdrant-service-e2ff5ec3-msf9j_kube-system_8d6f9f65-e246-4e80-99d3-5e3047394db9_5	rancher/mirrored-pause:3.6	Up 57 minutes
+58f2f909577e	k8s_POD_svclb-librechat-251848e0-s782f_kube-system_f99e0d4b-d755-47b0-8724-0959852431db_5	rancher/mirrored-pause:3.6	Up 57 minutes
+e8a064223bc8	k8s_POD_svclb-mlflow-01455b95-z7rc8_kube-system_4601ae6a-667c-42df-9eae-00607270fe32_5	rancher/mirrored-pause:3.6	Up 57 minutes
+2d1e1f081d39	k8s_lb-tcp-4318_svclb-phoenix-378c73ce-q8bc8_kube-system_9d4a7379-fc27-4ca5-8f1f-315b3f7a28be_4	a399cf1b9d57	Exited (1) 58 minutes ago
+c2d2f0e936b5	k8s_lb-tcp-4317_svclb-phoenix-378c73ce-q8bc8_kube-system_9d4a7379-fc27-4ca5-8f1f-315b3f7a28be_4	a399cf1b9d57	Exited (1) 58 minutes ago
+02e69e11a9f5	k8s_keda-operator-metrics-apiserver_keda-operator-metrics-apiserver-74bcc6f665-c6bpt_keda_863292c7-3eff-4ff5-aa09-3d008d379642_6	ghcr.io/kedacore/keda-metrics-apiserver	Exited (0) 58 minutes ago
+0b67ce2450e9	k8s_cleanup_pod-cleanup-29390490-vlm9p_pod-cleanup_a077d0cd-2b70-450e-8653-4f31965e93be_0	bitnami/kubectl	Exited (0) About an hour ago
+81b0f30c7569	k8s_keda-admission-webhooks_keda-admission-webhooks-6656fbbb89-sqv2x_keda_f4a65a35-8cd7-4713-b92b-6087ac0cfc37_6	ghcr.io/kedacore/keda-admission-webhooks	Exited (0) 58 minutes ago
+a370f9c22f29	k8s_lb-tcp-4001_svclb-litellm-66a5aca1-vb6c7_kube-system_e640cd3b-0d92-42dd-89d8-6a52b597c874_4	a399cf1b9d57	Exited (1) 58 minutes ago
+ec5b281f16a1	k8s_pull-models_ollama-pull-models-8lfmz_llm-inference_ae0877bb-a124-416e-b2d2-c356f1a854f1_1	curlimages/curl	Exited (137) 58 minutes ago
+b62b2f6f90d9	k8s_runner_apidog-runner-587c6b45b7-jcxt7_apidog_3e88c705-114c-4504-b295-fd35d70f0eb2_6	apidog/self-hosted-general-runner	Exited (0) 58 minutes ago
+d64d63f4873b	k8s_keda-operator_keda-operator-6687649c57-jvp28_keda_13ea2b1e-83cf-4915-942d-170c6323b221_11	ghcr.io/kedacore/keda	Exited (0) 58 minutes ago
+abeeb457c8e4	k8s_lb-tcp-6006_svclb-phoenix-378c73ce-q8bc8_kube-system_9d4a7379-fc27-4ca5-8f1f-315b3f7a28be_4	a399cf1b9d57	Exited (1) 58 minutes ago
+7a7e2153a683	k8s_tempo_tempo-0_ossa-agents_e4560fef-37c0-4985-b25c-eefb65f382a0_6	84944a387309	Exited (0) 58 minutes ago
+6f3b950f3734	k8s_coredns_coredns-66cc6945cb-h5668_kube-system_ba2e4aa4-3105-4141-b3ab-35df59b6a0ce_5	97e04611ad43	Exited (0) 58 minutes ago
+313dd8e41659	k8s_orchestrator_agent-orchestrator-7847c9cb8c-wpx5c_drupal-agents_7964df83-d686-47d1-8e2d-aafdcb9cb867_5	9fa4e0743ec2	Exited (137) 58 minutes ago
+36e7648ebdd3	k8s_lb-tcp-6334_svclb-qdrant-service-e2ff5ec3-msf9j_kube-system_8d6f9f65-e246-4e80-99d3-5e3047394db9_4	a399cf1b9d57	Exited (1) 58 minutes ago
+5a2349c4e18e	k8s_lb-tcp-443_svclb-ingress-nginx-controller-2227b54c-tn75l_kube-system_b73906a3-ef45-4e6b-a6f0-9b190154428e_4	a399cf1b9d57	Exited (1) 58 minutes ago
+1092fee448da	k8s_lb-tcp-4000_svclb-litellm-66a5aca1-vb6c7_kube-system_e640cd3b-0d92-42dd-89d8-6a52b597c874_4	a399cf1b9d57	Exited (1) 58 minutes ago
+1a052698eace	k8s_lb-tcp-9090_svclb-prometheus-service-4117498d-zk5rp_kube-system_b301d335-9170-4f63-9640-551dd9c80cf3_4	a399cf1b9d57	Exited (1) 58 minutes ago
+957ee3b007a4	k8s_aiflow-agent_aiflow-social-agent-5fbbb8c656-qhnnd_agents-staging_520935fc-4036-44aa-b398-5a9e8323d37a_5	328367ee15f3	Exited (137) 58 minutes ago
+1bcf3dc526b6	k8s_loki_loki-0_ossa-agents_83fab2b8-bad6-4f6e-94d9-82e83aa6cc98_7	2d68052f0587	Exited (0) 58 minutes ago
+43c89dd4220b	k8s_redis_redis-master-0_llm-platform_e9d84e6e-06f3-4110-b021-54b0a11a8793_12	ceae3ba229db	Exited (0) 58 minutes ago
+5d0688d006b8	k8s_lb-tcp-3080_svclb-librechat-251848e0-s782f_kube-system_f99e0d4b-d755-47b0-8724-0959852431db_4	a399cf1b9d57	Exited (1) 58 minutes ago
+292f0199ccab	k8s_drupal_drupal-frontend-7ccd54b7ff-454gc_agent-chat_78a275e2-45c6-41dd-bf63-cfb32602e596_95	ad736f4c1045	Exited (0) 58 minutes ago
+ac1e8fd0a275	k8s_promtail_promtail-hkn2m_ossa-agents_b7d74c7e-8d82-48b3-88f2-4bc5de010bb2_5	d38bda3086f0	Exited (0) 58 minutes ago
+97ea4f3e9b38	k8s_redis_redis-replicas-0_llm-platform_229e3370-6ecd-480c-bc25-11988cfc91ea_13	ceae3ba229db	Exited (0) 58 minutes ago
+28c60e6ecc46	k8s_lb-tcp-3000_svclb-frontend-42f5eca3-nqtnp_kube-system_d585920f-ea0b-4a2a-8249-4cef9fc796a7_4	a399cf1b9d57	Exited (1) 58 minutes ago
+9e0a258c9edb	k8s_controller_ingress-nginx-controller-5b8bf5478-pkvgw_ingress-nginx_7ebb8c97-f7f6-4586-ae26-13f01eb8db3f_5	5ed383cb88c3	Exited (137) 58 minutes ago
+97b76e6bb8de	k8s_gateway_gateway-c7c6db957-ntgcw_agent-studio_82e12fc4-5f38-4eba-82b2-d89d340df0c0_5	cbad6347cca2	Exited (0) 58 minutes ago
+4128335379af	k8s_lb-tcp-5000_svclb-mlflow-01455b95-z7rc8_kube-system_4601ae6a-667c-42df-9eae-00607270fe32_4	a399cf1b9d57	Exited (1) 58 minutes ago
+ea83fcc43848	k8s_argo-server_argo-server-54467f6857-9bw5j_argo_1091115d-c3dc-4a4d-b41c-8be154e35fcd_5	63d4aaf8a6bf	Exited (2) 58 minutes ago
+1667095b7bca	k8s_workflow-controller_workflow-controller-855c5bfc48-vs5mw_argo_9d2ae5d7-2da6-46ab-badf-071ff47c0490_12	c6ab42395b67	Exited (2) 58 minutes ago
+25dd76f5f81c	k8s_agent-gateway_agent-gateway-64d665d798-vtsjm_ossa-prod_e2c8bce8-b452-49b0-9dbb-93fddb1980ba_6	24e05bd00e3a	Exited (137) 58 minutes ago
+707b2866a393	k8s_lb-tcp-80_svclb-ingress-nginx-controller-2227b54c-tn75l_kube-system_b73906a3-ef45-4e6b-a6f0-9b190154428e_4	a399cf1b9d57	Exited (1) 58 minutes ago
+258dffa643e2	k8s_lb-tcp-6333_svclb-qdrant-service-e2ff5ec3-msf9j_kube-system_8d6f9f65-e246-4e80-99d3-5e3047394db9_4	a399cf1b9d57	Exited (1) 58 minutes ago
+1aa5942ae557	k8s_metrics-server_metrics-server-867d48dc9c-kjnvk_kube-system_08af9876-9fd9-422a-8e59-f77945b151d0_6	bc6c1e09a843	Exited (0) 58 minutes ago
+b7a95dc02463	k8s_local-path-provisioner_local-path-provisioner-777cb94f89-rvdmp_kube-system_50bf064d-4938-40ae-ad93-d9e7ff0cf297_4	b41714cf6249	Exited (0) 58 minutes ago
+a0706ecf7cd7	k8s_POD_pod-cleanup-29390490-vlm9p_pod-cleanup_a077d0cd-2b70-450e-8653-4f31965e93be_0	rancher/mirrored-pause:3.6	Exited (0) About an hour ago
+bace1771f51e	k8s_POD_apidog-runner-587c6b45b7-jcxt7_apidog_3e88c705-114c-4504-b295-fd35d70f0eb2_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+4dbab5831498	k8s_POD_loki-0_ossa-agents_83fab2b8-bad6-4f6e-94d9-82e83aa6cc98_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+6f9656594d6a	k8s_POD_tempo-0_ossa-agents_e4560fef-37c0-4985-b25c-eefb65f382a0_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+d09069b6e669	k8s_POD_svclb-librechat-251848e0-s782f_kube-system_f99e0d4b-d755-47b0-8724-0959852431db_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+7682f5ad778b	k8s_POD_svclb-frontend-42f5eca3-nqtnp_kube-system_d585920f-ea0b-4a2a-8249-4cef9fc796a7_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+89f44e0c3a5c	k8s_POD_keda-operator-6687649c57-jvp28_keda_13ea2b1e-83cf-4915-942d-170c6323b221_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+fd7e9ce2e2f5	k8s_POD_svclb-phoenix-378c73ce-q8bc8_kube-system_9d4a7379-fc27-4ca5-8f1f-315b3f7a28be_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+2f8810323aab	k8s_POD_redis-master-0_llm-platform_e9d84e6e-06f3-4110-b021-54b0a11a8793_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+3f0c29abb623	k8s_POD_svclb-mlflow-01455b95-z7rc8_kube-system_4601ae6a-667c-42df-9eae-00607270fe32_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+5e3f79d65a39	k8s_POD_agent-orchestrator-7847c9cb8c-wpx5c_drupal-agents_7964df83-d686-47d1-8e2d-aafdcb9cb867_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+37757ab9b78c	k8s_POD_keda-operator-metrics-apiserver-74bcc6f665-c6bpt_keda_863292c7-3eff-4ff5-aa09-3d008d379642_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+b66e080bf437	k8s_POD_ingress-nginx-controller-5b8bf5478-pkvgw_ingress-nginx_7ebb8c97-f7f6-4586-ae26-13f01eb8db3f_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+346e39187c83	k8s_POD_coredns-66cc6945cb-h5668_kube-system_ba2e4aa4-3105-4141-b3ab-35df59b6a0ce_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+49edc05d13c1	k8s_POD_redis-replicas-0_llm-platform_229e3370-6ecd-480c-bc25-11988cfc91ea_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+53c28de50607	k8s_POD_svclb-prometheus-service-4117498d-zk5rp_kube-system_b301d335-9170-4f63-9640-551dd9c80cf3_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+5abb0bedcb42	k8s_POD_ollama-pull-models-8lfmz_llm-inference_ae0877bb-a124-416e-b2d2-c356f1a854f1_1	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+4cf29b63118e	k8s_POD_keda-admission-webhooks-6656fbbb89-sqv2x_keda_f4a65a35-8cd7-4713-b92b-6087ac0cfc37_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+12d6de87180b	k8s_POD_aiflow-social-agent-5fbbb8c656-qhnnd_agents-staging_520935fc-4036-44aa-b398-5a9e8323d37a_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+62b0e8acc22a	k8s_POD_svclb-litellm-66a5aca1-vb6c7_kube-system_e640cd3b-0d92-42dd-89d8-6a52b597c874_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+9f8311d27d83	k8s_POD_gateway-c7c6db957-ntgcw_agent-studio_82e12fc4-5f38-4eba-82b2-d89d340df0c0_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+2a8a08c47c66	k8s_POD_drupal-frontend-7ccd54b7ff-454gc_agent-chat_78a275e2-45c6-41dd-bf63-cfb32602e596_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+06b419207c5e	k8s_POD_promtail-hkn2m_ossa-agents_b7d74c7e-8d82-48b3-88f2-4bc5de010bb2_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+504ac85c2dfb	k8s_POD_workflow-controller-855c5bfc48-vs5mw_argo_9d2ae5d7-2da6-46ab-badf-071ff47c0490_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+61ce547650c6	k8s_POD_metrics-server-867d48dc9c-kjnvk_kube-system_08af9876-9fd9-422a-8e59-f77945b151d0_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+449dcbb85a79	k8s_POD_svclb-ingress-nginx-controller-2227b54c-tn75l_kube-system_b73906a3-ef45-4e6b-a6f0-9b190154428e_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+0aadb953f841	k8s_POD_svclb-qdrant-service-e2ff5ec3-msf9j_kube-system_8d6f9f65-e246-4e80-99d3-5e3047394db9_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+068994c07f8f	k8s_POD_local-path-provisioner-777cb94f89-rvdmp_kube-system_50bf064d-4938-40ae-ad93-d9e7ff0cf297_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+8008878c7eec	k8s_POD_agent-gateway-64d665d798-vtsjm_ossa-prod_e2c8bce8-b452-49b0-9dbb-93fddb1980ba_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+2b1e331e9176	k8s_POD_argo-server-54467f6857-9bw5j_argo_1091115d-c3dc-4a4d-b41c-8be154e35fcd_4	rancher/mirrored-pause:3.6	Exited (0) 58 minutes ago
+5ed98413f0b7	ossa-website-dev	96b1b9c09197	Up 17 minutes
+2ff0ec2942a9	airweave-temporal-ui	temporalio/ui:2.26.2	Up 57 minutes
+f3561d8d594a	airweave-qdrant	qdrant/qdrant:latest	Up 57 minutes (healthy)
