@@ -155,7 +155,7 @@ response = agent.run(user_message="Hello")
 
 **Example Manifest:**
 ```yaml
-apiVersion: ossa/v0.2.2
+apiVersion: ossa/v0.2.x
 kind: Agent
 metadata:
   name: weather-agent

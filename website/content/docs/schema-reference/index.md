@@ -1,12 +1,12 @@
 ---
 title: "Schema Reference"
-description: "Complete reference documentation for the OSSA v0.2.3 Agent Manifest Schema"
+description: "Complete reference documentation for the OSSA v0.2.x Agent Manifest Schema"
 weight: 50
 ---
 
 # OSSA Schema Reference
 
-Complete reference documentation for the Open Standard for Scalable Agents (OSSA) v0.2.3 schema.
+Complete reference documentation for the Open Standard for Scalable Agents (OSSA) v0.2.x schema.
 
 The OSSA schema provides a declarative, framework-agnostic way to define AI agents with full portability across platforms and orchestration frameworks.
 
@@ -24,10 +24,10 @@ The OSSA manifest is a JSON/YAML document that defines:
 ## Schema Version
 
 ```yaml
-apiVersion: ossa/v0.2.3
+apiVersion: ossa/v0.2.x
 ```
 
-The current stable version is `ossa/v0.2.3`. The schema also supports `ossa/v1` for forward compatibility.
+The current stable version is `ossa/v0.2.x` (v0.2.2, v0.2.3, v0.2.4+). The schema also supports `ossa/v1` for forward compatibility.
 
 ## Schema Components
 
@@ -66,7 +66,7 @@ The current stable version is `ossa/v0.2.3`. The schema also supports `ossa/v1` 
 ## Quick Example
 
 ```yaml
-apiVersion: ossa/v0.2.3
+apiVersion: ossa/v0.2.x
 kind: Agent
 metadata:
   name: code-reviewer
@@ -134,7 +134,7 @@ spec:
 All OSSA manifests must conform to the JSON Schema:
 
 ```
-https://openstandardagents.org/schemas/v0.2.3/agent.json
+https://openstandardagents.org/schemas/v0.2.x/agent.json
 ```
 
 Use the schema for validation in your tools and editors:
@@ -142,7 +142,7 @@ Use the schema for validation in your tools and editors:
 **VSCode/Cursor:**
 ```json
 {
-  "$schema": "https://openstandardagents.org/schemas/v0.2.3/agent.json"
+  "$schema": "https://openstandardagents.org/schemas/v0.2.x/agent.json"
 }
 ```
 
@@ -173,4 +173,4 @@ See the [Extensions](./extensions/) section for framework-specific configuration
 - [Getting Started Guide](/docs/getting-started/)
 - [Examples](/docs/examples/)
 - [GitHub Repository](https://github.com/openstandardagents/ossa)
-- [Schema Download](https://openstandardagents.org/schemas/v0.2.3/agent.json)
+- [Schema Download](https://openstandardagents.org/schemas/v0.2.x/agent.json)
