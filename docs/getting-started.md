@@ -9,7 +9,7 @@ OSSA (Open Standard for Scalable AI Agents) is a specification standard for AI a
 ## Installation
 
 ```bash
-npm install -g @bluefly/open-standards-scalable-agents
+npm install -g @bluefly/openstandardagents
 ```
 
 ## Quick Start
