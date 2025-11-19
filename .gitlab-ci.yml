@@ -151,7 +151,7 @@ release:dev:
 
       # Configure npm to use GitLab Package Registry
       echo "@bluefly:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
-      echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+      echo "//gitlab.bluefly.io/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
 
       # Publish to GitLab Package Registry
       echo "Publishing to GitLab Package Registry..."
@@ -186,7 +186,7 @@ release:rc:
 
       # Configure npm for GitLab Package Registry
       echo "@bluefly:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
-      echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+      echo "//gitlab.bluefly.io/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
 
       # Run semantic-release (dry-run on main to preview next version)
       echo "Next version will be determined by conventional commits..."
@@ -233,7 +233,7 @@ release:prod:
 
       # Configure npm to use GitLab Package Registry
       echo "@bluefly:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
-      echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+      echo "//gitlab.bluefly.io/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
 
       # Publish to GitLab Package Registry
       echo "Publishing to GitLab Package Registry..."
@@ -387,7 +387,7 @@ release-all-platforms:
       # Step 1: Publish to GitLab Package Registry
       echo "📦 Step 1/4: Publishing to GitLab Package Registry..."
       echo "@bluefly:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
-      echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+      echo "//gitlab.bluefly.io/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
       npm publish --tag latest
       echo "✅ Published to GitLab Package Registry"
       echo ""
