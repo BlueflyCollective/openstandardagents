@@ -57,6 +57,12 @@ async function fetchWikiPages(): Promise<WikiPage[]> {
   );
 
   if (!response.ok) {
+    // Handle auth errors gracefully - use existing content
+    if (response.status === 401 || response.status === 403) {
+      console.log(`⚠️  Wiki API returned ${response.status} - using existing content`);
+      console.log('   Token may lack wiki read permission');
+      return [];
+    }
     throw new Error(`Failed to fetch wiki pages: ${response.status} ${response.statusText}`);
   }
 
