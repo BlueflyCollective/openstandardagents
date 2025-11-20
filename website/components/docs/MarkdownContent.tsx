@@ -1,40 +1,121 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import remarkGfm from 'remark-gfm';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface MarkdownContentProps {
   content: string;
 }
 
+// Helper function to generate ID from heading text
+function generateId(text: string): string {
+  // Extract ID from {#id} syntax if present
+  const idMatch = text.match(/\{#([^}]+)\}/);
+  if (idMatch) {
+    return idMatch[1];
+  }
+  // Otherwise generate from text
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
+
+// Helper function to clean heading text (remove {#id} syntax)
+function cleanHeadingText(text: string): string {
+  return text.replace(/\s*\{#[^}]+\}\s*$/, '').trim();
+}
+
 export function MarkdownContent({ content }: MarkdownContentProps) {
+  const pathname = usePathname();
+
+  // Handle anchor link scrolling on mount and hash changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Offset for sticky header
+            window.scrollBy(0, -80);
+          }
+        }, 100);
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [pathname]);
+
   return (
     <div className="markdown-content">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
-          // Headings
-          h1: ({ children }) => (
-            <h1 className="text-3xl font-bold text-gray-900 mt-8 mb-4 pb-2 border-b border-gray-200">
-              {children}
-            </h1>
-          ),
-          h2: ({ children }) => (
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">
-              {children}
-            </h2>
-          ),
-          h3: ({ children }) => (
-            <h3 className="text-xl font-semibold text-gray-900 mt-6 mb-3">
-              {children}
-            </h3>
-          ),
-          h4: ({ children }) => (
-            <h4 className="text-lg font-semibold text-gray-900 mt-4 mb-2">
-              {children}
-            </h4>
-          ),
+          // Headings with IDs
+          h1: ({ children }) => {
+            const text = React.Children.toArray(children).join('');
+            const id = generateId(text);
+            const cleanText = cleanHeadingText(text);
+            return (
+              <h1
+                id={id}
+                className="text-3xl font-bold text-gray-900 mt-8 mb-4 pb-2 border-b border-gray-200 scroll-mt-20"
+              >
+                {cleanText}
+              </h1>
+            );
+          },
+          h2: ({ children }) => {
+            const text = React.Children.toArray(children).join('');
+            const id = generateId(text);
+            const cleanText = cleanHeadingText(text);
+            return (
+              <h2
+                id={id}
+                className="text-2xl font-semibold text-gray-900 mt-8 mb-4 scroll-mt-20"
+              >
+                {cleanText}
+              </h2>
+            );
+          },
+          h3: ({ children }) => {
+            const text = React.Children.toArray(children).join('');
+            const id = generateId(text);
+            const cleanText = cleanHeadingText(text);
+            return (
+              <h3
+                id={id}
+                className="text-xl font-semibold text-gray-900 mt-6 mb-3 scroll-mt-20"
+              >
+                {cleanText}
+              </h3>
+            );
+          },
+          h4: ({ children }) => {
+            const text = React.Children.toArray(children).join('');
+            const id = generateId(text);
+            const cleanText = cleanHeadingText(text);
+            return (
+              <h4
+                id={id}
+                className="text-lg font-semibold text-gray-900 mt-4 mb-2 scroll-mt-20"
+              >
+                {cleanText}
+              </h4>
+            );
+          },
 
           // Paragraphs
           p: ({ children }) => (
@@ -43,17 +124,58 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
             </p>
           ),
 
-          // Links
-          a: ({ href, children }) => (
-            <a
-              href={href}
-              className="text-blue-600 hover:text-blue-800 underline"
-              target={href?.startsWith('http') ? '_blank' : undefined}
-              rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-            >
-              {children}
-            </a>
-          ),
+          // Links - handle anchor links and internal/external links
+          a: ({ href, children }) => {
+            if (!href) return <>{children}</>;
+
+            // Handle anchor links (starting with #)
+            if (href.startsWith('#')) {
+              return (
+                <a
+                  href={href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const id = href.slice(1);
+                    const element = document.getElementById(id);
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      // Offset for sticky header
+                      window.scrollBy(0, -80);
+                      // Update URL without scrolling
+                      window.history.pushState(null, '', `${pathname}${href}`);
+                    }
+                  }}
+                  className="text-[#0066CC] hover:text-[#0052A3] underline"
+                >
+                  {children}
+                </a>
+              );
+            }
+
+            // Handle external links
+            if (href.startsWith('http')) {
+              return (
+                <a
+                  href={href}
+                  className="text-[#0066CC] hover:text-[#0052A3] underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {children}
+                </a>
+              );
+            }
+
+            // Handle internal links (relative paths)
+            return (
+              <Link
+                href={href}
+                className="text-[#0066CC] hover:text-[#0052A3] underline"
+              >
+                {children}
+              </Link>
+            );
+          },
 
           // Lists
           ul: ({ children }) => (
@@ -124,6 +246,8 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
                       margin: 0,
                       borderRadius: '0.5rem',
                       fontSize: '0.875rem',
+                      backgroundColor: '#1e1e1e',
+                      color: '#d4d4d4',
                     }}
                   >
                     {String(children).replace(/\n$/, '')}
@@ -133,7 +257,7 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
             }
 
             return (
-              <code className="bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono">
+              <code className="bg-gray-100 text-primary px-1.5 py-0.5 rounded text-sm font-mono">
                 {children}
               </code>
             );
@@ -141,7 +265,7 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
 
           // Pre (for code blocks without language)
           pre: ({ children }) => (
-            <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4 text-sm">
+            <pre className="bg-code-bg text-code-text p-4 rounded-lg overflow-x-auto my-4 text-sm">
               {children}
             </pre>
           ),

@@ -1,6 +1,6 @@
 ---
 title: "Real-World Results: 34% Efficiency Gains with OSSA"
-date: "2024-11-20"
+date: "2025-11-16"
 author: "Thomas Scola"
 category: "Research"
 tags: [ossa, performance, case-study, results]

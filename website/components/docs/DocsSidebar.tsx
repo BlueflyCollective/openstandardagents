@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DocsSearch } from './DocsSearch';
 import { VersionSelector } from './VersionSelector';
 
@@ -37,6 +37,13 @@ const navigation = [
     ],
   },
   {
+    title: 'Ecosystem',
+    items: [
+      { href: '/docs/ecosystem/overview', label: 'Ecosystem Overview' },
+      { href: '/docs/ecosystem/framework-support', label: 'Framework Support' },
+    ],
+  },
+  {
     title: 'Reference',
     items: [
       { href: '/docs/openapi-extensions', label: 'OpenAPI Extensions' },
@@ -56,6 +63,23 @@ const navigation = [
 export function DocsSidebar() {
   const pathname = usePathname();
   const [openSections, setOpenSections] = useState<string[]>(['Getting Started']);
+
+  // Automatically open the section that contains the current page
+  useEffect(() => {
+    const currentSection = navigation.find((section) =>
+      section.items.some((item) => item.href === pathname)
+    );
+
+    if (currentSection) {
+      setOpenSections((prev) => {
+        // Only add if not already in the array
+        if (!prev.includes(currentSection.title)) {
+          return [...prev, currentSection.title];
+        }
+        return prev;
+      });
+    }
+  }, [pathname]);
 
   const toggleSection = (title: string): void => {
     setOpenSections((prev) =>

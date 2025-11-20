@@ -1,15 +1,17 @@
 ---
 title: "Welcome to OSSA"
-date: "2024-01-15"
+date: "2025-11-20"
 author: "OSSA Team"
 category: "Announcement"
 tags: ["OSSA", "announcement", "standard"]
-excerpt: "OSSA is now available as an open standard for AI agents."
+excerpt: "OSSA is now available as an open standard for AI agents. We're excited to announce the release of OSSA (Open Standard for Scalable AI Agents) - the OpenAPI for AI Agents. This marks a significant milestone in the evolution of AI agent development, providing a vendor-neutral specification that enables true interoperability across frameworks, runtimes, and organizations."
 ---
 
 # Welcome to OSSA
 
 We're excited to announce the release of **OSSA (Open Standard for Scalable AI Agents)** - the OpenAPI for AI Agents.
+
+This marks a significant milestone in the evolution of AI agent development. Just as OpenAPI revolutionized how we define and document REST APIs, OSSA brings the same level of standardization and interoperability to the world of AI agents. No longer will developers be locked into proprietary frameworks or forced to rewrite agents when switching platforms. With OSSA, you can define your agent once and deploy it anywhere.
 
 ## What is OSSA?
 

@@ -43,9 +43,9 @@ function getAllBlogPosts(): BlogPost[] {
 export default function BlogPage() {
   const posts = getAllBlogPosts();
 
-  // Featured post - OpenAPI AI Agents Standard
-  const featuredSlug = 'openapi-ai-agents-standard';
-  const featuredPost = posts.find(p => p.slug.toLowerCase().includes(featuredSlug) || p.slug.toLowerCase().includes('openapi'));
+  // Featured post - Welcome to OSSA
+  const featuredSlug = 'welcome-to-ossa';
+  const featuredPost = posts.find(p => p.slug.toLowerCase() === featuredSlug);
   const otherPosts = posts.filter(p => p.slug !== featuredPost?.slug);
 
   return (

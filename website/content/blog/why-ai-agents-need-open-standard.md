@@ -1,6 +1,6 @@
 ---
 title: "Why AI Agents Need an Open Standard"
-date: "2024-11-15"
+date: "2025-11-19"
 author: "Thomas Scola"
 category: "Technical"
 tags: ["OSSA", "standards", "interoperability", "multi-agent"]

@@ -1,6 +1,6 @@
 ---
 title: "Introducing the OSSA Framework: 3-Tier Progressive Compliance"
-date: "2024-11-18"
+date: "2025-11-17T10:00:00Z"
 author: "Thomas Scola"
 category: "Technical"
 tags: [ossa, architecture, framework, compliance]
