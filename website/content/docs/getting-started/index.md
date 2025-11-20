@@ -1,3 +1,8 @@
+---
+title: "Getting Started with OSSA"
+description: "Quick start guide for building your first OSSA agent"
+---
+
 # Getting Started with OSSA
 
 ## What is OSSA?
