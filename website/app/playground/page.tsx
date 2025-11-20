@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { STABLE_VERSION, STABLE_VERSION_TAG } from '@/lib/version';
+import { STABLE_VERSION, STABLE_VERSION_TAG } from '@/lib/version';
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
   ssr: false,
