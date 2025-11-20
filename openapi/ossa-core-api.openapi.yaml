@@ -1438,6 +1438,20 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
 
+    ServiceUnavailable:
+      description: Service unavailable
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+
 tags:
   - name: Health
     description: Service health and status
