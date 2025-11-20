@@ -9,12 +9,8 @@
 import fs from 'fs';
 import path from 'path';
 
-const GITLAB_HOST = process.env.GITLAB_HOST;
-if (!GITLAB_HOST) {
-  console.error('Error: GITLAB_HOST environment variable is required');
-  console.error('Set GITLAB_HOST to your GitLab instance URL');
-  process.exit(1);
-}
+// Get GITLAB_HOST from env or CI variables, with fallback
+const GITLAB_HOST = process.env.GITLAB_HOST || process.env.CI_SERVER_HOST || 'gitlab.bluefly.io';
 const PROJECT_PATH = 'llm/openstandardagents';
 const DOCS_DIR = path.join(process.cwd(), 'content/docs');
 const BLOG_DIR = path.join(process.cwd(), 'content/blog');

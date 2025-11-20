@@ -21,14 +21,14 @@ function getDocContent(slug: string[]): { content: string; metadata: any } | nul
 
   // Try different path patterns - lowercase first (new convention), then PascalCase (legacy)
   const possiblePaths = [
-    // Lowercase paths (current convention)
-    path.join(docsDirectory, ...slug) + '.md',
+    // Lowercase paths (current convention) - try index.md first for directories
     path.join(docsDirectory, ...slug, 'index.md'),
     path.join(docsDirectory, ...slug, 'readme.md'),
+    path.join(docsDirectory, ...slug) + '.md',
     // PascalCase paths (legacy wiki structure)
-    path.join(docsDirectory, ...slugPath) + '.md',
     path.join(docsDirectory, ...slugPath, 'index.md'),
     path.join(docsDirectory, ...slugPath, 'README.md'),
+    path.join(docsDirectory, ...slugPath) + '.md',
   ];
 
   let fullPath = null;
