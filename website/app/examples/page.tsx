@@ -12,19 +12,29 @@ interface ExampleFile {
 
 function getAllExamples(): ExampleFile[] {
   // Load from generated examples.json in public directory
-  const examplesJsonPath = path.join(process.cwd(), 'public', 'examples.json');
+  // Try multiple paths for different environments
+  const possiblePaths = [
+    path.join(process.cwd(), 'public', 'examples.json'),
+    path.join(process.cwd(), 'website', 'public', 'examples.json'),
+    path.join(__dirname, '..', '..', 'public', 'examples.json'),
+  ];
   
-  if (!fs.existsSync(examplesJsonPath)) {
-    return [];
+  for (const examplesJsonPath of possiblePaths) {
+    if (fs.existsSync(examplesJsonPath)) {
+      try {
+        const content = fs.readFileSync(examplesJsonPath, 'utf8');
+        const examples = JSON.parse(content);
+        console.log(`✅ Loaded ${examples.length} examples from ${examplesJsonPath}`);
+        return examples;
+      } catch (error) {
+        console.error('Error loading examples:', error);
+        return [];
+      }
+    }
   }
   
-  try {
-    const content = fs.readFileSync(examplesJsonPath, 'utf8');
-    return JSON.parse(content);
-  } catch (error) {
-    console.error('Error loading examples:', error);
-    return [];
-  }
+  console.warn('⚠️  examples.json not found in any of these paths:', possiblePaths);
+  return [];
 }
 
 export default function ExamplesPage() {
