@@ -12,29 +12,33 @@ interface ExampleFile {
 
 function getAllExamples(): ExampleFile[] {
   // Load from generated examples.json in public directory
-  // Try multiple paths for different environments
-  const possiblePaths = [
-    path.join(process.cwd(), 'public', 'examples.json'),
-    path.join(process.cwd(), 'website', 'public', 'examples.json'),
-    path.join(__dirname, '..', '..', 'public', 'examples.json'),
-  ];
+  // Use path.resolve to get absolute path
+  const examplesJsonPath = path.resolve(process.cwd(), 'public', 'examples.json');
   
-  for (const examplesJsonPath of possiblePaths) {
-    if (fs.existsSync(examplesJsonPath)) {
+  if (!fs.existsSync(examplesJsonPath)) {
+    // Fallback: try relative to website directory
+    const fallbackPath = path.resolve(process.cwd(), '..', 'website', 'public', 'examples.json');
+    if (fs.existsSync(fallbackPath)) {
       try {
-        const content = fs.readFileSync(examplesJsonPath, 'utf8');
-        const examples = JSON.parse(content);
-        console.log(`✅ Loaded ${examples.length} examples from ${examplesJsonPath}`);
-        return examples;
+        const content = fs.readFileSync(fallbackPath, 'utf8');
+        return JSON.parse(content);
       } catch (error) {
-        console.error('Error loading examples:', error);
+        console.error('Error loading examples from fallback:', error);
         return [];
       }
     }
+    console.error('⚠️  examples.json not found at:', examplesJsonPath);
+    return [];
   }
   
-  console.warn('⚠️  examples.json not found in any of these paths:', possiblePaths);
-  return [];
+  try {
+    const content = fs.readFileSync(examplesJsonPath, 'utf8');
+    const examples = JSON.parse(content);
+    return examples;
+  } catch (error) {
+    console.error('Error loading examples:', error);
+    return [];
+  }
 }
 
 export default function ExamplesPage() {
