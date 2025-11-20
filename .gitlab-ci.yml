@@ -542,7 +542,7 @@ promote-staging:
   script:
     - echo "🚀 Promoting to STAGING environment"
     - VERSION=$(node -p "require('./package.json').version")
-    - echo "Version: $VERSION"
+    - echo "Version $VERSION"
     - echo "✅ Promotion to staging completed"
   rules:
     - if: $CI_COMMIT_TAG
@@ -557,7 +557,7 @@ promote-production:
   script:
     - echo "🚀 Promoting to PRODUCTION environment"
     - VERSION=$(node -p "require('./package.json').version")
-    - echo "Version: $VERSION"
+    - echo "Version $VERSION"
     - echo "✅ Promotion to production completed"
   rules:
     - if: $CI_COMMIT_TAG
