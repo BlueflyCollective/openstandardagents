@@ -64,13 +64,16 @@ async function fetchVersions() {
     if (!processedVersions.has(version)) {
       const isStable = distTags.latest === version;
       const isDev = distTags.dev === version;
+      // Pre-release versions: -dev, -pre, -rc, alpha, beta, or version like 0.2.4-dev
       const isPreRelease = version.includes('-dev') || version.includes('-pre') || version.includes('-rc') || version.includes('alpha') || version.includes('beta');
+      // Dev versions are specifically tagged as 'dev' in npm or end with -dev
+      const isDevVersion = isDev || (version.includes('-dev') && !version.includes('-pre'));
       
       allVersions.push({
         version,
         tag: `v${version}`,
         apiVersion: `ossa/v${version}`,
-        type: isStable ? 'stable' : (isDev ? 'dev' : (isPreRelease ? 'prerelease' : 'stable')),
+        type: isStable ? 'stable' : (isDevVersion ? 'dev' : (isPreRelease ? 'prerelease' : 'stable')),
         published: true,
         available: true,
       });
@@ -84,11 +87,26 @@ async function fetchVersions() {
       const schemaPath = path.join(SPEC_DIR, `v${version}`, `ossa-${version}.schema.json`);
       const schemaExists = fs.existsSync(schemaPath);
       
+      // Determine version type for local versions
+      let versionType = 'local';
+      if (version === '0.2.4-dev') {
+        // v0.2.4-dev is a pre-release version
+        versionType = 'prerelease';
+      } else if (version.includes('-dev')) {
+        // Other -dev versions (like 0.2.5-dev) are dev versions
+        versionType = 'dev';
+      } else if (version.includes('-pre') || version.includes('-rc') || version.includes('alpha') || version.includes('beta')) {
+        versionType = 'prerelease';
+      } else {
+        // Stable versions (like 0.2.3)
+        versionType = 'stable';
+      }
+      
       allVersions.push({
         version,
         tag: `v${version}`,
         apiVersion: `ossa/v${version}`,
-        type: 'local',
+        type: versionType,
         published: false,
         available: schemaExists,
         schemaPath: schemaExists ? schemaPath : undefined,
