@@ -10,8 +10,11 @@ RUN npm install --legacy-peer-deps
 # Copy source code
 COPY . .
 
+# Generate examples.json before starting
+RUN npm run generate-examples || echo "Warning: Could not generate examples"
+
 # Expose port
 EXPOSE 3000
 
-# Start Next.js dev server (no build needed)
+# Start Next.js dev server
 CMD ["npm", "run", "dev"]
