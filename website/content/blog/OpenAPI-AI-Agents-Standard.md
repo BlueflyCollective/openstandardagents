@@ -1,6 +1,6 @@
 ---
 title: "OpenAPI AI Agents Standard (OSSA) - Foundation"
-date: "2025-11-17T12:00:00Z"
+date: "2025-11-20"
 author: "Thomas Scola"
 category: "Research"
 tags: ["OSSA", "AI Agents", "Standards"]

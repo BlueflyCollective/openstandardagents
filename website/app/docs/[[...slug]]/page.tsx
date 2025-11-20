@@ -76,36 +76,41 @@ async function fetchRepoInfo(): Promise<GitHubRepoInfo | null> {
     }
 
     if (prsResponse.ok) {
-      const prsLink = prsResponse.headers.get('link');
-      if (prsLink && prsLink.includes('rel="last"')) {
-        // Parse pagination to get total count
-        const lastMatch = prsLink.match(/<[^>]+page=(\d+)[^>]*>; rel="last"/);
-        if (lastMatch) {
-          const lastPageNum = parseInt(lastMatch[1]);
-          const lastPageResponse = await fetch(
-            `${GITHUB_API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/pulls?state=open&per_page=100&page=${lastPageNum}`,
-            { headers, next: { revalidate: 300 } }
-          );
-          if (lastPageResponse.ok) {
-            const lastPageData = await lastPageResponse.json();
-            openPullRequests = (lastPageNum - 1) * 100 + lastPageData.length;
+      try {
+        const prsLink = prsResponse.headers.get('link');
+        if (prsLink && prsLink.includes('rel="last"')) {
+          // Parse pagination to get total count
+          const lastMatch = prsLink.match(/<[^>]+page=(\d+)[^>]*>; rel="last"/);
+          if (lastMatch) {
+            const lastPageNum = parseInt(lastMatch[1]);
+            const lastPageResponse = await fetch(
+              `${GITHUB_API_BASE}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/pulls?state=open&per_page=100&page=${lastPageNum}`,
+              { headers, next: { revalidate: 300 } }
+            );
+            if (lastPageResponse.ok) {
+              const lastPageData = await lastPageResponse.json();
+              openPullRequests = (lastPageNum - 1) * 100 + lastPageData.length;
+            }
           }
+        } else {
+          const prsData = await prsResponse.json();
+          openPullRequests = Array.isArray(prsData) ? prsData.length : 0;
         }
-      } else {
-        const prsData = await prsResponse.json();
-        openPullRequests = prsData.length;
+      } catch (error) {
+        console.error('Error parsing PRs response:', error);
+        openPullRequests = 0;
       }
     }
 
     return {
-      stars: repoData.stargazers_count || 0,
-      forks: repoData.forks_count || 0,
-      openIssues,
-      openPullRequests,
-      description: repoData.description || '',
-      language: repoData.language || null,
-      updatedAt: repoData.updated_at || '',
-      watchers: repoData.watchers_count || 0,
+      stars: repoData?.stargazers_count || 0,
+      forks: repoData?.forks_count || 0,
+      openIssues: openIssues || 0,
+      openPullRequests: openPullRequests || 0,
+      description: repoData?.description || '',
+      language: repoData?.language || null,
+      updatedAt: repoData?.updated_at || '',
+      watchers: repoData?.watchers_count || 0,
     };
   } catch (error) {
     console.error('Error fetching GitHub repo info:', error);
@@ -173,52 +178,83 @@ function getAllDocPaths(): string[][] {
   const paths: string[][] = [];
 
   function traverseDir(dir: string, currentPath: string[] = []): void {
+    try {
     if (!fs.existsSync(dir)) {
+      console.warn(`Directory does not exist: ${dir}`);
       return;
     }
 
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
     for (const entry of entries) {
+      // Skip hidden files and directories
+      if (entry.name.startsWith('.')) {
+        continue;
+      }
+
       if (entry.isDirectory()) {
         traverseDir(path.join(dir, entry.name), [...currentPath, entry.name]);
       } else if (entry.isFile() && entry.name.endsWith('.md')) {
         const slug = entry.name.replace(/\.md$/, '');
-        if (slug !== 'index') {
+        if (slug !== 'index' && slug !== 'README' && slug !== 'readme') {
           paths.push([...currentPath, slug]);
         } else if (currentPath.length > 0) {
           paths.push(currentPath);
         }
       }
     }
+    } catch (error) {
+      console.error(`Error traversing directory ${dir}:`, error);
+    }
   }
 
+  try {
   traverseDir(docsDirectory);
+  } catch (error) {
+    console.error(`Error getting doc paths from ${docsDirectory}:`, error);
+  }
+
   return paths;
 }
 
-// Comment out for dev mode - re-enable for production build
-// export const dynamic = 'force-static';
-// export const dynamicParams = false;
+export const dynamicParams = false;
 
-export async function generateStaticParams() {
+export function generateStaticParams(): Array<{ slug: string[] }> {
+  try {
+    if (!fs.existsSync(docsDirectory)) {
+      console.warn(`Docs directory not found: ${docsDirectory}`);
+      return [{ slug: [] }];
+    }
+
   const paths = getAllDocPaths();
-  // Convert paths to lowercase for URL matching
-  // Return root docs page as empty array (not undefined!), plus all other paths
-  return [
+    const result = [
     { slug: [] },
-    ...paths.map((slugParts) => ({
-      slug: slugParts.map(part => part.toLowerCase()),
+      ...paths.map(slugParts => ({
+        slug: slugParts.map(p => String(p).toLowerCase())
     }))
   ];
+
+    return result;
+  } catch (error) {
+    console.error('Error in generateStaticParams:', error);
+    return [{ slug: [] }];
+  }
 }
 
 export default async function DocsPage({ params }: PageProps) {
   const { slug: slugParam } = await params;
   const slug = slugParam || [];
   
-  // Fetch GitHub repo info for root docs page
-  const repoInfo = slug.length === 0 ? await fetchRepoInfo() : null;
+  // Fetch GitHub repo info for root docs page (with error handling)
+  let repoInfo = null;
+  if (slug.length === 0) {
+    try {
+      repoInfo = await fetchRepoInfo();
+    } catch (error) {
+      console.error('Failed to fetch GitHub repo info:', error);
+      // Continue without repo info rather than crashing
+    }
+  }
 
   // Handle root /docs route - CLEAN, PROFESSIONAL DESIGN
   if (slug.length === 0) {
@@ -638,6 +674,152 @@ export default async function DocsPage({ params }: PageProps) {
     notFound();
   }
 
+  // Special handling for schema-reference page
+  const isSchemaReference = slug.length === 1 && slug[0] === 'schema-reference';
+
+  if (isSchemaReference) {
+    return (
+      <>
+        {/* Hero Section */}
+        <div className="bg-gradient-to-br from-primary via-accent to-secondary text-white py-16 px-4">
+          <div className="container mx-auto max-w-6xl text-center">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full mb-6">
+              <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <h1 className="text-5xl font-bold mb-4">Schema Reference</h1>
+            <p className="text-xl text-white/90 mb-2">
+              Complete reference documentation for the OSSA Agent Manifest Schema
+            </p>
+            <p className="text-lg text-white/80">
+              Framework-agnostic • Portable • Validated
+            </p>
+          </div>
+        </div>
+
+        <div className="flex min-h-screen">
+          <DocsSidebar />
+          <div className="flex-1 flex flex-col">
+            <main className="flex-1 container mx-auto max-w-6xl px-4 py-12">
+              {/* Quick Links Section */}
+              <section className="mb-12">
+                <div className="grid md:grid-cols-3 gap-6 mb-8">
+                  <Link href="/schema" className="group bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">Interactive Schema Explorer</h3>
+                    <p className="text-gray-600 text-sm">Explore the JSON schema interactively with live examples</p>
+                  </Link>
+                  <Link href="/playground" className="group bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">Validate Your Agent</h3>
+                    <p className="text-gray-600 text-sm">Test and validate your agent manifest in real-time</p>
+                  </Link>
+                  <Link href="/docs/openapi-extensions" className="group bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">OpenAPI Extensions</h3>
+                    <p className="text-gray-600 text-sm">Learn how OSSA extends OpenAPI for agent definitions</p>
+                  </Link>
+                </div>
+              </section>
+
+              {/* Schema Components Grid */}
+              <section className="mb-12">
+                <div className="flex items-center mb-8">
+                  <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mr-4">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+                  <h2 className="text-3xl font-bold text-primary">Schema Components</h2>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                    <h3 className="text-xl font-bold mb-3 text-primary">Core Objects</h3>
+                    <ul className="space-y-2 text-gray-700">
+                      <li className="flex items-center">
+                        <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <Link href="/docs/schema-reference/ossa-manifest" className="hover:text-primary">OSSA Manifest</Link>
+                      </li>
+                      <li className="flex items-center">
+                        <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <Link href="/docs/schema-reference/agent-spec" className="hover:text-primary">Agent Spec</Link>
+                      </li>
+                      <li className="flex items-center">
+                        <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <Link href="/docs/schema-reference/llm-config" className="hover:text-primary">LLM Configuration</Link>
+                      </li>
+                      <li className="flex items-center">
+                        <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <Link href="/docs/schema-reference/tools" className="hover:text-primary">Tools</Link>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                    <h3 className="text-xl font-bold mb-3 text-primary">Configuration Objects</h3>
+                    <ul className="space-y-2 text-gray-700">
+                      <li className="flex items-center">
+                        <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <Link href="/docs/schema-reference/taxonomy" className="hover:text-primary">Taxonomy</Link>
+                      </li>
+                      <li className="flex items-center">
+                        <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <Link href="/docs/schema-reference/autonomy" className="hover:text-primary">Autonomy</Link>
+                      </li>
+                      <li className="flex items-center">
+                        <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <Link href="/docs/schema-reference/constraints" className="hover:text-primary">Constraints</Link>
+                      </li>
+                      <li className="flex items-center">
+                        <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <Link href="/docs/schema-reference/observability" className="hover:text-primary">Observability</Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              {/* Main Content */}
+              <article className="prose prose-lg max-w-none">
+                <div className="mt-8">
+                  <MarkdownContent content={doc.content} currentPath={`/docs/${slug.join('/')}`} />
+                </div>
+              </article>
+            </main>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <div className="flex min-h-screen">
       <DocsSidebar />
@@ -649,7 +831,7 @@ export default async function DocsPage({ params }: PageProps) {
               <p className="text-xl text-gray-600">{doc.metadata.description}</p>
             )}
             <div className="mt-8">
-              <MarkdownContent content={doc.content} />
+              <MarkdownContent content={doc.content} currentPath={`/docs/${slug.join('/')}`} />
             </div>
           </article>
         </main>

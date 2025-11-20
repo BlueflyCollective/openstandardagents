@@ -56,6 +56,25 @@ export default function ExamplesPage() {
     return acc;
   }, {} as Record<string, number>);
 
+  // Extract unique frameworks from example paths and content
+  const frameworkNames = [
+    'kagent', 'langchain', 'crewai', 'openai', 'anthropic', 
+    'autogen', 'langflow', 'langgraph', 'llamaindex', 'cursor', 
+    'vercel', 'drupal', 'mcp', 'huggingface', 'google', 'aws', 
+    'azure', 'github', 'docker', 'kubernetes'
+  ];
+  
+  const frameworksInExamples = new Set<string>();
+  examples.forEach(ex => {
+    const pathLower = ex.path.toLowerCase();
+    const contentLower = ex.content.toLowerCase();
+    frameworkNames.forEach(fw => {
+      if (pathLower.includes(fw) || contentLower.includes(`"${fw}"`) || contentLower.includes(`'${fw}'`)) {
+        frameworksInExamples.add(fw);
+      }
+    });
+  });
+
   return (
     <>
       {/* Hero Section */}
@@ -91,7 +110,7 @@ export default function ExamplesPage() {
             </div>
             <div className="w-px h-12 bg-gray-300"></div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary">15+</div>
+              <div className="text-3xl font-bold text-primary">{frameworksInExamples.size}</div>
               <div className="text-sm text-gray-600">Frameworks</div>
             </div>
           </div>

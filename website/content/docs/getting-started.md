@@ -1,13 +1,12 @@
 ---
-title: "Getting Started with OSSA"
-description: "Quick start guide for building your first OSSA agent"
+title: "Getting Started"
 ---
 
 # Getting Started with OSSA
 
 ## What is OSSA?
 
-OSSA (Open Standard for Scalable Agents) is a specification standard for AI agents, similar to how OpenAPI standardizes REST APIs.
+OSSA (Open Standard for Scalable AI Agents) is a specification standard for AI agents, similar to how OpenAPI standardizes REST APIs.
 
 **OSSA is NOT a framework** - it's a standard that defines the contract.
 
@@ -31,7 +30,7 @@ cd .agents/my-agent
 Edit `agent.yml`:
 
 ```yaml
-apiVersion: ossa/v{{version}}
+ossaVersion: "1.0"
 
 agent:
   id: my-agent
@@ -80,8 +79,8 @@ OSSA doesn't dictate deployment. Deploy to YOUR infrastructure:
 
 ## Next Steps
 
-- Review [Examples](/docs/examples/migration-guides)
-- Read the [Schema Reference](/docs/schema-reference)
+- Review [Examples](Examples/)
+- Read the [Specification](Specification/ossa-1.0.schema.json)
 - Visit the [GitHub Repository](https://github.com/blueflyio/openstandardagents)
 
 ## Need More Features?

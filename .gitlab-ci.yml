@@ -16,7 +16,7 @@ stages:
   - mirror-github
 
 variables:
-  NODE_VERSION: "20"
+  NODE_VERSION: "22"
   NPM_CONFIG_LEGACY_PEER_DEPS: "1"
   HUSKY: "0"
   LEFTHOOK: "0"
@@ -610,7 +610,7 @@ workflow:
 # GitLab Pages deployment
 pages:
   stage: .post
-  image: node:20-alpine
+  image: node:${NODE_VERSION}-alpine
   before_script:
     - cd website
     - npm ci

@@ -62,9 +62,22 @@ const navigation = [
 
 export function DocsSidebar() {
   const pathname = usePathname();
-  const [openSections, setOpenSections] = useState<string[]>(['Getting Started']);
 
-  // Automatically open the section that contains the current page
+  // Calculate initial open sections based on pathname to avoid hydration mismatch
+  const getInitialOpenSections = (): string[] => {
+    const sections: string[] = ['Getting Started'];
+    const currentSection = navigation.find((section) =>
+      section.items.some((item) => item.href === pathname)
+    );
+    if (currentSection && !sections.includes(currentSection.title)) {
+      sections.push(currentSection.title);
+    }
+    return sections;
+  };
+
+  const [openSections, setOpenSections] = useState<string[]>(getInitialOpenSections);
+
+  // Update open sections when pathname changes (for client-side navigation)
   useEffect(() => {
     const currentSection = navigation.find((section) =>
       section.items.some((item) => item.href === pathname)

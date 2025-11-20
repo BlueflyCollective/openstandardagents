@@ -546,5 +546,5 @@ paths:
 
 - [Root-Level Extensions](root-extensions)
 - [Operation-Level Extensions](operation-extensions)
-- [OSSA Specification v0.2.2](../Technical/Specification-Deep-Dive)
+- [OSSA Specification](/docs/specification)
 - [OpenAPI 3.1 Specification](https://spec.openapis.org/oas/v3.1.0)

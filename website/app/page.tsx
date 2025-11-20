@@ -351,19 +351,29 @@ osa export --to langchain`}</code>
             </p>
           </div>
 
-          {/* Logos Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center mb-12">
+          {/* Logos Grid - Row 1 */}
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center mb-8">
             <Logo domain="openai.com" name="OpenAI" />
             <Logo domain="anthropic.com" name="Anthropic" />
-            <Logo domain="google.com" name="Google" />
+            <Logo domain="deepmind.google" name="Gemini" />
             <Logo domain="microsoft.com" name="Microsoft" />
             <Logo domain="langchain.com" name="LangChain" />
             <Logo domain="huggingface.co" name="Hugging Face" />
-            <Logo domain="kagent.dev" name="Kagent" />
+          </div>
+
+          {/* Logos Grid - Row 2 */}
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center mb-12">
+            <Logo domain="kagent.dev" name="kAgent" />
+            <Logo domain="crewai.com" name="CrewAI" />
+            <Logo domain="langflow.com" name="Langflow" />
+            <Logo domain="llamaindex.ai" name="LlamaIndex" />
+            <Logo domain="langchain.com" name="LangGraph" />
+            <Logo domain="modelcontextprotocol.io" name="MCP" />
+            <Logo domain="drupal.org" name="Drupal" />
+            <Logo domain="librechat.com" name="LibreChat" />
             <Logo domain="docker.com" name="Docker" />
             <Logo domain="kubernetes.io" name="Kubernetes" />
             <Logo domain="aws.amazon.com" name="AWS" />
-            <Logo domain="cursor.sh" name="Cursor" />
             <Logo domain="github.com" name="GitHub" />
           </div>
 
