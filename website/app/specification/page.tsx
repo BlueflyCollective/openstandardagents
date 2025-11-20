@@ -35,7 +35,7 @@ export default function SpecificationPage() {
             <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-2xl p-8 border-2 border-blue-200 shadow-lg">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-3xl font-bold mb-2 text-[#0066CC]">Current Version</h2>
+                  <h2 className="text-3xl font-bold mb-2 text-primary">Current Version</h2>
                   <h3 className="text-2xl font-semibold mb-2 text-gray-900">{STABLE_VERSION_TAG}</h3>
                   <p className="text-gray-700">Latest stable release</p>
                 </div>
@@ -99,44 +99,44 @@ export default function SpecificationPage() {
               <h2 className="text-3xl font-bold text-primary">Specification Structure</h2>
             </div>
             <div className="space-y-4">
-              <div className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300">
-                <h3 className="text-xl font-bold mb-3 text-[#0066CC]">1. Core Specification</h3>
+              <div className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                <h3 className="text-xl font-bold mb-3 text-primary">1. Core Specification</h3>
                 <p className="text-gray-700 mb-4">
                   The fundamental structure of an OSA agent manifest, including metadata, specification,
                   and extensions.
                 </p>
-                <Link href="/docs/getting-started/first-agent" className="text-[#0066CC] hover:text-[#00B8D4] font-semibold inline-flex items-center">
+                <Link href="/docs/getting-started/first-agent" className="text-primary hover:text-secondary font-semibold inline-flex items-center">
                   Read Core Specification →
                 </Link>
               </div>
 
-              <div className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300">
-                <h3 className="text-xl font-bold mb-3 text-[#0066CC]">2. Schema Reference</h3>
+              <div className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                <h3 className="text-xl font-bold mb-3 text-primary">2. Schema Reference</h3>
                 <p className="text-gray-700 mb-4">
                   Complete JSON Schema definition with all properties, types, constraints, and validation rules.
                 </p>
-                <Link href="/schema" className="text-[#0066CC] hover:text-[#00B8D4] font-semibold inline-flex items-center">
+                <Link href="/schema" className="text-primary hover:text-secondary font-semibold inline-flex items-center">
                   Explore Schema →
                 </Link>
               </div>
 
-              <div className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300">
-                <h3 className="text-xl font-bold mb-3 text-[#0066CC]">3. Platform Extensions</h3>
+              <div className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                <h3 className="text-xl font-bold mb-3 text-primary">3. Platform Extensions</h3>
                 <p className="text-gray-700 mb-4">
                   Framework-specific extensions for Cursor, OpenAI, CrewAI, LangChain, Anthropic,
                   Langflow, AutoGen, and more.
                 </p>
-                <Link href="/docs/examples/migration-guides" className="text-[#0066CC] hover:text-[#00B8D4] font-semibold inline-flex items-center">
+                <Link href="/docs/examples/migration-guides" className="text-primary hover:text-secondary font-semibold inline-flex items-center">
                   View Extensions →
                 </Link>
               </div>
 
-              <div className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300">
-                <h3 className="text-xl font-bold mb-3 text-[#0066CC]">4. Validation Rules</h3>
+              <div className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                <h3 className="text-xl font-bold mb-3 text-primary">4. Validation Rules</h3>
                 <p className="text-gray-700 mb-4">
                   Comprehensive validation rules, error messages, and best practices for creating valid agent manifests.
                 </p>
-                <Link href="/playground" className="text-[#0066CC] hover:text-[#00B8D4] font-semibold inline-flex items-center">
+                <Link href="/playground" className="text-primary hover:text-secondary font-semibold inline-flex items-center">
                   Try Validation →
                 </Link>
               </div>
@@ -154,7 +154,7 @@ export default function SpecificationPage() {
             </div>
             <div className="space-y-6">
               <div className="bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md">
-                <h3 className="text-xl font-bold mb-3 text-[#0066CC]">Agent Manifest</h3>
+                <h3 className="text-xl font-bold mb-3 text-primary">Agent Manifest</h3>
                 <p className="text-gray-700 mb-4">
                   A YAML or JSON file that describes an AI agent, including its role, LLM configuration,
                   tools, and deployment requirements.
@@ -175,7 +175,7 @@ spec:
               </div>
 
               <div className="bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md">
-                <h3 className="text-xl font-bold mb-3 text-[#0066CC]">Schema Validation</h3>
+                <h3 className="text-xl font-bold mb-3 text-primary">Schema Validation</h3>
                 <p className="text-gray-700">
                   Every agent manifest must conform to the OSA JSON Schema. Validation ensures correctness,
                   completeness, and compatibility before deployment.
@@ -183,7 +183,7 @@ spec:
               </div>
 
               <div className="bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md">
-                <h3 className="text-xl font-bold mb-3 text-[#0066CC]">Platform Extensions</h3>
+                <h3 className="text-xl font-bold mb-3 text-primary">Platform Extensions</h3>
                 <p className="text-gray-700">
                   Framework-specific extensions allow agents to leverage platform-specific features while
                   maintaining core OSA compatibility.
@@ -191,7 +191,7 @@ spec:
               </div>
 
               <div className="bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md">
-                <h3 className="text-xl font-bold mb-3 text-[#0066CC]">Export/Import</h3>
+                <h3 className="text-xl font-bold mb-3 text-primary">Export/Import</h3>
                 <p className="text-gray-700">
                   Convert OSA manifests to framework-specific formats (export) or import existing agents
                   into OSA format for standardization.
@@ -210,7 +210,7 @@ spec:
               <h2 className="text-3xl font-bold text-primary">Version History</h2>
             </div>
             <div className="space-y-4">
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-[#0066CC] rounded-xl p-6 shadow-lg">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-primary rounded-xl p-6 shadow-lg">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-xl font-bold text-gray-900">{STABLE_VERSION_TAG}</h3>
                   <span className="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold border-2 border-green-300">
@@ -261,20 +261,20 @@ spec:
               <h2 className="text-3xl font-bold text-primary">Resources</h2>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
-              <Link href="/schema" className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300">
-                <h3 className="text-xl font-bold mb-2 text-[#0066CC]">Interactive Schema Explorer</h3>
+              <Link href="/schema" className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                <h3 className="text-xl font-bold mb-2 text-primary">Interactive Schema Explorer</h3>
                 <p className="text-gray-700">Explore the complete JSON Schema interactively.</p>
               </Link>
-              <Link href="/playground" className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300">
-                <h3 className="text-xl font-bold mb-2 text-[#0066CC]">Validation Playground</h3>
+              <Link href="/playground" className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                <h3 className="text-xl font-bold mb-2 text-primary">Validation Playground</h3>
                 <p className="text-gray-700">Test and validate your agent manifests in real-time.</p>
               </Link>
-              <Link href="/examples" className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300">
-                <h3 className="text-xl font-bold mb-2 text-[#0066CC]">Examples Gallery</h3>
+              <Link href="/examples" className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                <h3 className="text-xl font-bold mb-2 text-primary">Examples Gallery</h3>
                 <p className="text-gray-700">Browse real-world examples and use cases.</p>
               </Link>
-              <Link href="/docs" className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300">
-                <h3 className="text-xl font-bold mb-2 text-[#0066CC]">Full Documentation</h3>
+              <Link href="/docs" className="bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
+                <h3 className="text-xl font-bold mb-2 text-primary">Full Documentation</h3>
                 <p className="text-gray-700">Comprehensive guides and tutorials.</p>
               </Link>
             </div>

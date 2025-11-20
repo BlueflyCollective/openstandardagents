@@ -164,7 +164,7 @@ export default function SchemaPage() {
               <div className="space-y-6">
                 {/* spec */}
                 <div className="bg-gradient-to-br from-blue-50/30 to-indigo-50/30 border-2 border-blue-200 rounded-xl p-6 shadow-md">
-                  <div className="font-bold text-[#0066CC] text-2xl mb-3">spec</div>
+                  <div className="font-bold text-primary text-2xl mb-3">spec</div>
                   <div className="text-base text-gray-700 mb-6">Core agent configuration including behavior, capabilities, and operational settings.</div>
                   <div className="space-y-3">
                     {/* role */}
@@ -323,7 +323,7 @@ export default function SchemaPage() {
 
                 {/* extensions */}
                 <div className="bg-gradient-to-br from-purple-50/30 to-pink-50/30 border-2 border-purple-200 rounded-xl p-6 shadow-md">
-                  <div className="font-bold text-[#00B8D4] text-2xl mb-3">extensions</div>
+                  <div className="font-bold text-secondary text-2xl mb-3">extensions</div>
                   <div className="text-base text-gray-700 mb-6">Optional framework-specific configurations that extend the core OSSA specification for platform-specific features.</div>
                   <div className="text-base text-gray-800 mb-6 font-semibold">Supported frameworks:</div>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
@@ -599,7 +599,7 @@ export default function SchemaPage() {
               {
                 id: 'apiversion-kind',
                 title: 'apiVersion & kind',
-                borderColor: 'border-[#0066CC]',
+                borderColor: 'border-primary',
                 content: (
                   <div className="space-y-4">
                     <div>
@@ -623,7 +623,7 @@ kind: Agent`}</code></pre>
               {
                 id: 'metadata',
                 title: 'metadata',
-                borderColor: 'border-[#00B8D4]',
+                borderColor: 'border-secondary',
                 content: (
                   <div className="space-y-4">
                     <div>
@@ -660,7 +660,7 @@ kind: Agent`}</code></pre>
               {
                 id: 'spec-role',
                 title: 'spec.role',
-                borderColor: 'border-[#0066CC]',
+                borderColor: 'border-primary',
                 content: (
                   <div className="space-y-4">
                     <div>
@@ -691,7 +691,7 @@ kind: Agent`}</code></pre>
               {
                 id: 'spec-llm',
                 title: 'spec.llm',
-                borderColor: 'border-[#00B8D4]',
+                borderColor: 'border-secondary',
                 content: (
                   <div className="space-y-4">
                     <div>
@@ -727,7 +727,7 @@ kind: Agent`}</code></pre>
               {
                 id: 'spec-tools',
                 title: 'spec.tools',
-                borderColor: 'border-[#0066CC]',
+                borderColor: 'border-primary',
                 content: (
                   <div className="space-y-4">
                     <div>
@@ -778,7 +778,7 @@ kind: Agent`}</code></pre>
               {
                 id: 'spec-taxonomy',
                 title: 'spec.taxonomy',
-                borderColor: 'border-[#00B8D4]',
+                borderColor: 'border-secondary',
                 content: (
                   <div className="space-y-4">
                     <div>
@@ -812,7 +812,7 @@ kind: Agent`}</code></pre>
               {
                 id: 'spec-autonomy',
                 title: 'spec.autonomy',
-                borderColor: 'border-[#0066CC]',
+                borderColor: 'border-primary',
                 content: (
                   <div className="space-y-4">
                     <div>
@@ -860,7 +860,7 @@ kind: Agent`}</code></pre>
               {
                 id: 'spec-observability',
                 title: 'spec.observability',
-                borderColor: 'border-[#00B8D4]',
+                borderColor: 'border-secondary',
                 content: (
                   <div className="space-y-4">
                     <div>
@@ -900,7 +900,7 @@ kind: Agent`}</code></pre>
               {
                 id: 'extensions',
                 title: 'extensions',
-                borderColor: 'border-[#0066CC]',
+                borderColor: 'border-primary',
                 content: (
                   <div className="space-y-4">
                     <div>

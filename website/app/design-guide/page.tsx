@@ -88,7 +88,7 @@ export default function DesignGuidePage() {
             <h3 className="text-2xl font-bold mb-4 text-gray-900">Primary Brand Colors</h3>
             <div className="grid md:grid-cols-3 gap-6">
               <div className="card">
-                <div className="h-32 bg-[#0066CC] rounded-lg mb-4 flex items-center justify-center">
+                <div className="h-32 bg-primary rounded-lg mb-4 flex items-center justify-center">
                   <span className="text-white font-bold text-lg">Primary</span>
                 </div>
                 <h4 className="font-bold mb-2">Primary Blue</h4>
@@ -100,7 +100,7 @@ export default function DesignGuidePage() {
               </div>
 
               <div className="card">
-                <div className="h-32 bg-[#00B8D4] rounded-lg mb-4 flex items-center justify-center">
+                <div className="h-32 bg-secondary rounded-lg mb-4 flex items-center justify-center">
                   <span className="text-white font-bold text-lg">Secondary</span>
                 </div>
                 <h4 className="font-bold mb-2">Secondary Cyan</h4>
@@ -112,7 +112,7 @@ export default function DesignGuidePage() {
               </div>
 
               <div className="card">
-                <div className="h-32 bg-gradient-to-br from-[#0066CC] to-[#00B8D4] rounded-lg mb-4 flex items-center justify-center">
+                <div className="h-32 bg-gradient-to-br from-primary to-secondary rounded-lg mb-4 flex items-center justify-center">
                   <span className="text-white font-bold text-lg">Gradient</span>
                 </div>
                 <h4 className="font-bold mb-2">Brand Gradient</h4>
@@ -256,13 +256,13 @@ export default function DesignGuidePage() {
               <h3 className="text-xl font-bold mb-4 text-gray-900">Buttons</h3>
               <div className="space-y-4">
                 <div className="flex flex-wrap gap-4">
-                  <button className="bg-[#0066CC] text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                  <button className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
                     Primary Button
                   </button>
-                  <button className="bg-[#00B8D4] text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
+                  <button className="bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity">
                     Secondary Button
                   </button>
-                  <button className="border-2 border-[#0066CC] text-[#0066CC] px-6 py-3 rounded-lg font-medium hover:bg-[#0066CC] hover:text-white transition-colors">
+                  <button className="border-2 border-primary text-primary px-6 py-3 rounded-lg font-medium hover:bg-primary hover:text-white transition-colors">
                     Outline Button
                   </button>
                 </div>
@@ -283,11 +283,11 @@ export default function DesignGuidePage() {
                   <h4 className="font-bold mb-2">Standard Card</h4>
                   <p className="text-sm text-gray-600">Default card style</p>
                 </div>
-                <div className="bg-gradient-to-br from-[#0066CC]/10 to-[#00B8D4]/10 rounded-lg shadow-md p-6 border-2 border-[#0066CC]">
-                  <h4 className="font-bold mb-2 text-[#0066CC]">Highlighted Card</h4>
+                <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg shadow-md p-6 border-2 border-primary">
+                  <h4 className="font-bold mb-2 text-primary">Highlighted Card</h4>
                   <p className="text-sm text-gray-600">For important content</p>
                 </div>
-                <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#0066CC] hover:shadow-lg transition-shadow">
+                <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-primary hover:shadow-lg transition-shadow">
                   <h4 className="font-bold mb-2">Interactive Card</h4>
                   <p className="text-sm text-gray-600">With hover effect</p>
                 </div>
@@ -303,7 +303,7 @@ export default function DesignGuidePage() {
             {/* Hero Sections */}
             <div className="card">
               <h3 className="text-xl font-bold mb-4 text-gray-900">Hero Sections</h3>
-              <div className="bg-gradient-to-br from-[#0066CC] via-[#0099E6] to-[#00B8D4] text-white rounded-lg p-8 mb-4">
+              <div className="bg-gradient-to-br from-primary via-[#0099E6] to-secondary text-white rounded-lg p-8 mb-4">
                 <div className="text-center">
                   <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full mb-4">
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -326,7 +326,7 @@ export default function DesignGuidePage() {
             <div className="card">
               <h3 className="text-xl font-bold mb-4 text-gray-900">Accordions</h3>
               <div className="space-y-2">
-                <div className="bg-white rounded-lg border-l-4 border-[#0066CC] shadow-md">
+                <div className="bg-white rounded-lg border-l-4 border-primary shadow-md">
                   <button className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50">
                     <h4 className="font-bold text-gray-900">Accordion Item (Open)</h4>
                     <svg className="w-5 h-5 text-gray-600 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -339,7 +339,7 @@ export default function DesignGuidePage() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-white rounded-lg border-l-4 border-[#00B8D4] shadow-md">
+                <div className="bg-white rounded-lg border-l-4 border-secondary shadow-md">
                   <button className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50">
                     <h4 className="font-bold text-gray-900">Accordion Item (Closed)</h4>
                     <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -373,11 +373,11 @@ export default function DesignGuidePage() {
             <div className="card">
               <h3 className="text-xl font-bold mb-4 text-gray-900">Page Structure</h3>
               <div className="space-y-3 text-gray-700">
-                <div className="border-l-4 border-[#0066CC] pl-4">
+                <div className="border-l-4 border-primary pl-4">
                   <p className="font-semibold">1. Hero Section</p>
                   <p className="text-sm text-gray-600">Gradient background, icon, title, description</p>
                 </div>
-                <div className="border-l-4 border-[#00B8D4] pl-4">
+                <div className="border-l-4 border-secondary pl-4">
                   <p className="font-semibold">2. Content Sections</p>
                   <p className="text-sm text-gray-600">Cards, grids, accordions, content blocks</p>
                 </div>
@@ -392,12 +392,12 @@ export default function DesignGuidePage() {
               <h3 className="text-xl font-bold mb-4 text-gray-900">Section Headers</h3>
               <div className="space-y-4">
                 <div className="flex items-center">
-                  <div className="w-10 h-10 bg-gradient-to-br from-[#0066CC] to-[#00B8D4] rounded-lg flex items-center justify-center mr-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mr-3">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-[#0066CC]">Section Title</h3>
+                  <h3 className="text-2xl font-bold text-primary">Section Title</h3>
                 </div>
                 <p className="text-sm text-gray-600">
                   All major sections should have an icon badge (gradient background) and colored heading.
@@ -481,7 +481,7 @@ export default function DesignGuidePage() {
 
         {/* Resources */}
         <section className="mb-8">
-          <div className="card bg-gradient-to-br from-[#0066CC]/10 to-[#00B8D4]/10 border-2 border-[#0066CC]">
+          <div className="card bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary">
             <h2 className="text-2xl font-bold mb-4 text-gray-900">Additional Resources</h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
@@ -495,9 +495,9 @@ export default function DesignGuidePage() {
               <div>
                 <h3 className="font-semibold mb-2 text-gray-900">Reference Pages</h3>
                 <ul className="space-y-1 text-sm text-gray-700">
-                  <li>• <Link href="/schema" className="text-[#0066CC] hover:underline">Schema Page</Link></li>
-                  <li>• <Link href="/specification" className="text-[#0066CC] hover:underline">Specification Page</Link></li>
-                  <li>• <Link href="/docs" className="text-[#0066CC] hover:underline">Docs Page</Link></li>
+                  <li>• <Link href="/schema" className="text-primary hover:underline">Schema Page</Link></li>
+                  <li>• <Link href="/specification" className="text-primary hover:underline">Specification Page</Link></li>
+                  <li>• <Link href="/docs" className="text-primary hover:underline">Docs Page</Link></li>
                 </ul>
               </div>
             </div>

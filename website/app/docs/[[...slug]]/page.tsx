@@ -315,7 +315,7 @@ export default async function DocsPage({ params }: PageProps) {
                     <Link href="/docs/getting-started/5-minute-overview" className="btn-primary">
                       5-Minute Overview →
                     </Link>
-                    <Link href="/docs/getting-started/hello-world" className="btn-outline border-[#0066CC] text-[#0066CC] hover:bg-[#0066CC] hover:text-white">
+                    <Link href="/docs/getting-started/hello-world" className="btn-outline">
                       Hello World →
                     </Link>
                   </div>
@@ -337,31 +337,31 @@ export default async function DocsPage({ params }: PageProps) {
             <div className="grid md:grid-cols-3 gap-6">
 
               {/* Getting Started - Blog Teaser */}
-              <Link href="/docs/getting-started/5-minute-overview" className="group bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300">
+              <Link href="/docs/getting-started/5-minute-overview" className="group bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#0066CC] transition-colors">Getting Started</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">Getting Started</h3>
                 <p className="text-gray-600 mb-4 text-sm">
                   Learn the fundamentals of OSSA and build your first agent in minutes.
                 </p>
                 <ul className="space-y-2 text-sm">
                   <li className="text-gray-700 flex items-center">
-                    <svg className="w-4 h-4 text-[#0066CC] mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                     </svg>
                     5-Minute Overview
                   </li>
                   <li className="text-gray-700 flex items-center">
-                    <svg className="w-4 h-4 text-[#0066CC] mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                     </svg>
                     Hello World
                   </li>
                   <li className="text-gray-700 flex items-center">
-                    <svg className="w-4 h-4 text-[#0066CC] mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                     </svg>
                     Your First Agent
@@ -370,31 +370,31 @@ export default async function DocsPage({ params }: PageProps) {
               </Link>
 
               {/* API Reference - Blog Teaser */}
-              <Link href="/schema" className="group bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300">
+              <Link href="/schema" className="group bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
                 <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#0066CC] transition-colors">API Reference</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">API Reference</h3>
                 <p className="text-gray-600 mb-4 text-sm">
                   Complete schema reference, OpenAPI extensions, and quick reference guides.
                 </p>
                 <ul className="space-y-2 text-sm">
                   <li className="text-gray-700 flex items-center">
-                    <svg className="w-4 h-4 text-[#0066CC] mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                     </svg>
                     Schema Reference
                   </li>
                   <li className="text-gray-700 flex items-center">
-                    <svg className="w-4 h-4 text-[#0066CC] mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                     </svg>
                     OpenAPI Extensions
                   </li>
                   <li className="text-gray-700 flex items-center">
-                    <svg className="w-4 h-4 text-[#0066CC] mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                     </svg>
                     Quick Reference
@@ -403,31 +403,31 @@ export default async function DocsPage({ params }: PageProps) {
               </Link>
 
               {/* Migration Guides - Blog Teaser */}
-              <Link href="/docs/migration-guides/langchain-to-ossa" className="group bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300">
+              <Link href="/docs/migration-guides/langchain-to-ossa" className="group bg-white border-2 border-blue-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300">
                 <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#0066CC] transition-colors">Migration Guides</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">Migration Guides</h3>
                 <p className="text-gray-600 mb-4 text-sm">
                   Migrate your existing agents from popular frameworks to OSSA.
                 </p>
                 <ul className="space-y-2 text-sm">
                   <li className="text-gray-700 flex items-center">
-                    <svg className="w-4 h-4 text-[#0066CC] mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                     </svg>
                     From LangChain
                   </li>
                   <li className="text-gray-700 flex items-center">
-                    <svg className="w-4 h-4 text-[#0066CC] mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                     </svg>
                     From Anthropic MCP
                   </li>
                   <li className="text-gray-700 flex items-center">
-                    <svg className="w-4 h-4 text-[#0066CC] mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                     </svg>
                     From OpenAI
@@ -449,40 +449,40 @@ export default async function DocsPage({ params }: PageProps) {
               <h2 className="text-3xl font-bold text-primary">By Role</h2>
             </div>
             <div className="grid md:grid-cols-4 gap-4">
-              <Link href="/docs/for-audiences/developers" className="group bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300 text-center">
+              <Link href="/docs/for-audiences/developers" className="group bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300 text-center">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                   </svg>
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-[#0066CC] transition-colors">Developers</h3>
+                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">Developers</h3>
                 <p className="text-sm text-gray-600">Build agents with code</p>
               </Link>
-              <Link href="/docs/for-audiences/architects" className="group bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300 text-center">
+              <Link href="/docs/for-audiences/architects" className="group bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300 text-center">
                 <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
                   </svg>
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-[#0066CC] transition-colors">Architects</h3>
+                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">Architects</h3>
                 <p className="text-sm text-gray-600">Design systems</p>
               </Link>
-              <Link href="/docs/for-audiences/enterprises" className="group bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300 text-center">
+              <Link href="/docs/for-audiences/enterprises" className="group bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300 text-center">
                 <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                   </svg>
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-[#0066CC] transition-colors">Enterprises</h3>
+                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">Enterprises</h3>
                 <p className="text-sm text-gray-600">Deploy at scale</p>
               </Link>
-              <Link href="/docs/for-audiences/students-researchers" className="group bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-[#0066CC] transition-all duration-300 text-center">
+              <Link href="/docs/for-audiences/students-researchers" className="group bg-white border-2 border-gray-200 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-primary transition-all duration-300 text-center">
                 <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-[#0066CC] transition-colors">Researchers</h3>
+                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">Researchers</h3>
                 <p className="text-sm text-gray-600">Academic resources</p>
               </Link>
             </div>
@@ -505,7 +505,7 @@ export default async function DocsPage({ params }: PageProps) {
                           href={`https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="hover:text-[#0066CC] transition-colors"
+                          className="hover:text-primary transition-colors"
                         >
                           {GITHUB_OWNER}/{GITHUB_REPO}
                         </a>
@@ -526,23 +526,23 @@ export default async function DocsPage({ params }: PageProps) {
                 </div>
                 <div className="grid md:grid-cols-5 gap-4 pt-6 border-t-2 border-gray-200">
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-[#0066CC] mb-1">{repoInfo.stars.toLocaleString()}</div>
+                    <div className="text-3xl font-bold text-primary mb-1">{repoInfo.stars.toLocaleString()}</div>
                     <div className="text-sm text-gray-600">Stars</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-[#0066CC] mb-1">{repoInfo.forks.toLocaleString()}</div>
+                    <div className="text-3xl font-bold text-primary mb-1">{repoInfo.forks.toLocaleString()}</div>
                     <div className="text-sm text-gray-600">Forks</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-[#0066CC] mb-1">{repoInfo.openIssues}</div>
+                    <div className="text-3xl font-bold text-primary mb-1">{repoInfo.openIssues}</div>
                     <div className="text-sm text-gray-600">Issues</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-[#0066CC] mb-1">{repoInfo.openPullRequests}</div>
+                    <div className="text-3xl font-bold text-primary mb-1">{repoInfo.openPullRequests}</div>
                     <div className="text-sm text-gray-600">Pull Requests</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-[#0066CC] mb-1">{repoInfo.language || 'N/A'}</div>
+                    <div className="text-3xl font-bold text-primary mb-1">{repoInfo.language || 'N/A'}</div>
                     <div className="text-sm text-gray-600">Language</div>
                   </div>
                 </div>
@@ -565,7 +565,7 @@ export default async function DocsPage({ params }: PageProps) {
                 <h3 className="text-lg font-bold text-gray-900 mb-4">Community</h3>
                 <ul className="space-y-3">
                   <li>
-                    <a href="https://github.com/blueflyio/openstandardagents/issues" className="text-[#0066CC] hover:text-[#00B8D4] font-medium flex items-center">
+                    <a href="https://github.com/blueflyio/openstandardagents/issues" className="text-primary hover:text-secondary font-medium flex items-center">
                       <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                       </svg>
@@ -573,7 +573,7 @@ export default async function DocsPage({ params }: PageProps) {
                     </a>
                   </li>
                   <li>
-                    <Link href="/docs/contributing" className="text-[#0066CC] hover:text-[#00B8D4] font-medium flex items-center">
+                    <Link href="/docs/contributing" className="text-primary hover:text-secondary font-medium flex items-center">
                       <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                       </svg>
@@ -586,7 +586,7 @@ export default async function DocsPage({ params }: PageProps) {
                 <h3 className="text-lg font-bold text-gray-900 mb-4">Resources</h3>
                 <ul className="space-y-3">
                   <li>
-                    <Link href="/docs/changelog" className="text-[#0066CC] hover:text-[#00B8D4] font-medium flex items-center">
+                    <Link href="/docs/changelog" className="text-primary hover:text-secondary font-medium flex items-center">
                       <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                       </svg>
@@ -594,7 +594,7 @@ export default async function DocsPage({ params }: PageProps) {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/blog" className="text-[#0066CC] hover:text-[#00B8D4] font-medium flex items-center">
+                    <Link href="/blog" className="text-primary hover:text-secondary font-medium flex items-center">
                       <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                       </svg>
@@ -607,7 +607,7 @@ export default async function DocsPage({ params }: PageProps) {
                 <h3 className="text-lg font-bold text-gray-900 mb-4">Tools</h3>
                 <ul className="space-y-3">
                   <li>
-                    <Link href="/playground" className="text-[#0066CC] hover:text-[#00B8D4] font-medium flex items-center">
+                    <Link href="/playground" className="text-primary hover:text-secondary font-medium flex items-center">
                       <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                       </svg>
@@ -615,7 +615,7 @@ export default async function DocsPage({ params }: PageProps) {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/schema" className="text-[#0066CC] hover:text-[#00B8D4] font-medium flex items-center">
+                    <Link href="/schema" className="text-primary hover:text-secondary font-medium flex items-center">
                       <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                       </svg>
