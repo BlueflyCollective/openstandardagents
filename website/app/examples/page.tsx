@@ -11,49 +11,20 @@ interface ExampleFile {
 }
 
 function getAllExamples(): ExampleFile[] {
-  // Check for mounted examples directory (Docker) or local development
-  const examplesDir = fs.existsSync('/examples')
-    ? '/examples'
-    : path.join(process.cwd(), '../examples');
-  const examples: ExampleFile[] = [];
-
-  if (!fs.existsSync(examplesDir)) {
-    return examples;
+  // Load from generated examples.json in public directory
+  const examplesJsonPath = path.join(process.cwd(), 'public', 'examples.json');
+  
+  if (!fs.existsSync(examplesJsonPath)) {
+    return [];
   }
-
-  function traverseDir(dir: string, category = ''): void {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
-      const relativePath = path.relative(examplesDir, fullPath);
-
-      if (entry.isDirectory()) {
-        traverseDir(fullPath, entry.name);
-      } else if (
-        entry.isFile() &&
-        (entry.name.endsWith('.yml') ||
-          entry.name.endsWith('.yaml') ||
-          entry.name.endsWith('.json') ||
-          entry.name.endsWith('.ts'))
-      ) {
-        try {
-          const content = fs.readFileSync(fullPath, 'utf8');
-          examples.push({
-            name: entry.name,
-            path: relativePath,
-            content,
-            category: category || 'root',
-          });
-        } catch (error) {
-          // Skip files that can't be read
-        }
-      }
-    }
+  
+  try {
+    const content = fs.readFileSync(examplesJsonPath, 'utf8');
+    return JSON.parse(content);
+  } catch (error) {
+    console.error('Error loading examples:', error);
+    return [];
   }
-
-  traverseDir(examplesDir);
-  return examples;
 }
 
 export default function ExamplesPage() {
