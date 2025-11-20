@@ -4,24 +4,38 @@ import addFormats from 'ajv-formats';
 import fs from 'fs';
 import path from 'path';
 import yaml from 'yaml';
+import { STABLE_VERSION, getSchemaPath } from '@/lib/version';
 
 const ajv = new Ajv({ allErrors: true, verbose: true });
 addFormats(ajv);
 
 let schemaCache: any = null;
 
-function loadSchema(): any {
+function loadSchema(version?: string): any {
   if (schemaCache) {
     return schemaCache;
   }
 
-  const schemaPath = path.join(
-    process.cwd(),
-    '../../../spec/v0.2.3/ossa-0.2.2.schema.json'
-  );
+  const targetVersion = version || STABLE_VERSION;
+  const schemaPath = getSchemaPath(targetVersion);
 
-  if (!fs.existsSync(schemaPath)) {
-    throw new Error('OSSA schema not found');
+  if (!schemaPath || !fs.existsSync(schemaPath)) {
+    // Fallback to stable version schema
+    const fallbackPath = path.join(
+      process.cwd(),
+      '..',
+      'spec',
+      `v${STABLE_VERSION}`,
+      `ossa-${STABLE_VERSION}.schema.json`
+    );
+    
+    if (!fs.existsSync(fallbackPath)) {
+      throw new Error(`OSSA schema not found for version ${targetVersion}`);
+    }
+    
+    const schemaContent = fs.readFileSync(fallbackPath, 'utf8');
+    schemaCache = JSON.parse(schemaContent);
+    return schemaCache;
   }
 
   const schemaContent = fs.readFileSync(schemaPath, 'utf8');
@@ -31,7 +45,7 @@ function loadSchema(): any {
 
 export async function POST(request: Request): Promise<NextResponse> {
   try {
-    const { content } = await request.json();
+    const { content, version } = await request.json();
 
     if (!content || typeof content !== 'string') {
       return NextResponse.json(
@@ -40,7 +54,24 @@ export async function POST(request: Request): Promise<NextResponse> {
       );
     }
 
-    const schema = loadSchema();
+    // Extract version from content if not provided
+    let targetVersion = version;
+    if (!targetVersion) {
+      try {
+        const parsed = yaml.parse(content) || JSON.parse(content);
+        if (parsed.apiVersion) {
+          // Extract version from apiVersion: ossa/v0.2.3
+          const match = parsed.apiVersion.match(/ossa\/v?(\d+\.\d+\.\d+)/);
+          if (match) {
+            targetVersion = match[1];
+          }
+        }
+      } catch {
+        // Ignore parsing errors, will use default
+      }
+    }
+
+    const schema = loadSchema(targetVersion);
     const validate = ajv.compile(schema);
 
     let parsed: any;

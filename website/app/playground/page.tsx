@@ -1,13 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { STABLE_VERSION, STABLE_VERSION_TAG } from '@/lib/version';
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
   ssr: false,
 });
 
-const exampleManifest = `apiVersion: ossa/v0.2.3
+// Dynamic example manifest using current stable version
+const getExampleManifest = (version: string) => `apiVersion: ossa/v${version}
 kind: Agent
 
 metadata:
@@ -23,8 +25,9 @@ spec:
   tools: []
 `;
 
-const templates = {
-  simple: `apiVersion: ossa/v0.2.3
+// Dynamic templates using current stable version
+const getTemplates = (version: string) => ({
+  simple: `apiVersion: ossa/v${version}
 kind: Agent
 
 metadata:
@@ -39,7 +42,7 @@ spec:
     model: gpt-4
   tools: []`,
 
-  withTools: `apiVersion: ossa/v0.2.3
+  withTools: `apiVersion: ossa/v${version}
 kind: Agent
 
 metadata:
@@ -58,7 +61,7 @@ spec:
       endpoint: https://api.search.com/search
       method: GET`,
 
-  autonomous: `apiVersion: ossa/v0.2.3
+  autonomous: `apiVersion: ossa/v${version}
 kind: Agent
 
 metadata:
@@ -83,7 +86,7 @@ spec:
     human_in_loop:
       notification_channels: [slack]`,
 
-  fullStack: `apiVersion: ossa/v0.2.3
+  fullStack: `apiVersion: ossa/v${version}
 kind: Agent
 
 metadata:
@@ -143,6 +146,8 @@ extensions:
 };
 
 export default function PlaygroundPage() {
+  const [currentVersion, setCurrentVersion] = useState(STABLE_VERSION);
+  const [templates, setTemplates] = useState(getTemplates(STABLE_VERSION));
   const [code, setCode] = useState(templates.simple);
   const [validationResult, setValidationResult] = useState<{
     valid: boolean;
@@ -151,12 +156,19 @@ export default function PlaygroundPage() {
   const [isValidating, setIsValidating] = useState(false);
   const [activeTemplate, setActiveTemplate] = useState('simple');
 
+  // Update templates when version changes
+  useEffect(() => {
+    const newTemplates = getTemplates(currentVersion);
+    setTemplates(newTemplates);
+    setCode(newTemplates[activeTemplate as keyof typeof newTemplates] || newTemplates.simple);
+  }, [currentVersion, activeTemplate]);
+
   const handleValidate = async (): Promise<void> => {
     setIsValidating(true);
     try {
       // For static export, we'll use a client-side validation approach
-      // Load schema and validate in browser
-      const schemaResponse = await fetch('/schemas/ossa-0.2.3.schema.json');
+      // Load schema and validate in browser - use dynamic version
+      const schemaResponse = await fetch(`/schemas/ossa-${currentVersion}.schema.json`);
       if (!schemaResponse.ok) {
         throw new Error('Failed to load schema');
       }
@@ -396,7 +408,7 @@ export default function PlaygroundPage() {
                     Manifest is Valid! ✓
                   </div>
                   <p className="text-base text-green-800">
-                    Conforms to OSSA v0.2.3 specification
+                    Conforms to OSSA {STABLE_VERSION_TAG} specification
                   </p>
                 </div>
               </div>

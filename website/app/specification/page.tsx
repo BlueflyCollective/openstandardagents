@@ -145,7 +145,7 @@ spec:
           <div className="space-y-4">
             <div className="card p-6">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-xl font-semibold">v0.2.3</h3>
+                <h3 className="text-xl font-semibold">{STABLE_VERSION_TAG}</h3>
                 <span className="px-3 py-1 bg-success/20 text-success rounded-full text-sm font-medium">
                   Current
                 </span>
