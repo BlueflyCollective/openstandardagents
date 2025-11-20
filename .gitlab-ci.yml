@@ -176,7 +176,7 @@ semantic-release:preview:
       RELEASE_TYPE=$(grep -oP "The release type for the commit is \K[a-z]+" semantic-preview.txt || echo "none")
       
       echo "📊 Semantic Release Preview:"
-      echo "   Predicted Version: ${PREDICTED_VERSION}"
+      echo "   Predicted Version ${PREDICTED_VERSION}"
       echo "   Release Type: ${RELEASE_TYPE}"
       echo ""
       cat semantic-preview.txt || true
