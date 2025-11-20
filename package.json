@@ -48,10 +48,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.bluefly.io/llm/openstandardagents.git"
+    "url": "https://github.com/blueflyio/openstandardagents.git"
   },
   "bugs": {
-    "url": "https://gitlab.bluefly.io/llm/openstandardagents/-/issues"
+    "url": "https://github.com/blueflyio/openstandardagents/issues"
   },
   "homepage": "https://openstandardagents.org",
   "scripts": {
