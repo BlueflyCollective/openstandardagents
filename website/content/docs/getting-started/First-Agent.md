@@ -67,7 +67,26 @@ spec:
         credentials: SEARCH_API_KEY
 ```
 
-## Step 4: Add Observability
+## Step 4: Add State Management (v0.2.4)
+
+Add state management for session continuity:
+
+```yaml
+spec:
+  # ... existing config ...
+  
+  state:
+    mode: session
+    storage:
+      type: memory
+      retention: 1h
+    context_window:
+      max_messages: 100
+      max_tokens: 32000
+      strategy: sliding_window
+```
+
+## Step 5: Add Observability
 
 Add observability configuration:
 
@@ -89,7 +108,7 @@ spec:
       format: json
 ```
 
-## Step 5: Add Constraints
+## Step 6: Add Constraints
 
 Add cost and performance constraints:
 
