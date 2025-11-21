@@ -1,10 +1,12 @@
 # GitLab CI Scripts
 
-Scripts for automating GitLab CI/CD workflows and milestone management.
+TypeScript scripts for automating GitLab CI/CD workflows and milestone management.
+
+**Architecture:** Built with TypeScript, Zod validation, and OpenAPI principles (DRY, CRUD, type-safe)
 
 ## Spec Directory Management
 
-### sync-spec-to-milestone.sh
+### sync-spec-to-milestone.ts
 **Purpose:** Sync spec directory structure with GitLab milestones
 
 **What it does:**
@@ -17,14 +19,14 @@ Scripts for automating GitLab CI/CD workflows and milestone management.
 ```bash
 export GITLAB_PUSH_TOKEN="your-token"
 export CI_PROJECT_ID="123"
-./.gitlab/scripts/sync-spec-to-milestone.sh
+npx ts-node .gitlab/scripts/sync-spec-to-milestone.ts
 ```
 
 **When it runs:**
 - Automatically in CI: `prepare:spec-structure` job
 - Can be run manually to sync directories
 
-### prepare-spec-from-milestone.sh
+### prepare-spec-from-milestone.ts
 **Purpose:** Prepare stable spec directory from dev when milestone is closed
 
 **What it does:**
@@ -38,7 +40,7 @@ export CI_PROJECT_ID="123"
 ```bash
 export GITLAB_PUSH_TOKEN="your-token"
 export CI_PROJECT_ID="123"
-./.gitlab/scripts/prepare-spec-from-milestone.sh
+npx ts-node .gitlab/scripts/prepare-spec-from-milestone.ts
 ```
 
 **When it runs:**
@@ -60,9 +62,9 @@ export CI_PROJECT_ID="123"
 
 ## Workflow
 
-1. **Milestone Created** → `sync-spec-to-milestone.sh` creates `spec/v0.2.X-dev/`
+1. **Milestone Created** → `sync-spec-to-milestone.ts` creates `spec/v0.2.X-dev/`
 2. **Development** → Work happens in `spec/v0.2.X-dev/`
-3. **Milestone Closed** → `prepare-spec-from-milestone.sh` creates `spec/v0.2.X/`
+3. **Milestone Closed** → `prepare-spec-from-milestone.ts` creates `spec/v0.2.X/`
 4. **Release** → Semantic-release uses stable `spec/v0.2.X/` directory
 
 ## Manual Usage
@@ -72,18 +74,109 @@ export CI_PROJECT_ID="123"
 cd /Users/flux423/Sites/LLM/openstandardagents
 export GITLAB_PUSH_TOKEN="glpat-..."
 export CI_PROJECT_ID="1553"
-./.gitlab/scripts/sync-spec-to-milestone.sh
+npx ts-node .gitlab/scripts/sync-spec-to-milestone.ts
 ```
 
 ### Prepare release structure
 ```bash
-./.gitlab/scripts/prepare-spec-from-milestone.sh
+npx ts-node .gitlab/scripts/prepare-spec-from-milestone.ts
 ```
+
+## Milestone Readiness Validation
+
+### check-milestone-ready.ts
+**Purpose:** Check if a specific milestone is ready for release
+
+**What it does:**
+- Validates that all issues in a milestone are closed (using Zod schemas)
+- Checks milestone state (open/closed)
+- Extracts version from milestone title
+- Provides detailed status output
+
+**Usage:**
+```bash
+export GITLAB_PUSH_TOKEN="your-token"
+export CI_PROJECT_ID="123"
+npx ts-node .gitlab/scripts/check-milestone-ready.ts "v0.2.4 - Transport & Security"
+```
+
+**Exit codes:**
+- `0` - Milestone is ready (all issues closed)
+- `1` - Milestone not ready (open issues exist)
+
+### validate-release-readiness.ts
+**Purpose:** Validate that at least one milestone is ready for release (used in CI)
+
+**What it does:**
+- Checks all milestones with version in title
+- Finds milestones where all issues are closed
+- Returns ready milestone or exits with error
+- Used as a gate for `release:main` job
+- Type-safe with Zod validation
+
+**Usage:**
+```bash
+export GITLAB_PUSH_TOKEN="your-token"
+export CI_PROJECT_ID="123"
+npx ts-node .gitlab/scripts/validate-release-readiness.ts
+```
+
+**When it runs:**
+- Automatically in CI: `check:milestone-ready` job (runs on every pipeline)
+- Must pass before `release:main` can be triggered
+- Provides real-time milestone status
+
+## Automated Release Workflow
+
+### How It Works
+
+1. **Milestone Created** → `sync-spec-to-milestone.ts` creates `spec/v0.2.X-dev/`
+2. **Development** → Work happens in `spec/v0.2.X-dev/`, issues are created and assigned
+3. **Issues Closed** → As issues are closed, milestone completion percentage increases
+4. **100% Complete** → When all issues are closed:
+   - `check:milestone-ready` job passes ✅
+   - `release:main` button becomes available 🚀
+5. **Release Triggered** → `release:main` job:
+   - Validates milestone readiness (double-check)
+   - Prepares stable spec directory
+   - Runs semantic-release
+   - Creates Git tag, GitLab release, NPM package
+
+### CI Job Dependencies
+
+```
+check:milestone-ready (always runs)
+    ↓ (must pass)
+release:main (manual, only available when check passes)
+```
+
+### Release Button Availability
+
+The `release:main` job button will only be **enabled** when:
+- ✅ All issues in a milestone are closed (100% complete)
+- ✅ Milestone has version in title (e.g., "v0.2.4 - Feature Name")
+- ✅ `check:milestone-ready` job has passed
+
+If milestone is not ready:
+- ❌ `check:milestone-ready` job fails
+- ❌ `release:main` button is disabled (dependency failed)
+- 📋 Job output shows which issues are still open
 
 ## Requirements
 
-- `curl` - For GitLab API calls
-- `jq` - For JSON parsing
-- `bash` or `sh` - Shell interpreter
-- GitLab API token with read access to milestones
+- **Node.js** - Runtime for TypeScript scripts
+- **TypeScript** - Type safety and modern JavaScript features
+- **Zod** - Runtime validation and type inference
+- **Axios** - HTTP client for GitLab API calls
+- **ts-node** - TypeScript execution (via npx)
+- GitLab API token with read access to milestones and issues
+
+## Architecture
+
+All scripts follow the project's architecture principles:
+- **Type-Safe** - Full TypeScript with Zod validation
+- **DRY** - Reusable functions and schemas
+- **OpenAPI-First** - Structured API interactions
+- **CRUD** - Clear create/read/update/delete operations
+- **No Shell Scripts** - Pure TypeScript/Node.js implementation
 
