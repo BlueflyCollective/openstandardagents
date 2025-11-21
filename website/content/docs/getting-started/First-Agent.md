@@ -59,12 +59,19 @@ spec:
       name: web_search
       description: Search the web for current information
       endpoint: https://api.search-service.com/search
+      transport:
+        protocol: http
+        streaming: response
+        content_type: application/json
       config:
         method: POST
         timeout: 10
       auth:
         type: apikey
         credentials: SEARCH_API_KEY
+        scopes:
+          - read:data
+          - execute:query
 ```
 
 ## Step 4: Add State Management (v0.2.4)
