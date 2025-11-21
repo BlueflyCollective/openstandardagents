@@ -368,41 +368,9 @@ promote-to-main:
       
       # Create MR
       if [ "$HAS_CONFLICTS" = "true" ]; then
-        MR_DESCRIPTION=$(cat <<EOF
-## Promotion Gate: development → main
-
-**Predicted Next Version:** ${PREDICTED_VERSION}
-
-⚠️ **CONFLICTS DETECTED** - This MR has merge conflicts that need to be resolved manually.
-
-This MR was created by the promotion gate. Please resolve conflicts and merge when ready.
-
-### Validation
-- ⚠️ Conflicts detected - manual resolution required
-- ✅ Commit messages validated
-- ✅ Version prediction: ${PREDICTED_VERSION}
-
-### Next Steps
-1. Resolve merge conflicts in this MR
-2. After merging, the release will be created automatically based on commit analysis.
-EOF
-)
+        MR_DESCRIPTION="## Promotion Gate: development → main"$'\n\n'"Predicted Next Version: ${PREDICTED_VERSION}"$'\n\n'"CONFLICTS DETECTED - This MR has merge conflicts that need to be resolved manually."$'\n\n'"This MR was created by the promotion gate. Please resolve conflicts and merge when ready."$'\n\n'"### Validation"$'\n'"- Conflicts detected - manual resolution required"$'\n'"- Commit messages validated"$'\n'"- Version prediction: ${PREDICTED_VERSION}"$'\n\n'"### Next Steps"$'\n'"1. Resolve merge conflicts in this MR"$'\n'"2. After merging, the release will be created automatically based on commit analysis."
       else
-        MR_DESCRIPTION=$(cat <<EOF
-## Promotion Gate: development → main
-
-**Predicted Next Version:** ${PREDICTED_VERSION}
-
-This MR was created by the promotion gate. Please review and merge when ready.
-
-### Validation
-- ✅ No conflicts detected
-- ✅ Commit messages validated
-- ✅ Version prediction: ${PREDICTED_VERSION}
-
-After merging, the release will be created automatically based on commit analysis.
-EOF
-)
+        MR_DESCRIPTION="## Promotion Gate: development → main"$'\n\n'"Predicted Next Version: ${PREDICTED_VERSION}"$'\n\n'"This MR was created by the promotion gate. Please review and merge when ready."$'\n\n'"### Validation"$'\n'"- No conflicts detected"$'\n'"- Commit messages validated"$'\n'"- Version prediction: ${PREDICTED_VERSION}"$'\n\n'"After merging, the release will be created automatically based on commit analysis."
       fi
       
       MR_RESPONSE=$(curl -sS -X POST "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests" \
