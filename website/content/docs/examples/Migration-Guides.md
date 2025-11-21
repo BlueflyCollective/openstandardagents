@@ -204,7 +204,7 @@ ossa validate migrated-agent.ossa.yaml --verbose
 
 - [GitLab Issues](https://gitlab.bluefly.io/llm/openapi-ai-agents-standard/-/issues)
 - [Documentation](/docs/specification)
-- [Examples](../Getting-Started-Examples)
+- [Examples](/docs/examples)
 
 ## Related
 
